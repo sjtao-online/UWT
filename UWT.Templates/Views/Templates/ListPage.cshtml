@@ -1,0 +1,36 @@
+﻿@addTagHelper *, UWT.Templates
+@using UWT.Templates.Services.Extends
+@{
+    UWT.Templates.Models.Templates.TagHelpers.TagHelperTemplateModel meTag = new UWT.Templates.Models.Templates.TagHelpers.TagHelperTemplateModel();
+    UWT.Templates.Models.Interfaces.IToPageViewModel pageModel = ViewBag.PageModel;
+    List<UWT.Templates.Models.Interfaces.IFilterModel> filterList = ViewBag.FilterList;
+    List<UWT.Templates.Models.Templates.Commons.HandleModel> handleList = ViewBag.Handlers;
+    if (!ViewData.ContainsKey("Title") && !string.IsNullOrEmpty(pageModel.ListViewModel.Title))
+    {
+        ViewBag.Title = pageModel.ListViewModel.Title;
+    }
+}
+    <layout-border>
+        @if (filterList != null)
+        {
+            <query-list query-list="filterList" template-model="meTag"></query-list>
+        }
+        @if (handleList != null)
+        {
+            <handle-list model="handleList" template-model="meTag"></handle-list>
+        }
+        <listtable model="pageModel" template-model="meTag"></listtable>
+        <page-selector model="pageModel.PageSelector" template-model="meTag"></page-selector>
+    </layout-border>
+
+
+@section Scripts {
+    <script type="text/javascript" src="@this.GetResourcePath()/admins/js/common.js"></script>
+    <script type="text/javascript" src="@this.GetResourcePath()/admins/js/handlelist.js"></script>
+    @meTag.RenderAddJSList()
+    @meTag.RenderScriptList()
+}
+
+@section CSS {
+    @meTag.RenderAddCSSList()
+}

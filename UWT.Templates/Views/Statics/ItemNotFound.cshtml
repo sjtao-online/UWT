@@ -1,0 +1,10 @@
+﻿@using UWT.Templates.Services.Extends
+@{
+    ViewBag.Title = "条目不存在";
+}
+<h1>条目不存在</h1>
+<button class="layui-btn layui-btn-primary" onclick="javascript:hisBack()">返回上级</button>
+
+@section Scripts {
+    <script src="@this.GetResourcePath()/admins/js/common.js"></script>
+}

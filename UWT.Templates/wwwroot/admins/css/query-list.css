@@ -1,0 +1,8 @@
+﻿.half-input {
+    width: calc(50% - 15px);
+    display: inline;
+}
+
+.ahalf-span {
+    width: 30px;
+}

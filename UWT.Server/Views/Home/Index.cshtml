@@ -1,0 +1,13 @@
+﻿@using UWT.Templates.Models.Templates.TagHelpers
+@using UWT.Templates.Models.Interfaces
+@model IListViewModel
+@{
+    ViewData["Title"] = "Index";
+    var m = new TagHelperDataModel<IListViewModel>()
+    {
+        DataModel = Model
+    };
+}
+
+<h1>Index</h1>
+

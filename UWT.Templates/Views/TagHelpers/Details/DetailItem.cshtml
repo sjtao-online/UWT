@@ -1,0 +1,146 @@
+﻿@model UWT.Templates.Models.Templates.TagHelpers.TagHelperDataModel<UWT.Templates.Models.TagHelpers.Basic.ItemTagHelperModelT<UWT.Templates.Models.Interfaces.IDetailItemModel>>
+@using UWT.Templates.Services.Extends
+@{ 
+    bool hasTags = false;
+}
+<div class="layui-form-item">
+    <label class="layui-form-label">@Model.DataModel.TargetTemplate.Title</label>
+    <div class="layui-inline">
+        @{
+            var value = Model.DataModel.TargetTemplate.PropertyInfo.GetValue(Model.DataModel.TargetObject);
+            if (Model.DataModel.TargetTemplate.Cate == UWT.Templates.Attributes.Details.DetailItemCategory.Default)
+            {
+                if (value is string)
+                {
+                    Model.DataModel.TargetTemplate.Cate = UWT.Templates.Attributes.Details.DetailItemCategory.Text;
+                }
+                else if (value is List<string>)
+                {
+                    Model.DataModel.TargetTemplate.Cate = UWT.Templates.Attributes.Details.DetailItemCategory.Tags;
+                }
+                else if (value is List<UWT.Templates.Models.Basics.UrlTitleIdModel>)
+                {
+                    Model.DataModel.TargetTemplate.Cate = UWT.Templates.Attributes.Details.DetailItemCategory.List;
+                }
+                else
+                {
+                    Model.DataModel.TargetTemplate.Cate = UWT.Templates.Attributes.Details.DetailItemCategory.Text;
+                }
+            }
+            if (Model.DataModel.TargetTemplate.Cate == UWT.Templates.Attributes.Details.DetailItemCategory.Media)
+            {
+                if (value is string)
+                {
+                    var src = (value as string).ToLower();
+                    if (src.EndsWith(".mp4") || src.EndsWith(".mpeg") || src.EndsWith(".flv") || src.EndsWith(".avi") || src.EndsWith(".wmv") || src.EndsWith(".mpg")
+                        || src.EndsWith(".mov") || src.EndsWith(".mkv") || src.EndsWith(".vob"))
+                    {
+                        Model.DataModel.TargetTemplate.Cate = UWT.Templates.Attributes.Details.DetailItemCategory.Video;
+                    }
+                    else
+                    {
+                        Model.DataModel.TargetTemplate.Cate = UWT.Templates.Attributes.Details.DetailItemCategory.Audio;
+                    }
+                }
+            }
+            switch (Model.DataModel.TargetTemplate.Cate)
+            {
+                case UWT.Templates.Attributes.Details.DetailItemCategory.Text:
+                    <input class="layui-input" value="@value" readonly />
+                    break;
+                case UWT.Templates.Attributes.Details.DetailItemCategory.AreaText:
+                    <textarea class="layui-input" readonly>@value</textarea>
+                    break;
+                case UWT.Templates.Attributes.Details.DetailItemCategory.RichText:
+                    <div>@value</div>
+                    break;
+                case UWT.Templates.Attributes.Details.DetailItemCategory.Money:
+                    string mvalue = "";
+                    if (value is long)
+                    {
+                        mvalue = ((long)value / 100.0).ToString("0.##");
+                    }
+                    else if (value is string)
+                    {
+                        mvalue = (string)value;
+                    }
+                    else if (value is int)
+                    {
+                        mvalue = ((int)value / 100.0).ToString("0.##");
+                    }
+                    <input class="layui-input" readonly value="@(mvalue)" />
+                    break;
+                case UWT.Templates.Attributes.Details.DetailItemCategory.Icon:
+                    <img src="@value" alt="icon" style="max-height: 40px" />
+                    break;
+                case UWT.Templates.Attributes.Details.DetailItemCategory.Image:
+                    <img src="@value" alt="img" style="max-height: 40px;" />
+                    break;
+                case UWT.Templates.Attributes.Details.DetailItemCategory.Video:
+                    <audio controls="controls" src="@value">
+                        浏览器默认不支持格式
+                    </audio>
+                    break;
+                case UWT.Templates.Attributes.Details.DetailItemCategory.Audio:
+                    <video controls="controls" src="@value">
+                        浏览器默认不支持格式
+                    </video>
+                    break;
+                case UWT.Templates.Attributes.Details.DetailItemCategory.File:
+                    <input type="text" value="@value" class="layui-input" readonly />
+                    break;
+                case UWT.Templates.Attributes.Details.DetailItemCategory.List:
+                    if (value is List<UWT.Templates.Models.Basics.UrlTitleIdModel>)
+                    {
+                        <div>
+                            @foreach (var item in value as List<UWT.Templates.Models.Basics.UrlTitleIdModel>)
+                            {
+                                <div><a href="@item.Url">@item.Title</a></div>
+                            }
+                        </div>
+                    }
+                    break;
+                case UWT.Templates.Attributes.Details.DetailItemCategory.Tags:
+                    hasTags = true;
+                    <div>
+                        @foreach (var item in value as List<string>)
+                        {
+                            <span class="detail-tag">@item</span>
+                        }
+                    </div>
+                    break;
+                case UWT.Templates.Attributes.Details.DetailItemCategory.ImageList:
+                    <div>
+                        @foreach (var item in value as List<string>)
+                        {
+                            <img src="@item" alt="img" style="width: 300px;" />
+                        }
+                    </div>
+                    break;
+                case UWT.Templates.Attributes.Details.DetailItemCategory.Cshtml:
+                    var cshtml = Model.DataModel.TargetTemplate.ModelEx as UWT.Templates.Models.Interfaces.IDetailCshtmlEx;
+                    @Html.Partial(cshtml.CshtmlPath, value)
+                    foreach (var item in cshtml.CssList)
+                    {
+                        Model.TemplateModel.AddCssList.AddResourcs(item);
+                    }
+                    foreach (var item in cshtml.JsList)
+                    {
+                        Model.TemplateModel.AddJsList.AddResourcs(item);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    </div>
+</div>
+@{ 
+    if (hasTags)
+    {
+        Model.TemplateModel.AddCssList.Add(new Dictionary<string, string>()
+        {
+            [""] = this.GetResourcePath() + "/admins/css/detail.css"
+        });
+    }
+}

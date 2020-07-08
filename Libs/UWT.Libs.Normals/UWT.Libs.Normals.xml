@@ -1,0 +1,263 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>UWT.Libs.Normals</name>
+    </assembly>
+    <members>
+        <member name="T:UWT.Libs.Normals.Banners.BannerBasicController`3">
+            <summary>
+            Banner基础类
+            本类需要常量字典(BannerController)
+            </summary>
+            <typeparam name="TDbBannerModel">数据库模型</typeparam>
+            <typeparam name="TBannerCateSimpleSelectBuilder">Banner类型单项选项</typeparam>
+            <typeparam name="TLinkTypeSimpleSelectBuilder">链接类型单项选择</typeparam>
+        </member>
+        <member name="T:UWT.Libs.Normals.Banners.IDbBannerTable">
+            <summary>
+            Banner数据库模型
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.Banners.IDbBannerTable.Target">
+            <summary>
+            跳转目录
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.Banners.IDbBannerTable.TargetType">
+            <summary>
+            跳转类型
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.Banners.IDbBannerTable.Image">
+            <summary>
+            图片
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.Banners.IDbBannerTable.Cate">
+            <summary>
+            类型
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.Banners.IDbBannerTable.Title">
+            <summary>
+            标题
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.Banners.IDbBannerTable.SubTitle">
+            <summary>
+            子标题
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.Banners.IDbBannerTable.Index">
+            <summary>
+            序号
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.Banners.IDbBannerTable.Desc">
+            <summary>
+            说明
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.Banners.IDbBannerTable.UpdateTime">
+            <summary>
+            更新时间
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.Banners.IDbBannerTable.Valid">
+            <summary>
+            有效性
+            </summary>
+        </member>
+        <member name="T:UWT.Libs.Normals.Files.FilesController`1">
+            <summary>
+            文件控制器
+            </summary>
+            <typeparam name="TFileTableModel"></typeparam>
+        </member>
+        <member name="T:UWT.Libs.Normals.Files.IDbFileTable">
+            <summary>
+            文件数据库模型
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.Files.IDbFileTable.Path">
+            <summary>
+            下载路径
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.Files.IDbFileTable.Filename">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.Files.IDbFileTable.AddAccountId">
+            <summary>
+            添加账号Id
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.Files.IDbFileTable.FileSize">
+            <summary>
+            文件大小
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.Files.IDbFileTable.Desc">
+            <summary>
+            说明
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.Files.IDbFileTable.Type">
+            <summary>
+            类型
+            </summary>
+        </member>
+        <member name="T:UWT.Libs.Normals.News.NewsCatesController`1">
+            <summary>
+            文章类型管理
+            </summary>
+            <typeparam name="TDbNewsCateTable"></typeparam>
+        </member>
+        <member name="T:UWT.Libs.Normals.News.IDbNewsCateTable">
+            <summary>
+            文章类型数据库模型
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.News.IDbNewsCateTable.Title">
+            <summary>
+            标题
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.News.IDbNewsCateTable.SubTitle">
+            <summary>
+            子标题
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.News.IDbNewsCateTable.Desc">
+            <summary>
+            说明
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.News.IDbNewsCateTable.PId">
+            <summary>
+            父类型
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.News.IDbNewsCateTable.LargeIcon">
+            <summary>
+            大图标
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.News.IDbNewsCateTable.Icon">
+            <summary>
+            中图标
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.News.IDbNewsCateTable.MiniIcon">
+            <summary>
+            小图标
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.News.IDbNewsCateTable.Valid">
+            <summary>
+            有效性
+            </summary>
+        </member>
+        <member name="T:UWT.Libs.Normals.News.NewsController`1">
+            <summary>
+            文章管理器
+            必须重写ModifyProperties方法，用于编辑文章属性
+            </summary>
+            <typeparam name="TDbNewsTable"></typeparam>
+        </member>
+        <member name="M:UWT.Libs.Normals.News.NewsController`1.ModifyProperties(System.Int32)">
+            <summary>
+            编辑文章属性页面
+            </summary>
+            <param name="id">id</param>
+            <returns></returns>
+        </member>
+        <member name="T:UWT.Libs.Normals.News.IDbNewsTable">
+            <summary>
+            文章数据库模型
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.News.IDbNewsTable.Title">
+            <summary>
+            标题
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.News.IDbNewsTable.Summary">
+            <summary>
+            摘要
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.News.IDbNewsTable.Content">
+            <summary>
+            内容
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.News.IDbNewsTable.Valid">
+            <summary>
+            有效性
+            </summary>
+        </member>
+        <member name="T:UWT.Libs.Normals.Versions.VersionMgrController">
+            <summary>
+            版本管理器
+            </summary>
+        </member>
+        <member name="T:UWT.Libs.Normals.Versions.VersionListItemModel">
+            <summary>
+            版本号列表模型
+            </summary>
+        </member>
+        <member name="T:UWT.Libs.Normals.Versions.IDbVersionTable">
+            <summary>
+            版本表模型
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.Versions.IDbVersionTable.Name">
+            <summary>
+            版本名称
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.Versions.IDbVersionTable.Version">
+            <summary>
+            版本号(显示用)
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.Versions.IDbVersionTable.VersionNo">
+            <summary>
+            版本号(排序用)
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.Versions.IDbVersionTable.Logs">
+            <summary>
+            日志说明
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.Versions.IDbVersionTable.Path">
+            <summary>
+            下载路径
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.Versions.IDbVersionTable.Type">
+            <summary>
+            类型
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.Versions.IDbVersionTable.PublishTime">
+            <summary>
+            发布时间
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.Versions.IDbVersionTable.BuildTime">
+            <summary>
+            编译时间
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.Versions.IDbVersionTable.Valid">
+            <summary>
+            有效性
+            </summary>
+        </member>
+    </members>
+</doc>

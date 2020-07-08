@@ -1,0 +1,11 @@
+﻿@using UWT.Templates.Services.Extends
+@{
+    ViewBag.Title = "无权限";
+}
+
+<h2>您暂无权限使用此界面，请联系管理员</h2>
+<button class="layui-btn layui-btn-primary" onclick="javascript:hisBack()">返回上级</button>
+
+@section Scripts {
+    <script src="@this.GetResourcePath()/admins/js/common.js"></script>
+}

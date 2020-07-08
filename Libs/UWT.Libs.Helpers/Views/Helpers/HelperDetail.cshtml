@@ -1,0 +1,32 @@
+﻿@{
+    Layout = "_LayoutHelper";
+}
+<header>
+    <div class="container">
+        <h2 class="lone-header">@ViewBag.HelperTitle</h2>
+    </div>
+</header>
+<section>
+    <div class="container">
+        <div class="docs-nav">
+            @if (!string.IsNullOrEmpty(ViewBag.HelperAuthor))
+            {
+                <div>
+                    <div class="title">发布者</div>
+                    @ViewBag.HelperAuthor
+                </div>
+            }
+            <div>
+                <div class="title">更新时间</div>
+                @ViewBag.HelperPublishTime
+            </div>
+            <div style="word-break: break-all">
+                <div class="title">摘要</div>
+                @ViewBag.HelperSummary
+            </div>
+        </div>
+        <div class="docs-content">
+            @Html.Raw(ViewBag.HelperContent)
+        </div>
+    </div>
+</section>

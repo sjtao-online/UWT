@@ -1,0 +1,13 @@
+{
+  "interface property get": {
+    "scope": "csharp",
+    "prefix": "ipropg",
+    "body": "${1:string} ${2:Name} { get; }",
+    "description": "接口的只读属性"
+  },
+  "interface property": {
+      "scope": "csharp",
+      "prefix": "iprop",
+      "body": "${1:string} ${2:Name} { get; set; }","description": "接口属性"
+  },
+}

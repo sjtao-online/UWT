@@ -1,0 +1,21 @@
+﻿@using UWT.Templates.Services.Extends
+@{ 
+    var layoutModel = this.GetCurrentLayoutModel();
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    @if (!string.IsNullOrEmpty(layoutModel.Icon))
+    {
+        <link rel="icon" href="@layoutModel.Icon" />
+    }
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <div>
+        @RenderBody()
+    </div>
+</body>
+</html>

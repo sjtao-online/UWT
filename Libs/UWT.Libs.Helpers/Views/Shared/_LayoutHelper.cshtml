@@ -1,0 +1,37 @@
+﻿@{ 
+    string rPath =
+#if DEBUG
+        "/_content/UWT.Libs.Helpers";
+#else
+        "";
+#endif
+
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>帮助文档</title>
+    <link rel="stylesheet" href="@rPath/css/font.css">
+    <link rel="stylesheet" href="@rPath/css/style.css">
+    <link rel="stylesheet" href="@rPath/css/prettify.css">
+</head>
+<body>
+    <div class="wrapper">
+        <nav>
+            <div class="pull-left">
+                <span style="margin-left: 20px;">@ViewBag.Title</span>
+            </div>
+            <div class="pull-right">
+                <a href="/Helpers/Index" class="btn btn-download">
+                    <i>?</i>
+                    帮助文档列表
+                </a>
+            </div>
+        </nav>
+        @RenderBody()
+        <footer></footer>
+    </div>
+</body>
+</html>

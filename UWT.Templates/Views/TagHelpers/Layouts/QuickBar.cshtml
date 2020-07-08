@@ -1,0 +1,44 @@
+﻿@*快捷栏*@
+@model UWT.Templates.Models.Templates.TagHelpers.TagHelperDataModel<List<UWT.Templates.Models.Templates.Layouts.MenuItemModel>>
+
+@functions {
+    Microsoft.AspNetCore.Html.IHtmlContent RenderRedPoint(string pt)
+    {
+        if (pt != null)
+        {
+            return this.Html.Raw($"<span class='x-red-point'>{pt}</span>");
+        }
+        return this.Html.Raw("");
+    }
+}
+
+@foreach (var item in Model.DataModel)
+{
+    <li class="layui-nav-item">
+        @if (item.Children != null && item.Children.Count > 0)
+        {
+            <a href="javascript:;">
+                @item.Title
+                @RenderRedPoint(item.RedPoint)
+            </a>
+            <dl class="layui-nav-child layui-anim layui-anim-upbit">
+                @foreach (var it in item.Children)
+                {
+                    <dd>
+                        <a href="@it.Url">
+                            @it.Title
+                            @RenderRedPoint(item.RedPoint)
+                        </a>
+                    </dd>
+                }
+            </dl>
+        }
+        else
+        {
+            <a href="@item.Url">
+                @item.Title
+                @RenderRedPoint(item.RedPoint)
+            </a>
+        }
+    </li>
+}

@@ -1,0 +1,242 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>UWT.Libs.WeChats</name>
+    </assembly>
+    <members>
+        <member name="T:UWT.Libs.WeChats.AuthWxAttribute">
+            <summary>
+            微信授权特性
+            </summary>
+        </member>
+        <member name="M:UWT.Libs.WeChats.AuthWxAttribute.#ctor">
+            <summary>
+            微信授权特性
+            </summary>
+        </member>
+        <member name="T:UWT.Libs.WeChats.Controllers.WeChatBasicController">
+            <summary>
+            微信登录相关控制器
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.WeChats.Controllers.WeChatBasicController.WxConfig">
+            <summary>
+            微信配置
+            </summary>
+        </member>
+        <member name="M:UWT.Libs.WeChats.Controllers.WeChatBasicController.BuildSignIntoDic(System.Int32,System.String)">
+            <summary>
+            创建签名字典
+            </summary>
+            <param name="accountId">账号Id</param>
+            <param name="nickname">昵称</param>
+            <returns></returns>
+        </member>
+        <member name="M:UWT.Libs.WeChats.Controllers.WeChatBasicController.BuildWeChatUserDic(System.Collections.Generic.Dictionary{System.String,System.Object},System.String)">
+            <summary>
+            新建微信用户时要插件数据库的字典
+            </summary>
+            <param name="src">字典可以修改</param>
+            <param name="handle">当前操作insert,update</param>
+            <returns></returns>
+        </member>
+        <member name="M:UWT.Libs.WeChats.Controllers.WeChatBasicController.Login(UWT.Libs.WeChats.Models.WxLoginModel)">
+            <summary>
+            登录
+            </summary>
+            <param name="loginModel">小程序获得的登录信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:UWT.Libs.WeChats.Controllers.WeChatBasicController.RefreshToken(System.String)">
+            <summary>
+            刷新Token(也是登录，只是要登录过)
+            </summary>
+            <param name="refreshToken">RefreshToken</param>
+            <returns></returns>
+        </member>
+        <member name="T:UWT.Libs.WeChats.Models.IDbWxUserModel">
+            <summary>
+            微信用户表
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.WeChats.Models.IDbWxUserModel.NickName">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.WeChats.Models.IDbWxUserModel.Token">
+            <summary>
+            刷新登录
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.WeChats.Models.IDbWxUserModel.TokenExp">
+            <summary>
+            Token有效期
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.WeChats.Models.IDbWxUserModel.OpenId">
+            <summary>
+            WxId
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.WeChats.Models.IDbWxUserModel.Gender">
+            <summary>
+            性别
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.WeChats.Models.IDbWxUserModel.Language">
+            <summary>
+            语言
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.WeChats.Models.IDbWxUserModel.Country">
+            <summary>
+            国
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.WeChats.Models.IDbWxUserModel.City">
+            <summary>
+            城市
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.WeChats.Models.IDbWxUserModel.Province">
+            <summary>
+            城镇
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.WeChats.Models.IDbWxUserModel.AvatarUrl">
+            <summary>
+            头像
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.WeChats.Models.IDbWxUserModel.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="T:UWT.Libs.WeChats.Models.SignIntoModel">
+            <summary>
+            微信登录返回信息模型
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.WeChats.Models.SignIntoModel.AccessToken">
+            <summary>
+            登录Token
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.WeChats.Models.SignIntoModel.RefreshToken">
+            <summary>
+            刷新用Token
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.WeChats.Models.SignIntoModel.AccountId">
+            <summary>
+            用户Id
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.WeChats.Models.SignIntoModel.TokenExpiry">
+            <summary>
+            Token过期时间
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.WeChats.Models.SignIntoModel.UserInfo">
+            <summary>
+            用户信息
+            </summary>
+        </member>
+        <member name="T:UWT.Libs.WeChats.Models.WxLoginModel">
+            <summary>
+            微信登录模型
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.WeChats.Models.WxLoginModel.Code">
+            <summary>
+            Code
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.WeChats.Models.WxLoginModel.UserInfo">
+            <summary>
+            用户信息
+            </summary>
+        </member>
+        <member name="T:UWT.Libs.WeChats.Models.UserInfoModel">
+            <summary>
+            用户信息模型
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.WeChats.Models.UserInfoModel.Id">
+            <summary>
+            Id 内部使用
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.WeChats.Models.UserInfoModel.AvatarUrl">
+            <summary>
+            头像
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.WeChats.Models.UserInfoModel.Gender">
+            <summary>
+            性别
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.WeChats.Models.UserInfoModel.NickName">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.WeChats.Models.UserInfoModel.Country">
+            <summary>
+            国家
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.WeChats.Models.UserInfoModel.City">
+            <summary>
+            城市
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.WeChats.Models.UserInfoModel.Province">
+            <summary>
+            城镇
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.WeChats.Models.UserInfoModel.Language">
+            <summary>
+            不应该
+            </summary>
+        </member>
+        <member name="T:UWT.Libs.WeChats.Services.WxLogin">
+            <summary>
+            微信登录服务
+            </summary>
+        </member>
+        <member name="M:UWT.Libs.WeChats.Services.WxLogin.DoLogin(System.String,UWT.Libs.WeChats.Services.WxConfig)">
+            <summary>
+            微信登录
+            </summary>
+            <param name="code">微信Code</param>
+            <param name="config">登录配置</param>
+            <returns></returns>
+        </member>
+        <member name="T:UWT.Libs.WeChats.Services.WxConfig">
+            <summary>
+            登录配置
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.WeChats.Services.WxConfig.AppId">
+            <summary>
+            AppId
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.WeChats.Services.WxConfig.Secret">
+            <summary>
+            密钥
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.WeChats.Services.WxConfig.TokenExpiry">
+            <summary>
+            到期时长<br/>
+            null为30天
+            </summary>
+        </member>
+    </members>
+</doc>

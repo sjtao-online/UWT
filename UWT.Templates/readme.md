@@ -1,0 +1,214 @@
+﻿# UWT.Templates使用说明
+
+## 说明
+
++ 本模板使用linq2db，暂不支持efcore
++ 本模板使用mvc,暂不支持pages或blazor
+
+## 初次使用指南
+
+### 步骤
+
+1. 添加nuget包
+2. 启动配置
+3. 界面配置
+4. 数据库配置
+
+### 具体操作
+
+1.  添加nuget包
+    + Microsoft.Extensions.FileProviders.Embedded (3.1.4)
+    + Microsoft.Extensions.Caching.Memory (3.1.4)
+    + linq2db (2.9.8)
+      + linq2db.mysql或linq2db.postgresql都可以
+
+2. 启动配置  
+   **文件：** Startup.cs
+
+    ```cs
+    public class Startup
+    {
+        public void ConfigureServices(IServiceCollection services)
+        {
+            //  必要处理
+            //  登录页面 登录后重定向url的参数名
+            services.AddUWT("/", "ref");
+
+            //  添加自己的处理
+            //  ...
+        }
+
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            //  必要处理
+            app.UseUWT();
+            //  添加数据库支持(文件名是步骤3中的文件)
+            app.UseDbSettings<DataModels.UwtDB>(System.IO.Path.Combine(env.ContentRootPath, "db.conf"));
+            //  添加后台布局基本配置，也可以使用另外一个重载做权限处理
+            app.UseMgrLayout(new Models.LayoutRouteMap());
+
+            //  添加自己的处理
+            //  ...
+        }
+    }
+    ```
+
+3. 界面配置  
+   **文件：**/Views/_ViewStart.cshtml
+
+    ```cs
+    @using UWT.Templates.Services.Extends
+    @{
+        Layout = "_Layout";
+
+        //  必要处理
+        //  重定向布局文件
+        this.ViewStartCallback();
+    }
+    ```
+
+4. 数据库配置
+
+    ```json
+    {
+      "current": "home",            //  当前使用哪一个
+      "dbsettings": {
+        //  配置名，可以配置多个
+        "home": {
+            "dbtype": "MySql",      //  数据库类型
+            "dbname": "uwt",        //  数据库名
+            "server": "localhost",  //  ip或域名
+            "user": "root",         //  用户名
+            "pwd": "123456",        //  密码
+            "port": "3306",         //  端口
+            "charset": "utf8mb4"    //  字符集
+        }
+      }
+    }
+    ```
+
+## 高级特性
+
++ api返回json结构其实是支持自定义的
+  
+    ```cs
+    //  Startup.cs, Configure方法内
+    app.UseApiResultTemplate<ApiResultBasic, ApiResultBasicT>();
+
+    //  定义返回模型
+    class ApiResultBasic : IResultModelBasic
+    {
+        /// <summary>
+        /// 状态码
+        /// </summary>
+        [JsonPropertyName("error")]
+        public int Code { get; set; }
+        /// <summary>
+        /// 信息
+        /// </summary>
+        [JsonPropertyName("errormsg")]
+        public string Msg { get; set; }
+    }
+    class ApiResultBasicT : ApiResultBasic, IResultModelBasicT
+    {
+        /// <summary>
+        /// 实体
+        /// </summary>
+        [JsonPropertyName("data")]
+        public object Data { get; set; }
+    }
+
+
+    ```
+
+## 客户端使用说明
+
++ api返回Json结构定义  
+    *以C#举例，其它语言自行转换*
+
+    ```cs
+    //  返回基本模型
+    class ApiResultBasic
+    {
+        /// <summary>
+        /// 状态码
+        /// </summary>
+        public int Code { get; set; }
+        /// <summary>
+        /// 信息
+        /// </summary>
+        public string Msg { get; set; }
+    }
+    //  返回带结构实体模型
+    class ApiResultBasic<TData> : ApiResultBasic
+    {
+        /// <summary>
+        /// 实体
+        /// </summary>
+        public TData Data { get; set; }
+    }
+
+    //  分页实体模型
+    class PageModel<TModel>
+    {
+        /// <summary>
+        /// 页面大小
+        /// </summary>
+        public int PageSize { get; set; }
+        /// <summary>
+        /// 页码
+        /// </summary>
+        public int PageIndex { get; set; }
+        /// <summary>
+        /// 结果总数
+        /// </summary>
+        public int ItemTotal { get; set; }
+        /// <summary>
+        /// 项目组
+        /// </summary>
+        public List<TModel> Items { get; set; }
+    }
+    //  返回分页模型
+    class ApiResultPageModel<TModel> : ApiResultBasic<PageModel<TModel>> {}
+    ```
+
++ 登录授权  
+  *登录接口返回Header中的Set-Cookie字段，使用接口将内容放于Cookies字段中即可。*
+  *或将Set-Cookie中的uwt字段取值，放在请求Headers中Key为uwt*
+
++ 客户端API接口访问
+  + 须添加client-version字段到Headers
+    > 注意小写
+
+## 错误码设计原则
+
+### 错误码分区表
+
+区间|含意|备注
+|:--|:--|--|
+-1|未知错误|这种错误只能人看Msg信息
+0|成功|一般Msg会是“Success”或“成功”
+1-30|登录与权限相关|
+31-100|常规错误|每个错误码对应一个准确的错误信息
+101-200|一般错误|每个错误对应一个一般的错误信息，需要调试错误
+201-1000|其它问题|未完全使用，后期扩展使用
+1001-2000|用户错误|由UWT.Libs.Users使用，如引用此类库，请避开使用
+2001-3000|用户错误|由UWT.Libs.Normals使用，如引用此类库，请避开使用
+3001-4000|用户错误|由UWT.Libs.WeChats使用，如引用此类库，请避开使用
+4001-5000|用户错误|由UWT.Libs.Helpers使用，如引用此类库，请避开使用
+\>10000|用户错误|用户自行定义错误函数及用法
+
+### 现有错误码
+
+> 请调用/Errors/ErrorCodeMap获得
+
+
+
+## 感谢
+
+> 使用layui,x-admin  
+> 感谢原作者开源贡献

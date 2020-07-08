@@ -1,0 +1,49 @@
+﻿@model UWT.Libs.Helpers.Models.HelperListItemModel
+@{
+    Layout = "_LayoutHelper";
+    var pageModel = ((UWT.Templates.Models.Interfaces.IToPageModel)((UWT.Templates.Models.Basics.IResultModelBasicT)ViewBag.HList).Data);
+    ViewBag.Title = "帮助列表";
+}
+
+<ul style="background: white;">
+    @foreach (UWT.Libs.Helpers.Models.HelperListItemModel item in pageModel.Items)
+    {
+        <li class="helper-item">
+            <h4>
+                <a href="/Helpers/Detail?id=@item.Id">@item.Title</a>
+            </h4>
+            <p>@item.Summary</p>
+            <p>发布时间: @item.Publish</p>
+        </li>
+    }
+</ul>
+<nav>
+    <div class="pun">
+        @if (pageModel.ItemTotal > 1 || true)
+        {
+            if (pageModel.PageIndex != 0)
+            {
+                <a href="/Helpers/Index?pageIndex=@(pageModel.PageIndex-1)" class="btn btn-download">
+                    <i>@("<")</i>
+                    上一页
+                </a>
+            }
+            int pageSize = pageModel.ItemTotal / pageModel.PageSize + ((pageModel.ItemTotal % pageModel.PageSize == 0) ? 0 : 1);
+            if (pageModel.PageIndex != pageSize - 1)
+            {
+                <a href="/Helpers/Index?pageIndex=@(pageModel.PageIndex+1)" class="btn btn-download">
+                    <i>@(">")</i>
+                    下一页
+                </a>
+            }
+        }
+
+    </div>
+</nav>
+<style>
+    li.helper-item {
+        list-style: none;
+        border-bottom: solid 1px #f0f2f5;
+        padding: 20px;
+    }
+</style>

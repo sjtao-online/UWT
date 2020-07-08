@@ -1,0 +1,10 @@
+﻿@using UWT.Templates.Services.Extends
+@{
+    ViewBag.Title = "不是您的数据";
+}
+<h1>不是您的数据</h1>
+<button class="layui-btn layui-btn-primary" onclick="javascript:hisBack()">返回上级</button>
+
+@section Scripts { 
+    <script src="@this.GetResourcePath()/admins/js/common.js"></script>
+}

@@ -1,0 +1,210 @@
+:root {
+  --primary: #009688;
+  --secondary: #5fb878;
+  --normal: #3281be;
+  --warm: #FFB800;
+  --danger: #4b2115;
+  --bk: #FBFBFB;
+  --menubk: #23262E;
+  --menubkhover: #23262E;
+ }
+ .layui-layout-admin .layui-logo {
+     color: var(--primary)
+ }
+
+ .layui-elem-quote {
+     border-left-color: var(--primary)
+ }
+
+ .layui-btn {
+     background-color: var(--primary)
+ }
+
+ .layui-btn-primary {
+     background-color: #fff
+ }
+
+ .layui-btn-primary:hover {
+     border-color: var(--primary)
+ }
+
+ .layui-btn-group .layui-btn-primary:hover {
+     color: var(--primary)
+ }
+
+ .layui-laypage a:hover {
+     color: var(--primary)
+ }
+
+ .layui-laypage .layui-laypage-curr .layui-laypage-em {
+     background-color: var(--primary)
+ }
+
+ .layui-laypage select:focus {
+     border-color: var(--primary) !important
+ }
+
+ .layui-upload-drag .layui-icon {
+     font-size: 50px;
+     color: var(--primary)
+ }
+
+ .layui-upload-drag[lay-over] {
+     border-color: var(--primary)
+ }
+
+ .layui-nav-tree .layui-nav-child dd.layui-this a {
+     background-color: var(--primary)
+ }
+
+ .layui-nav-tree .layui-nav-bar {
+     background-color: var(--primary)
+ }
+
+ .layui-tab-brief>.layui-tab-title .layui-this {
+     color: var(--primary)
+ }
+
+ .layui-slider-input-btn i:hover {
+     color: var(--primary)
+ }
+
+ .layui-slider-wrap-btn {
+     border-color: var(--primary) !important
+ }
+
+ .layui-slider-bar {
+     background: var(--primary) !important
+ }
+
+ html .layui-laydate .layui-this {
+     background-color: var(--primary) !important
+ }
+
+ .laydate-theme-molv .layui-laydate-header {
+     background-color: var(--primary)
+ }
+
+ .laydate-theme-grid .laydate-selected,
+ .laydate-theme-grid .laydate-selected:hover {
+     color: var(--primary) !important
+ }
+
+ .layui-progress-bar {
+     background-color: var(--secondary)
+ }
+
+ .layui-form-select dl dd.layui-this {
+     background-color: var(--secondary)
+ }
+
+ .layui-form-checked,
+ .layui-form-checked:hover {
+     border-color: var(--secondary)
+ }
+
+ .layui-form-checked span,
+ .layui-form-checked:hover span {
+     background-color: var(--secondary)
+ }
+
+ .layui-form-checked i,
+ .layui-form-checked:hover i {
+     color: var(--secondary)
+ }
+
+ .layui-form-checkbox[lay-skin=primary]:hover i {
+     border-color: var(--secondary)
+ }
+
+ .layui-form-checked[lay-skin=primary] i {
+     border-color: var(--secondary);
+     background-color: var(--secondary)
+ }
+
+ .layui-form-onswitch {
+     border-color: var(--secondary);
+     background-color: var(--secondary)
+ }
+
+ .layui-form-radio>i:hover,
+ .layui-form-radioed>i {
+     color: var(--secondary)
+ }
+
+ .layui-table-edit:focus {
+     border-color: var(--secondary) !important
+ }
+
+ .layui-nav-tree .layui-nav-itemed:after {
+     background-color: var(--secondary)
+ }
+
+ .layui-nav-child dd.layui-this {
+     background-color: var(--secondary)
+ }
+
+ .layui-nav .layui-nav-child dd.layui-this a {
+     background-color: var(--secondary)
+ }
+
+ .layui-breadcrumb a:hover {
+     color: var(--secondary) !important
+ }
+
+ .layui-tab-brief>.layui-tab-more li.layui-this:after,
+ .layui-tab-brief>.layui-tab-title .layui-this:after {
+     border-bottom: 2px solid var(--secondary)
+ }
+
+ .layui-tab-card>.layui-tab-more .layui-this {
+     color: var(--secondary)
+ }
+
+ .layui-timeline-axis {
+     color: var(--secondary)
+ }
+
+ .laydate-day-mark::after {
+     background-color: var(--secondary) !important
+ }
+
+ .layui-laydate-header i:hover,
+ .layui-laydate-header span:hover {
+     color: var(--secondary) !important
+ }
+
+ .layui-laydate-footer span:hover {
+     color: var(--secondary) !important
+ }
+
+ .layui-nav .layui-this:after,
+ .layui-nav-bar,
+ .layui-nav-tree .layui-nav-itemed:after {
+     background-color: var(--secondary) !important
+ }
+
+ .layui-btn-normal {
+     background-color: var(--normal);
+ }
+
+ .layui-btn-warm {
+     background-color: var(--warm);
+ }
+
+ .layui-btn-danger {
+     background-color: var(--danger);
+ }
+
+ .layui-btn-disabled,
+ .layui-btn-disabled:hover,
+ .layui-btn-disabled:active {
+     background-color: var(--bk);
+ }
+
+ .layui-nav {
+   background: var(--menubk)!important;
+ }
+ /* .layui-nav-tree .layui-nav-item a:hover {
+  background: var(--menubkhover)!important;
+} */

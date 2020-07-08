@@ -1,0 +1,108 @@
+﻿@using UWT.Templates.Services.Extends
+@model UWT.Templates.Models.Interfaces.IFormViewModel
+@addTagHelper *, UWT.Templates
+@{
+    var title = Model.FormModel.Title == null ? (Model.Item == null ? "添加" : "编辑") : Model.FormModel.Title;
+    var meTemp = new UWT.Templates.Models.Templates.TagHelpers.TagHelperTemplateModel();
+
+}
+
+<layout-border>
+    <div class="layui-row">
+        <div>
+            <button class="layui-btn layui-btn-primary layui-btn-sm" onclick="javascript:hisBack()">返回</button>
+            <button class="layui-btn layui-btn-primary layui-btn-sm" id="tree-add">添加</button>
+            <button class="layui-btn layui-btn-primary layui-btn-sm layui-btn-disabled" disabled id="move-up">上移</button>
+            <button class="layui-btn layui-btn-primary layui-btn-sm layui-btn-disabled" disabled id="move-down">下移</button>
+            <button class="layui-btn layui-btn-primary" id="save-tree-btn" data-url="@Model.FormModel.Url" data-id="@ViewBag.ParentId">保存</button>
+        </div>
+        <div id="form-tree-main" class="layui-col-xs12 layui-col-md6"></div>
+        <div class="layui-col-xs12 layui-col-md6"
+             id="edit-div" style="display: none;margin-right: 10px; margin-left: -10px;">
+            <full-page-form-border>
+                @{
+                    bool isOpenInline = false;
+                    var count = Model.FormModel.FormItems.Count;
+                    for (int i = 0; i < count; i++)
+                    {
+                        var item = Model.FormModel.FormItems[i];
+                        <form-item target-template="item" target-object="null" template-model="meTemp"></form-item>
+                        if (i != count - 1)
+                        {
+                            var nextItem = Model.FormModel.FormItems[i + 1];
+                            if (isOpenInline && !nextItem.IsInline)
+                            {
+                                @Html.Raw("</div>");
+                                isOpenInline = false;
+                            }
+                            else if ((!isOpenInline) && nextItem.IsInline)
+                            {
+                                @Html.Raw("<div class='layui-form-item'>");
+                                isOpenInline = true;
+                            }
+                        }
+                    }
+                    if (isOpenInline)
+                    {
+                        @Html.Raw("</div>");
+                    }
+                    <button class="layui-btn layui-btn-normal" style="margin-left: 110px" id="save-to-tree-btn">&lt;&lt;保存</button>
+                }
+            </full-page-form-border>
+        </div>
+    </div>
+</layout-border>
+
+@section CSS {
+    <link href="@this.GetResourcePath()/admins/css/form.css" rel="stylesheet" />
+    @meTemp.RenderAddCSSList()
+}
+
+
+@section Scripts {
+    <script type="text/javascript" src="@this.GetResourcePath()/admins/js/common.js"></script>
+    <script type="text/javascript" src="@this.GetResourcePath()/admins/js/formpage.js"></script>
+    <script type="text/javascript" src="@this.GetResourcePath()/admins/js/formtreepage.js"></script>
+    @meTemp.RenderAddJSList()
+    <script>
+        @{
+            const string key = "chooseIdTableList";
+            if (meTemp.CustomPairs.ContainsKey(key))
+            {
+                string[] ls = meTemp.CustomPairs[key].Split(',');
+                UWT.Templates.Controllers.TablesController tablesController = new UWT.Templates.Controllers.TablesController();
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.Append("{");
+                foreach (var item in ls)
+                {
+                    sb.Append("\"");
+                    sb.Append(item);
+                    sb.Append("\": ");
+                    var rr = (UWT.Templates.Models.Basics.IResultModelBasicT)tablesController.GetListRun(item);
+                    sb.Append(System.Text.Json.JsonSerializer.Serialize(rr.Data));
+                    sb.Append(",");
+                }
+                sb.Remove(sb.Length - 1, 1);
+                sb.Append("}");
+                <text>var chooseAllValues = @(Html.Raw(sb.ToString()));</text>
+            }
+        }
+        function formTreeCallback() {
+            initTreeData(@Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Item)), @Html.Raw(System.Text.Json.JsonSerializer.Serialize(ViewBag.NewDefault)), '@ViewBag.TitlePropertyName');
+        }
+    </script>
+    @meTemp.RenderScriptList()
+}
+
+@section BodyAppend {
+    @if (meTemp.CustomPairs.ContainsKey("upload"))
+    {
+        @Html.Partial("/Views/Templates/UploadFileDialog.cshtml")
+    }
+    @if (meTemp.CustomPairs.ContainsKey("chooseid"))
+    {
+        <div id="ChooseIdDialog" style="display: none;">
+            <div id="chooseTreeDiv"></div>
+        </div>
+    }
+}

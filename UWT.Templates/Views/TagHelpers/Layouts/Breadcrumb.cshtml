@@ -1,0 +1,40 @@
+﻿@*面包屑 与 帮助文档*@
+
+@model UWT.Templates.Models.Templates.TagHelpers.TagHelperDataModel<UWT.Templates.Models.TagHelpers.Layouts.BreadcrumbModel>
+@inject UWT.Templates.Models.Interfaces.IUwtHelper Helper
+@{
+    var layoutModel = ViewData.Model.DataModel.Layout;
+    var urlCrumbList = ViewData.Model.DataModel.List;
+}
+<span class="layui-breadcrumb">
+    @if (ViewContext.HttpContext.Request.Path != layoutModel.HomePageUrl && !string.IsNullOrEmpty(layoutModel.HomePageUrl))
+    {
+        <a href="@layoutModel.HomePageUrl">@layoutModel.HomePageTitle</a>
+    }
+    @foreach (var item in urlCrumbList)
+    {
+        if (string.IsNullOrEmpty(item.Url))
+        {
+            <a><cite>@item.Title</cite></a>
+        }
+        else
+        {
+            <a href="@item.Url">@item.Title</a>
+        }
+    }
+</span>
+
+@if (Helper != null)
+{
+    string url = $"{ViewContext.HttpContext.Request.RouteValues["controller"]}/{ViewContext.HttpContext.Request.RouteValues["action"]}";
+    if (ViewContext.HttpContext.Request.RouteValues.ContainsKey("area"))
+    {
+        url = ViewContext.HttpContext.Request.RouteValues["area"] + "/" + url;
+    }
+    if (Helper.HasHelper("/" + url))
+    {
+        <span style="position: fixed; margin-right: 20px; right: 0;">
+            <a href="/Helpers/Detail/@url" target="_blank" title="帮助文档">?</a>
+        </span>
+    }
+}

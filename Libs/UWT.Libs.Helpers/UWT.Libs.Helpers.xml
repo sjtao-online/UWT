@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>UWT.Libs.Helpers</name>
+    </assembly>
+    <members>
+        <member name="T:UWT.Libs.Helpers.Controllers.HelperMgrController">
+            <summary>
+            帮助管理控制器
+            </summary>
+        </member>
+        <member name="T:UWT.Libs.Helpers.Controllers.HelpersController">
+            <summary>
+            帮助显示控制器
+            </summary>
+        </member>
+        <member name="T:UWT.Libs.Helpers.HelperEx">
+            <summary>
+            帮助功能扩展
+            </summary>
+        </member>
+        <member name="M:UWT.Libs.Helpers.HelperEx.AddHelper(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            添加帮助功能
+            </summary>
+            <param name="services"></param>
+            <returns></returns>
+        </member>
+        <member name="T:UWT.Libs.Helpers.Models.IDbHelperTable">
+            <summary>
+            帮助文档表模型
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Helpers.Models.IDbHelperTable.Title">
+            <summary>
+            标题
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Helpers.Models.IDbHelperTable.Content">
+            <summary>
+            富文本内容
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Helpers.Models.IDbHelperTable.Summary">
+            <summary>
+            摘要
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Helpers.Models.IDbHelperTable.Author">
+            <summary>
+            作者(显示用，随便写)
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Helpers.Models.IDbHelperTable.CreatorId">
+            <summary>
+            创建者(真实)
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Helpers.Models.IDbHelperTable.ModifyId">
+            <summary>
+            更新者(真实)
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Helpers.Models.IDbHelperTable.PublishTime">
+            <summary>
+            发布时间
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Helpers.Models.IDbHelperTable.Url">
+            <summary>
+            对应的URL
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Helpers.Models.IDbHelperTable.Valid">
+            <summary>
+            有效性
+            </summary>
+        </member>
+    </members>
+</doc>

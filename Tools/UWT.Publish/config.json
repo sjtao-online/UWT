@@ -1,0 +1,11 @@
+{
+  "SolutionPath": "..\\UWT",
+  "OutputPath": "..\\Publish",
+  "IgnoreRegex": "(UWT\\.Server\\..*)|(.*StaticWebAssets.*)",
+  "ProjList": [
+    {
+      "CopyFilter": [ "UWT.*.dll", "UWT.*.xml", "*.md" ],
+      "ProjFilename": "\\UWT.Server\\UWT.Server.csproj"
+    }
+  ]
+}

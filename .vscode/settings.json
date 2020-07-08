@@ -1,0 +1,39 @@
+{
+  "files.exclude": {
+    ".vs": true,
+    "**/*.csproj": true,
+    "**/*.sln": true,
+    "**/bin": true,
+    "**/obj": true
+  },
+  "vetur.format.options.tabSize": 4,
+  "beautify.config": {
+    "indent_size": 4
+  },
+  "beautify.language": {
+    "js": {
+      "type": [
+        "javascript",
+        "json",
+        "jsonc"
+      ],
+      "filename": [
+        ".jshintrc",
+        ".jsbeautifyrc"
+      ]
+    },
+    "css": [
+      "css",
+      "less",
+      "scss"
+    ],
+    "html": [
+      "htm",
+      "html"
+    ],
+    "cs": [
+      "cs"
+    ]
+  },
+  "editor.detectIndentation": false
+}

@@ -1,0 +1,86 @@
+﻿@model UWT.Templates.Models.Templates.TagHelpers.TagHelperDataModel<UWT.Templates.Models.Interfaces.IToPageViewModel>
+@using UWT.Templates.Attributes.Lists
+@{ 
+    var tModel = Model.TemplateModel;
+}
+<table class="layui-table layui-form @Model.DataModel.ListViewModel.Class" style="@Model.DataModel.ListViewModel.Styles"
+       lay-even>
+    <thead>
+        <tr>
+            @foreach (var item in Model.DataModel.ListViewModel.Columns)
+            {
+                if (item.IsIgnore)
+                {
+                    continue;
+                }
+                <th class="@item.Class" style="@item.Styles">@item.Title</th>
+            }
+        </tr>
+    </thead>
+    @if (Model.DataModel.ItemTotal != 0)
+    {
+        int index = 1;
+        int mindex = Model.DataModel.PageIndex * Model.DataModel.PageSize + 1;
+        <tbody>
+            @if (Model.DataModel.ListViewModel.HasMutilCheck)
+            {
+                foreach (var item in Model.DataModel.Items)
+                {
+                    var c = Model.DataModel.ListViewModel.Columns[0];
+                    <tr>
+                        <td style="@c.Styles" class="@c.Class"><input lay-filter="batch" class="batch-check-box" type="checkbox" name="" lay-skin="primary" title="@(c.GetRawValue(item, ref tModel, Html))" data-batch-key="@(Model.DataModel.ListViewModel.BatchProperty.GetValue(item))"/></td>
+                        @for (int i = 1; i < Model.DataModel.ListViewModel.Columns.Count; i++)
+                        {
+                            var column = Model.DataModel.ListViewModel.Columns[i];
+                            if (column.IsIgnore)
+                            {
+                                continue;
+                            }
+                            if (column.ColumnType == ColumnType.Index)
+                            {
+                                <td style="@column.Styles" class="@column.Class">@index</td>
+                                continue;
+                            }
+                            if (column.ColumnType == ColumnType.MIndex)
+                            {
+                                <td style="@column.Styles" class="@column.Class">@mindex</td>
+                                continue;
+                            }
+                            <td style="@column.Styles" class="@column.Class">@(column.GetRawValue(item, ref tModel, Html))</td>
+                        }
+                    </tr>
+                    index++;
+                    mindex++;
+                }
+            }
+            else
+            {
+                foreach (var item in Model.DataModel.Items)
+                {
+                    <tr>
+                        @foreach (var column in Model.DataModel.ListViewModel.Columns)
+                        {
+                            if (column.IsIgnore)
+                            {
+                                continue;
+                            }
+                            if (column.ColumnType == ColumnType.Index)
+                            {
+                                <td style="@column.Styles" class="@column.Class">@index</td>
+                                continue;
+                            }
+                            if (column.ColumnType == ColumnType.MIndex)
+                            {
+                                <td style="@column.Styles" class="@column.Class">@mindex</td>
+                                continue;
+                            }
+                            <td style="@column.Styles" class="@column.Class">@(column.GetRawValue(item, ref tModel, Html))</td>
+                        }
+                    </tr>
+                    index++;
+                    mindex++;
+                }
+            }
+        </tbody>
+    }
+</table>

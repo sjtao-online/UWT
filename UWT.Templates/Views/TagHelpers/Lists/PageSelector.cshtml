@@ -1,0 +1,80 @@
+﻿@model UWT.Templates.Models.Templates.TagHelpers.TagHelperDataModel<UWT.Templates.Models.Interfaces.IPageSelectorModel>
+
+@if (Model.DataModel == null)
+{
+
+}
+else if (Model.DataModel.ItemTotal == 0)
+{
+    <div>暂无数据</div>
+}
+else if (Model.DataModel.UrlBase != null)
+{
+<div class="page-right">
+    <div class="page">
+        <div>
+            <span class="border-none">
+                显示 @(Model.DataModel.PageIndex * Model.DataModel.PageSize + 1) 到 @(Model.DataModel.PageIndex * Model.DataModel.PageSize + Model.DataModel.CurrentPageCount) 共 @Model.DataModel.ItemTotal 条
+            </span>
+            @{
+                if (Model.DataModel.PageIndex == 0)
+                {
+                    <span class="prev">&lt;&lt;</span>
+                }
+                else
+                {
+                    <a class="prev" href="@(Model.DataModel.UrlBase + (Model.DataModel.PageIndex-1))">&lt;&lt;</a>
+                }
+                int pageCount = Model.DataModel.ItemTotal / Model.DataModel.PageSize + ((Model.DataModel.ItemTotal % Model.DataModel.PageSize) == 0 ? 0 : 1);
+                int pageBegin = 0;
+                int pageEnd = 0;
+                if (pageCount > 10)
+                {
+                    if (Model.DataModel.PageIndex <= 5)
+                    {
+                        pageEnd = 10;
+                    }
+                    else if (Model.DataModel.PageIndex >= pageCount - 5)
+                    {
+                        pageEnd = pageCount;
+                        pageBegin = pageCount - 10;
+                        if (pageBegin < 0)
+                        {
+                            pageBegin = 0;
+                        }
+                    }
+                    else
+                    {
+                        pageBegin = Model.DataModel.PageIndex - 5;
+                        pageEnd = Model.DataModel.PageIndex + 5;
+                    }
+                }
+                else
+                {
+                    pageEnd = pageCount;
+                }
+                for (int i = pageBegin; i < pageEnd; i++)
+                {
+                    if (i == Model.DataModel.PageIndex)
+                    {
+                        <span class="current">@(i + 1)</span>
+                    }
+                    else
+                    {
+                        <a href="@(Model.DataModel.UrlBase+i)">@(i + 1)</a>
+                    }
+                }
+                if (Model.DataModel.PageIndex == (pageCount - 1))
+                {
+                    <span class="next">&gt;&gt;</span>
+                }
+                else
+                {
+                    <a class="next" href="@(Model.DataModel.UrlBase+(Model.DataModel.PageIndex+1))">&gt;&gt;</a>
+                }
+            }
+        </div>
+    </div>
+</div>
+<div class="clear-both"></div>
+}

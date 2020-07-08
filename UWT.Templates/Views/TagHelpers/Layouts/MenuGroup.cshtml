@@ -1,0 +1,129 @@
+﻿@*菜单组*@
+@model UWT.Templates.Models.Templates.TagHelpers.TagHelperDataModel<UWT.Templates.Models.TagHelpers.Layouts.MenuGroupModel>
+@{ 
+    List<string> parr = new List<string>();
+    foreach (var item in R)
+    {
+        if (ViewContext.RouteData.Values.ContainsKey(item))
+        {
+            parr.Add(ViewContext.RouteData.Values.GetValueOrDefault(item) as string);
+        }
+    }
+    RequestUrlPath = "/" + string.Join('/', parr);
+}
+
+@functions {
+    static string[] R = new string[]
+    {
+        "area", "controller", "action"
+    };
+    static string[] LevelDefaultIcon = new string[]
+    {
+        "&#xe699;", "&#xe6a7;", "&#xe6a7;", "&#xe6fe;"
+    };
+    string RequestUrlPath = null;
+    private System.Text.StringBuilder BuildMenuGroup(
+        List<UWT.Templates.Models.Templates.Layouts.MenuItemModel> menuItemList,
+        List<UWT.Templates.Models.Basics.IconUrlTitleIdModel> bl,
+        out bool isOpend,
+        int level)
+    {
+        isOpend = false;
+        bool newIsOpend = false;
+        if (menuItemList == null || menuItemList.Count == 0)
+        {
+            return null;
+        }
+        const string openned = " class='open active'";
+        const string replaceOpendClassName = " class='menugroupisopend'";
+        System.Text.StringBuilder sb = new System.Text.StringBuilder();
+        foreach (var item in menuItemList)
+        {
+            string icon = null;
+            if (!string.IsNullOrEmpty(item.Icon))
+            {
+                if (item.Icon.StartsWith("&#"))
+                {
+                    icon = "<i class='iconfont'>" + item.Icon + "</i>";
+                }
+                else if (item.Icon.StartsWith("layui"))
+                {
+                    icon = $"<i class='layui-icon {item.Icon}'></i>";
+                }
+                else
+                {
+                    icon = $"<i class='iconfont {item.Icon}'></i>";
+                }
+            }
+            if (icon == null)
+            {
+                icon = $"<i class='iconfont'>{LevelDefaultIcon[level]}</i>";
+            }
+            System.Text.StringBuilder tmp = new System.Text.StringBuilder();
+            tmp.Append("<li");
+            tmp.Append(replaceOpendClassName);
+            if (!string.IsNullOrEmpty(item.Tooltip))
+            {
+                tmp.Append(" title='");
+                tmp.Append(item.Tooltip);
+                tmp.Append("'");
+            }
+            tmp.Append(">");
+            string repoint = "";
+            if (item.RedPoint != null)
+            {
+                repoint = $"<span class='x-red-point'>{item.RedPoint}</span>";
+            }
+            if (string.IsNullOrEmpty(item.Url) && item.Children != null && item.Children.Count != 0)
+            {
+                var newTmp = BuildMenuGroup(item.Children, bl, out newIsOpend, level + 1);
+                tmp.Append("<a href='javascript:;'>");
+                tmp.Append(icon);
+                tmp.Append($"<cite>{item.Title}</cite>{repoint}<i class='iconfont nav_right'>{(newIsOpend ? " &#xe6a6;" : "&#xe697;")}</i></a><ul class='sub-menu'{(newIsOpend ? " style='display:block;'" : "")}>");
+                tmp.Append(newTmp);
+                tmp.Append("</ul>");
+            }
+            else
+            {
+                tmp.Append("<a href='");
+                tmp.Append(item.Url);
+                tmp.Append("'");
+                if (item.Url == RequestUrlPath)
+                {
+                    isOpend = true;
+                    tmp.Append(" class='active'");
+                }
+                tmp.Append(">");
+                tmp.Append(icon);
+                tmp.Append("<cite>");
+                tmp.Append(item.Title);
+                tmp.Append("</cite>");
+                tmp.Append(repoint);
+                tmp.Append("</a>");
+            }
+            tmp.Append("</li>");
+            if (newIsOpend)
+            {
+                tmp.Replace(replaceOpendClassName, openned);
+                isOpend = true;
+                bl?.Insert(0, new UWT.Templates.Models.Basics.IconUrlTitleIdModel()
+                {
+                    Icon = item.Icon,
+                    Title = item.Title,
+                    Url = item.Url
+                });
+            }
+            else
+            {
+                tmp.Replace(replaceOpendClassName, string.Empty);
+            }
+            sb.Append(tmp);
+        }
+        return sb;
+    }
+}
+
+
+<ul class="nav">
+    @Html.Raw(BuildMenuGroup(Model.DataModel.MenuGroup, Model.DataModel.BreadcrumbList, out bool isOpend, 0)?.ToString())
+</ul>

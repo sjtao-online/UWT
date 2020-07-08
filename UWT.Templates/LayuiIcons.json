@@ -1,0 +1,58 @@
+[
+  {
+    "Key": "layui-icon-reply-fill",
+    "Name": "reply(实心)"
+  },
+  {
+    "Key": "layui-icon-set-fill",
+    "Name": "set(实心)"
+  },
+  {
+    "Key": "layui-icon-set-sm",
+    "Name": "set-sm"
+  },
+  {
+    "Key": "layui-icon-search",
+    "Name": "search"
+  },
+  {
+    "Key": "layui-icon-share",
+    "Name": "share"
+  },
+  {
+    "Key": "layui-icon-engine",
+    "Name": "engine"
+  },
+  {
+    "Key": "layui-icon-close",
+    "Name": "close"
+  },
+  {
+    "Key": "layui-icon-close-fill",
+    "Name": "close(实心)"
+  },
+  {
+    "Key": "layui-icon-chart-screen",
+    "Name": "chart-screen"
+  },
+  {
+    "Key": "layui-icon-star",
+    "Name": "star"
+  },
+  {
+    "Key": "layui-icon-circle-dot",
+    "Name": "circle-dot"
+  },
+  {
+    "Key": "layui-icon-chat",
+    "Name": "chat"
+  },
+  {
+    "Key": "layui-icon-release",
+    "Name": "release"
+  },
+  {
+    "Key": "layui-icon-list",
+    "Name": "list"
+  }
+]

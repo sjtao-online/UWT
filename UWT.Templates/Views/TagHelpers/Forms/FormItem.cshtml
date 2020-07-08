@@ -1,0 +1,523 @@
+﻿@using UWT.Templates.Models.Interfaces
+@using UWT.Templates.Services.Extends
+@{
+    var isEdit = Model.DataModel.TargetObject != null;
+    var template = Model.DataModel.TargetTemplate;
+    string templateName = Model.DataModel.TargetTemplate.Name;
+}
+@model UWT.Templates.Models.Templates.TagHelpers.TagHelperDataModel<UWT.Templates.Models.TagHelpers.Basic.ItemTagHelperModelT<UWT.Templates.Models.Interfaces.IFormItemModel>>
+@functions {
+    string BuildRange<TType>(IFormItemModel tp, ICanRangeMaxMinEx<TType> tvalue, Func<Nullable<TType>, string> func, string classname = "", string ex = null)
+        where TType : struct
+    {
+        System.Text.StringBuilder sb = new System.Text.StringBuilder();
+        string templateName = Model.DataModel.TargetTemplate.Name;
+        if (tvalue.IsRange)
+        {
+            var rangeValue = this.ChangeToRangeT<TType>(Model.DataModel.TargetObject, tp.PropertyInfo);
+            sb.Append("<div class='hasrange' style='display: none;'></div>");
+            sb.Append("<div class='layui-input-inline' style='width: 100px;'>");
+            sb.Append("<input type='number' max='");
+            sb.Append(func(tvalue.Max));
+            sb.Append("' min='");
+            sb.Append(func(tvalue.Min));
+            sb.Append("' data-max='");
+            sb.Append(func(tvalue.Max));
+            sb.Append("' data-min='");
+            sb.Append(func(tvalue.Min));
+            if (!string.IsNullOrEmpty(ex))
+            {
+                sb.Append("' data-ex='");
+                sb.Append(ex);
+            }
+            sb.Append("' id='");
+            sb.Append(templateName);
+            sb.Append("-start' name='");
+            sb.Append(templateName);
+            sb.Append("-start' class='layui-input ");
+            sb.Append(classname);
+            sb.Append("' value='");
+            sb.Append(func(rangeValue?.Min));
+            sb.Append("'>");
+            sb.Append("</div><div class='layui-form-mid'>-</div><div class='layui-input-inline' style='width: 100px;'>");
+            sb.Append("<input type='number' data-max='");
+            sb.Append(func(tvalue.Max));
+            sb.Append("' data-min='");
+            sb.Append(func(tvalue.Min));
+            if (!string.IsNullOrEmpty(ex))
+            {
+                sb.Append("' data-ex='");
+                sb.Append(ex);
+            }
+            sb.Append("' id='");
+            sb.Append(templateName);
+            sb.Append("-end' name='");
+            sb.Append(templateName);
+            sb.Append("-end' class='layui-input ");
+            sb.Append(classname);
+            sb.Append("' value='");
+            sb.Append(func(rangeValue?.Max));
+            sb.Append("'></div>");
+        }
+        else
+        {
+            sb.Append("<div class='layui-input-inline'><input type='number' max='");
+            sb.Append(func(tvalue.Max));
+            sb.Append("' min='");
+            sb.Append(func(tvalue.Min));
+            sb.Append("' data-max='");
+            sb.Append(func(tvalue.Max));
+            sb.Append("' data-min='");
+            sb.Append(func(tvalue.Min));
+            if (!string.IsNullOrEmpty(ex))
+            {
+                sb.Append("' data-ex='");
+                sb.Append(ex);
+            }
+            sb.Append("' name='");
+            sb.Append(templateName);
+            sb.Append("' id='");
+            sb.Append(templateName);
+            sb.Append("' class='layui-input uwt-input ");
+            sb.Append(classname);
+            sb.Append("' value='");
+            if (Model.DataModel.TargetObject != null)
+            {
+                sb.Append(func((TType)(dynamic)tp.PropertyInfo.GetValue(Model.DataModel.TargetObject)));
+            }
+            sb.Append("'></div>");
+        }
+        return sb.ToString();
+    }
+    string BuildRangeDateTime(IFormItemModel tp, ICanRangeMaxMinEx<string> tvalue, Func<Nullable<DateTime>, string> func, string classname = "")
+    {
+        System.Text.StringBuilder sb = new System.Text.StringBuilder();
+        string templateName = Model.DataModel.TargetTemplate.Name;
+        if (tvalue.IsRange)
+        {
+            var rangeValue = this.ChangeToRangeT<DateTime>(Model.DataModel.TargetObject, tp.PropertyInfo);
+            sb.Append("<div class='hasrange' style='display: none;'></div>");
+            sb.Append("<div class='layui-input-inline' style='width: 100px;'>");
+            sb.Append("<input type='text' readonly data-max='");
+            sb.Append(tvalue.Max);
+            sb.Append("' data-min='");
+            sb.Append(tvalue.Min);
+            sb.Append("' id='");
+            sb.Append(templateName);
+            sb.Append("-start' name='");
+            sb.Append(templateName);
+            sb.Append("-start' class='layui-input ");
+            sb.Append(classname);
+            sb.Append("' value='");
+            sb.Append(func(rangeValue?.Min));
+            sb.Append("'>");
+            sb.Append("</div><div class='layui-form-mid'>-</div><div class='layui-input-inline' style='width: 100px;'>");
+            sb.Append("<input type='text' readonly data-max='");
+            sb.Append(tvalue.Max);
+            sb.Append("' data-min='");
+            sb.Append(tvalue.Min);
+            sb.Append("' id='");
+            sb.Append(templateName);
+            sb.Append("-end' name='");
+            sb.Append(templateName);
+            sb.Append("-end' class='layui-input ");
+            sb.Append(classname);
+            sb.Append("' value='");
+            sb.Append(func(rangeValue?.Max));
+            sb.Append("'></div>");
+        }
+        else
+        {
+            sb.Append("<div class='layui-input-inline'><input type='text' readonly data-max='");
+            sb.Append(tvalue.Max);
+            sb.Append("' data-min='");
+            sb.Append(tvalue.Min);
+            sb.Append("' name='");
+            sb.Append(templateName);
+            sb.Append("' id='");
+            sb.Append(templateName);
+            sb.Append("' class='layui-input uwt-input ");
+            sb.Append(classname);
+            sb.Append("' value='");
+            if (Model.DataModel.TargetObject != null)
+            {
+                sb.Append(func((DateTime)tp.PropertyInfo.GetValue(Model.DataModel.TargetObject)));
+            }
+            sb.Append("'></div>");
+        }
+        return sb.ToString();
+    }
+}
+@if (template.ItemType == UWT.Templates.Attributes.Forms.FormItemType.Hidden)
+{
+    if (Model.DataModel.TargetObject != null)
+    {
+        string v = "";
+        if (template.PropertyInfo.PropertyType == typeof(int)
+            || template.PropertyInfo.PropertyType == typeof(long)
+            || template.PropertyInfo.PropertyType == typeof(double)
+            )
+        {
+            v = "num";
+        }
+        else if (template.PropertyInfo.PropertyType == typeof(string))
+        {
+            v = "txt";
+        }
+        <input type="hidden" name="@templateName" value="@template.PropertyInfo.GetValue(Model.DataModel.TargetObject)"
+               class="uwt-form-hidden-item" data-type="@v" />
+    }
+}
+else
+{
+    var className = !template.IsInline ? "layui-input-block" : "layui-input-inline";
+    <label for="@templateName" class="layui-form-label">
+        @if (template.IsRequired)
+        {
+            <span class="x-red">*</span>
+        }
+        @template.Title
+    </label>
+    @switch (template.ItemType)
+    {
+        case UWT.Templates.Attributes.Forms.FormItemType.Text:
+            string textValue = "";
+            if (isEdit)
+            {
+                textValue = template.PropertyInfo.GetValue(Model.DataModel.TargetObject) as string;
+            }
+            var textex = template.ModelEx as IFormTextEx;
+            switch (textex.TextCate)
+            {
+                case UWT.Templates.Attributes.Forms.FormItems.TextAttribute.Cate.SimpleText:
+                    <div class="@className">
+                        <input type="text" name="@templateName" id="@templateName" value="@textValue"
+                               data-minlen="@textex.MinLength" maxlength="@textex.MaxLength" data-regex="@textex.Regex"
+                               class="layui-input uwt-input" />
+                    </div>
+                    break;
+                case UWT.Templates.Attributes.Forms.FormItems.TextAttribute.Cate.AreaText:
+                    <div class="@className">
+                        <textarea type="text" name="@templateName" id="@templateName"
+                                  data-minlen="@textex.MinLength" maxlength="@textex.MaxLength" data-regex="@textex.Regex"
+                                  class="layui-textarea uwt-input">@textValue</textarea>
+                    </div>
+                    break;
+                case UWT.Templates.Attributes.Forms.FormItems.TextAttribute.Cate.RichText:
+                    <div class="@className">
+                        <div name="@templateName" id="@templateName" class="layui-editor"></div>
+                        <div id="@templateName-src" style="display: none;">
+                            @Html.Raw(textValue)
+                        </div>
+                    </div>
+                    break;
+                case UWT.Templates.Attributes.Forms.FormItems.TextAttribute.Cate.RichText_Wang:
+                    if (!Model.TemplateModel.CustomPairs.ContainsKey("wangEditor"))
+                    {
+                        Model.TemplateModel.CustomPairs.Add("wangEditor", "");
+                    }
+                    <div class="@className">
+                        <div name="@templateName" id="@templateName" class="wangEditor">
+                            @Html.Raw(textValue)
+                        </div>
+                    </div>
+                    break;
+                case UWT.Templates.Attributes.Forms.FormItems.TextAttribute.Cate.RichText_UEditor:
+                    <div class="@className">
+                        <div name="@templateName" id="@templateName" class="ueditor">
+                            @Html.Raw(textValue)
+                        </div>
+                    </div>
+                    break;
+                default:
+                    break;
+            }
+            break;
+        case UWT.Templates.Attributes.Forms.FormItemType.Integer:
+            @Html.Raw(BuildRange(template, template.ModelEx as ICanRangeMaxMinEx<long>, m => m == null ? "" : m.Value.ToString()))
+            break;
+        case UWT.Templates.Attributes.Forms.FormItemType.Float:
+            @Html.Raw(BuildRange(template, template.ModelEx as ICanRangeMaxMinEx<double>, m => m == null ? "" : m.Value.ToString("0.##")))
+            break;
+        case UWT.Templates.Attributes.Forms.FormItemType.Money:
+            @if (template.PropertyInfo.PropertyType == typeof(int) || template.PropertyInfo.PropertyType == typeof(int?))
+            {
+                var mex = template.ModelEx as IMoneyEx;
+                @Html.Raw(BuildRange<int>(template, mex, m => m == null ? "" : (m.Value / 100.0).ToString("0.##"), ex: mex.DigitCnt.ToString()))
+            }
+            break;
+        case UWT.Templates.Attributes.Forms.FormItemType.Date:
+            @Html.Raw(BuildRangeDateTime(template, template.ModelEx as ICanRangeMaxMinEx<string>, m => m == null ? "" : m.Value.ToShowDateText(), "form-date"))
+            break;
+        case UWT.Templates.Attributes.Forms.FormItemType.DateTime:
+            @Html.Raw(BuildRangeDateTime(template, template.ModelEx as ICanRangeMaxMinEx<string>, m => m == null ? "" : m.Value.ToShowText(), "form-datetime"))
+            break;
+        case UWT.Templates.Attributes.Forms.FormItemType.TimeSpan:
+            break;
+        case UWT.Templates.Attributes.Forms.FormItemType.Password:
+            var password = template.ModelEx as IPwdEx;
+            <div class="@className">
+                <input type="password" name="@templateName" id="@templateName" maxlength="@password.MaxLength" data-minlen="@password.MinLength" class="layui-input" value=""
+                       data-regex="@password.Regex" data-hasconfirm="@(password.HasConfirm?1:0)" />
+            </div>
+            if (password.HasConfirm)
+            {
+                <div class="@className">
+                    <input type="password" name="@templateName-2" id="@templateName-2" class="layui-input" value="" />
+                </div>
+            }
+            break;
+        case UWT.Templates.Attributes.Forms.FormItemType.File:
+            if (!Model.TemplateModel.CustomPairs.ContainsKey("upload"))
+            {
+                Model.TemplateModel.CustomPairs.Add("upload", "");
+            }
+            var vfile = "";
+            if (isEdit)
+            {
+                vfile = template.PropertyInfo.GetValue(Model.DataModel.TargetObject) as string;
+            }
+            var file = template.ModelEx as IFileEx;
+            <div class="layui-input-inline">
+                <input class="layui-input form-file-value" readonly id="@templateName" name="@templateName" value="@vfile" />
+            </div>
+            <button type="button" class="form-file layui-btn layui-btn-primary"
+                    data-ft="@file.FileType" data-canselectreadyall="@(file.CanSelectReadyAll?1:0)" data-canfilter="@(file.CanFilter?1:0)"
+                    data-canlinkother="@(file.CanLinkOther?1:0)" data-max="@file.MaxSize" id="@templateName-btn" name="@templateName-btn"
+                    data-inputid="@templateName">
+                <i class="layui-icon layui-icon-upload-drag"></i>
+            </button>
+            break;
+        case UWT.Templates.Attributes.Forms.FormItemType.ChooseId:
+            if (!Model.TemplateModel.CustomPairs.ContainsKey("chooseid"))
+            {
+                Model.TemplateModel.CustomPairs.Add("chooseid", "");
+            }
+            var vShow = "";
+            var vRKey = "";
+            var uKey = "";
+            var multiSelect = false;
+            var sUrl = "";
+            var v = "";
+            if (template.ModelEx is IChooseIdEx)
+            {
+                var chooseid = template.ModelEx as IChooseIdEx;
+                uKey = "0";
+                sUrl = chooseid.ApiUrl;
+                multiSelect = chooseid.MultiSelect;
+                if (isEdit)
+                {
+                    var value = template.PropertyInfo.GetValue(Model.DataModel.TargetObject);
+                    v = chooseid.MultiSelect ? ViewBag.ChooseIds2Names(chooseid.ChooseKey, value as List<int>) : ViewBag.ChooseId2Name(chooseid.ChooseKey, (int)value);
+                }
+            }
+            else
+            {
+                var choose = template.ModelEx as IChoosenIdFromTableEx;
+                sUrl = "/Tables/GetListRun";
+                uKey = "1";
+                vRKey = choose.RKey;
+                multiSelect = choose.MultiSelect;
+                const string choosenListKey = "chooseIdTableList";
+                if (Model.TemplateModel.CustomPairs.ContainsKey(choosenListKey))
+                {
+                    Model.TemplateModel.CustomPairs[choosenListKey] += "," + choose.RKey;
+                }
+                else
+                {
+                    Model.TemplateModel.CustomPairs[choosenListKey] = choose.RKey;
+                }
+                if (isEdit)
+                {
+                    UWT.Templates.Controllers.TablesController tables = new UWT.Templates.Controllers.TablesController();
+                    var value = template.PropertyInfo.GetValue(Model.DataModel.TargetObject);
+                    if (choose.MultiSelect)
+                    {
+                        vShow = tables.ChangeIdsToText(choose.TableName, choose.IdColumnName, choose.NameColumnName, (List<int>)value);
+                        v = string.Join(",", (List<int>)value);
+                    }
+                    else
+                    {
+                        vShow = tables.ChangeIdToText(choose.TableName, choose.IdColumnName, choose.NameColumnName, (int)value);
+                        v = value.ToString();
+                    }
+                }
+            }
+            <div class="className">
+                <input type="hidden" id="@templateName" value="@v" data-rkey="@vRKey"/>
+                <div style="display: flex;">
+                    <input class="layui-input choose" readonly data-mselect="@multiSelect" data-url="@sUrl"
+                           value="@vShow" data-rkey="@vRKey" data-ukey="@uKey"
+                           type="text" id="@templateName-show" />
+                    <i class="layui-icon" style="margin: 10px 0 0 -25px;pointer-events: none;">&#xe615;</i>
+                </div>
+            </div>
+            break;
+        case UWT.Templates.Attributes.Forms.FormItemType.Color:
+            string colorText = "";
+            if (isEdit)
+            {
+                colorText = template.PropertyInfo.GetValue(Model.DataModel.TargetObject) as string;
+            }
+            <div class="layui-input-inline">
+                <input class="form-color-text layui-input" readonly value="@colorText" id="@templateName" />
+            </div>
+            <div class="layui-input-inline">
+                <div class="form-color-picker" data-color="@colorText" id="@templateName-picker"></div>
+            </div>
+            break;
+        case UWT.Templates.Attributes.Forms.FormItemType.Time:
+            var time = template.ModelEx as ICanRangeMaxMinEx<string>;
+            if (time.IsRange)
+            {
+                var r = this.ChangeToRangeT<int>(Model.DataModel.TargetObject, template.PropertyInfo);
+                <div class="layui-input-inline">
+                    <input type="text" data-max="@time.Max" data-min="@time.Min" name="@template.Name-start" id="@template.Name-start" class="layui-input form-time" value="@(Model.DataModel.TargetObject == null ? "" : TimeSpan.FromSeconds(r.Min).ToString(@"hh\:mm\:ss"))" />
+                </div>
+                <div class='layui-form-mid'>-</div>
+                <div class="layui-input-inline">
+                    <input type="text" data-max="@time.Max" data-min="@time.Min" name="@template.Name-end" id="@template.Name-end" class="layui-input form-time" value="@(Model.DataModel.TargetObject == null ? "" : TimeSpan.FromSeconds(r.Min).ToString(@"hh\:mm\:ss"))" />
+                </div>
+            }
+            else
+            {
+                <div class="layui-input-inline">
+                    <input type="text" data-max="@time.Max" data-min="@time.Min" name="@template.Name" id="@template.Name" class="layui-input form-time" value="@(Model.DataModel.TargetObject == null ? "" : TimeSpan.FromSeconds((int)template.PropertyInfo.GetValue(Model.DataModel.TargetObject)).ToString(@"hh\:mm\:ss"))" />
+                </div>
+            }
+            break;
+        case UWT.Templates.Attributes.Forms.FormItemType.SimpleSelect:
+            var select = template.ModelEx as ISimpleSelectEx;
+            var list = select.GetCurrentBuilder(this, ViewBag.ModelType).BuildItemList();
+            <div class="layui-input-inline">
+                <select id="@templateName" class="uwt-input">
+                    @if (isEdit)
+                    {
+                        var currentValue = template.PropertyInfo.GetValue(Model.DataModel.TargetObject);
+                        foreach (var item in list)
+                        {
+                            <option value="@item.Key" @(currentValue == item.Key ? "selected" : "")>@item.Name</option>
+                        }
+                    }
+                    else
+                    {
+
+                        for (int i = 0; i < list.Count; i++)
+                        {
+                            var item = list[i];
+                            <option value="@item.Key" @(i == select.DefaultSelected ? "selected" : "")>@item.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+            break;
+        case UWT.Templates.Attributes.Forms.FormItemType.MultiSelect:
+            var ms = template.ModelEx as IMultiSelectEx;
+            HashSet<string> msvalues = ms.DefaultSelected;
+            if (isEdit)
+            {
+                msvalues = ((List<string>)template.PropertyInfo.GetValue(Model.DataModel.TargetObject)).ToHashSet();
+            }
+            <div class="@className multi-select" id="@templateName" data-maxselect="@ms.MaxSelectCount">
+                @{
+                    string attr = "";
+                    switch (ms.StyleType)
+                    {
+                        case UWT.Templates.Attributes.Forms.FormItems.MultiSelectAttribute.StyleTypeValues.BlackCheckBox:
+                            break;
+                        case UWT.Templates.Attributes.Forms.FormItems.MultiSelectAttribute.StyleTypeValues.SimpleCheckBox:
+                            attr = " lay-skin=\"primary\"";
+                            break;
+                        case UWT.Templates.Attributes.Forms.FormItems.MultiSelectAttribute.StyleTypeValues.DropdownSelector:
+                            break;
+                        default:
+                            break;
+                    }
+                    @foreach (var item in ms.GetCurrentBuilder(this, ViewBag.ModelType).BuildItemList())
+                    {
+                        <input type="checkbox" data-value="@item.Key" title="@item.Name" @attr @(msvalues.Contains(item.Key) ? "checked" : "")>
+                    }
+
+                }
+            </div>
+            break;
+        case UWT.Templates.Attributes.Forms.FormItemType.Switch:
+            var sw = template.ModelEx as ISwitchEx;
+            bool swvalue = false;
+            if (isEdit)
+            {
+                swvalue = (bool)template.PropertyInfo.GetValue(Model.DataModel.TargetObject);
+            }
+            else
+            {
+                swvalue = sw.DefaultValue;
+            }
+            <div class="@className">
+                <input type="checkbox" id="@templateName" lay-skin="switch" lay-text="@sw.SwitchText" @(swvalue ? "checked" : "")>
+            </div>
+            break;
+        case UWT.Templates.Attributes.Forms.FormItemType.Slider:
+            var slider = template.ModelEx as ISliderEx;
+            <div class="@className">
+                <div class="form-slider" id="@(templateName)__slider" data-rid="@(templateName)"></div>
+                <input class="@(slider.IsRange?"hasrange":"")" type="hidden" data-step="@slider.Block" data-max="@slider.Max" data-min="@slider.Min" id="@templateName" value="@(Model.DataModel.TargetObject==null?"":template.PropertyInfo.GetValue(Model.DataModel.TargetObject).ToString())" />
+            </div>
+            break;
+        case UWT.Templates.Attributes.Forms.FormItemType.List:
+            break;
+        case UWT.Templates.Attributes.Forms.FormItemType.PartCshtml:
+            var cshtml = template.ModelEx as IFormCshtmlEx;
+            @Html.Partial(cshtml.CshtmlPath, isEdit ? template.PropertyInfo.GetValue(Model.DataModel.TargetObject) : null)
+            foreach (var item in cshtml.CssList)
+            {
+                Model.TemplateModel.AddCssList.AddResourcs(item);
+            }
+            foreach (var item in cshtml.JsList)
+            {
+                Model.TemplateModel.AddJsList.AddResourcs(item);
+            }
+            <div style="display:none;" class="uwt-cshtml-callback" data-key="@templateName" data-func="@cshtml.CallBackFunc"></div>
+            break;
+        case UWT.Templates.Attributes.Forms.FormItemType.ShowImage:
+            var show1 = template.ModelEx as IShowModel;
+            <div class="@className">
+                <img src="@(isEdit?template.PropertyInfo.GetValue(Model.DataModel.TargetObject):show1.ShowDefault)" alt="" />
+            </div>
+            break;
+        case UWT.Templates.Attributes.Forms.FormItemType.ShowText:
+            var show2 = template.ModelEx as IShowModel;
+            <div class="layui-input-inine">@(isEdit?template.PropertyInfo.GetValue(Model.DataModel.TargetObject):show2.ShowDefault)</div>
+            break;
+        case UWT.Templates.Attributes.Forms.FormItemType.DisplayGroup:
+            var display = template.ModelEx as IDisplayGroupEx;
+            var displaylist = display.GetCurrentBuilder(this, ViewBag.ModelType).BuildItemList();
+            <div class="layui-input-inline">
+                <select id="@templateName" class="uwt-input display-group-select" lay-filter="displaygroup" data-groupname="@(string.IsNullOrEmpty(display.GroupName)?"-default":display.GroupName)">
+                    @if (isEdit)
+                    {
+                        var selectcurrentValue = template.PropertyInfo.GetValue(Model.DataModel.TargetObject);
+                        foreach (var item in displaylist)
+                        {
+                            <option value="@item.Key" @(selectcurrentValue == item.Key ? "selected" : "")>@item.Name</option>
+                        }
+                    }
+                    else
+                    {
+
+                        for (int i = 0; i < displaylist.Count; i++)
+                        {
+                            var item = displaylist[i];
+                            <option value="@item.Key" @(i == display.DefaultSelected ? "selected" : "")>@item.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+            break;
+        default:
+            break;
+    }
+    @if (!string.IsNullOrEmpty(template.Tooltip))
+    {
+        <div class="layui-form-mid layui-word-aux">@template.Tooltip.RCalcText(template.PropertyInfo.ReflectedType.Assembly.GetName().Name)</div>
+    }
+}

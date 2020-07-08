@@ -1,0 +1,135 @@
+﻿@addTagHelper *, UWT.Templates
+@model UWT.Templates.Models.Interfaces.IFormViewModel
+@using UWT.Templates.Services.Extends
+@{
+    var title = Model.FormModel.Title == null ? (Model.Item == null ? "添加" : "编辑") : Model.FormModel.Title;
+    var meTemp = new UWT.Templates.Models.Templates.TagHelpers.TagHelperTemplateModel();
+    string guid = Guid.NewGuid().ToString();
+    Dictionary<string, string> jsCallbackMap = new Dictionary<string, string>();
+}
+@functions {
+    private Microsoft.AspNetCore.Html.IHtmlContent RenderHandleList(List<UWT.Templates.Models.Interfaces.IFormHandlerModel> list, ref Dictionary<string, string> jsMap, string guid)
+    {
+        Microsoft.AspNetCore.Html.HtmlContentBuilder htmlContentBuilder = new Microsoft.AspNetCore.Html.HtmlContentBuilder();
+        foreach (var item in list)
+        {
+            TagBuilder tagBuilder = new TagBuilder("button");
+            tagBuilder.Attributes.Add("type", "button");
+            tagBuilder.Attributes.Add("class", "layui-btn " + (item.Class ?? "") + " form-handler");
+            if (!string.IsNullOrEmpty(item.Handler))
+            {
+                tagBuilder.Attributes.Add("data-h", item.Handler);
+            }
+            if (!string.IsNullOrEmpty(item.Styles))
+            {
+                tagBuilder.Attributes.Add("style", item.Styles);
+            }
+            tagBuilder.Attributes.Add("data-formid", guid);
+            if (!string.IsNullOrEmpty(item.JSCallback))
+            {
+                var func = "func" + Guid.NewGuid().ToString("N");
+                jsMap[func] = item.JSCallback;
+                tagBuilder.Attributes.Add("data-cb", func);
+            }
+            tagBuilder.InnerHtml.Append(item.Title);
+            htmlContentBuilder.AppendHtml(tagBuilder);
+        }
+        return htmlContentBuilder;
+    }
+}
+
+
+<layout-border>
+    <div class="layui-card-header">
+        @title
+        @if (Model.FormModel.HandleBtnsInTitleBar)
+        {
+            <span style="float: right;">
+                @RenderHandleList(Model.FormModel.FormHandlers, ref jsCallbackMap, guid)
+                <button type="button" class="layui-btn btn-back layui-btn-primary layui-btn-sm" data-burl="@(Model.FormModel.BackUrl??"")">返回</button>
+            </span>
+        }
+    </div>
+    <div class="layui-card-body">
+        <full-page-form-border url="@Model.FormModel.Url" method="@Model.FormModel.Method" id="@guid">
+            @{
+                bool isOpenInline = false;
+                var count = Model.FormModel.FormItems.Count;
+                for (int i = 0; i < count; i++)
+                {
+                    var item = Model.FormModel.FormItems[i];
+                    <form-item target-template="item" target-object="Model.Item" template-model="meTemp"></form-item>
+                    if (i != count - 1)
+                    {
+                        var nextItem = Model.FormModel.FormItems[i + 1];
+                        if (isOpenInline && !nextItem.IsInline)
+                        {
+                            @Html.Raw("</div>");
+                            isOpenInline = false;
+                        }
+                        else if ((!isOpenInline) && nextItem.IsInline)
+                        {
+                            @Html.Raw("<div class='layui-form-item'>");
+                            isOpenInline = true;
+                        }
+                    }
+                }
+                if (isOpenInline)
+                {
+                    @Html.Raw("</div>");
+                }
+                if (meTemp.CustomPairs.ContainsKey("wangEditor"))
+                {
+                    meTemp.AddJsList.Add(new Dictionary<string, string>()
+                    {
+                        [""] = "/lib/wang/wangEditor.min.js"
+                    });
+                }
+            }
+            @if (!Model.FormModel.HandleBtnsInTitleBar)
+            {
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        @RenderHandleList(Model.FormModel.FormHandlers, ref jsCallbackMap, guid)
+                        <button type="button" class="layui-btn btn-back layui-btn-primary" data-burl="@(Model.FormModel.BackUrl??"")">返回</button>
+                    </div>
+                </div>
+            }
+        </full-page-form-border>
+    </div>
+</layout-border>
+
+@section Scripts {
+    <script type="text/javascript" src="@this.GetResourcePath()/admins/js/common.js"></script>
+    <script type="text/javascript" src="@this.GetResourcePath()/admins/js/formpage.js"></script>
+    @meTemp.RenderAddJSList()
+    @meTemp.RenderScriptList()
+    <script>
+        @foreach (var item in jsCallbackMap)
+        {
+            <text>
+            function @(Html.Raw(item.Key))() {
+                @Html.Raw(item.Value)
+            }
+            </text>
+        }
+    </script>
+}
+
+@section CSS {
+    <link rel="stylesheet" href="@this.GetResourcePath()/admins/css/form.css" />
+    @meTemp.RenderAddCSSList()
+}
+
+@section BodyAppend {
+    @if (meTemp.CustomPairs.ContainsKey("upload"))
+    {
+        @Html.Partial("/Views/Templates/UploadFileDialog.cshtml")
+    }
+    @if (meTemp.CustomPairs.ContainsKey("chooseid"))
+    {
+        <div id="ChooseIdDialog" style="display: none;">
+            <div id="chooseTreeDiv"></div>
+        </div>
+    }
+}

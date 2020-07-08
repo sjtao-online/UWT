@@ -1,0 +1,21 @@
+﻿.form-slider {
+    height: 30px;
+    margin: 17px 0 0 7px;
+}
+
+.layui-form-text .layui-form-label {
+    float: none;
+    width: 100%;
+    border-radius: 2px;
+    box-sizing: border-box;
+    text-align: left;
+}
+
+.layui-form-text .layui-input-block {
+    margin: 0;
+    left: 0;
+}
+
+.layui-tree-txt-selected {
+    background: #e0e0e0;
+}

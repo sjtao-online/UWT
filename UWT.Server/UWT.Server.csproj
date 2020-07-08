@@ -1,0 +1,47 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyVersion>1.0.*</AssemblyVersion>
+    <FileVersion>1.0.*</FileVersion>
+    <Deterministic>false</Deterministic>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Libs\UWT.Libs.Helpers\UWT.Libs.Helpers.csproj" />
+    <ProjectReference Include="..\Libs\UWT.Libs.Normals\UWT.Libs.Normals.csproj" />
+    <ProjectReference Include="..\Libs\UWT.Libs.Users\UWT.Libs.Users.csproj" />
+    <ProjectReference Include="..\Libs\UWT.Libs.WeChats\UWT.Libs.WeChats.csproj" />
+    <ProjectReference Include="..\UWT.Templates\UWT.Templates.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="linq2db.MySql" Version="2.9.4" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="DbModels\Db.MySql.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Db.MySql.generated.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="DbModels\Db.MySql.generated.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Db.MySql.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,23 @@
+﻿@addTagHelper *, UWT.Templates
+@using UWT.Templates.Services.Extends
+@model UWT.Templates.Models.Interfaces.IDetailViewModel
+@{
+    UWT.Templates.Models.Templates.TagHelpers.TagHelperTemplateModel meTag = new UWT.Templates.Models.Templates.TagHelpers.TagHelperTemplateModel();
+
+}
+<layout-border>
+    <div class="layui-card-body">
+        @foreach (var item in Model.DetailModel.ItemModels)
+        {
+            <detail-item template-model="meTag" target-template="item" target-object="Model.Detail"></detail-item>
+        }
+    </div>
+</layout-border>
+
+@section Scripts { 
+    @meTag.RenderAddJSList()
+    @meTag.RenderScriptList()
+}
+@section CSS {
+    @meTag.RenderAddCSSList()
+}

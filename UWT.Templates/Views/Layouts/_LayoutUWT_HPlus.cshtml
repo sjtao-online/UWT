@@ -1,0 +1,98 @@
+﻿@using UWT.Templates.Services.Extends
+@addTagHelper *, UWT.Templates
+@{
+    var rPath = this.GetResourcePath();
+    var layoutModel = this.GetCurrentLayoutModel();
+    UWT.Templates.Models.Templates.TagHelpers.TagHelperTemplateModel tm = new UWT.Templates.Models.Templates.TagHelpers.TagHelperTemplateModel();
+    var urlCrumbList = new List<UWT.Templates.Models.Basics.IconUrlTitleIdModel>();
+    var upload = this.GetFileManagerOptional();
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@string.Format(layoutModel.TitleFormat, ViewBag.Title ?? "未命名")</title>
+    <link rel="stylesheet" href="@rPath/admins/css/font.css" />
+    <link rel="stylesheet" href="@rPath/admins/css/xadmin.css" />
+    <link rel="stylesheet" href="@rPath/admins/css/hplus.css" />
+    @this.RenderTheme()
+    @this.RenderAppendCSS()
+    <script src="@rPath/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="@rPath/admins/js/xadmin.js"></script>
+    @if (!string.IsNullOrEmpty(layoutModel.Icon))
+    {
+        <link rel="icon" href="@layoutModel.Icon" />
+    }
+    @RenderSection("CSS", false)
+</head>
+<body class="index hplus" data-fupload="@upload.UploadApi"
+      data-ffileparamter="@upload.FilterFileNameParamter"
+      data-ffiletype="@upload.FilterFileTypeParamter"
+      data-ffilelist="@upload.GetFileListApi">
+    <div class="container">
+        <div class="left_open" id="a123">
+            <a><i title="展开左侧栏" class="iconfont">&#xe699;</i></a>
+        </div>
+        <quick-bar quick-list="layoutModel.QuickLinks" template-model="tm"></quick-bar>
+    </div>
+    <div class="left-nav">
+        <ul class="layui-nav right hplus-header" lay-filter="">
+            <li class="layui-nav-item">
+                <span><img alt="头像" src="@(layoutModel.Avatar??"/admins/images/header.jpg")"></span>
+                <a href="javascript:;" class="dropdown" style="padding: 0;">
+                    <div>
+                        @if (string.IsNullOrEmpty(layoutModel.RoleName))
+                        {
+                            <span><strong>@layoutModel.NickName</strong></span>
+                        }
+                        else
+                        {
+                            <div><strong>@layoutModel.NickName</strong></div>
+                            <div>@layoutModel.RoleName</div>
+                        }
+                    </div>
+                </a>
+                @if (layoutModel.UserPopupMenuItems != null && layoutModel.UserPopupMenuItems.Count != 0)
+                {
+                    <dl class="layui-nav-child" style="top:auto">
+                        @foreach (var item in layoutModel.UserPopupMenuItems)
+                        {
+                            if (item == null)
+                            {
+                                <dd><hr /></dd>
+                                continue;
+                            }
+                            <dd>
+                                <a href="@item.Url">
+                                    @if (!string.IsNullOrEmpty(item.Icon))
+                                    {
+                                        <i class="iconfont">@Html.Raw(item.Icon)</i>
+                                    }
+                                    <cite>@item.Title</cite>
+                                </a>
+                            </dd>
+                        }
+                    </dl>
+                }
+            </li>
+        </ul>
+        <MenuGroup menu-group="layoutModel.MenuGroup" template-model="tm" breadcrumb-list="urlCrumbList"></MenuGroup>
+    </div>
+    <div class="page-content">
+        <breadcrumb layout="layoutModel" list="urlCrumbList"></breadcrumb>
+        <div class="layui-fluid">
+            @RenderBody()
+        </div>
+        @if (!string.IsNullOrEmpty(layoutModel.PeriodOfValidity))
+        {
+            <div class="layui-footer footer">
+                <p style="line-height: 36px;margin-left: 40px;">© @layoutModel.PeriodOfValidity @layoutModel.CompanyName</p>
+            </div>
+        }
+    </div>
+    @this.RenderAppendJS()
+    @RenderSection("BodyAppend", false)
+    @RenderSection("Scripts", false)
+</body>
+</html>

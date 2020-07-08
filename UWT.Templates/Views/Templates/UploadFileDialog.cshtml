@@ -1,0 +1,83 @@
+﻿@using UWT.Templates.Services.Extends
+<div id="UploadFileDialog" style="display:none;">
+    <div class="layui-collapse" lay-accordion="" lay-filter="uploadfile">
+        <div class="layui-colla-item">
+            <h2 class="layui-colla-title">上传文件</h2>
+            <div class="layui-colla-content layui-show">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">文件说明</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="desc" value="" class="layui-input" id="uwt-file-desc" />
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <button class="layui-btn layui-btn-primary layui-btn-xs" type="button" id="uwt-select-file-btn"
+                                data-nameparam="@this.GetFileManagerOptional().FilterFileNameParamter" data-typeparam="@this.GetFileManagerOptional().FilterFileTypeParamter">
+                            选择文件
+                        </button>
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="file-show" value="" readonly class="layui-input" />
+                    </div>
+                </div>
+                <div class="layui-form-item file-type-div">
+                    <label class="layui-form-label">文件类型</label>
+                    <div class="layui-input-inline" style="padding: 8px 0;">
+                        <label id="file-type"></label>
+                    </div>
+                </div>
+                <div class="layui-form-item file-size-div">
+                    <label class="layui-form-label">文件大小</label>
+                    <div class="layui-input-inline" style="padding: 8px 0;">
+                        <label id="file-size"></label>
+                    </div>
+                </div>
+                <input type="file" name="file" value="" id="uwt-file-input" class="layui-upload-file" />
+                <div class="layui-progress file-upload-progress" style="margin-bottom: 20px;display: none;">
+                    <div class="layui-progress-bar" lay-percent="20%"></div>
+                </div>
+                <button class="layui-btn layui-btn-normal" id="uwt-btn-upload">上传</button>
+            </div>
+        </div>
+        <div class="layui-colla-item files-his">
+            <h2 class="layui-colla-title" data-type="his" data-url="@this.GetFileManagerOptional().GetFileListApi"
+                data-nameparam="@this.GetFileManagerOptional().FilterFileNameParamter" data-typeparam="@this.GetFileManagerOptional().FilterFileTypeParamter">
+                历史文件
+            </h2>
+            <div class="layui-colla-content"
+                 style="max-height: calc(100vh - 140px)">
+                <div>
+                    <input type="text" name="" value="" />
+                    <table class="layui-table files-his-table">
+                        <colgroup>
+                            <col width="150">
+                            <col width="100">
+                            <col>
+                            <col width="60">
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>文件名</th>
+                                <th>大小</th>
+                                <th>上传时间</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="file-list-table-body">
+                        </tbody>
+                    </table>
+                    <div id="file-his-pageselector"></div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-colla-item files-link">
+            <h2 class="layui-colla-title">引用链接</h2>
+            <div class="layui-colla-content">
+                外部链接
+                <input type="text" name="name" value="" class="layui-input" id="import-linker-file" />
+                <button class="layui-btn layui-btn-normal" id="import-linker-file-btn" style="margin-top: 10px">选用</button>
+            </div>
+        </div>
+    </div>
+</div>

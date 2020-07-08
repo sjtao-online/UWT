@@ -1,0 +1,436 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>UWT.Libs.Users</name>
+    </assembly>
+    <members>
+        <member name="T:UWT.Libs.Users.AuthUserAttribute">
+            <summary>
+            授权对象
+            </summary>
+        </member>
+        <member name="M:UWT.Libs.Users.AuthUserAttribute.HasAuthorized">
+            <summary>
+            是否已经登录
+            </summary>
+            <returns>是否登录</returns>
+        </member>
+        <member name="T:UWT.Libs.Users.MenuGroups.IDbMenuGroupTable">
+            <summary>
+            菜单组数据库模型
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Users.MenuGroups.IDbMenuGroupTable.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Users.MenuGroups.IDbMenuGroupTable.Desc">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Users.MenuGroups.IDbMenuGroupTable.PageCount">
+            <summary>
+            页面数量
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Users.MenuGroups.IDbMenuGroupTable.AuthCount">
+            <summary>
+            授权数量
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Users.MenuGroups.IDbMenuGroupTable.Valid">
+            <summary>
+            有效性
+            </summary>
+        </member>
+        <member name="T:UWT.Libs.Users.MenuGroups.IDbMenuGroupItemTable">
+            <summary>
+            菜单项数据库模型
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Users.MenuGroups.IDbMenuGroupItemTable.Title">
+            <summary>
+            标题
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Users.MenuGroups.IDbMenuGroupItemTable.Tooltip">
+            <summary>
+            提示
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Users.MenuGroups.IDbMenuGroupItemTable.Desc">
+            <summary>
+            说明
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Users.MenuGroups.IDbMenuGroupItemTable.Icon">
+            <summary>
+            图标
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Users.MenuGroups.IDbMenuGroupItemTable.Pid">
+            <summary>
+            父Id
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Users.MenuGroups.IDbMenuGroupItemTable.GroupId">
+            <summary>
+            菜单组Id
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Users.MenuGroups.IDbMenuGroupItemTable.Url">
+            <summary>
+            URL
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Users.MenuGroups.IDbMenuGroupItemTable.Index">
+            <summary>
+            序号
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Users.MenuGroups.IDbMenuGroupItemTable.Valid">
+            <summary>
+            有效性
+            </summary>
+        </member>
+        <member name="T:UWT.Libs.Users.MenuGroups.MenuGroupsController">
+            <summary>
+            菜单组控制器
+            </summary>
+        </member>
+        <member name="M:UWT.Libs.Users.MenuGroups.MenuGroupsController.Index">
+            <summary>
+            主列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UWT.Libs.Users.MenuGroups.MenuGroupsController.Add">
+            <summary>
+            添加页面
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UWT.Libs.Users.MenuGroups.MenuGroupsController.AddModel(UWT.Libs.Users.MenuGroups.MenuGroupAddModel)">
+            <summary>
+            添加API
+            </summary>
+            <param name="model">添加模型</param>
+            <returns></returns>
+        </member>
+        <member name="M:UWT.Libs.Users.MenuGroups.MenuGroupsController.Modify(System.Int32)">
+            <summary>
+            修改页面
+            </summary>
+            <param name="id">修改Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:UWT.Libs.Users.MenuGroups.MenuGroupsController.ModifyModel(UWT.Libs.Users.MenuGroups.MenuGroupModifyModel)">
+            <summary>
+            修改接口
+            </summary>
+            <param name="model">修改模型</param>
+            <returns></returns>
+        </member>
+        <member name="M:UWT.Libs.Users.MenuGroups.MenuGroupsController.ModifyTree(System.Int32)">
+            <summary>
+            更改树
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UWT.Libs.Users.MenuGroups.MenuGroupsController.ModifyTreeModel(UWT.Libs.Users.MenuGroups.ModifyTreeModelTemplate{UWT.Libs.Users.MenuGroups.MenuGroupModifyTreeModel})">
+            <summary>
+            更改树接口
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UWT.Libs.Users.MenuGroups.MenuGroupsController.Del(System.Int32)">
+            <summary>
+            删除菜单组
+            </summary>
+            <param name="id">菜单组Id</param>
+            <returns></returns>
+        </member>
+        <member name="T:UWT.Libs.Users.MenuGroups.ModifyTreeModelTemplate`1">
+            <summary>
+            更改树模型
+            </summary>
+            <typeparam name="TTreeModel"></typeparam>
+        </member>
+        <member name="P:UWT.Libs.Users.MenuGroups.ModifyTreeModelTemplate`1.Id">
+            <summary>
+            编号
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Users.MenuGroups.ModifyTreeModelTemplate`1.DelIdList">
+            <summary>
+            删除Id列表
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Users.MenuGroups.ModifyTreeModelTemplate`1.TreeModel">
+            <summary>
+            树模型
+            </summary>
+        </member>
+        <member name="T:UWT.Libs.Users.MenuGroups.MenuGroupModifyTreeModel">
+            <summary>
+            菜单组Form模型
+            </summary>
+        </member>
+        <member name="T:UWT.Libs.Users.MenuGroups.IconSimpleSelectorBuilder">
+            <summary>
+            图标选择器
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Users.MenuGroups.IconSimpleSelectorBuilder.IconList">
+            <summary>
+            图标列表
+            </summary>
+        </member>
+        <member name="T:UWT.Libs.Users.Roles.IDbRoleTable">
+            <summary>
+            角色数据库模型
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Users.Roles.IDbRoleTable.Name">
+            <summary>
+            角色名
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Users.Roles.IDbRoleTable.Desc">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Users.Roles.IDbRoleTable.HomePageUrl">
+            <summary>
+            主页
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Users.Roles.IDbRoleTable.MenuGroupId">
+            <summary>
+            菜单组Id
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Users.Roles.IDbRoleTable.Valid">
+            <summary>
+            生效
+            </summary>
+        </member>
+        <member name="T:UWT.Libs.Users.Roles.IDbRoleModuleRefTable">
+            <summary>
+            角色与模块关联表
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Users.Roles.IDbRoleModuleRefTable.RId">
+            <summary>
+            角色Id
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Users.Roles.IDbRoleModuleRefTable.MId">
+            <summary>
+            模块Id
+            </summary>
+        </member>
+        <member name="T:UWT.Libs.Users.Roles.IDbModuleTable">
+            <summary>
+            模块表
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Users.Roles.IDbModuleTable.Id">
+            <summary>
+            编号
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Users.Roles.IDbModuleTable.Url">
+            <summary>
+            URL
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Users.Roles.IDbModuleTable.Type">
+            <summary>
+            类型
+            </summary>
+        </member>
+        <member name="T:UWT.Libs.Users.Roles.RolesController">
+            <summary>
+            角色控制器
+            </summary>
+        </member>
+        <member name="M:UWT.Libs.Users.Roles.RolesController.Index">
+            <summary>
+            列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UWT.Libs.Users.Roles.RolesController.Add">
+            <summary>
+            添加页面
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UWT.Libs.Users.Roles.RolesController.AddModel(UWT.Libs.Users.Roles.RoleAddModel)">
+            <summary>
+            添加接口
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UWT.Libs.Users.Roles.RolesController.Modify(System.Int32)">
+            <summary>
+            修改页面
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UWT.Libs.Users.Roles.RolesController.ModifyModel(UWT.Libs.Users.Roles.RoleModifyModel)">
+            <summary>
+            修改接口
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UWT.Libs.Users.Roles.RolesController.Del(System.Int32)">
+            <summary>
+            删除接口
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:UWT.Libs.Users.StartupEx">
+            <summary>
+            启动相关扩展
+            </summary>
+        </member>
+        <member name="M:UWT.Libs.Users.StartupEx.UseLibUser(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.Action{UWT.Templates.Models.Templates.Layouts.LayoutModel})">
+            <summary>
+            使用User，应放置于AddDbSetting之后
+            </summary>
+            <param name="app"></param>
+            <param name="defaultLayoutCallback">构造布局对象</param>
+            <returns></returns>
+        </member>
+        <member name="T:UWT.Libs.Users.Users.AccountsController">
+            <summary>
+            账号控制器
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Users.Users.AccountsController.NoCheckAuthorizedRoleList">
+            <summary>
+            不检测检测的列表
+            </summary>
+        </member>
+        <member name="M:UWT.Libs.Users.Users.AccountsController.Login(System.String)">
+            <summary>
+            登录页面
+            </summary>
+            <param name="ref"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UWT.Libs.Users.Users.AccountsController.Login(UWT.Libs.Users.Users.UserLoginModel)">
+            <summary>
+            登录接口
+            </summary>
+            <param name="loginModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UWT.Libs.Users.Users.AccountsController.Logout">
+            <summary>
+            退出
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UWT.Libs.Users.Users.AccountsController.ChangePwd(System.Int32,System.String,UWT.Templates.Services.Converts.PwdEncoder)">
+            <summary>
+            修改用户密码
+            </summary>
+            <param name="acccountId">账号Id</param>
+            <param name="pwd">密码</param>
+            <param name="pwdEncoder">密码编码方式</param>
+        </member>
+        <member name="M:UWT.Libs.Users.Users.AccountsController.AddUser(System.String,System.String,System.Int32,UWT.Templates.Services.Converts.PwdEncoder,System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            添加用户
+            </summary>
+            <param name="account">用户名</param>
+            <param name="pwd">密码</param>
+            <param name="roleId">角色Id</param>
+            <param name="pwdEncoder">密码编码方式</param>
+            <param name="others">其它项</param>
+            <returns></returns>
+        </member>
+        <member name="T:UWT.Libs.Users.Users.IDbAccountTable">
+            <summary>
+            账号接口
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Users.Users.IDbAccountTable.Account">
+            <summary>
+            账号
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Users.Users.IDbAccountTable.Password">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Users.Users.IDbAccountTable.RoleId">
+            <summary>
+            角色Id
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Users.Users.IDbAccountTable.Status">
+            <summary>
+            账号状态
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Users.Users.IDbAccountTable.LastLoginTime">
+            <summary>
+            最后登录时间
+            </summary>
+        </member>
+        <member name="T:UWT.Libs.Users.Users.IDbUserLoginHisTable">
+            <summary>
+            用户登录历史
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Users.Users.IDbUserLoginHisTable.Username">
+            <summary>
+            登录用户名
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Users.Users.IDbUserLoginHisTable.Pwd">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Users.Users.IDbUserLoginHisTable.AId">
+            <summary>
+            账号Id
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Users.Users.IDbUserLoginHisTable.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="T:UWT.Libs.Users.Users.UserLoginModel">
+            <summary>
+            登录模型
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Users.Users.UserLoginModel.Username">
+            <summary>
+            用户名
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Users.Users.UserLoginModel.Password">
+            <summary>
+            密码
+            </summary>
+        </member>
+    </members>
+</doc>
