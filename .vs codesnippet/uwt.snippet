@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>ipropg</Title>
+			<Shortcut>ipropg</Shortcut>
+			<Description>自动实现的属性的代码片段（接口只读）</Description>
+			<Author>sjtao.online</Author>
+			<SnippetTypes>
+				<SnippetType>Expansion</SnippetType>
+			</SnippetTypes>
+		</Header>
+		<Snippet>
+			<Declarations>
+				<Literal>
+					<ID>type</ID>
+					<ToolTip>属性类型</ToolTip>
+					<Default>string</Default>
+				</Literal>
+				<Literal>
+					<ID>property</ID>
+					<Default>MyProperty</Default>
+				</Literal>
+			</Declarations>
+			<Code Language="csharp"><![CDATA[$type$ $property$ { get; }$end$]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>proplist</Title>
+      <Shortcut>proplist</Shortcut>
+      <Description>自动实现的列表项属性的代码片段(列表项)</Description>
+      <Author>sjtao.online</Author>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="false">
+          <ID>lc</ID>
+          <ToolTip>属性类型</ToolTip>
+          <Default>列名</Default>
+          <Function>SimpleTypeName(global::UWT.Templates.Attributes.Lists.ListColumn)</Function>
+        </Literal>
+        <Literal>
+          <ID>title</ID>
+          <ToolTip>属性类型</ToolTip>
+          <Default>列名</Default>
+        </Literal>
+        <Literal>
+          <ID>type</ID>
+          <ToolTip>属性类型</ToolTip>
+          <Default>string</Default>
+        </Literal>
+        <Literal>
+          <ID>property</ID>
+          <Default>MyProperty</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp">
+        <![CDATA[[$lc$("$title$")]
+        public $type$ $property$ { get; set; }$end$]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>propform</Title>
+      <Shortcut>propform</Shortcut>
+      <Description>自动实现的表单属性的代码片段(表单项)</Description>
+      <Author>sjtao.online</Author>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>title</ID>
+          <ToolTip>属性类型</ToolTip>
+          <Default>列名</Default>
+        </Literal>
+        <Literal>
+          <ID>type</ID>
+          <ToolTip>属性类型</ToolTip>
+          <Default>string</Default>
+        </Literal>
+        <Literal>
+          <ID>property</ID>
+          <Default>MyProperty</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp">
+        <![CDATA[[FormItem("$title$")]
+        $end$
+        public $type$ $property$ { get; set; }]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>prophide</Title>
+      <Shortcut>prophide</Shortcut>
+      <Description>自动实现的表单隐藏属性的代码片段(表单项)</Description>
+      <Author>sjtao.online</Author>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>type</ID>
+          <ToolTip>属性类型</ToolTip>
+          <Default>int</Default>
+        </Literal>
+        <Literal>
+          <ID>property</ID>
+          <Default>Id</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp">
+        <![CDATA[[FormItem(FormItemType.Hidden)]
+        public $type$ $property$ { get; set; }$end$]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>uwtmodify</Title>
+      <Shortcut>uwtmodify</Shortcut>
+      <Description>自动实现的修改接口相关代码</Description>
+      <Author>sjtao.online</Author>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>type</ID>
+          <ToolTip>模型类型</ToolTip>
+          <Default>ModifyModel</Default>
+        </Literal>
+        <Literal Editable="false">
+          <ID>FormValidModel</ID>
+          <Function>SimpleTypeName(global::UWT.Templates.Models.Templates.Forms.FormValidModel)</Function>
+        </Literal>
+        <Literal Editable="false">
+          <ID>e</ID>
+          <Function>SimpleTypeName(global::UWT.Templates.Models.Basics.ErrorCode)</Function>
+        </Literal>
+        <Literal>
+          <ID>ttable</ID>
+          <ToolTip>表类型</ToolTip>
+          <Default>TableName</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp">
+        <![CDATA[public virtual IActionResult Modify(int id)
+        {
+            $type$ modify = null;
+            using (var db = this.GetDB())
+            {
+                var table = db.UwtGetTable<$ttable$>();
+                var q = from it in table
+                        where it.Id == id && it.Valid
+                        select new $type$
+                        {
+                            Id = it.Id,
+                            $end$
+                        };
+                if (q.Count() == 0)
+                {
+                    return this.ItemNotFound();
+                }
+                return this.FormResult(q.First()).View();
+            }
+        }
+        
+        [HttpPost]
+        public virtual async Task<object> ModifyModel([FromBody]$type$ model)
+        {
+            List<$FormValidModel$> ret = new List<$FormValidModel$>();
+            if (!await this.CheckCommitModel(model, ret))
+            {
+                return this.Error($e$.FormCheckError, ret);
+            }
+            using (var db = this.GetDB())
+            {
+                var table = db.UwtGetTable<$ttable$>();
+                table.Update(m => m.Id == model.Id, m => new $ttable$()
+                {
+                    
+                });
+            }
+            return this.Success();
+        }]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>prophandle</Title>
+      <Shortcut>prophandle</Shortcut>
+      <Description>自动实现的列表操作列属性的代码片段</Description>
+      <Author>sjtao.online</Author>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="false">
+          <ID>lc</ID>
+          <Function>SimpleTypeName(global::UWT.Templates.Attributes.Lists.ListColumn)</Function>
+        </Literal>
+        <Literal Editable="false">
+          <ID>h</ID>
+          <Function>SimpleTypeName(global::UWT.Templates.Models.Templates.Commons.HandleModel)</Function>
+        </Literal>
+        <Literal>
+          <ID>title</ID>
+          <ToolTip>属性类型</ToolTip>
+          <Default>列名</Default>
+        </Literal>
+        <Literal>
+          <ID>type</ID>
+          <ToolTip>属性类型</ToolTip>
+          <Default>string</Default>
+        </Literal>
+        <Literal>
+          <ID>property</ID>
+          <Default>MyProperty</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp">
+        <![CDATA[[$lc$("操作", ColumnType = ColumnType.Handle, Index = int.MaxValue)]
+        public List<$h$> HandleList
+        {
+            get
+            {
+                List<$h$> handles = new List<$h$>();
+                $end$
+                return handles;
+            }
+        }]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>uwtdel</Title>
+      <Shortcut>uwtdel</Shortcut>
+      <Description>自动实现的删除项目的代码片段</Description>
+      <Author>sjtao.online</Author>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>type</ID>
+          <ToolTip>属性类型</ToolTip>
+          <Default>TDb</Default>
+        </Literal>
+        <Literal Editable="false">
+          <ID>e</ID>
+          <Function>SimpleTypeName(global::UWT.Templates.Models.Basics.ErrorCode)</Function>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp">
+        <![CDATA[[HttpPost]
+        public virtual object Del(int id)
+        {
+            using (var db = this.GetDB())
+            {
+                var table = db.UwtGetTable<$type$>();
+                var o = from it in table where it.Id == id select 1;
+                if (o.Count() == 0)
+                {
+                    return this.Error($e$.Item_NotFound);
+                }
+                table.Update(m => m.Id == id, m => new $type$()
+                {
+                    Valid = false
+                });
+            }
+            return this.Success();
+        }]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>uwtadd</Title>
+      <Shortcut>uwtadd</Shortcut>
+      <Description>自动实现的添加项目的代码片段</Description>
+      <Author>sjtao.online</Author>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>tdb</ID>
+          <ToolTip>添加模型</ToolTip>
+          <Default>AddModel</Default>
+        </Literal>
+        <Literal>
+          <ID>ttable</ID>
+          <ToolTip>类模型</ToolTip>
+          <Default>TDb</Default>
+        </Literal>
+        <Literal Editable="false">
+          <ID>e</ID>
+          <Function>SimpleTypeName(global::UWT.Templates.Models.Basics.ErrorCode)</Function>
+        </Literal>
+        <Literal Editable="false">
+          <ID>f</ID>
+          <Function>SimpleTypeName(global::UWT.Templates.Models.Templates.Forms.FormValidModel)</Function>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp">
+        <![CDATA[public virtual IActionResult Add() 
+        {
+            return this.FormResult<$tdb$>().View();
+        }
+        
+        [HttpPost]
+        public virtual async Task<object> AddModel([FromBody]$tdb$ model)
+        {
+            List<$f$> ret = new List<$f$>();
+            if (!await this.CheckCommitModel<$tdb$>(model, ret))
+            {
+                return this.Error($e$.FormCheckError, ret);
+            }
+            using (var db = this.GetDB())
+            {
+                var table = db.UwtGetTable<$ttable$>();
+                table.Insert(()=> new $ttable$()
+                {
+                    $end$
+                });
+            }
+            return this.Success();
+        }]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>uwtapi</Title>
+      <Shortcut>uwtapi</Shortcut>
+      <Description>自动实现的删除项目的代码片段</Description>
+      <Author>sjtao.online</Author>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>funcname</ID>
+          <ToolTip>API方法名</ToolTip>
+          <Default>ApiFunc</Default>
+        </Literal>
+        <Literal>
+          <ID>param</ID>
+          <ToolTip>参数</ToolTip>
+          <Default> </Default>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp">
+        <![CDATA[[HttpPost]
+        public virtual object $funcname$($param$)
+        {
+			      $end$
+            return this.Success();
+        }]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
