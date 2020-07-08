@@ -1,5 +1,6 @@
 {
   "SolutionPath": "..\\UWT",
+  "MSBuild": "",
   "OutputPath": "..\\Publish",
   "IgnoreRegex": "(UWT\\.Server\\..*)|(.*StaticWebAssets.*)",
   "ProjList": [

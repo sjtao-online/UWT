@@ -54,8 +54,7 @@ namespace UWT.Templates.Services.Extends
         /// <returns></returns>
         public static bool HasUrlAuth(this HttpContext context, string url)
         {
-            int roleId = 0;
-            if (int.TryParse(context.User?.FindFirst(Models.Consts.AuthConst.RoleIdKey).Value, out roleId))
+            if (int.TryParse(context.User?.FindFirst(Models.Consts.AuthConst.RoleIdKey).Value, out int roleId))
             {
                 HashSet<string> canurls = null;
                 if (!Role2RoleCacheMap.ContainsKey(roleId))
@@ -65,6 +64,14 @@ namespace UWT.Templates.Services.Extends
                     {
                         canurls = new HashSet<string>();
                     }
+                    else
+                    {
+                        canurls = Role2RoleCacheMap[roleId].CanUsedUrls;
+                    }
+                }
+                else
+                {
+                    canurls = Role2RoleCacheMap[roleId].CanUsedUrls;
                 }
                 return canurls.Contains(url.ToLower());
             }

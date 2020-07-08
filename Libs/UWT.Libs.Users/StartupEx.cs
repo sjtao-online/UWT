@@ -98,7 +98,7 @@ namespace UWT.Libs.Users
                             }
                         }
                         menuGroup.AddRange(menuItems);
-                        canurls.AddRange(db.UwtGetTable<IDbModuleTable>().Select(m => m.Url));
+                        canurls.AddRange(db.UwtGetTable<IDbModuleTable>().Select(m => m.Url.ToLower()));
                         return;
                     }
                     FillMenuItems(db, ref menuItems, 0, role.MenuGroupId);
@@ -106,7 +106,7 @@ namespace UWT.Libs.Users
                     var urls = from it in db.UwtGetTable<IDbRoleModuleRefTable>()
                                join u in db.UwtGetTable<IDbModuleTable>() on it.MId equals u.Id
                                where it.RId == roleId
-                               select u.Url;
+                               select u.Url.ToLower();
                     canurls.AddRange(urls.ToList());
                 }
             };

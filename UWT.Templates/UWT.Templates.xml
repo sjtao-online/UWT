@@ -2817,6 +2817,13 @@
             确认提示
             </summary>
         </member>
+        <member name="M:UWT.Templates.Models.Interfaces.IHandleModel.BuildMultiComfirmTarget(System.Collections.Generic.List{UWT.Templates.Models.Templates.Commons.ChildrenHandleModel},System.String)">
+            <summary>
+            构建多筛选确认功能目标
+            </summary>
+            <param name="hrefs">多操作模型接口</param>
+            <param name="tipContent">提示文本</param>
+        </member>
         <member name="T:UWT.Templates.Models.Interfaces.IUwtHelper">
             <summary>
             帮助文档接口
@@ -3013,6 +3020,11 @@
             用于Type属性
             </summary>
         </member>
+        <member name="F:UWT.Templates.Models.Templates.Commons.HandleModel.TypeTagComfirm">
+            <summary>
+            BUTTON标签,用于执行弹窗确认<br/>
+            </summary>
+        </member>
         <member name="P:UWT.Templates.Models.Templates.Commons.HandleModel.Type">
             <summary>
             类型
@@ -3032,6 +3044,38 @@
             <summary>
             询问提示语
             </summary>
+        </member>
+        <member name="M:UWT.Templates.Models.Templates.Commons.HandleModel.BuildMultiComfirmTarget(System.Collections.Generic.List{UWT.Templates.Models.Templates.Commons.ChildrenHandleModel},System.String)">
+            <summary>
+            构建多筛选确认功能目标
+            </summary>
+            <param name="hrefs">多操作模型接口</param>
+        </member>
+        <member name="P:UWT.Templates.Models.Templates.Commons.ChildrenHandleModel.Type">
+            <summary>
+            类型<br/>与HandleModel中类型行为一致
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Models.Templates.Commons.ChildrenHandleModel.Target">
+            <summary>
+            目标
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Models.Templates.Commons.ChildrenHandleModel.Title">
+            <summary>
+            标题
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Models.Templates.Commons.ChildrenHandleModel.AskTooltip">
+            <summary>
+            询问提示语
+            </summary>
+        </member>
+        <member name="M:UWT.Templates.Models.Templates.Commons.ChildrenHandleModel.BuildMultiComfirmTarget(System.Collections.Generic.List{UWT.Templates.Models.Templates.Commons.ChildrenHandleModel},System.String)">
+            <summary>
+            构建多筛选确认功能目标
+            </summary>
+            <param name="hrefs">多操作模型接口</param>
         </member>
         <member name="T:UWT.Templates.Models.Templates.Commons.ViewModelBasic">
             <summary>

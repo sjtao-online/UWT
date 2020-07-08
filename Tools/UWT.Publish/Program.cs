@@ -30,6 +30,11 @@ namespace UWT.Publish
                     }
                 }
                 WriteLine("解析配置文件");
+                string msbuild = @"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\MSBuild.exe";
+                if (!string.IsNullOrEmpty(publish.MSBuild))
+                {
+                    msbuild = publish.MSBuild;
+                }
                 List<string> Errors = new List<string>();
                 for (int i=0;i<publish.ProjList.Count;i++)
                 {
@@ -47,7 +52,7 @@ namespace UWT.Publish
                     }
                     var argx = $"\"{csprojname}\" /t:Build /p:Configuration={item.Configuration ?? "Release"} /p:Platform={item.Platform ?? "AnyCpu"} /m:3 /v:m /p:Inputs=true /p:Outputs=true";
                     var proc = new Process();
-                    proc.StartInfo.FileName = @"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\MSBuild.exe";
+                    proc.StartInfo.FileName = msbuild;
                     proc.StartInfo.Arguments = argx;
                     proc.StartInfo.RedirectStandardOutput = true;
                     proc.StartInfo.CreateNoWindow = true;
@@ -154,6 +159,10 @@ namespace UWT.Publish
         /// 工程列表
         /// </summary>
         public List<BuildModel> ProjList { get; set; }
+        /// <summary>
+        /// MSBuild.exe路径
+        /// </summary>
+        public string MSBuild { get; set; }
     }
     class BuildBasicModel
     {
