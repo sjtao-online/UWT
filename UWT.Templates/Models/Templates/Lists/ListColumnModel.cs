@@ -137,7 +137,7 @@ namespace UWT.Templates.Models.Templates.Lists
                     item.Target = ModelCache.RechangeUrl(reflectedType, item.Target);
                 }
             }
-            return JsonSerializer.Serialize(target);
+            return JsonSerializer.Serialize(childrens);
         }
     }
 }
