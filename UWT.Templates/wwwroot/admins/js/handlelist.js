@@ -2,7 +2,7 @@
     var $ = layui.$;
     const batchCheckBoxClass = '.batch-check-box';
     var confirmPlusHandles = [];
-    function confirmPlus(tipcontent, title, btns, calbak) {
+    function confirmPlus(tipcontent, title, btns, calbak, btn) {
         var handleIndex = confirmPlusHandles.length;
         confirmPlusHandles.push(calbak);
         var content = "<div>";
@@ -37,7 +37,6 @@
         } else if (type === 'api-post') {
             method = 'post';
         }
-        btn.attr('disabled', 'disabled');
         var data = {};
         if (btn.hasClass('batch')) {
             var listids = [];
@@ -49,7 +48,7 @@
         }
         data[btn.data('batch-key')] = listids;
         api(target, data, function () {
-            alert("操作成功");
+            /*layui.layer.*/alert("操作成功");
             window.location.reload();
         })
     }
@@ -60,24 +59,8 @@
                 btns = JSON.parse(btns);
             }
             confirmPlus(tooltip, "提示", btns, function (i, data) {
-                console.log(i, data)
                 handleBtnItem(data.Type, data.Target, data.AskTooltip, btn);
-            })
-            return;
-            var optional = {
-                btn: [],
-                title: '提示'
-            };
-            for (var i in btns) {
-                var c = btns[i];
-                optional.btn.push(c.Title);
-                optional['btn' + (Number(i) + 1)] = function (i, d) {
-                    console.log(i, d)
-                    layui.layer.close(i);
-                    handleBtnItem(c.Type, c.Target, c.AskTooltip, btn);
-                }
-            }
-            layui.layer.confirm(tooltip, optional);
+            }, btn)
         } else {
             if (tooltip != null && tooltip != '') {
                 layer.confirm(tooltip, function (index) {
@@ -90,6 +73,9 @@
         }
     }
     $('.handle-item').click(function () {
+        layer.load(1, {
+            shade: [0.1, '#000'] //0.1透明度的白色背景
+        });
         handleBtnItem($(this).data('type'), $(this).data('target'), $(this).data('ask'), $(this));
     });
     layui.form.on('checkbox(batch)', function () {

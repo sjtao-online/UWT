@@ -3050,6 +3050,12 @@
             构建多筛选确认功能目标
             </summary>
             <param name="hrefs">多操作模型接口</param>
+            <param name="tipContent">提示信息</param>
+        </member>
+        <member name="T:UWT.Templates.Models.Templates.Commons.ChildrenHandleModel">
+            <summary>
+            子操作项
+            </summary>
         </member>
         <member name="P:UWT.Templates.Models.Templates.Commons.ChildrenHandleModel.Type">
             <summary>
@@ -3076,6 +3082,7 @@
             构建多筛选确认功能目标
             </summary>
             <param name="hrefs">多操作模型接口</param>
+            <param name="tipContent">提示信息</param>
         </member>
         <member name="T:UWT.Templates.Models.Templates.Commons.ViewModelBasic">
             <summary>

@@ -99,6 +99,7 @@ namespace UWT.Templates.Models.Templates.Commons
         /// 构建多筛选确认功能目标
         /// </summary>
         /// <param name="hrefs">多操作模型接口</param>
+        /// <param name="tipContent">提示信息</param>
         public void BuildMultiComfirmTarget(List<ChildrenHandleModel> hrefs, string tipContent)
         {
             Build(this, hrefs, tipContent);
@@ -110,6 +111,9 @@ namespace UWT.Templates.Models.Templates.Commons
             handle.Target = JsonSerializer.Serialize(hrefs);
         }
     }
+    /// <summary>
+    /// 子操作项
+    /// </summary>
     public class ChildrenHandleModel : Interfaces.IHandleModel
     {
         /// <summary>
@@ -132,6 +136,7 @@ namespace UWT.Templates.Models.Templates.Commons
         /// 构建多筛选确认功能目标
         /// </summary>
         /// <param name="hrefs">多操作模型接口</param>
+        /// <param name="tipContent">提示信息</param>
         public void BuildMultiComfirmTarget(List<ChildrenHandleModel> hrefs, string tipContent)
         {
             HandleModel.Build(this, hrefs, tipContent);
