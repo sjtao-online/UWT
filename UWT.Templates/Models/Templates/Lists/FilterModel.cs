@@ -17,4 +17,12 @@ namespace UWT.Templates.Models.Templates.Lists
         public List<HasFilterTypeChildrenNameKeyModel> CanSelectList { get; set; }
         public object Tag { get; set; }
     }
+    class FilterModelFromCshtml : IFilterModelFromCshtml
+    {
+        public string ViewPath { get; set; }
+        public string SearchCallback { get; set; }
+        public string ResetCallback { get; set; }
+        public string InitCallback { get; set; }
+        public string LastValue { get; set; }
+    }
 }

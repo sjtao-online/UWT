@@ -132,16 +132,27 @@ layui.use(uilist, function () {
             layui.layer.msg(error);
             return;
         }
+        var urlbase = "?";
+        $('.cshtml-filter').each(function () {
+            var q = window[$(this).data('search')]();
+            for (var i in q) {
+                urlbase += i + "=" + URL.encodeURIComponent(q[i]) + "&";
+            }
+        })
         if (queryx.length > 1) {
             queryx = queryx.substring(0, queryx.length - 1);
-            window.location.href = "?query=" + encodeURIComponent(queryx);
+            window.location.href = urlbase + "query=" + encodeURIComponent(queryx);
         } else {
-            window.location.href = "?query=";
+            window.location.href = urlbase;
         }
     });
     $('#btn-reset').click(function () {
         $('.layui-inline').each(function () {
             $(this).find("input").val("");
+        })
+        $('.cshtml-filter').each(function () {
+            var reset = $(this).data('reset');
+            window[reset]();
         })
     });
     $('.select-has-children').change(function () {

@@ -99,7 +99,7 @@ namespace UWT.Templates.Services.Extends
             {
                 tag = value?.Type;
             }
-            controller.AddViewDataList(FiltersConstKey, (IFilterModel)new FilterModel()
+            controller.AddViewDataList(FiltersConstKey, (IFilterBasicModel)new FilterModel()
             {
                 Title = title,
                 FilterType = filter,
@@ -111,6 +111,40 @@ namespace UWT.Templates.Services.Extends
             });
             return controller;
         }
+
+        /// <summary>
+        /// 添加自定义过滤器
+        /// </summary>
+        /// <typeparam name="TTable"></typeparam>
+        /// <typeparam name="TListItem"></typeparam>
+        /// <param name="controller">控制器</param>
+        /// <param name="viewpath">cshtml路径</param>
+        /// <param name="searchCallback">搜索回调要求返回{key:value}，会生成query参数</param>
+        /// <param name="resetCallback">重置回调</param>
+        /// <param name="initCallback">初始化回调, 参数是lastvalue</param>
+        /// <param name="lastvalue">上一次值</param>
+        /// <param name="callback"></param>
+        /// <returns></returns>
+        public static IListToPage<TTable, TListItem> AddFilterFromCshtml<TTable, TListItem>(this IListToPage<TTable, TListItem> controller, 
+            string viewpath,
+            string searchCallback,
+            string resetCallback,
+            string initCallback,
+            string lastvalue)
+            where TTable : class
+            where TListItem : class
+        {
+            controller.AddViewDataList(FiltersConstKey, (IFilterBasicModel)new FilterModelFromCshtml()
+            {
+                ViewPath = viewpath,
+                InitCallback = initCallback,
+                LastValue = lastvalue,
+                ResetCallback = resetCallback,
+                SearchCallback = searchCallback
+            });
+            return controller;
+        }
+
         /// <summary>
         /// 添加批量处理方法
         /// </summary>

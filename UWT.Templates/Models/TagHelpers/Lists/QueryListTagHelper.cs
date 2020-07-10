@@ -14,7 +14,7 @@ namespace UWT.Templates.Models.TagHelpers.Lists
     [HtmlTargetElement("query-list")]
     public class QueryListTagHelper : Basic.UwtTagHelper
     {
-        public List<IFilterModel> QueryList { get; set; }
+        public List<IFilterBasicModel> QueryList { get; set; }
 
         public QueryListTagHelper(IHtmlHelper html) : base(html)
         {

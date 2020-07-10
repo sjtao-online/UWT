@@ -8,10 +8,14 @@ using UWT.Templates.Services.Converts;
 
 namespace UWT.Templates.Models.Interfaces
 {
+    public interface IFilterBasicModel
+    {
+        
+    }
     /// <summary>
     /// 筛选项模型
     /// </summary>
-    public interface IFilterModel
+    public interface IFilterModel : IFilterBasicModel
     {
         /// <summary>
         /// 筛选器名称
@@ -42,6 +46,17 @@ namespace UWT.Templates.Models.Interfaces
         /// 扩展信息
         /// </summary>
         object Tag { get; }
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public interface IFilterModelFromCshtml : IFilterBasicModel
+    {
+        string ViewPath { get; set; }
+        string SearchCallback { get; set; }
+        string ResetCallback { get; set; }
+        string InitCallback { get; set; }
+        string LastValue { get; set; }
     }
     /// <summary>
     /// 筛选选择项

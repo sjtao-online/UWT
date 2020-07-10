@@ -1,5 +1,5 @@
 ﻿@addTagHelper *, UWT.Templates
-@model UWT.Templates.Models.Templates.TagHelpers.TagHelperDataModel<List<UWT.Templates.Models.Interfaces.IFilterModel>>
+@model UWT.Templates.Models.Templates.TagHelpers.TagHelperDataModel<List<UWT.Templates.Models.Interfaces.IFilterBasicModel>>
 @using UWT.Templates.Models.Basics
 @using UWT.Templates.Services.Extends
 @{
@@ -61,174 +61,190 @@
 
 <div class="layui-form layui-form-pane">
     <div class="layui-form-item">
-        @foreach (var item in Model.DataModel)
+        @foreach (var filter in Model.DataModel)
         {
-            var op = UWT.Templates.Services.Converts.FilterTypeConverter.FilterTypeToString(item.FilterType);
-            <div class="layui-inline"
-                 data-value-type="@item.ValueType" data-filter-type="@item.FilterType" data-name="@item.Name">
-                <label class="layui-form-label" id="@item.Name-title">@item.Title</label>
-                <div class="layui-input-inline">
-                    @switch (item.ValueType)
-                    {
-                        case UWT.Templates.Models.Filters.FilterValueType.FloatNumber:
-                        case UWT.Templates.Models.Filters.FilterValueType.IntegerNumber:
-                            switch (item.FilterType)
-                            {
-                                case UWT.Templates.Models.Filters.FilterType.Equal:
-                                case UWT.Templates.Models.Filters.FilterType.NotEqual:
-                                case UWT.Templates.Models.Filters.FilterType.GreaterThan:
-                                case UWT.Templates.Models.Filters.FilterType.GreaterThanOrEqual:
-                                case UWT.Templates.Models.Filters.FilterType.LessThan:
-                                case UWT.Templates.Models.Filters.FilterType.LessThanOrEqual:
-                                    <input class="layui-input uwt-query" type="text" data-op="@op" id="@item.Name" name="@item.Name" value="@item.Value" />
-                                    break;
-                                case UWT.Templates.Models.Filters.FilterType.Between:
-                                    Model.TemplateModel.AddCssList.AddResourcs(this.GetResourcePath() + "/admins/css/query-list.css");
-                                    string begin = "", end = "";
-                                    if (!string.IsNullOrEmpty(item.Value))
+            if (filter is UWT.Templates.Models.Interfaces.IFilterModel)
+            {
+                var item = filter as UWT.Templates.Models.Interfaces.IFilterModel;
+                var op = UWT.Templates.Services.Converts.FilterTypeConverter.FilterTypeToString(item.FilterType);
+                <div class="layui-inline"
+                     data-value-type="@item.ValueType" data-filter-type="@item.FilterType" data-name="@item.Name">
+                    <label class="layui-form-label" id="@item.Name-title">@item.Title</label>
+                    <div class="layui-input-inline">
+                        @switch (item.ValueType)
+                        {
+                            case UWT.Templates.Models.Filters.FilterValueType.FloatNumber:
+                            case UWT.Templates.Models.Filters.FilterValueType.IntegerNumber:
+                                switch (item.FilterType)
+                                {
+                                    case UWT.Templates.Models.Filters.FilterType.Equal:
+                                    case UWT.Templates.Models.Filters.FilterType.NotEqual:
+                                    case UWT.Templates.Models.Filters.FilterType.GreaterThan:
+                                    case UWT.Templates.Models.Filters.FilterType.GreaterThanOrEqual:
+                                    case UWT.Templates.Models.Filters.FilterType.LessThan:
+                                    case UWT.Templates.Models.Filters.FilterType.LessThanOrEqual:
+                                        <input class="layui-input uwt-query" type="text" data-op="@op" id="@item.Name" name="@item.Name" value="@item.Value" />
+                                        break;
+                                    case UWT.Templates.Models.Filters.FilterType.Between:
+                                        Model.TemplateModel.AddCssList.AddResourcs(this.GetResourcePath() + "/admins/css/query-list.css");
+                                        string begin = "", end = "";
+                                        if (!string.IsNullOrEmpty(item.Value))
+                                        {
+                                            var index = item.Value.IndexOf(",");
+                                            begin = item.Value.Substring(0, index);
+                                            end = item.Value.Substring(index + 1);
+                                        }
+                                        <input class="layui-input half-input" type="text" id="@item.Name-start" name="@item.Name" value="@begin" />
+                                        <span class="ahalf-span">-</span>
+                                        <input class="layui-input half-input" type="text" id="@item.Name-end" name="@item.Name" value="@end" />
+                                        break;
+                                    case UWT.Templates.Models.Filters.FilterType.In:
+                                    case UWT.Templates.Models.Filters.FilterType.Like:
+                                    case UWT.Templates.Models.Filters.FilterType.StartWith:
+                                    case UWT.Templates.Models.Filters.FilterType.EndWith:
+                                        //  Error
+                                        break;
+                                    default:
+                                        break;
+                                }
+                                break;
+                            case UWT.Templates.Models.Filters.FilterValueType.Text:
+                                switch (item.FilterType)
+                                {
+                                    case UWT.Templates.Models.Filters.FilterType.GreaterThan:
+                                    case UWT.Templates.Models.Filters.FilterType.GreaterThanOrEqual:
+                                    case UWT.Templates.Models.Filters.FilterType.LessThan:
+                                    case UWT.Templates.Models.Filters.FilterType.LessThanOrEqual:
+                                    case UWT.Templates.Models.Filters.FilterType.Between:
+                                        //  Error
+
+                                        break;
+                                    case UWT.Templates.Models.Filters.FilterType.In:
+
+                                        break;
+                                    case UWT.Templates.Models.Filters.FilterType.Equal:
+                                    case UWT.Templates.Models.Filters.FilterType.NotEqual:
+                                    case UWT.Templates.Models.Filters.FilterType.Like:
+                                    case UWT.Templates.Models.Filters.FilterType.StartWith:
+                                    case UWT.Templates.Models.Filters.FilterType.EndWith:
+                                        <input class="layui-input uwt-query" type="text" data-op="@op" name="@item.Name" id="@item.Name" value="@item.Value" />
+                                        break;
+                                    default:
+                                        break;
+                                }
+                                break;
+                            case UWT.Templates.Models.Filters.FilterValueType.DateTime:
+                                queryListJS["hasdate"] = "";
+                                switch (item.FilterType)
+                                {
+                                    case UWT.Templates.Models.Filters.FilterType.Equal:
+                                    case UWT.Templates.Models.Filters.FilterType.NotEqual:
+                                    case UWT.Templates.Models.Filters.FilterType.GreaterThan:
+                                    case UWT.Templates.Models.Filters.FilterType.GreaterThanOrEqual:
+                                    case UWT.Templates.Models.Filters.FilterType.LessThan:
+                                    case UWT.Templates.Models.Filters.FilterType.LessThanOrEqual:
+                                        <input class="layui-input layui-date uwt-query" data-op="@op" data-type="datetime" data-range="false" type="text" id="@item.Name" name="@item.Name" value="@item.Value" />
+                                        break;
+                                    case UWT.Templates.Models.Filters.FilterType.Between:
+                                        <input class="layui-input layui-date uwt-query uwt-range" data-type="datetime" data-range="true" placeholder=" - " type="text" id="@item.Name" name="@item.Name" value="@item.Value" />
+                                        break;
+                                    case UWT.Templates.Models.Filters.FilterType.In:
+                                    case UWT.Templates.Models.Filters.FilterType.Like:
+                                    case UWT.Templates.Models.Filters.FilterType.StartWith:
+                                    case UWT.Templates.Models.Filters.FilterType.EndWith:
+                                        //  Error
+                                        break;
+                                    default:
+                                        break;
+                                }
+                                break;
+                            case UWT.Templates.Models.Filters.FilterValueType.Money:
+                                switch (item.FilterType)
+                                {
+                                    case UWT.Templates.Models.Filters.FilterType.Equal:
+                                    case UWT.Templates.Models.Filters.FilterType.NotEqual:
+                                    case UWT.Templates.Models.Filters.FilterType.GreaterThan:
+                                    case UWT.Templates.Models.Filters.FilterType.GreaterThanOrEqual:
+                                    case UWT.Templates.Models.Filters.FilterType.LessThan:
+                                    case UWT.Templates.Models.Filters.FilterType.LessThanOrEqual:
+                                        <input class="layui-input uwt-query uwt-money" data-op="@op" type="text" id="@item.Name" name="@item.Name" value="@item.Value.ToMoneyText((int)item.Tag)" />
+                                        break;
+                                    case UWT.Templates.Models.Filters.FilterType.Between:
+                                        Model.TemplateModel.AddCssList.AddResourcs(this.GetResourcePath() + "/admins/css/query-list.css");
+                                        <input class="layui-input uwt-query uwt-money half-input" data-op="@op" type="text" id="@item.Name-start" name="@item.Name" value="@item.Value.ToMoneyBegin((int)item.Tag)" />
+                                        <span class="ahalf-span">-</span>
+                                        <input class="layui-input uwt-query uwt-money half-input" data-op="@op" type="text" id="@item.Name-end" name="@item.Name" value="@item.Value.ToMoneyEnd((int)item.Tag)" />
+                                        break;
+                                    case UWT.Templates.Models.Filters.FilterType.In:
+                                    case UWT.Templates.Models.Filters.FilterType.Like:
+                                    case UWT.Templates.Models.Filters.FilterType.StartWith:
+                                    case UWT.Templates.Models.Filters.FilterType.EndWith:
+                                        //  Error
+                                        break;
+                                    default:
+                                        break;
+                                }
+                                break;
+                            case UWT.Templates.Models.Filters.FilterValueType.IdComboBox:
+                                Dictionary<string, List<HasChildrenNameKeyModel>> map = new Dictionary<string, List<HasChildrenNameKeyModel>>();
+                                if (item.CanSelectList != null && item.CanSelectList.Count != 0)
+                                {
+                                    List<int> selectedList = new List<int>();
+                                    HasChildrenMaxLevel(item.CanSelectList, item.FilterType, item.Value, out int maxLevel, ref selectedList);
+                                    <select class="uwt-query select-has-children" name="@item.Name" id="@item.Name">
+                                        @foreach (var option in item.CanSelectList)
+                                        {
+                                            if (option.Children != null && option.Children.Count != 0)
+                                            {
+                                                map[option.Key] = option.Children;
+                                            }
+                                            <option value="@(UWT.Templates.Services.Converts.FilterTypeConverter.FilterTypeToString(option.FilterType??item.FilterType))@option.Key" @((option.Key == item.Value) ? "selected" : "")>@option.Name</option>
+                                        }
+                                    </select>
+                                    for (int i = 0; i < maxLevel - 1; i++)
                                     {
-                                        var index = item.Value.IndexOf(",");
-                                        begin = item.Value.Substring(0, index);
-                                        end = item.Value.Substring(index + 1);
+                                        <select>
+                                        </select>
                                     }
-                                    <input class="layui-input half-input" type="text" id="@item.Name-start" name="@item.Name" value="@begin" />
-                                    <span class="ahalf-span">-</span>
-                                    <input class="layui-input half-input" type="text" id="@item.Name-end" name="@item.Name" value="@end" />
-                                    break;
-                                case UWT.Templates.Models.Filters.FilterType.In:
-                                case UWT.Templates.Models.Filters.FilterType.Like:
-                                case UWT.Templates.Models.Filters.FilterType.StartWith:
-                                case UWT.Templates.Models.Filters.FilterType.EndWith:
-                                    //  Error
-                                    break;
-                                default:
-                                    break;
-                            }
-                            break;
-                        case UWT.Templates.Models.Filters.FilterValueType.Text:
-                            switch (item.FilterType)
-                            {
-                                case UWT.Templates.Models.Filters.FilterType.GreaterThan:
-                                case UWT.Templates.Models.Filters.FilterType.GreaterThanOrEqual:
-                                case UWT.Templates.Models.Filters.FilterType.LessThan:
-                                case UWT.Templates.Models.Filters.FilterType.LessThanOrEqual:
-                                case UWT.Templates.Models.Filters.FilterType.Between:
-                                    //  Error
-
-                                    break;
-                                case UWT.Templates.Models.Filters.FilterType.In:
-
-                                    break;
-                                case UWT.Templates.Models.Filters.FilterType.Equal:
-                                case UWT.Templates.Models.Filters.FilterType.NotEqual:
-                                case UWT.Templates.Models.Filters.FilterType.Like:
-                                case UWT.Templates.Models.Filters.FilterType.StartWith:
-                                case UWT.Templates.Models.Filters.FilterType.EndWith:
-                                    <input class="layui-input uwt-query" type="text" data-op="@op" name="@item.Name" id="@item.Name" value="@item.Value" />
-                                    break;
-                                default:
-                                    break;
-                            }
-                            break;
-                        case UWT.Templates.Models.Filters.FilterValueType.DateTime:
-                            queryListJS["hasdate"] = "";
-                            switch (item.FilterType)
-                            {
-                                case UWT.Templates.Models.Filters.FilterType.Equal:
-                                case UWT.Templates.Models.Filters.FilterType.NotEqual:
-                                case UWT.Templates.Models.Filters.FilterType.GreaterThan:
-                                case UWT.Templates.Models.Filters.FilterType.GreaterThanOrEqual:
-                                case UWT.Templates.Models.Filters.FilterType.LessThan:
-                                case UWT.Templates.Models.Filters.FilterType.LessThanOrEqual:
-                                    <input class="layui-input layui-date uwt-query" data-op="@op" data-type="datetime" data-range="false" type="text" id="@item.Name" name="@item.Name" value="@item.Value" />
-                                    break;
-                                case UWT.Templates.Models.Filters.FilterType.Between:
-                                    <input class="layui-input layui-date uwt-query uwt-range" data-type="datetime" data-range="true" placeholder=" - " type="text" id="@item.Name" name="@item.Name" value="@item.Value" />
-                                    break;
-                                case UWT.Templates.Models.Filters.FilterType.In:
-                                case UWT.Templates.Models.Filters.FilterType.Like:
-                                case UWT.Templates.Models.Filters.FilterType.StartWith:
-                                case UWT.Templates.Models.Filters.FilterType.EndWith:
-                                    //  Error
-                                    break;
-                                default:
-                                    break;
-                            }
-                            break;
-                        case UWT.Templates.Models.Filters.FilterValueType.Money:
-                            switch (item.FilterType)
-                            {
-                                case UWT.Templates.Models.Filters.FilterType.Equal:
-                                case UWT.Templates.Models.Filters.FilterType.NotEqual:
-                                case UWT.Templates.Models.Filters.FilterType.GreaterThan:
-                                case UWT.Templates.Models.Filters.FilterType.GreaterThanOrEqual:
-                                case UWT.Templates.Models.Filters.FilterType.LessThan:
-                                case UWT.Templates.Models.Filters.FilterType.LessThanOrEqual:
-                                    <input class="layui-input uwt-query uwt-money" data-op="@op" type="text" id="@item.Name" name="@item.Name" value="@item.Value.ToMoneyText((int)item.Tag)" />
-                                    break;
-                                case UWT.Templates.Models.Filters.FilterType.Between:
-                                    Model.TemplateModel.AddCssList.AddResourcs(this.GetResourcePath() + "/admins/css/query-list.css");
-                                    <input class="layui-input uwt-query uwt-money half-input" data-op="@op" type="text" id="@item.Name-start" name="@item.Name" value="@item.Value.ToMoneyBegin((int)item.Tag)" />
-                                    <span class="ahalf-span">-</span>
-                                    <input class="layui-input uwt-query uwt-money half-input" data-op="@op" type="text" id="@item.Name-end" name="@item.Name" value="@item.Value.ToMoneyEnd((int)item.Tag)" />
-                                    break;
-                                case UWT.Templates.Models.Filters.FilterType.In:
-                                case UWT.Templates.Models.Filters.FilterType.Like:
-                                case UWT.Templates.Models.Filters.FilterType.StartWith:
-                                case UWT.Templates.Models.Filters.FilterType.EndWith:
-                                    //  Error
-                                    break;
-                                default:
-                                    break;
-                            }
-                            break;
-                        case UWT.Templates.Models.Filters.FilterValueType.IdComboBox:
-                            Dictionary<string, List<HasChildrenNameKeyModel>> map = new Dictionary<string, List<HasChildrenNameKeyModel>>();
-                            if (item.CanSelectList != null && item.CanSelectList.Count != 0)
-                            {
-                                List<int> selectedList = new List<int>();
-                                HasChildrenMaxLevel(item.CanSelectList, item.FilterType, item.Value,out int maxLevel, ref selectedList);
-                                <select class="uwt-query select-has-children" name="@item.Name" id="@item.Name">
+                                }
+                                comboBoxDataMap[item.Name] = map;
+                                break;
+                            case UWT.Templates.Models.Filters.FilterValueType.TagMSelector:
+                                break;
+                            case UWT.Templates.Models.Filters.FilterValueType.TagSSelector:
+                                var lastOp = "";
+                                if (item.Tag != null)
+                                {
+                                    lastOp = (string)item.Tag;
+                                }
+                                <select name="@item.Name" id="@item.Name">
                                     @foreach (var option in item.CanSelectList)
                                     {
-                                        if (option.Children != null && option.Children.Count != 0)
-                                        {
-                                            map[option.Key] = option.Children;
+                                        var opplus = UWT.Templates.Services.Converts.FilterTypeConverter.FilterTypeToString(option.FilterType ?? item.FilterType);
+                                        <option value="@(opplus + option.Key)"
+                                                @((option.Key == item.Value && opplus == lastOp) ? "selected" : "")>
+                                            @option.Name
+                                            </option>
                                         }
-                                        <option value="@(UWT.Templates.Services.Converts.FilterTypeConverter.FilterTypeToString(option.FilterType??item.FilterType))@option.Key" @((option.Key == item.Value) ? "selected" : "")>@option.Name</option>
-                                    }
                                 </select>
-                                for (int i = 0; i < maxLevel - 1; i++)
-                                {
-                                    <select>
-
-                                    </select>
-                                }
-                            }
-                            comboBoxDataMap[item.Name] = map;
-                            break;
-                        case UWT.Templates.Models.Filters.FilterValueType.TagMSelector:
-                            break;
-                        case UWT.Templates.Models.Filters.FilterValueType.TagSSelector:
-                            var lastOp = "";
-                            if (item.Tag != null)
-                            {
-                                lastOp = (string)item.Tag;
-                            }
-                            <select name="@item.Name" id="@item.Name">
-                                @foreach (var option in item.CanSelectList)
-                                {
-                                    var opplus = UWT.Templates.Services.Converts.FilterTypeConverter.FilterTypeToString(option.FilterType ?? item.FilterType);
-                                    <option value="@(opplus + option.Key)"
-                                            @((option.Key == item.Value && opplus == lastOp) ? "selected" : "")>@option.Name</option>
-                                }
-                            </select>
-                            break;
-                        default:
-                            break;
-                    }
+                                break;
+                            default:
+                                break;
+                        }
+                    </div>
                 </div>
-            </div>
+            }
+            else if (filter is UWT.Templates.Models.Interfaces.IFilterModelFromCshtml)
+            {
+                var cshtml = filter as UWT.Templates.Models.Interfaces.IFilterModelFromCshtml;
+                <div class="cshtml-filter" data-init="@cshtml.InitCallback" data-search="@cshtml.SearchCallback" data-reset="@cshtml.ResetCallback" data-value="@cshtml.LastValue">
+                    @Html.Partial(cshtml.ViewPath)
+                </div>
+            }
+            else
+            {
+
+            }
         }
     </div>
     <div class="page">

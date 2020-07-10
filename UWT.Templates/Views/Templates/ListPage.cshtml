@@ -3,7 +3,7 @@
 @{
     UWT.Templates.Models.Templates.TagHelpers.TagHelperTemplateModel meTag = new UWT.Templates.Models.Templates.TagHelpers.TagHelperTemplateModel();
     UWT.Templates.Models.Interfaces.IToPageViewModel pageModel = ViewBag.PageModel;
-    List<UWT.Templates.Models.Interfaces.IFilterModel> filterList = ViewBag.FilterList;
+    List<UWT.Templates.Models.Interfaces.IFilterBasicModel> filterList = ViewBag.FilterList;
     List<UWT.Templates.Models.Templates.Commons.HandleModel> handleList = ViewBag.Handlers;
     if (!ViewData.ContainsKey("Title") && !string.IsNullOrEmpty(pageModel.ListViewModel.Title))
     {
