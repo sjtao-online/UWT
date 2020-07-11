@@ -47,6 +47,9 @@
             })
         }
         data[btn.data('batch-key')] = listids;
+        layer.load(1, {
+            shade: [0.1, '#000']
+        });
         api(target, data, function () {
             /*layui.layer.*/alert("操作成功");
             window.location.reload();
@@ -74,7 +77,7 @@
     }
     $('.handle-item').click(function () {
         layer.load(1, {
-            shade: [0.1, '#000'] //0.1透明度的白色背景
+            shade: [0.1, '#000']
         });
         handleBtnItem($(this).data('type'), $(this).data('target'), $(this).data('ask'), $(this));
     });

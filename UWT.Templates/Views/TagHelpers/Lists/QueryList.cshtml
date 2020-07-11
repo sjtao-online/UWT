@@ -198,7 +198,8 @@
                                             {
                                                 map[option.Key] = option.Children;
                                             }
-                                            <option value="@(UWT.Templates.Services.Converts.FilterTypeConverter.FilterTypeToString(option.FilterType??item.FilterType))@option.Key" @((option.Key == item.Value) ? "selected" : "")>@option.Name</option>
+                                            var select = (option.Key == item.Value) ? "selected" : "";
+                                            @Html.Raw($"<option value='{(UWT.Templates.Services.Converts.FilterTypeConverter.FilterTypeToString(option.FilterType??item.FilterType)) + option.Key}' {select}>{option.Name}</option>")
                                         }
                                     </select>
                                     for (int i = 0; i < maxLevel - 1; i++)
@@ -221,11 +222,9 @@
                                     @foreach (var option in item.CanSelectList)
                                     {
                                         var opplus = UWT.Templates.Services.Converts.FilterTypeConverter.FilterTypeToString(option.FilterType ?? item.FilterType);
-                                        <option value="@(opplus + option.Key)"
-                                                @((option.Key == item.Value && opplus == lastOp) ? "selected" : "")>
-                                            @option.Name
-                                            </option>
-                                        }
+                                        string select = (option.Key == item.Value && opplus == lastOp) ? "selected" : "";
+                                        @Html.Raw($"<option value='{opplus + option.Key}' {select}>{option.Name}</option>")
+                                    }
                                 </select>
                                 break;
                             default:
@@ -237,7 +236,7 @@
             else if (filter is UWT.Templates.Models.Interfaces.IFilterModelFromCshtml)
             {
                 var cshtml = filter as UWT.Templates.Models.Interfaces.IFilterModelFromCshtml;
-                <div class="cshtml-filter" data-init="@cshtml.InitCallback" data-search="@cshtml.SearchCallback" data-reset="@cshtml.ResetCallback" data-value="@cshtml.LastValue">
+                <div class="cshtml-filter layui-inline" data-init="@cshtml.InitCallback" data-search="@cshtml.SearchCallback" data-reset="@cshtml.ResetCallback" data-value="@cshtml.LastValue">
                     @Html.Partial(cshtml.ViewPath)
                 </div>
             }

@@ -1,0 +1,15 @@
+﻿<input type="text" name="name" id="idid" value="" />
+
+<script>
+    function init(value) {
+        document.getElementById('idid').value = value
+    }
+    function reset() {
+        document.getElementById('idid').value = "";
+    }
+    function search() {
+        return {
+            "dd": document.getElementById('idid').value
+        }
+    }
+</script>

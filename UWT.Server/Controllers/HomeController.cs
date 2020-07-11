@@ -44,6 +44,7 @@ namespace UWT.Server.Controllers
                     Name = "123"
                 }
             });
+            this.AddFilterFromCshtml("/Views/Home/Index3.cshtml", "search", "reset", "init", "value");
             //this.AddFilter("用户名", m => m.Name, Templates.Models.Filters.FilterType.Like, Templates.Models.Filters.FilterValueType.Text);
             using (DataModels.UwtDB db = new DataModels.UwtDB())
             {

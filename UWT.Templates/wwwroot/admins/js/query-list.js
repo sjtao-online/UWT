@@ -9,6 +9,10 @@ function check(c) {
 }
 layui.use(uilist, function () {
     var $ = layui.$;
+    $('.cshtml-filter').each(function () {
+        var init = $(this).data('init');
+        window[init]($(this).data('value'));
+    })
     $('#btn-search').click(function () {
         var queryx = "";
         error = '';
@@ -136,7 +140,7 @@ layui.use(uilist, function () {
         $('.cshtml-filter').each(function () {
             var q = window[$(this).data('search')]();
             for (var i in q) {
-                urlbase += i + "=" + URL.encodeURIComponent(q[i]) + "&";
+                urlbase += i + "=" + encodeURIComponent(q[i]) + "&";
             }
         })
         if (queryx.length > 1) {
