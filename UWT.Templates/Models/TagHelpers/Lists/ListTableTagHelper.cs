@@ -26,6 +26,7 @@ namespace UWT.Templates.Models.TagHelpers.Lists
         {
             output.TagName = "div";
             output.Attributes.Add("class", "layui-card-body");
+            output.Attributes.Add("style", "overflow-x: auto;");
             output.Content.SetHtmlContent(RenderRazorView("/Views/TagHelpers/Lists/ListTables.cshtml", Model));
         }
     }

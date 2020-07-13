@@ -2364,6 +2364,11 @@
             扩展信息
             </summary>
         </member>
+        <member name="T:UWT.Templates.Models.Interfaces.IFilterModelFromCshtml">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="T:UWT.Templates.Models.Interfaces.HasFilterTypeChildrenNameKeyModel">
             <summary>
             筛选选择项
@@ -4270,6 +4275,21 @@
             <param name="filter">过滤方式</param>
             <param name="valueType">值类型</param>
             <param name="canSelectItems">单选框选项</param>
+            <returns></returns>
+        </member>
+        <member name="M:UWT.Templates.Services.Extends.ListPageEx.AddFilterFromCshtml``2(UWT.Templates.Models.Interfaces.IListToPage{``0,``1},System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            添加自定义过滤器
+            </summary>
+            <typeparam name="TTable"></typeparam>
+            <typeparam name="TListItem"></typeparam>
+            <param name="controller">控制器</param>
+            <param name="viewpath">cshtml路径</param>
+            <param name="searchCallback">搜索回调要求返回{key:value}，会生成query参数</param>
+            <param name="resetCallback">重置回调</param>
+            <param name="initCallback">初始化回调, 参数是lastvalue</param>
+            <param name="lastvalue">上一次值</param>
+            <param name="callback"></param>
             <returns></returns>
         </member>
         <member name="M:UWT.Templates.Services.Extends.ListPageEx.AddBatchHandler``2(UWT.Templates.Models.Interfaces.IListToPage{``0,``1},System.String,System.String,System.String,System.Type)">

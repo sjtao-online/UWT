@@ -20,7 +20,8 @@
         layui.layer.open({
             title: title,
             content: content,
-            btn: null
+            btn: null,
+
         })
     }
     $('body').on('click', ".confirm-handle", function () {
@@ -76,9 +77,6 @@
         }
     }
     $('.handle-item').click(function () {
-        layer.load(1, {
-            shade: [0.1, '#000']
-        });
         handleBtnItem($(this).data('type'), $(this).data('target'), $(this).data('ask'), $(this));
     });
     layui.form.on('checkbox(batch)', function () {
