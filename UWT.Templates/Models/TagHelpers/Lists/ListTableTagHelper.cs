@@ -25,8 +25,8 @@ namespace UWT.Templates.Models.TagHelpers.Lists
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             output.TagName = "div";
-            output.Attributes.Add("class", "layui-card-body");
-            output.Attributes.Add("style", "overflow-x: auto;");
+            output.Attributes.Add("class", "layui-card-body uwt-list-parent");
+            output.Attributes.Add("style", "overflow-x: hidden;");
             output.Content.SetHtmlContent(RenderRazorView("/Views/TagHelpers/Lists/ListTables.cshtml", Model));
         }
     }

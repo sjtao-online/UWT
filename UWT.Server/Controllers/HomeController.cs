@@ -79,6 +79,22 @@ namespace UWT.Server.Controllers
     {
         [ListColumn("序号", ColumnType = ColumnType.Index)]
         public int Index { get; set; }
+        [ListColumn("序号", ColumnType = ColumnType.Index)]
+        public int Index2 { get; set; }
+        [ListColumn("序号", ColumnType = ColumnType.Index)]
+        public int Index3 { get; set; }
+        [ListColumn("序号", ColumnType = ColumnType.Index)]
+        public int Index4 { get; set; }
+        [ListColumn("序号", ColumnType = ColumnType.Index)]
+        public int Index5 { get; set; }
+        [ListColumn("序号", ColumnType = ColumnType.Index)]
+        public int Index6 { get; set; }
+        [ListColumn("序号", ColumnType = ColumnType.Index)]
+        public int Index7 { get; set; }
+        [ListColumn("序号", ColumnType = ColumnType.Index)]
+        public int Index8 { get; set; }
+        [ListColumn("序号", ColumnType = ColumnType.Index)]
+        public int Index9 { get; set; }
         [ListColumn("名称", ColumnType = ColumnType.Cshtml)]
         [ListItems.PartCshtml("/Views/Home/Index2.cshtml")]
         public string Name { get; set; }
