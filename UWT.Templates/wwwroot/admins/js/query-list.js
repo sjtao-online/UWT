@@ -23,6 +23,9 @@ layui.use(uilist, function () {
             var valueType = $(this).data('value-type');
             var filterType = $(this).data('filter-type');
             var name = $(this).data('name');
+            if (name === undefined) {
+                return;
+            }
             var tvalue = "";
             var op = "";
             switch (valueType) {

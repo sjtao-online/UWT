@@ -79,70 +79,18 @@ namespace UWT.Server.Controllers
     {
         [ListColumn("序号", ColumnType = ColumnType.Index)]
         public int Index { get; set; }
-        [ListColumn("序号", ColumnType = ColumnType.Index)]
-        public int Index2 { get; set; }
-        [ListColumn("序号", ColumnType = ColumnType.Index)]
-        public int Index3 { get; set; }
-        [ListColumn("序号", ColumnType = ColumnType.Index)]
-        public int Index4 { get; set; }
-        [ListColumn("序号", ColumnType = ColumnType.Index)]
-        public int Index5 { get; set; }
-        [ListColumn("序号", ColumnType = ColumnType.Index)]
-        public int Index6 { get; set; }
-        [ListColumn("序号", ColumnType = ColumnType.Index)]
-        public int Index7 { get; set; }
-        [ListColumn("序号", ColumnType = ColumnType.Index)]
-        public int Index8 { get; set; }
-        [ListColumn("序号", ColumnType = ColumnType.Index)]
-        public int Index9 { get; set; }
-        [ListColumn("名称", ColumnType = ColumnType.Cshtml)]
-        [ListItems.PartCshtml("/Views/Home/Index2.cshtml")]
         public string Name { get; set; }
         [ListColumn("操作", ColumnType =  ColumnType.Handle, Styles = "width: 200px;")]
-        public List<HandleModel> HandleList
+        public List<HandleModelBasic> HandleList
         {
             get
             {
-                var list = new List<HandleModel> {
-                    new HandleModel()
-                    {
-                        Title = "复制",
-                        Target = $"clipboardCopy(\"/aaa/bbbb/{Index}\")",
-                        Type = HandleModel.TypeTagEvalJS
-                    }
-                };
-                var h = new HandleModel()
-                {
-                    Title = "多选"
-                };
-                var tw = new ChildrenHandleModel()
-                {
-                    Title = "说明",
-                    Target = "/"
-                };
-                tw.BuildMultiComfirmTarget(new List<ChildrenHandleModel>()
-                {
-                    new ChildrenHandleModel()
-                    {
-                        Title = "说明2",
-                        Target = "/Home/Index/22"
-                    },
-                    new ChildrenHandleModel()
-                    {
-                        Title = "说明2",
-                        Target = "/Home/Index/22"
-                    }
-                }, "套娃");
-                h.BuildMultiComfirmTarget(new List<ChildrenHandleModel>()
-                {
-                    tw,
-                    new ChildrenHandleModel()
-                    {
-                        Title = "说明2",
-                        Target = "/Home/Index/22"
-                    }
-                }, "这是一条提示");
-                list.Add(h);
+                var list = new List<HandleModelBasic>();
+                list.Add(HandleModelBasic.BuildEvalJS("复制", "clipboardCopy('123')", "确定要复制吗？", "复制"));
+                list.Add(HandleModelBasic.BuildDel(".Del"));
+                list.Add(HandleModelBasic.BuildDownload("下载", ".download"));
+                list.Add(HandleModelBasic.BuildNavigate("详情", ".detail?id=" + Index, "确定要看详情吗？"));
+                list.Add(HandleModelBasic.BuildPopupDlg("弹出", ".PopupDlg", "", ""));
                 return list;
             }
         }

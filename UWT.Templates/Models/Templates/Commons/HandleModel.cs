@@ -75,6 +75,11 @@ namespace UWT.Templates.Models.Templates.Commons
         /// </summary>
         public const string TypeTagEvalJS = "evaljs";
         /// <summary>
+        /// BUTTON标签,用于弹出窗口<br/>
+        /// 用于Type属性
+        /// </summary>
+        public const string TypeTagPopupDlg = "popup";
+        /// <summary>
         /// BUTTON标签,用于执行弹窗确认<br/>
         /// </summary>
         public const string TypeTagComfirm = "comfirm";
