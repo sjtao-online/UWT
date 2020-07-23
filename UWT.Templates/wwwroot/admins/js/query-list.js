@@ -19,13 +19,10 @@ layui.use(uilist, function () {
         var appendError = function (id, err) {
             error += $(id + "-title").val() + ":" + err + "\n";
         }
-        $(".layui-inline").each(function () {
+        $(".uwt-query").each(function () {
             var valueType = $(this).data('value-type');
             var filterType = $(this).data('filter-type');
             var name = $(this).data('name');
-            if (name === undefined) {
-                return;
-            }
             var tvalue = "";
             var op = "";
             switch (valueType) {

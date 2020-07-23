@@ -194,31 +194,14 @@ namespace UWT.Libs.Normals.News
         [ListColumn("摘要")]
         public string Summary { get; set; }
         [ListColumn("操作", ColumnType = ColumnType.Handle, Index = int.MaxValue)]
-        public List<Templates.Models.Templates.Commons.HandleModel> HandleList
+        public List<HandleModel> HandleList
         {
             get
             {
                 List<Templates.Models.Templates.Commons.HandleModel> handles = new List<Templates.Models.Templates.Commons.HandleModel>();
-                handles.Add(new Templates.Models.Templates.Commons.HandleModel()
-                {
-                    Type = Templates.Models.Templates.Commons.HandleModel.TypeTagNavigate,
-                    Title = "编辑内容",
-                    Target = "/${NewsController}/Modify?id=" + Id,
-                });
-                handles.Add(new Templates.Models.Templates.Commons.HandleModel()
-                {
-                    Type = Templates.Models.Templates.Commons.HandleModel.TypeTagNavigate,
-                    Title = "编辑属性",
-                    Target = "/${NewsController}/ModifyProperties?id=" + Id,
-                });
-                handles.Add(new Templates.Models.Templates.Commons.HandleModel()
-                {
-                    Type = Templates.Models.Templates.Commons.HandleModel.TypeTagApiPost,
-                    Title = "删除",
-                    Target = "/${NewsController}/Del?id=" + Id,
-                    Class = HandleModel.ClassBtnDel,
-                    AskTooltip = HandleModel.TipDel
-                });
+                handles.Add(HandleModel.BuildNavigate("编辑内容", "/${NewsController}/Modify?id=" + Id));
+                handles.Add(HandleModel.BuildNavigate( "编辑属性", "/${NewsController}/ModifyProperties?id=" + Id));
+                handles.Add(HandleModel.BuildDel("/${NewsController}/Del?id=" + Id));
                 return handles;
             }
         }

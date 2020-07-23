@@ -83,20 +83,6 @@ namespace UWT.Templates.Models.Templates.Lists
                         builder.Append("</div>");
                         return html.Raw(builder.ToString());
                     }
-                    else if (Property.PropertyType == typeof(HandleModelBasic))
-                    {
-                        return html.Raw(HandleString(value as HandleModelBasic, ref tagHelperTemplateModel));
-                    }
-                    else if (Property.PropertyType == typeof(List<HandleModelBasic>))
-                    {
-                        StringBuilder builder = new StringBuilder("<div class='hidden-sm hidden-xs btn-group'>");
-                        foreach (var itemHandle in value as List<HandleModelBasic>)
-                        {
-                            builder.Append(HandleString(itemHandle, ref tagHelperTemplateModel));
-                        }
-                        builder.Append("</div>");
-                        return html.Raw(builder.ToString());
-                    }
                     break;
                 case ColumnType.Cshtml:
                     var cshtml = ModelEx as ICshtmlEx;
@@ -107,7 +93,7 @@ namespace UWT.Templates.Models.Templates.Lists
             return new StringHtmlContent((string)Property.GetValue(item));
         }
 
-        private string HandleString(HandleModelBasic handleModelBasic, ref TagHelperTemplateModel tagHelperTemplateModel)
+        private string HandleString(HandleModel handleModelBasic, ref TagHelperTemplateModel tagHelperTemplateModel)
         {
             string target = "";
             switch (handleModelBasic.Type)
@@ -118,20 +104,21 @@ namespace UWT.Templates.Models.Templates.Lists
                     {
                         tagHelperTemplateModel.ScriptList = new List<string>();
                     }
-                    tagHelperTemplateModel.ScriptList.Add($"function func{uwtid}(){{{ModelCache.RechangeUrl(Property.ReflectedType, handleModelBasic.Target)}}}");
+                    tagHelperTemplateModel.ScriptList.Add($"function func{uwtid}(){{{ModelCache.RechangeUrl(Property.ReflectedType, (string)handleModelBasic.Target)}}}");
                     target = uwtid;
                     break;
                 case HandleType.PopupDlg:
-                    target = PopupDlgRechange(handleModelBasic.Target, Property.ReflectedType);
+                case HandleType.Download:
+                    target = RechangeDictionaryUrl(handleModelBasic.Target, Property.ReflectedType);
                     break;
                 case HandleType.Navigate:
                 case HandleType.ApiGet:
                 case HandleType.ApiPost:
-                case HandleType.Download:
-                    target = ModelCache.RechangeUrl(Property.ReflectedType, handleModelBasic.Target);
+                    target = ModelCache.RechangeUrl(Property.ReflectedType, (string)handleModelBasic.Target);
                     break;
                 case HandleType.Comfirm:
-                    target = LoopRechangeTarget(handleModelBasic.Target, Property.ReflectedType);
+                case HandleType.MultiButtons:
+                    target = LoopRechangeTarget2(handleModelBasic.Target, Property.ReflectedType);
                     break;
                 default:
                     break;
@@ -139,7 +126,7 @@ namespace UWT.Templates.Models.Templates.Lists
             return BuildButton(handleModelBasic, target);
         }
 
-        string BuildButton(HandleModelBasic handle, string target)
+        string BuildButton(HandleModel handle, string target)
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("<button type='button'");
@@ -157,52 +144,29 @@ namespace UWT.Templates.Models.Templates.Lists
             return sb.ToString();
         }
 
-        string HandleString(HandleModel itemHandle, ref TagHelperTemplateModel tagHelperTemplateModel)
+        private string RechangeDictionaryUrl(object target, Type reflectedType)
         {
-            string target = ModelCache.RechangeUrl(Property.ReflectedType, itemHandle.Target);
-            switch (itemHandle.Type.ToLower())
-            {
-                case HandleModel.TypeTagEvalJS:
-                    var uwtid = Uwtid.NewUwtid().ToStringZ2();
-                    if (tagHelperTemplateModel.ScriptList == null)
-                    {
-                        tagHelperTemplateModel.ScriptList = new List<string>();
-                    }
-                    tagHelperTemplateModel.ScriptList.Add($"function func{uwtid}(){{{target}}}");
-                    return $"<button type='button' onclick='javascript:func{uwtid}()' class='layui-btn layui-btn-xs {itemHandle.Class}'>{itemHandle.Title}</button>";
-                case HandleModel.TypeTagDownload:
-                    if (string.IsNullOrEmpty(target))
-                    {
-                        return $"<a class='layui-btn layui-btn-xs' disabled>{itemHandle.Title}</a>";
-                    }
-                    return $"<a href='{target}' target='_blank' download='{itemHandle.AskTooltip}' class='layui-btn layui-btn-xs {itemHandle.Class}'>{itemHandle.Title}</a>";
-                case HandleModel.TypeTagComfirm:
-                    target = LoopRechangeTarget(target, Property.ReflectedType);
-                    return $"<button type='button' data-type='{itemHandle.Type}' data-ask='{itemHandle.AskTooltip}' data-target='{target}' class='layui-btn layui-btn-xs {itemHandle.Class} handle-item'>{itemHandle.Title}</button>";
-                default:
-                    return $"<button type='button' data-type='{itemHandle.Type}' data-ask='{itemHandle.AskTooltip}' data-target='{target}' class='layui-btn layui-btn-xs {itemHandle.Class} handle-item'>{itemHandle.Title}</button>";
-            }
-        }
-
-        private string PopupDlgRechange(string target, Type reflectedType)
-        {
-            var dic = JsonSerializer.Deserialize<Dictionary<string, string>>(target);
+            var dic = (Dictionary<string, string>)target;
             dic["url"] = ModelCache.RechangeUrl(reflectedType, dic["url"]);
             return JsonSerializer.Serialize(dic);
         }
 
-        private string LoopRechangeTarget(string target, Type reflectedType)
+        private string LoopRechangeTarget2(object target, Type reflectedType)
         {
-            List<ChildrenHandleModel> childrens = JsonSerializer.Deserialize<List<ChildrenHandleModel>>(target);
+            List<HandleModel> childrens = (List<HandleModel>)target;
             foreach (var item in childrens)
             {
-                if (item.Type == HandleModel.TypeTagComfirm)
+                if (item.Type == HandleType.Comfirm || item.Type == HandleType.MultiButtons)
                 {
-                    item.Target = LoopRechangeTarget(item.Target, reflectedType);
+                    item.Target = LoopRechangeTarget2(item.Target, reflectedType);
+                }
+                else if (item.Type == HandleType.PopupDlg)
+                {
+                    item.Target = RechangeDictionaryUrl(item.Target, reflectedType);
                 }
                 else
                 {
-                    item.Target = ModelCache.RechangeUrl(reflectedType, item.Target);
+                    item.Target = ModelCache.RechangeUrl(reflectedType, (string)item.Target);
                 }
             }
             return JsonSerializer.Serialize(childrens);

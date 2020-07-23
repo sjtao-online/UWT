@@ -6,6 +6,7 @@ using System.Text;
 using UWT.Templates.Models.Basics;
 using UWT.Templates.Models.Filters;
 using UWT.Templates.Models.Interfaces;
+using UWT.Templates.Models.Templates.Commons;
 using UWT.Templates.Models.Templates.Lists;
 using UWT.Templates.Services.Caches;
 using UWT.Templates.Services.Expressions;
@@ -166,11 +167,11 @@ namespace UWT.Templates.Services.Extends
         {
             controller.AddViewDataList(TemplateControllerEx.HandlersConstKey, controller.CreateHandleModel(new ListHandleModel()
             {
+                IsBatch = true,
+                AskContent = askTooltip,
                 Title = title,
                 Target = target,
-                Type = ListHandleModel.TypeTagApiPost,
-                AskTooltip = askTooltip,
-                IsBatch = true
+                Type = HandleType.ApiPost
             }, controllerType));
             return controller;
         }

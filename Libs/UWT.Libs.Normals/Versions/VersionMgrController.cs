@@ -8,6 +8,7 @@ using UWT.Templates.Attributes.Forms;
 using UWT.Templates.Attributes.Lists;
 using UWT.Templates.Models.Consts;
 using UWT.Templates.Models.Interfaces;
+using UWT.Templates.Models.Templates.Commons;
 using UWT.Templates.Services.Extends;
 
 namespace UWT.Libs.Normals.Versions
@@ -152,30 +153,18 @@ namespace UWT.Libs.Normals.Versions
         }
         public bool Valid { get; set; }
         [ListColumn("操作", ColumnType = ColumnType.Handle, Index = int.MaxValue)]
-        public List<Templates.Models.Templates.Commons.HandleModel> HandleList
+        public List<HandleModel> HandleList
         {
             get
             {
-                List<Templates.Models.Templates.Commons.HandleModel> handles = new List<Templates.Models.Templates.Commons.HandleModel>();
+                List<HandleModel> handles = new List<HandleModel>();
                 if (Valid)
                 {
-                    handles.Add(new Templates.Models.Templates.Commons.HandleModel()
-                    {
-                        Title = "发布",
-                        Target = "/${VersionMgrController}/Publish?id=" + Id,
-                        AskTooltip = Templates.Models.Templates.Commons.HandleModel.TipPublish,
-                        Type = Templates.Models.Templates.Commons.HandleModel.TypeTagApiPost
-                    });
+                    handles.Add(HandleModel.BuildPublish("/${VersionMgrController}/Publish?id=" + Id));
                 }
                 else
                 {
-                    handles.Add(new Templates.Models.Templates.Commons.HandleModel()
-                    {
-                        Title = "撤下",
-                        Target = "/${VersionMgrController}/PublishRemove?id=" + Id,
-                        AskTooltip = Templates.Models.Templates.Commons.HandleModel.TipPublishRemove,
-                        Type = Templates.Models.Templates.Commons.HandleModel.TypeTagApiPost
-                    });
+                    handles.Add(HandleModel.BuildPublish("/${VersionMgrController}/PublishRemove?id=" + Id));
                 }
                 return handles;
             }

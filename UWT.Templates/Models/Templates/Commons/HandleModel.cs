@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
-using UWT.Templates.Models.Basics;
+using System.Text.Json.Serialization;
 
 namespace UWT.Templates.Models.Templates.Commons
 {
     /// <summary>
     /// 行内操作模型
     /// </summary>
-    public class HandleModel : ViewModelBasic, Interfaces.IHandleModel, Interfaces.IViewModelBasic
+    public class HandleModel : ViewModelBasic
     {
         #region 常量
         /// <summary>
@@ -48,103 +48,232 @@ namespace UWT.Templates.Models.Templates.Commons
         /// 默认值
         /// </summary>
         public const string ClassBtnDefault = "layui-btn-primary";
-        /// <summary>
-        /// A标签,用于直接跳转URL<br/>
-        /// 用于Type属性<br/>
-        /// Type默认值
-        /// </summary>
-        public const string TypeTagNavigate = "navigate";
-        /// <summary>
-        /// A标签,用于直接下载<br/>
-        /// 用于Type属性
-        /// </summary>
-        public const string TypeTagDownload = "download";
-        /// <summary>
-        /// BUTTON标签,用于执行一个GET操作<br/>
-        /// 用于Type属性
-        /// </summary>
-        public const string TypeTagApiGet = "api-get";
-        /// <summary>
-        /// BUTTON标签,用于执行一个POST操作<br/>
-        /// 用于Type属性
-        /// </summary>
-        public const string TypeTagApiPost = "api-post";
-        /// <summary>
-        /// BUTTON标签,用于执行一段JS动作<br/>
-        /// 用于Type属性
-        /// </summary>
-        public const string TypeTagEvalJS = "evaljs";
-        /// <summary>
-        /// BUTTON标签,用于弹出窗口<br/>
-        /// 用于Type属性
-        /// </summary>
-        public const string TypeTagPopupDlg = "popup";
-        /// <summary>
-        /// BUTTON标签,用于执行弹窗确认<br/>
-        /// </summary>
-        public const string TypeTagComfirm = "comfirm";
         #endregion
+        #region 属性
         /// <summary>
-        /// 类型
+        /// 操作类型
         /// </summary>
-        public string Type { get; set; } = TypeTagNavigate;
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public HandleType Type { get; internal set; }
         /// <summary>
-        /// 目标
-        /// </summary>
-        public string Target { get; set; }
-        /// <summary>
-        /// 标题
+        /// 按钮标题
         /// </summary>
         public string Title { get; set; }
         /// <summary>
-        /// 询问提示语
+        /// 提示
         /// </summary>
-        public string AskTooltip { get; set; }
+        public string Tooltip { get; set; }
         /// <summary>
-        /// 构建多筛选确认功能目标
+        /// 询问内容
         /// </summary>
-        /// <param name="hrefs">多操作模型接口</param>
-        /// <param name="tipContent">提示信息</param>
-        public void BuildMultiComfirmTarget(List<ChildrenHandleModel> hrefs, string tipContent)
+        public string AskContent { get; set; }
+        /// <summary>
+        /// 目标
+        /// </summary>
+        public object Target { get; internal set; }
+        #endregion
+
+        private static HandleModel Build(string title, object target, string askContent, string tooltip, HandleType type)
         {
-            Build(this, hrefs, tipContent);
+            return new HandleModel()
+            {
+                Title = title,
+                AskContent = askContent,
+                Target = target,
+                Tooltip = tooltip,
+                Type = type
+            };
         }
-        internal static void Build(Interfaces.IHandleModel handle, List<ChildrenHandleModel> hrefs, string tipContent)
+        #region 常用构建
+        /// <summary>
+        /// 构建下载
+        /// </summary>
+        /// <param name="title">标题</param>
+        /// <param name="url">URL</param>
+        /// <param name="savefilename">默认保存文件名</param>
+        /// <param name="askContent">询问内容</param>
+        /// <param name="tooltip">悬停提示</param>
+        /// <returns></returns>
+        public static HandleModel BuildDownload(string title, string url, string savefilename = null, string askContent = null, string tooltip = null)
         {
-            handle.Type = TypeTagComfirm;
-            handle.AskTooltip = tipContent;
-            handle.Target = JsonSerializer.Serialize(hrefs);
+            return Build(title, new Dictionary<string, string>()
+            {
+                ["url"] = url,
+                ["filename"] = savefilename,
+            }, askContent, tooltip, HandleType.Download);
         }
+
+        /// <summary>
+        /// 构建链接
+        /// </summary>
+        /// <param name="title">标题</param>
+        /// <param name="url">URL</param>
+        /// <param name="askContent">询问内容</param>
+        /// <param name="tooltip">悬停提示</param>
+        /// <returns></returns>
+        public static HandleModel BuildNavigate(string title, string url, string askContent = null, string tooltip = null)
+        {
+            return Build(title, url, askContent, tooltip, HandleType.Navigate);
+        }
+        /// <summary>
+        /// 构建API-POST
+        /// </summary>
+        /// <param name="title">标题</param>
+        /// <param name="url">URL</param>
+        /// <param name="askContent">询问内容</param>
+        /// <param name="tooltip">悬停提示</param>
+        /// <returns></returns>
+        public static HandleModel BuildApiPost(string title, string url, string askContent = null, string tooltip = null)
+        {
+            return Build(title, url, askContent, tooltip, HandleType.ApiPost);
+        }
+
+        /// <summary>
+        /// 构建“删除”
+        /// </summary>
+        /// <param name="url">URL</param>
+        /// <returns></returns>
+        public static HandleModel BuildDel(string url)
+        {
+            var del = BuildApiPost("删除", url, TipDel, "删除当前条目");
+            del.Class = HandleModel.ClassBtnDel;
+            return del;
+        }
+
+        /// <summary>
+        /// 构建“发布”
+        /// </summary>
+        /// <param name="url">URL</param>
+        /// <returns></returns>
+        public static HandleModel BuildPublish(string url)
+        {
+            return BuildApiPost("发布", url, TipPublish, "发布当前条目");
+        }
+
+        /// <summary>
+        /// 构建“撤下”
+        /// </summary>
+        /// <param name="url">URL</param>
+        /// <returns></returns>
+        public static HandleModel BuildPublishRemove(string url)
+        {
+            return BuildApiPost("撤下", url, TipPublishRemove, "撤下当前条目");
+        }
+
+        /// <summary>
+        /// 构建“编辑”
+        /// </summary>
+        /// <param name="url">URL</param>
+        /// <returns></returns>
+        public static HandleModel BuildModify(string url)
+        {
+            return BuildApiPost("编辑", url);
+        }
+
+        /// <summary>
+        /// 构建执行JS
+        /// </summary>
+        /// <param name="title">标题</param>
+        /// <param name="jscontent">js内容</param>
+        /// <param name="askContent">询问内容</param>
+        /// <param name="tooltip">悬停提示</param>
+        /// <returns></returns>
+        public static HandleModel BuildEvalJS(string title, string jscontent, string askContent = null, string tooltip = null)
+        {
+            return Build(title, jscontent, askContent, tooltip, HandleType.EvalJS);
+        }
+
+        /// <summary>
+        /// 构建多层询问结构
+        /// </summary>
+        /// <param name="title">标题</param>
+        /// <param name="list">操作结构列表</param>
+        /// <param name="askContent">询问内容</param>
+        /// <param name="tooltip">悬停提示</param>
+        /// <returns></returns>
+        public static HandleModel BuildComfirm(string title, List<HandleModel> list, string askContent = null, string tooltip = null)
+        {
+            return Build(title, list, askContent, tooltip, HandleType.Comfirm);
+        }
+        /// <summary>
+        /// 创建更多按钮
+        /// </summary>
+        /// <param name="title">标题</param>
+        /// <param name="list">按钮列表</param>
+        /// <param name="tooltip">悬停提示</param>
+        /// <returns></returns>
+        public static HandleModel BuildMultiButtons(string title, List<HandleModel> list, string tooltip = null)
+        {
+            return Build(title + "<i class=\"layui-icon layui-colorpicker-trigger-i layui-icon-down\"></i>", list, null, tooltip, HandleType.MultiButtons);
+        }
+
+        /// <summary>
+        /// 构建对话框
+        /// </summary>
+        /// <param name="title">标题</param>
+        /// <param name="url">对话框URL</param>
+        /// <param name="width">对话框宽[css]</param>
+        /// <param name="height">对话框高[css]</param>
+        /// <returns></returns>
+        public static HandleModel BuildPopupDlg(string title, string url, string width, string height)
+        {
+            return Build(title, new Dictionary<string, string>()
+            {
+                ["url"] = url,
+                ["width"] = width,
+                ["height"] = height
+            }, null, null, HandleType.PopupDlg);
+        }
+
+        #endregion
     }
+
     /// <summary>
-    /// 子操作项
+    /// 列表操作项
     /// </summary>
-    public class ChildrenHandleModel : Interfaces.IHandleModel
+    public class ListHandleModel : HandleModel
     {
         /// <summary>
-        /// 类型<br/>与HandleModel中类型行为一致
+        /// 是否批量操作
         /// </summary>
-        public string Type { get; set; } = HandleModel.TypeTagNavigate;
+        public bool IsBatch { get; set; }
+    }
+    /// <summary>
+    /// 操作类型
+    /// </summary>
+    public enum HandleType
+    {
         /// <summary>
-        /// 目标
+        /// BUTTON标签,用于执行一段JS动作
         /// </summary>
-        public string Target { get; set; }
+        EvalJS,
         /// <summary>
-        /// 标题
+        /// BUTTON标签,用于弹出对话框
         /// </summary>
-        public string Title { get; set; }
+        PopupDlg,
         /// <summary>
-        /// 询问提示语
+        /// A标签,用于直接下载
         /// </summary>
-        public string AskTooltip { get; set; }
+        Download,
         /// <summary>
-        /// 构建多筛选确认功能目标
+        /// A标签,用于直接跳转URL
         /// </summary>
-        /// <param name="hrefs">多操作模型接口</param>
-        /// <param name="tipContent">提示信息</param>
-        public void BuildMultiComfirmTarget(List<ChildrenHandleModel> hrefs, string tipContent)
-        {
-            HandleModel.Build(this, hrefs, tipContent);
-        }
+        Navigate,
+        /// <summary>
+        /// BUTTON标签,用于执行一个GET操作
+        /// </summary>
+        ApiGet,
+        /// <summary>
+        /// BUTTON标签,用于执行一个POST操作
+        /// </summary>
+        ApiPost,
+        /// <summary>
+        /// BUTTON标签,用于执行弹窗确认
+        /// </summary>
+        Comfirm,
+        /// <summary>
+        /// BUTTON标签,用于扩展多操作
+        /// </summary>
+        MultiButtons
     }
 }

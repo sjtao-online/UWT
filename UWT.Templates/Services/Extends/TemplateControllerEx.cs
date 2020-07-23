@@ -62,11 +62,7 @@ namespace UWT.Templates.Services.Extends
         /// <returns></returns>
         public static ITemplateController AddHandler(this ITemplateController controller, string title, string url, Type controllerType = null)
         {
-            controller.AddViewDataList(HandlersConstKey, controller.CreateHandleModel(new HandleModel()
-            {
-                Title = title,
-                Target = url
-            }, controllerType));
+            controller.AddViewDataList(HandlersConstKey, controller.CreateHandleModel(HandleModel.BuildNavigate(title, url), controllerType));
             return controller;
         }
         internal static void AddViewDataList<TItem>(this ITemplateController templateController, string key, TItem listItem)
@@ -98,21 +94,18 @@ namespace UWT.Templates.Services.Extends
             {
                 type = templateController.GetType();
             }
-            model.Target = ModelCache.RechangeUrl(type, model.Target);
-            if (model.Target.StartsWith("."))
+            string target = (string)model.Target;
+            target = ModelCache.RechangeUrl(type, target);
+            if (target.StartsWith("."))
             {
                 var controler = templateController.GetController();
                 var index = controler.Request.Path.Value.LastIndexOf('/');
                 if (index != -1)
                 {
-                    model.Target = controler.Request.Path.Value.Substring(0, index + 1) + model.Target.Substring(1);
+                    target = controler.Request.Path.Value.Substring(0, index + 1) + target.Substring(1);
                 }
             }
-
-            if (string.IsNullOrEmpty(model.Type))
-            {
-                model.Type = HandleModel.TypeTagNavigate;
-            }
+            model.Target = target;
             if (string.IsNullOrEmpty(model.Class))
             {
                 model.Class = HandleModel.ClassBtnDefault;

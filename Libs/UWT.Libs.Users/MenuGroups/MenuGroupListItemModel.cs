@@ -32,26 +32,9 @@ namespace UWT.Libs.Users.MenuGroups
             get
             {
                 List<HandleModel> handles = new List<HandleModel>();
-                handles.Add(new HandleModel()
-                {
-                    Title = "编辑",
-                    Type = HandleModel.TypeTagNavigate,
-                    Target = "/MenuGroups/Modify?id=" + Id
-                });
-                handles.Add(new HandleModel()
-                {
-                    Title = "编辑树",
-                    Type = HandleModel.TypeTagNavigate,
-                    Target = "/MenuGroups/ModifyTree?id=" + Id
-                });
-                handles.Add(new HandleModel()
-                {
-                    Title = "删除",
-                    Class = HandleModel.ClassBtnDel,
-                    Target = "/MenuGroups/Del?Id=" + Id,
-                    AskTooltip = HandleModel.TipDel,
-                    Type = HandleModel.TypeTagApiPost
-                });
+                handles.Add(HandleModel.BuildModify("/MenuGroups/Modify?id=" + Id));
+                handles.Add(HandleModel.BuildNavigate("编辑树", "/MenuGroups/ModifyTree?id=" + Id));
+                handles.Add(HandleModel.BuildNavigate("删除", "/MenuGroups/Del?Id=" + Id));
                 return handles;
             }
         }

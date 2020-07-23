@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Razor.Runtime.TagHelpers;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using UWT.Templates.Models.Interfaces;
+using UWT.Templates.Models.Templates.Commons;
 
 namespace UWT.Templates.Models.TagHelpers.Lists
 {
@@ -18,7 +19,7 @@ namespace UWT.Templates.Models.TagHelpers.Lists
             : base(html)
         {
         }
-        public List<UWT.Templates.Models.Templates.Commons.HandleModel> Model { get; set; }
+        public List<HandleModel> Model { get; set; }
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             output.TagName = "div";

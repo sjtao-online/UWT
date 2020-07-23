@@ -67,7 +67,7 @@
             {
                 var item = filter as UWT.Templates.Models.Interfaces.IFilterModel;
                 var op = UWT.Templates.Services.Converts.FilterTypeConverter.FilterTypeToString(item.FilterType);
-                <div class="layui-inline"
+                <div class="layui-inline uwt-query"
                      data-value-type="@item.ValueType" data-filter-type="@item.FilterType" data-name="@item.Name">
                     <label class="layui-form-label" id="@item.Name-title">@item.Title</label>
                     <div class="layui-input-inline">
@@ -83,7 +83,7 @@
                                     case UWT.Templates.Models.Filters.FilterType.GreaterThanOrEqual:
                                     case UWT.Templates.Models.Filters.FilterType.LessThan:
                                     case UWT.Templates.Models.Filters.FilterType.LessThanOrEqual:
-                                        <input class="layui-input uwt-query" type="text" data-op="@op" id="@item.Name" name="@item.Name" value="@item.Value" />
+                                        <input class="layui-input" type="text" data-op="@op" id="@item.Name" name="@item.Name" value="@item.Value" />
                                         break;
                                     case UWT.Templates.Models.Filters.FilterType.Between:
                                         Model.TemplateModel.AddCssList.AddResourcs(this.GetResourcePath() + "/admins/css/query-list.css");
@@ -127,7 +127,7 @@
                                     case UWT.Templates.Models.Filters.FilterType.Like:
                                     case UWT.Templates.Models.Filters.FilterType.StartWith:
                                     case UWT.Templates.Models.Filters.FilterType.EndWith:
-                                        <input class="layui-input uwt-query" type="text" data-op="@op" name="@item.Name" id="@item.Name" value="@item.Value" />
+                                        <input class="layui-input" type="text" data-op="@op" name="@item.Name" id="@item.Name" value="@item.Value" />
                                         break;
                                     default:
                                         break;
@@ -143,10 +143,10 @@
                                     case UWT.Templates.Models.Filters.FilterType.GreaterThanOrEqual:
                                     case UWT.Templates.Models.Filters.FilterType.LessThan:
                                     case UWT.Templates.Models.Filters.FilterType.LessThanOrEqual:
-                                        <input class="layui-input layui-date uwt-query" data-op="@op" data-type="datetime" data-range="false" type="text" id="@item.Name" name="@item.Name" value="@item.Value" />
+                                        <input class="layui-input layui-date" data-op="@op" data-type="datetime" data-range="false" type="text" id="@item.Name" name="@item.Name" value="@item.Value" />
                                         break;
                                     case UWT.Templates.Models.Filters.FilterType.Between:
-                                        <input class="layui-input layui-date uwt-query uwt-range" data-type="datetime" data-range="true" placeholder=" - " type="text" id="@item.Name" name="@item.Name" value="@item.Value" />
+                                        <input class="layui-input layui-date uwt-range" data-type="datetime" data-range="true" placeholder=" - " type="text" id="@item.Name" name="@item.Name" value="@item.Value" />
                                         break;
                                     case UWT.Templates.Models.Filters.FilterType.In:
                                     case UWT.Templates.Models.Filters.FilterType.Like:
@@ -167,13 +167,13 @@
                                     case UWT.Templates.Models.Filters.FilterType.GreaterThanOrEqual:
                                     case UWT.Templates.Models.Filters.FilterType.LessThan:
                                     case UWT.Templates.Models.Filters.FilterType.LessThanOrEqual:
-                                        <input class="layui-input uwt-query uwt-money" data-op="@op" type="text" id="@item.Name" name="@item.Name" value="@item.Value.ToMoneyText((int)item.Tag)" />
+                                        <input class="layui-input uwt-money" data-op="@op" type="text" id="@item.Name" name="@item.Name" value="@item.Value.ToMoneyText((int)item.Tag)" />
                                         break;
                                     case UWT.Templates.Models.Filters.FilterType.Between:
                                         Model.TemplateModel.AddCssList.AddResourcs(this.GetResourcePath() + "/admins/css/query-list.css");
-                                        <input class="layui-input uwt-query uwt-money half-input" data-op="@op" type="text" id="@item.Name-start" name="@item.Name" value="@item.Value.ToMoneyBegin((int)item.Tag)" />
+                                        <input class="layui-input uwt-money half-input" data-op="@op" type="text" id="@item.Name-start" name="@item.Name" value="@item.Value.ToMoneyBegin((int)item.Tag)" />
                                         <span class="ahalf-span">-</span>
-                                        <input class="layui-input uwt-query uwt-money half-input" data-op="@op" type="text" id="@item.Name-end" name="@item.Name" value="@item.Value.ToMoneyEnd((int)item.Tag)" />
+                                        <input class="layui-input uwt-money half-input" data-op="@op" type="text" id="@item.Name-end" name="@item.Name" value="@item.Value.ToMoneyEnd((int)item.Tag)" />
                                         break;
                                     case UWT.Templates.Models.Filters.FilterType.In:
                                     case UWT.Templates.Models.Filters.FilterType.Like:
@@ -191,7 +191,7 @@
                                 {
                                     List<int> selectedList = new List<int>();
                                     HasChildrenMaxLevel(item.CanSelectList, item.FilterType, item.Value, out int maxLevel, ref selectedList);
-                                    <select class="uwt-query select-has-children" name="@item.Name" id="@item.Name">
+                                    <select class="select-has-children" name="@item.Name" id="@item.Name">
                                         @foreach (var option in item.CanSelectList)
                                         {
                                             if (option.Children != null && option.Children.Count != 0)

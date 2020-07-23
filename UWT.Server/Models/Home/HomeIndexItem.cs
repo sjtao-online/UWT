@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UWT.Templates.Attributes.Lists;
+using UWT.Templates.Models.Templates.Commons;
 
 namespace UWT.Server.Models.Home
 {
@@ -16,16 +17,12 @@ namespace UWT.Server.Models.Home
         [ListColumn("备注")]
         public string Desc { get; set; }
         [ListColumn("操作", Index = int.MaxValue, ColumnType = ColumnType.Handle)]
-        public List<Templates.Models.Templates.Commons.HandleModel> HandleList
+        public List<HandleModel> HandleList
         {
             get
             {
-                List<Templates.Models.Templates.Commons.HandleModel> handles = new List<Templates.Models.Templates.Commons.HandleModel>();
-                handles.Add(new Templates.Models.Templates.Commons.HandleModel()
-                {
-                    Title = "编辑",
-                    Target = "/Home/Modify?id=" + Id
-                });
+                List<HandleModel> handles = new List<HandleModel>();
+                handles.Add(HandleModel.BuildModify("/Home/Modify?id=" + Id));
                 return handles;
             }
         }

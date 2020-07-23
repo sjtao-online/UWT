@@ -9,6 +9,7 @@ using UWT.Templates.Attributes.Lists;
 using UWT.Templates.Models.Basics;
 using UWT.Templates.Models.Consts;
 using UWT.Templates.Models.Interfaces;
+using UWT.Templates.Models.Templates.Commons;
 using UWT.Templates.Models.Templates.Forms;
 using UWT.Templates.Services.Extends;
 
@@ -248,17 +249,12 @@ namespace UWT.Libs.Normals.News
         [ListColumn("说明")]
         public string Desc { get; set; }
         [ListColumn("操作", ColumnType = ColumnType.Handle, Index = int.MaxValue)]
-        public List<Templates.Models.Templates.Commons.HandleModel> HandleList
+        public List<HandleModel> HandleList
         {
             get
             {
-                List<Templates.Models.Templates.Commons.HandleModel> handles = new List<Templates.Models.Templates.Commons.HandleModel>();
-                handles.Add(new Templates.Models.Templates.Commons.HandleModel()
-                {
-                    Title = "编辑",
-                    Target = "/${NewsCatesController}/Modify?Id=" + Id,
-                    Type = UWT.Templates.Models.Templates.Commons.HandleModel.TypeTagNavigate
-                });
+                List<HandleModel> handles = new List<HandleModel>();
+                handles.Add(HandleModel.BuildModify("/${NewsCatesController}/Modify?Id=" + Id));
                 return handles;
             }
         }

@@ -2,5 +2,5 @@
 @using UWT.Templates.Services.Extends
 @foreach (var item in Model.DataModel)
 {
-    <button data-target="@item.Target" data-type="@item.Type" data-ask="@item.AskTooltip" class="layui-btn handle-item@(((item is UWT.Templates.Models.Templates.Lists.ListHandleModel) && (item as UWT.Templates.Models.Templates.Lists.ListHandleModel).IsBatch)?" batch":"") @item.Class" style="@item.Styles">@item.Title</button>
+    <button data-target="@item.Target" data-type="@item.Type" data-ask="@item.AskContent" class="layui-btn handle-item@(((item is UWT.Templates.Models.Templates.Commons.ListHandleModel) && (item as UWT.Templates.Models.Templates.Commons.ListHandleModel).IsBatch)?" batch":"") @item.Class" style="@item.Styles">@item.Title</button>
 }

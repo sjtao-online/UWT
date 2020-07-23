@@ -81,16 +81,22 @@ namespace UWT.Server.Controllers
         public int Index { get; set; }
         public string Name { get; set; }
         [ListColumn("操作", ColumnType =  ColumnType.Handle, Styles = "width: 200px;")]
-        public List<HandleModelBasic> HandleList
+        public List<HandleModel> HandleList
         {
             get
             {
-                var list = new List<HandleModelBasic>();
-                list.Add(HandleModelBasic.BuildEvalJS("复制", "clipboardCopy('123')", "确定要复制吗？", "复制"));
-                list.Add(HandleModelBasic.BuildDel(".Del"));
-                list.Add(HandleModelBasic.BuildDownload("下载", ".download"));
-                list.Add(HandleModelBasic.BuildNavigate("详情", ".detail?id=" + Index, "确定要看详情吗？"));
-                list.Add(HandleModelBasic.BuildPopupDlg("弹出", ".PopupDlg", "", ""));
+                var list = new List<HandleModel>();
+                list.Add(HandleModel.BuildEvalJS("复制", "clipboardCopy('123')", "确定要复制吗？", "复制"));
+                list.Add(HandleModel.BuildDel(".Del"));
+                list.Add(HandleModel.BuildDownload("下载", ".download"));
+                list.Add(HandleModel.BuildNavigate("详情", ".detail?id=" + Index, "确定要看详情吗？"));
+                list.Add(HandleModel.BuildPopupDlg("弹出", ".PopupDlg", "", ""));
+                list.Add(HandleModel.BuildMultiButtons("更多", new List<HandleModel>()
+                {
+                    HandleModel.BuildDel(".Abc"),
+                    HandleModel.BuildDel(".Abc"),
+                    HandleModel.BuildDel(".Abc"),
+                }));
                 return list;
             }
         }

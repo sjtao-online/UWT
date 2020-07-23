@@ -19,31 +19,14 @@ namespace UWT.Libs.Normals.Banners
         [ListColumn("图片", ColumnType = ColumnType.Image)]
         public string ImageUrl { get; set; }
         [ListColumn("操作", Index = int.MaxValue, ColumnType = ColumnType.Handle)]
-        public List<Templates.Models.Templates.Commons.HandleModel> HandleList
+        public List<HandleModel> HandleList
         {
             get
             {
-                List<Templates.Models.Templates.Commons.HandleModel> handles = new List<Templates.Models.Templates.Commons.HandleModel>();
-                handles.Add(new Templates.Models.Templates.Commons.HandleModel()
-                {
-                    Title = "编辑",
-                    Target = "/${BannerController}/Modify?Id=" + Id,
-                    Type = Templates.Models.Templates.Commons.HandleModel.TypeTagNavigate
-                });
-                handles.Add(new Templates.Models.Templates.Commons.HandleModel()
-                {
-                    Title = "删除",
-                    Target = "/${BannerController}/Del?Id=" + Id,
-                    Type = Templates.Models.Templates.Commons.HandleModel.TypeTagApiPost,
-                    Class = HandleModel.ClassBtnDel,
-                    AskTooltip = HandleModel.TipDel
-                });
-                handles.Add(new Templates.Models.Templates.Commons.HandleModel()
-                {
-                    Title = "详情",
-                    Target = "/${BannerController}/Detail?Id=" + Id,
-                    Type = Templates.Models.Templates.Commons.HandleModel.TypeTagNavigate
-                });
+                List<HandleModel> handles = new List<HandleModel>();
+                handles.Add(HandleModel.BuildModify("/${BannerController}/Modify?Id=" + Id));
+                handles.Add(HandleModel.BuildDel("/${BannerController}/Del?Id=" + Id));
+                handles.Add(HandleModel.BuildNavigate("详情", "/${BannerController}/Detail?Id=" + Id));
                 return handles;
             }
         }

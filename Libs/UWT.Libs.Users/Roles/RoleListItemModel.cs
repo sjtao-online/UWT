@@ -28,20 +28,8 @@ namespace UWT.Libs.Users.Roles
             get
             {
                 List<HandleModel> handles = new List<HandleModel>();
-                handles.Add(new HandleModel()
-                {
-                    Type = HandleModel.TypeTagNavigate,
-                    Target = "/Roles/Modify?id=" + Id,
-                    Title = "编辑"
-                });
-                handles.Add(new HandleModel()
-                {
-                    Title = "删除",
-                    Type = HandleModel.TypeTagNavigate,
-                    Target = "/Roles/Del?id=" + Id,
-                    Class = HandleModel.ClassBtnDel,
-                    AskTooltip = HandleModel.TipDel
-                });
+                handles.Add(HandleModel.BuildModify("/Roles/Modify?id=" + Id));
+                handles.Add(HandleModel.BuildDel("/Roles/Del?id=" + Id));
                 return handles;
             }
         }

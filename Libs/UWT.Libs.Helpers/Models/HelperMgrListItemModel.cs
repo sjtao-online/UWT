@@ -16,44 +16,17 @@ namespace UWT.Libs.Helpers.Models
             get
             {
                 var list = new List<HandleModel>();
-                list.Add(new HandleModel()
-                {
-                    Title = "预览",
-                    Target = "/Helpers/Detail?id=" + Id,
-                    Type = HandleModel.TypeTagNavigate
-                });
+                list.Add(HandleModel.BuildNavigate("预览", "/Helpers/Detail?id=" + Id));
                 if (Publish == "-")
                 {
-                    list.Add(new HandleModel()
-                    {
-                        Title = "编辑",
-                        Target = "/HelperMgr/Modify?id=" + Id
-                    });
-                    list.Add(new HandleModel()
-                    {
-                        Title = "发布",
-                        Target = "/HelperMgr/Publish?id=" + Id,
-                        Type = HandleModel.TypeTagApiPost,
-                        AskTooltip = HandleModel.TipPublishRemove
-                    });
+                    list.Add(HandleModel.BuildNavigate("编辑", "/HelperMgr/Modify?id=" + Id));
+                    list.Add(HandleModel.BuildPublish("/HelperMgr/Publish?id=" + Id));
                 }
                 else
                 {
-                    list.Add(new HandleModel()
-                    {
-                        Title = "撤下",
-                        Target = "/HelperMgr/PublishRemove?id=" + Id,
-                        Type = HandleModel.TypeTagApiPost,
-                        AskTooltip = HandleModel.TipPublishRemove
-                    });
+                    list.Add(HandleModel.BuildPublishRemove("/HelperMgr/PublishRemove?id=" + Id));
                 }
-                list.Add(new HandleModel()
-                {
-                    Title = "删除",
-                    Target = "/HelperMgr/Del?id=" + Id,
-                    Type = HandleModel.TypeTagApiPost,
-                    AskTooltip = HandleModel.TipDel
-                });
+                list.Add(HandleModel.BuildDel("/HelperMgr/Del?id=" + Id));
                 return list;
             }
         }

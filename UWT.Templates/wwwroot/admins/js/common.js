@@ -40,7 +40,10 @@ function getClassNameTagCount(arr) {
     return num;
 }
 
-function api(url, data, success, fail, type) {
+function api(url, data, success, fail, type, method) {
+    if (method === undefined) {
+        method = "POST";
+    }
     var ajaxdata = {
         error: function () {
             alert("网络错误");
@@ -49,7 +52,7 @@ function api(url, data, success, fail, type) {
             ajaxSuccess(rx, success, fail);
         },
         dataType: "json",
-        type: "post",
+        type: method,
         headers: {
             "client-version": "Web-1.0"
         }
