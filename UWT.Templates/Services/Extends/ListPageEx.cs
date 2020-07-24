@@ -124,14 +124,15 @@ namespace UWT.Templates.Services.Extends
         /// <param name="resetCallback">重置回调</param>
         /// <param name="initCallback">初始化回调, 参数是lastvalue</param>
         /// <param name="lastvalue">上一次值</param>
-        /// <param name="callback"></param>
+        /// <param name="tag">额外数据，会做为Model传入cshtml中</param>
         /// <returns></returns>
         public static IListToPage<TTable, TListItem> AddFilterFromCshtml<TTable, TListItem>(this IListToPage<TTable, TListItem> controller, 
             string viewpath,
             string searchCallback,
             string resetCallback,
             string initCallback,
-            string lastvalue)
+            string lastvalue,
+            object tag = null)
             where TTable : class
             where TListItem : class
         {
@@ -141,7 +142,8 @@ namespace UWT.Templates.Services.Extends
                 InitCallback = initCallback,
                 LastValue = lastvalue,
                 ResetCallback = resetCallback,
-                SearchCallback = searchCallback
+                SearchCallback = searchCallback,
+                Tag = tag
             });
             return controller;
         }

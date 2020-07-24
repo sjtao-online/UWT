@@ -237,7 +237,7 @@
             {
                 var cshtml = filter as UWT.Templates.Models.Interfaces.IFilterModelFromCshtml;
                 <div class="cshtml-filter layui-inline" data-init="@cshtml.InitCallback" data-search="@cshtml.SearchCallback" data-reset="@cshtml.ResetCallback" data-value="@cshtml.LastValue">
-                    @Html.Partial(cshtml.ViewPath)
+                    @Html.Partial(cshtml.ViewPath, cshtml.Tag)
                 </div>
             }
             else

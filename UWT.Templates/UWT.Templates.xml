@@ -2797,38 +2797,6 @@
             控制器基础接口
             </summary>
         </member>
-        <member name="T:UWT.Templates.Models.Interfaces.IHandleModel">
-            <summary>
-            操作模型接口
-            </summary>
-        </member>
-        <member name="P:UWT.Templates.Models.Interfaces.IHandleModel.Type">
-            <summary>
-            类型
-            </summary>
-        </member>
-        <member name="P:UWT.Templates.Models.Interfaces.IHandleModel.Target">
-            <summary>
-            目标
-            </summary>
-        </member>
-        <member name="P:UWT.Templates.Models.Interfaces.IHandleModel.Title">
-            <summary>
-            标题
-            </summary>
-        </member>
-        <member name="P:UWT.Templates.Models.Interfaces.IHandleModel.AskTooltip">
-            <summary>
-            确认提示
-            </summary>
-        </member>
-        <member name="M:UWT.Templates.Models.Interfaces.IHandleModel.BuildMultiComfirmTarget(System.Collections.Generic.List{UWT.Templates.Models.Templates.Commons.ChildrenHandleModel},System.String)">
-            <summary>
-            构建多筛选确认功能目标
-            </summary>
-            <param name="hrefs">多操作模型接口</param>
-            <param name="tipContent">提示文本</param>
-        </member>
         <member name="T:UWT.Templates.Models.Interfaces.IUwtHelper">
             <summary>
             帮助文档接口
@@ -2994,45 +2962,24 @@
             默认值
             </summary>
         </member>
-        <member name="F:UWT.Templates.Models.Templates.Commons.HandleModel.TypeTagNavigate">
-            <summary>
-            A标签,用于直接跳转URL<br/>
-            用于Type属性<br/>
-            Type默认值
-            </summary>
-        </member>
-        <member name="F:UWT.Templates.Models.Templates.Commons.HandleModel.TypeTagDownload">
-            <summary>
-            A标签,用于直接下载<br/>
-            用于Type属性
-            </summary>
-        </member>
-        <member name="F:UWT.Templates.Models.Templates.Commons.HandleModel.TypeTagApiGet">
-            <summary>
-            BUTTON标签,用于执行一个GET操作<br/>
-            用于Type属性
-            </summary>
-        </member>
-        <member name="F:UWT.Templates.Models.Templates.Commons.HandleModel.TypeTagApiPost">
-            <summary>
-            BUTTON标签,用于执行一个POST操作<br/>
-            用于Type属性
-            </summary>
-        </member>
-        <member name="F:UWT.Templates.Models.Templates.Commons.HandleModel.TypeTagEvalJS">
-            <summary>
-            BUTTON标签,用于执行一段JS动作<br/>
-            用于Type属性
-            </summary>
-        </member>
-        <member name="F:UWT.Templates.Models.Templates.Commons.HandleModel.TypeTagComfirm">
-            <summary>
-            BUTTON标签,用于执行弹窗确认<br/>
-            </summary>
-        </member>
         <member name="P:UWT.Templates.Models.Templates.Commons.HandleModel.Type">
             <summary>
-            类型
+            操作类型
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Models.Templates.Commons.HandleModel.Title">
+            <summary>
+            按钮标题
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Models.Templates.Commons.HandleModel.Tooltip">
+            <summary>
+            提示
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Models.Templates.Commons.HandleModel.AskContent">
+            <summary>
+            询问内容
             </summary>
         </member>
         <member name="P:UWT.Templates.Models.Templates.Commons.HandleModel.Target">
@@ -3040,54 +2987,158 @@
             目标
             </summary>
         </member>
-        <member name="P:UWT.Templates.Models.Templates.Commons.HandleModel.Title">
+        <member name="M:UWT.Templates.Models.Templates.Commons.HandleModel.BuildDownload(System.String,System.String,System.String,System.String,System.String)">
             <summary>
-            标题
+            构建下载
+            </summary>
+            <param name="title">标题</param>
+            <param name="url">URL</param>
+            <param name="savefilename">默认保存文件名</param>
+            <param name="askContent">询问内容</param>
+            <param name="tooltip">悬停提示</param>
+            <returns></returns>
+        </member>
+        <member name="M:UWT.Templates.Models.Templates.Commons.HandleModel.BuildNavigate(System.String,System.String,System.String,System.String)">
+            <summary>
+            构建链接
+            </summary>
+            <param name="title">标题</param>
+            <param name="url">URL</param>
+            <param name="askContent">询问内容</param>
+            <param name="tooltip">悬停提示</param>
+            <returns></returns>
+        </member>
+        <member name="M:UWT.Templates.Models.Templates.Commons.HandleModel.BuildApiPost(System.String,System.String,System.String,System.String)">
+            <summary>
+            构建API-POST
+            </summary>
+            <param name="title">标题</param>
+            <param name="url">URL</param>
+            <param name="askContent">询问内容</param>
+            <param name="tooltip">悬停提示</param>
+            <returns></returns>
+        </member>
+        <member name="M:UWT.Templates.Models.Templates.Commons.HandleModel.BuildDel(System.String)">
+            <summary>
+            构建“删除”
+            </summary>
+            <param name="url">URL</param>
+            <returns></returns>
+        </member>
+        <member name="M:UWT.Templates.Models.Templates.Commons.HandleModel.BuildPublish(System.String)">
+            <summary>
+            构建“发布”
+            </summary>
+            <param name="url">URL</param>
+            <returns></returns>
+        </member>
+        <member name="M:UWT.Templates.Models.Templates.Commons.HandleModel.BuildPublishRemove(System.String)">
+            <summary>
+            构建“撤下”
+            </summary>
+            <param name="url">URL</param>
+            <returns></returns>
+        </member>
+        <member name="M:UWT.Templates.Models.Templates.Commons.HandleModel.BuildModify(System.String)">
+            <summary>
+            构建“编辑”
+            </summary>
+            <param name="url">URL</param>
+            <returns></returns>
+        </member>
+        <member name="M:UWT.Templates.Models.Templates.Commons.HandleModel.BuildEvalJS(System.String,System.String,System.String,System.String)">
+            <summary>
+            构建执行JS
+            </summary>
+            <param name="title">标题</param>
+            <param name="jscontent">js内容</param>
+            <param name="askContent">询问内容</param>
+            <param name="tooltip">悬停提示</param>
+            <returns></returns>
+        </member>
+        <member name="M:UWT.Templates.Models.Templates.Commons.HandleModel.BuildComfirm(System.String,System.Collections.Generic.List{UWT.Templates.Models.Templates.Commons.HandleModel},System.String,System.String)">
+            <summary>
+            构建多层询问结构
+            </summary>
+            <param name="title">标题</param>
+            <param name="list">操作结构列表</param>
+            <param name="askContent">询问内容</param>
+            <param name="tooltip">悬停提示</param>
+            <returns></returns>
+        </member>
+        <member name="M:UWT.Templates.Models.Templates.Commons.HandleModel.BuildMultiButtons(System.String,System.Collections.Generic.List{UWT.Templates.Models.Templates.Commons.HandleModel},System.String)">
+            <summary>
+            创建更多按钮
+            </summary>
+            <param name="title">标题</param>
+            <param name="list">按钮列表</param>
+            <param name="tooltip">悬停提示</param>
+            <returns></returns>
+        </member>
+        <member name="M:UWT.Templates.Models.Templates.Commons.HandleModel.BuildPopupDlg(System.String,System.String,System.String,System.String)">
+            <summary>
+            构建对话框
+            </summary>
+            <param name="title">标题</param>
+            <param name="url">对话框URL</param>
+            <param name="width">对话框宽[css]</param>
+            <param name="height">对话框高[css]</param>
+            <returns></returns>
+        </member>
+        <member name="T:UWT.Templates.Models.Templates.Commons.ListHandleModel">
+            <summary>
+            列表操作项
             </summary>
         </member>
-        <member name="P:UWT.Templates.Models.Templates.Commons.HandleModel.AskTooltip">
+        <member name="P:UWT.Templates.Models.Templates.Commons.ListHandleModel.IsBatch">
             <summary>
-            询问提示语
+            是否批量操作
             </summary>
         </member>
-        <member name="M:UWT.Templates.Models.Templates.Commons.HandleModel.BuildMultiComfirmTarget(System.Collections.Generic.List{UWT.Templates.Models.Templates.Commons.ChildrenHandleModel},System.String)">
+        <member name="T:UWT.Templates.Models.Templates.Commons.HandleType">
             <summary>
-            构建多筛选确认功能目标
-            </summary>
-            <param name="hrefs">多操作模型接口</param>
-            <param name="tipContent">提示信息</param>
-        </member>
-        <member name="T:UWT.Templates.Models.Templates.Commons.ChildrenHandleModel">
-            <summary>
-            子操作项
+            操作类型
             </summary>
         </member>
-        <member name="P:UWT.Templates.Models.Templates.Commons.ChildrenHandleModel.Type">
+        <member name="F:UWT.Templates.Models.Templates.Commons.HandleType.EvalJS">
             <summary>
-            类型<br/>与HandleModel中类型行为一致
+            BUTTON标签,用于执行一段JS动作
             </summary>
         </member>
-        <member name="P:UWT.Templates.Models.Templates.Commons.ChildrenHandleModel.Target">
+        <member name="F:UWT.Templates.Models.Templates.Commons.HandleType.PopupDlg">
             <summary>
-            目标
+            BUTTON标签,用于弹出对话框
             </summary>
         </member>
-        <member name="P:UWT.Templates.Models.Templates.Commons.ChildrenHandleModel.Title">
+        <member name="F:UWT.Templates.Models.Templates.Commons.HandleType.Download">
             <summary>
-            标题
+            A标签,用于直接下载
             </summary>
         </member>
-        <member name="P:UWT.Templates.Models.Templates.Commons.ChildrenHandleModel.AskTooltip">
+        <member name="F:UWT.Templates.Models.Templates.Commons.HandleType.Navigate">
             <summary>
-            询问提示语
+            A标签,用于直接跳转URL
             </summary>
         </member>
-        <member name="M:UWT.Templates.Models.Templates.Commons.ChildrenHandleModel.BuildMultiComfirmTarget(System.Collections.Generic.List{UWT.Templates.Models.Templates.Commons.ChildrenHandleModel},System.String)">
+        <member name="F:UWT.Templates.Models.Templates.Commons.HandleType.ApiGet">
             <summary>
-            构建多筛选确认功能目标
+            BUTTON标签,用于执行一个GET操作
             </summary>
-            <param name="hrefs">多操作模型接口</param>
-            <param name="tipContent">提示信息</param>
+        </member>
+        <member name="F:UWT.Templates.Models.Templates.Commons.HandleType.ApiPost">
+            <summary>
+            BUTTON标签,用于执行一个POST操作
+            </summary>
+        </member>
+        <member name="F:UWT.Templates.Models.Templates.Commons.HandleType.Comfirm">
+            <summary>
+            BUTTON标签,用于执行弹窗确认
+            </summary>
+        </member>
+        <member name="F:UWT.Templates.Models.Templates.Commons.HandleType.MultiButtons">
+            <summary>
+            BUTTON标签,用于扩展多操作
+            </summary>
         </member>
         <member name="T:UWT.Templates.Models.Templates.Commons.ViewModelBasic">
             <summary>
@@ -3438,16 +3489,6 @@
         <member name="P:UWT.Templates.Models.Templates.Lists.ListColumnModel.ModelEx">
             <summary>
             扩展信息
-            </summary>
-        </member>
-        <member name="T:UWT.Templates.Models.Templates.Lists.ListHandleModel">
-            <summary>
-            列表操作项
-            </summary>
-        </member>
-        <member name="P:UWT.Templates.Models.Templates.Lists.ListHandleModel.IsBatch">
-            <summary>
-            是否批量操作
             </summary>
         </member>
         <member name="P:UWT.Templates.Models.Templates.Lists.ToPageModel.PageSize">
@@ -4665,6 +4706,19 @@
             <typeparam name="TModel"></typeparam>
             <param name="razorPage"></param>
             <returns></returns>
+        </member>
+        <member name="T:UWT.Templates.Services.Extends.StringBuilderEx">
+            <summary>
+            StringBuild扩展方法
+            </summary>
+        </member>
+        <member name="M:UWT.Templates.Services.Extends.StringBuilderEx.UwtAppend(System.Text.StringBuilder,System.String,System.String)">
+            <summary>
+            添加内容
+            </summary>
+            <param name="sb">StringBuilder主体</param>
+            <param name="appendText">要添加的内容，为null或空不添加</param>
+            <param name="format">格式化字符串，为空为直接添加内容</param>
         </member>
         <member name="T:UWT.Templates.Services.Extends.TemplateControllerEx">
             <summary>

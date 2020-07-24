@@ -8,6 +8,9 @@ using UWT.Templates.Services.Converts;
 
 namespace UWT.Templates.Models.Interfaces
 {
+    /// <summary>
+    /// 筛选项基础接口
+    /// </summary>
     public interface IFilterBasicModel
     {
         
@@ -48,15 +51,34 @@ namespace UWT.Templates.Models.Interfaces
         object Tag { get; }
     }
     /// <summary>
-    /// 
+    /// cshtml扩展筛选项
     /// </summary>
     public interface IFilterModelFromCshtml : IFilterBasicModel
     {
+        /// <summary>
+        /// Cshtml路径
+        /// </summary>
         string ViewPath { get; set; }
+        /// <summary>
+        /// 搜索回调方法名
+        /// </summary>
         string SearchCallback { get; set; }
+        /// <summary>
+        /// 重置回调方法名
+        /// </summary>
         string ResetCallback { get; set; }
+        /// <summary>
+        /// 初始化回调方法名
+        /// </summary>
         string InitCallback { get; set; }
+        /// <summary>
+        /// 上次的值
+        /// </summary>
         string LastValue { get; set; }
+        /// <summary>
+        /// 扩展信息,作为Model出现
+        /// </summary>
+        object Tag { get; set; }
     }
     /// <summary>
     /// 筛选选择项

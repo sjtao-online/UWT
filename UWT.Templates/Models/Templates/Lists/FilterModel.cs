@@ -24,5 +24,6 @@ namespace UWT.Templates.Models.Templates.Lists
         public string ResetCallback { get; set; }
         public string InitCallback { get; set; }
         public string LastValue { get; set; }
+        public object Tag { get; set; }
     }
 }
