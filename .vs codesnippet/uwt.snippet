@@ -165,13 +165,13 @@
             using (var db = this.GetDB())
             {
                 var table = db.UwtGetTable<$ttable$>();
-                var q = from it in table
-                        where it.Id == id && it.Valid
-                        select new $type$
-                        {
-                            Id = it.Id,
-                            $end$
-                        };
+                var q = (from it in table
+                         where it.Id == id && it.Valid
+                         select new $type$
+                         {
+                             Id = it.Id,
+                             $end$
+                         }).Take(1);
                 if (q.Count() == 0)
                 {
                     return this.ItemNotFound();
@@ -279,7 +279,7 @@
             using (var db = this.GetDB())
             {
                 var table = db.UwtGetTable<$type$>();
-                var o = from it in table where it.Id == id select 1;
+                var o = (from it in table where it.Id == id select 1).Take(1);
                 if (o.Count() == 0)
                 {
                     return this.Error($e$.Item_NotFound);

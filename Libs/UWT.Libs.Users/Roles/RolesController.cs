@@ -96,16 +96,17 @@ namespace UWT.Libs.Users.Roles
             this.UsingDb(db =>
             {
                 var table = db.UwtGetTable<IDbRoleTable>();
-                var q = from it in table 
-                        join url in db.UwtGetTable<IDbModuleTable>() on it.HomePageUrl equals url.Url
-                        where it.Id == id && it.Valid select new RoleModifyModel()
-                {
-                    Id = it.Id,
-                    Name = it.Name,
-                    Desc = it.Desc,
-                    MenuGroupId = it.MenuGroupId,
-                    HomePageUrl = url.Id
-                };
+                var q = (from it in table
+                         join url in db.UwtGetTable<IDbModuleTable>() on it.HomePageUrl equals url.Url
+                         where it.Id == id && it.Valid
+                         select new RoleModifyModel()
+                         {
+                             Id = it.Id,
+                             Name = it.Name,
+                             Desc = it.Desc,
+                             MenuGroupId = it.MenuGroupId,
+                             HomePageUrl = url.Id
+                         }).Take(1);
                 if (q.Count() != 0)
                 {
                     current = q.First();

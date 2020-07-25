@@ -59,7 +59,7 @@ namespace UWT.Libs.Normals.Banners
             {
                 return this.Error(Templates.Models.Basics.ErrorCode.FormCheckError, ret);
             }
-            this.UsingDb(db =>
+            using (var db = this.GetDB())
             {
                 var table = db.GetTable<TDbBannerModel>();
                 table.Insert(() => new TDbBannerModel()
@@ -70,20 +70,18 @@ namespace UWT.Libs.Normals.Banners
                     Index = model.Index,
                     Target = model.TargetUrl,
                     TargetType = model.Type,
-                    
                 });
-            });
+            }
             return this.Success();
         }
 
         public virtual IActionResult Modify(int id)
         {
             this.ActionLog();
-            BannerModifyModel<TBannerCateSimpleSelectBuilder, TLinkTypeSimpleSelectBuilder> modify = null;
-            this.UsingDb(db =>
+            using (var db = this.GetDB())
             {
                 var table = db.GetTable<TDbBannerModel>();
-                var q = from it in table
+                var q = (from it in table
                         where it.Id == id && it.Valid
                         select new BannerModifyModel<TBannerCateSimpleSelectBuilder, TLinkTypeSimpleSelectBuilder>
                         {
@@ -94,17 +92,13 @@ namespace UWT.Libs.Normals.Banners
                             Index = it.Index,
                             Cate = it.Cate,
                             Type = it.TargetType
-                        };
-                if (q.Count() != 0)
+                        }).Take(1);
+                if (q.Count() == 0)
                 {
-                    modify = q.First();
+                    return this.ItemNotFound();
                 }
-            });
-            if (modify == null)
-            {
-                return this.ItemNotFound();
+                return this.FormResult<BannerModifyModel<TBannerCateSimpleSelectBuilder, TLinkTypeSimpleSelectBuilder>>(q.First()).View();
             }
-            return this.FormResult<BannerModifyModel<TBannerCateSimpleSelectBuilder, TLinkTypeSimpleSelectBuilder>>(modify).View();
         }
 
         [HttpPost]
@@ -136,52 +130,44 @@ namespace UWT.Libs.Normals.Banners
         public virtual object Del(int id)
         {
             this.ActionLog();
-            bool notfound = false;
-            this.UsingDb(db =>
+            using (var db = this.GetDB())
             {
                 var bannerTable = db.GetTable<TDbBannerModel>();
-                var o = from it in bannerTable where it.Id == id && it.Valid select 1;
+                var o = (from it in bannerTable where it.Id == id && it.Valid select 1).Take(1);
                 if (o.Count() == 0)
                 {
-                    notfound = true;
-                    return;
+                    return this.Error(Templates.Models.Basics.ErrorCode.Item_NotFound);
                 }
                 bannerTable.Update(m => m.Id == id, m => new TDbBannerModel()
                 {
                     Valid = false
                 });
-            });
-            return notfound ? this.Error(Templates.Models.Basics.ErrorCode.Item_NotFound) : this.Success();
+                return this.Success();
+
+            }
         }
         public IActionResult Detail(int id)
         {
             this.ActionLog();
-            BannerDetailModel detail = null;
-            this.UsingDb(db =>
+            using (var db = this.GetDB())
             {
                 var table = db.GetTable<TDbBannerModel>();
-                var q = from it in table
-                        where it.Id == id && it.Valid
-                        select new BannerDetailModel()
-                        {
-                            Title = it.Title,
-                            SubTitle = it.SubTitle,
-                            Image = it.Image,
-                            Index = it.Index,
-                            Desc = it.Desc,
-                            // Cate = it.Cate,
-                            // Type = it.TargetType
-                        };
-                if (q.Count() != 0)
+                var q = (from it in table
+                         where it.Id == id && it.Valid
+                         select new BannerDetailModel()
+                         {
+                             Title = it.Title,
+                             SubTitle = it.SubTitle,
+                             Image = it.Image,
+                             Index = it.Index,
+                             Desc = it.Desc,
+                         }).Take(1);
+                if (q.Count() == 0)
                 {
-                    detail = q.First();
+                    return this.ItemNotFound();
                 }
-            });
-            if (detail == null)
-            {
-                return this.ItemNotFound();
+                return this.DetailResult(q.First()).View();
             }
-            return this.DetailResult<BannerDetailModel>(detail).View();
         }
 #pragma warning restore CS1591 // 缺少对公共可见类型或成员的 XML 注释
     }

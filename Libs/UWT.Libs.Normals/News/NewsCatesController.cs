@@ -125,7 +125,7 @@ namespace UWT.Libs.Normals.News
             this.UsingDb(db =>
             {
                 var table = db.GetTable<TDbNewsCateTable>();
-                var o = from it in table where it.Id == id select 1;
+                var o = (from it in table where it.Id == id select 1).Take(1);
                 if (o.Count() == 0)
                 {
                     notfound = true;
@@ -146,19 +146,19 @@ namespace UWT.Libs.Normals.News
             this.UsingDb(db =>
             {
                 var table = db.GetTable<TDbNewsCateTable>();
-                var q = from it in table
-                        where it.Id == id && it.Valid
-                        select new NewsCateModifyModel
-                        {
-                            Id = it.Id,
-                            Title = it.Title,
-                            SubTitle = it.SubTitle,
-                            Desc = it.Desc,
-                            Icon = it.Icon,
-                            LargeIcon = it.LargeIcon,
-                            MiniIcon = it.MiniIcon,
-                            PId = it.PId
-                        };
+                var q = (from it in table
+                         where it.Id == id && it.Valid
+                         select new NewsCateModifyModel
+                         {
+                             Id = it.Id,
+                             Title = it.Title,
+                             SubTitle = it.SubTitle,
+                             Desc = it.Desc,
+                             Icon = it.Icon,
+                             LargeIcon = it.LargeIcon,
+                             MiniIcon = it.MiniIcon,
+                             PId = it.PId
+                         }).Take(1);
                 if (q.Count() != 0)
                 {
                     modify = q.First();

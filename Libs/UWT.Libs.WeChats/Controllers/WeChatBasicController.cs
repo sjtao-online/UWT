@@ -82,7 +82,7 @@ namespace UWT.Libs.WeChats.Controllers
                 {
                     return;
                 }
-                var q = from it in wxUserTable where it.OpenId == openId select it.Id;
+                var q = (from it in wxUserTable where it.OpenId == openId select it.Id).Take(1);
                 if (q.Count() == 0)
                 {
                     dbDic.Add(nameof(IDbWxUserModel.OpenId), openId);
@@ -130,19 +130,19 @@ namespace UWT.Libs.WeChats.Controllers
                     retObj = this.Error(Templates.Models.Basics.ErrorCode.DatatableNotFound, "IDbWxUserModel");
                     return;
                 }
-                var q = from it in wxUserTable
-                        where it.Token == refreshToken
-                        select new UserInfoModel()
-                        {
-                            Id = it.Id,
-                            NickName = it.NickName,
-                            AvatarUrl = it.AvatarUrl,
-                            City = it.City,
-                            Country = it.Country,
-                            Gender = it.Gender,
-                            Language = it.Language,
-                            Province = it.Province
-                        };
+                var q = (from it in wxUserTable
+                         where it.Token == refreshToken
+                         select new UserInfoModel()
+                         {
+                             Id = it.Id,
+                             NickName = it.NickName,
+                             AvatarUrl = it.AvatarUrl,
+                             City = it.City,
+                             Country = it.Country,
+                             Gender = it.Gender,
+                             Language = it.Language,
+                             Province = it.Province
+                         }).Take(1);
                 if (q.Count() == 0)
                 {
                     retObj = this.Error(Templates.Models.Basics.ErrorCode.Login_Failed, "刷新Token失败");

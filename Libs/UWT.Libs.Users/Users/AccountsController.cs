@@ -53,15 +53,15 @@ namespace UWT.Libs.Users.Users
             this.UsingDb(db =>
             {
                 var accounttable = db.UwtGetTable<IDbAccountTable>();
-                var q = from it in accounttable
-                        where it.Account == loginModel.Username && it.Status == "enabled"
-                        select new
-                        {
-                            it.Id,
-                            it.RoleId,
-                            it.Account,
-                            it.Password
-                        };
+                var q = (from it in accounttable
+                         where it.Account == loginModel.Username && it.Status == "enabled"
+                         select new
+                         {
+                             it.Id,
+                             it.RoleId,
+                             it.Account,
+                             it.Password
+                         }).Take(1);
                 int aid = 0;
                 if (q.Count() != 0)
                 {
@@ -94,14 +94,14 @@ namespace UWT.Libs.Users.Users
                     if (a.RoleId != 0)
                     {
                         var roletable = db.UwtGetTable<IDbRoleTable>();
-                        var qrole = from it in roletable
-                                    where it.Id == a.RoleId
-                                    select new
-                                    {
-                                        it.Id,
-                                        it.Name,
-                                        it.HomePageUrl
-                                    };
+                        var qrole = (from it in roletable
+                                     where it.Id == a.RoleId
+                                     select new
+                                     {
+                                         it.Id,
+                                         it.Name,
+                                         it.HomePageUrl
+                                     }).Take(1);
                         if (qrole.Count() != 0)
                         {
                             var role = qrole.First();

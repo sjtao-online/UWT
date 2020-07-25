@@ -2324,6 +2324,11 @@
             显示条目
             </summary>
         </member>
+        <member name="T:UWT.Templates.Models.Interfaces.IFilterBasicModel">
+            <summary>
+            筛选项基础接口
+            </summary>
+        </member>
         <member name="T:UWT.Templates.Models.Interfaces.IFilterModel">
             <summary>
             筛选项模型
@@ -2366,7 +2371,37 @@
         </member>
         <member name="T:UWT.Templates.Models.Interfaces.IFilterModelFromCshtml">
             <summary>
-            
+            cshtml扩展筛选项
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Models.Interfaces.IFilterModelFromCshtml.ViewPath">
+            <summary>
+            Cshtml路径
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Models.Interfaces.IFilterModelFromCshtml.SearchCallback">
+            <summary>
+            搜索回调方法名
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Models.Interfaces.IFilterModelFromCshtml.ResetCallback">
+            <summary>
+            重置回调方法名
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Models.Interfaces.IFilterModelFromCshtml.InitCallback">
+            <summary>
+            初始化回调方法名
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Models.Interfaces.IFilterModelFromCshtml.LastValue">
+            <summary>
+            上次的值
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Models.Interfaces.IFilterModelFromCshtml.Tag">
+            <summary>
+            扩展信息,作为Model出现
             </summary>
         </member>
         <member name="T:UWT.Templates.Models.Interfaces.HasFilterTypeChildrenNameKeyModel">
@@ -4318,7 +4353,7 @@
             <param name="canSelectItems">单选框选项</param>
             <returns></returns>
         </member>
-        <member name="M:UWT.Templates.Services.Extends.ListPageEx.AddFilterFromCshtml``2(UWT.Templates.Models.Interfaces.IListToPage{``0,``1},System.String,System.String,System.String,System.String,System.String)">
+        <member name="M:UWT.Templates.Services.Extends.ListPageEx.AddFilterFromCshtml``2(UWT.Templates.Models.Interfaces.IListToPage{``0,``1},System.String,System.String,System.String,System.String,System.String,System.Object)">
             <summary>
             添加自定义过滤器
             </summary>
@@ -4330,7 +4365,7 @@
             <param name="resetCallback">重置回调</param>
             <param name="initCallback">初始化回调, 参数是lastvalue</param>
             <param name="lastvalue">上一次值</param>
-            <param name="callback"></param>
+            <param name="tag">额外数据，会做为Model传入cshtml中</param>
             <returns></returns>
         </member>
         <member name="M:UWT.Templates.Services.Extends.ListPageEx.AddBatchHandler``2(UWT.Templates.Models.Interfaces.IListToPage{``0,``1},System.String,System.String,System.String,System.Type)">

@@ -37,14 +37,14 @@ namespace UWT.Libs.Users
                 using (var db = TemplateControllerEx.GetDB(null))
                 {
                     var roleTable = db.UwtGetTable<IDbRoleTable>();
-                    var roles = from it in roleTable
+                    var roles = (from it in roleTable
                                 where it.Id == roleId
                                 select new
                                 {
                                     it.Id,
                                     it.HomePageUrl,
                                     it.MenuGroupId
-                                };
+                                }).Take(1);
                     if (roles.Count() == 0)
                     {
                         return;

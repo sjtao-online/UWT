@@ -45,7 +45,7 @@ namespace UWT.Libs.Helpers.Controllers
             this.UsingDb(db =>
             {
                 var helper = db.UwtGetTable<IDbHelperTable>();
-                var q = from it in helper where it.Url.Contains(";" + url + ";") && it.Valid select it;
+                var q = (from it in helper where it.Url.Contains(";" + url + ";") && it.Valid select it).Take(1);
                 if (q.Count() != 0)
                 {
                     var h = q.First();
@@ -65,7 +65,7 @@ namespace UWT.Libs.Helpers.Controllers
             this.UsingDb(db =>
             {
                 var helper = db.UwtGetTable<IDbHelperTable>();
-                var q = from it in helper where it.Id == id && it.Valid select it;
+                var q = (from it in helper where it.Id == id && it.Valid select it).Take(1);
                 if (q.Count() != 0)
                 {
                     var h = q.First();

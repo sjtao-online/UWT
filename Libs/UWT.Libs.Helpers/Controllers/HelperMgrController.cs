@@ -57,41 +57,36 @@ namespace UWT.Libs.Helpers.Controllers
 
         public virtual IActionResult Modify(int id)
         {
-            HelperModifyModel modify = null;
-            this.UsingDb(db =>
+            using (var db = this.GetDB())
             {
                 var table = db.UwtGetTable<IDbHelperTable>();
-                var q = from it in table
-                        where it.Id == id && it.Valid
-                        select new
-                        {
-                            it.Id,
-                            it.Title,
-                            it.Content,
-                            it.Summary,
-                            it.Author,
-                            it.Url
-                        };
-                if (q.Count() != 0)
+                var q = (from it in table
+                         where it.Id == id && it.Valid
+                         select new
+                         {
+                             it.Id,
+                             it.Title,
+                             it.Content,
+                             it.Summary,
+                             it.Author,
+                             it.Url
+                         }).Take(1);
+                if (q.Count() == 0)
                 {
-                    var info = q.First();
-                    var quids = from it in db.UwtGetTable<UWT.Libs.Users.Roles.IDbModuleTable>() where info.Url.Contains(";" + it.Url + ";") select it.Id;
-                    modify = new HelperModifyModel()
-                    {
-                        Id = info.Id,
-                        Author = info.Author,
-                        Content = info.Content,
-                        Summary = info.Summary,
-                        Title = info.Title,
-                        Url = quids.ToList()
-                    };
+                    return this.ItemNotFound();
                 }
-            });
-            if (modify == null)
-            {
-                return this.ItemNotFound();
+                var info = q.First();
+                var quids = from it in db.UwtGetTable<UWT.Libs.Users.Roles.IDbModuleTable>() where info.Url.Contains(";" + it.Url + ";") select it.Id;
+                return this.FormResult(new HelperModifyModel()
+                {
+                    Id = info.Id,
+                    Author = info.Author,
+                    Content = info.Content,
+                    Summary = info.Summary,
+                    Title = info.Title,
+                    Url = quids.ToList()
+                }).View();
             }
-            return this.FormResult(modify).View();
         }
 
         [HttpPost]
@@ -143,64 +138,58 @@ namespace UWT.Libs.Helpers.Controllers
         [HttpPost]
         public virtual object Publish(int id)
         {
-            bool notfound = false;
-            this.UsingDb(db =>
+            using (var db = this.GetDB())
             {
                 var table = db.UwtGetTable<IDbHelperTable>();
                 var o = from it in table where it.Id == id select 1;
                 if (o.Count() == 0)
                 {
-                    notfound = true;
-                    return;
+                    return this.Error(Templates.Models.Basics.ErrorCode.Item_NotFound);
                 }
                 table.UwtUpdate(id, new Dictionary<string, object>()
                 {
                     [nameof(IDbHelperTable.PublishTime)] = (DateTime?)DateTime.Now
                 });
-            });
-            return notfound ? this.Error(Templates.Models.Basics.ErrorCode.Item_NotFound) : this.Success();
+                return this.Success();
+            }
         }
 
         [HttpPost]
         public virtual object PublishRemove(int id)
         {
-            bool notfound = false;
-            this.UsingDb(db =>
+            using (var db = this.GetDB())
             {
                 var table = db.UwtGetTable<IDbHelperTable>();
                 var o = from it in table where it.Id == id select 1;
                 if (o.Count() == 0)
                 {
-                    notfound = true;
-                    return;
+                    return this.Error(Templates.Models.Basics.ErrorCode.Item_NotFound);
                 }
                 table.UwtUpdate(id, new Dictionary<string, object>()
                 {
                     [nameof(IDbHelperTable.PublishTime)] = (DateTime?)null
                 });
-            });
-            return notfound ? this.Error(Templates.Models.Basics.ErrorCode.Item_NotFound) : this.Success();
+                return this.Success();
+            }
         }
 
         [HttpPost]
         public virtual object Del(int id)
         {
-            bool notfound = false;
-            this.UsingDb(db =>
+            using (var db = this.GetDB())
             {
                 var table = db.UwtGetTable<IDbHelperTable>();
-                var o = from it in table where it.Id == id select 1;
+                var o = (from it in table where it.Id == id select 1).Take(1);
                 if (o.Count() == 0)
                 {
-                    notfound = true;
-                    return;
+                    return this.Error(Templates.Models.Basics.ErrorCode.Item_NotFound);
                 }
                 table.UwtUpdate(id, new Dictionary<string, object>()
                 {
                     [nameof(IDbHelperTable.Valid)] = false
                 });
-            });
-            return notfound ? this.Error(Templates.Models.Basics.ErrorCode.Item_NotFound) : this.Success();
+                return  this.Success();
+            };
         }
 #pragma warning restore CS1591 // 缺少对公共可见类型或成员的 XML 注释
     }

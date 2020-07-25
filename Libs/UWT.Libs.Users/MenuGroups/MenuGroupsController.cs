@@ -95,14 +95,14 @@ namespace UWT.Libs.Users.MenuGroups
             this.UsingDb(db =>
             {
                 var table = db.UwtGetTable<IDbMenuGroupTable>();
-                var q = from it in table
-                        where it.Id == id && it.Valid
-                        select new MenuGroupModifyModel
-                        {
-                            Id = it.Id,
-                            Name = it.Name,
-                            Desc = it.Desc
-                        };
+                var q = (from it in table
+                         where it.Id == id && it.Valid
+                         select new MenuGroupModifyModel
+                         {
+                             Id = it.Id,
+                             Name = it.Name,
+                             Desc = it.Desc
+                         }).Take(1);
                 if (q.Count() != 0)
                 {
                     modify = q.First();
@@ -224,7 +224,7 @@ namespace UWT.Libs.Users.MenuGroups
             this.UsingDb(db =>
             {
                 var table = db.UwtGetTable<IDbMenuGroupTable>();
-                var o = from it in table where it.Id == id select 1;
+                var o = (from it in table where it.Id == id select 1).Take(1);
                 if (o.Count() == 0)
                 {
                     notfound = true;

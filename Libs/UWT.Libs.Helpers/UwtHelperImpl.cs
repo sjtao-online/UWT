@@ -15,8 +15,7 @@ namespace UWT.Libs.Helpers
             bool hasHelper = false;
             TemplateControllerEx.UsingDb(null, db =>
             {
-                var q = from it in db.UwtGetTable<IDbHelperTable>() where it.PublishTime != null && it.Url.Contains(";" + url + ";") select 1;
-                hasHelper = q.Count() != 0;
+                hasHelper = (from it in db.UwtGetTable<IDbHelperTable>() where it.PublishTime != null && it.Url.Contains(";" + url + ";") select 1).Take(1).Count() != 0;
             });
             return hasHelper;
         }
