@@ -36,6 +36,8 @@ namespace UWT.Templates.Services.Converts
         /// <returns>替换文本</returns>
         public string ReplacePlaceholder(string text)
         {
+            const string aBegin = "\\$BEGIN", aEnd = "\\$END";
+            string newText = text.Replace("[[", aBegin).Replace("]]", aEnd);
             string result = new string(text.ToCharArray());
             const string r = @"\$\{[\u4E00-\u9FA5A-Za-z_\$][\u4E00-\u9FA5A-Za-z0-9_]*\}";
             Regex regex = new Regex(r);
@@ -47,9 +49,9 @@ namespace UWT.Templates.Services.Converts
             {
                 result = regex.Replace(result, CheckValueMatchEval);
             }
-            var emptyRegexReplace = new Regex(@"\[.*" + r + @".*\]");
+            var emptyRegexReplace = new Regex(@"\[.*?" + r + @".*?\]");
             result = emptyRegexReplace.Replace(result, string.Empty);
-            return result;
+            return result.Replace("[", "").Replace("]", "").Replace(aBegin, "[").Replace(aEnd, "]");
         }
         private string CheckValueMatchEval(Match m)
         {

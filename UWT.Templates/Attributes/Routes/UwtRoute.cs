@@ -16,13 +16,18 @@ namespace UWT.Templates.Attributes.Routes
         /// </summary>
         /// <param name="area">区域名</param>
         /// <param name="routetemplate">路由前置部分,默认值[area]/[controller]/[action]</param>
-        public UwtRouteAttribute(string area, string routetemplate = null)
+        /// <param name="showname">显示名</param>
+        public UwtRouteAttribute(string area, string routetemplate = null, string showname = null)
             : base(routetemplate??"[area]/[controller]/[action]")
         {
             RouteKey = "area";
             RouteValue = area;
+            ShowName = showname;
         }
-
+        /// <summary>
+        /// 显示名
+        /// </summary>
+        public string ShowName { get; set; }
 #pragma warning disable CS1591 // 缺少对公共可见类型或成员的 XML 注释
         public string RouteKey { get; private set; }
 

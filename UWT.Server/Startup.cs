@@ -128,7 +128,6 @@ namespace UWT.Server
                 Libs.Users.MenuGroups.IconSimpleSelectorBuilder.IconList = JsonSerializer.Deserialize<List<NameKeyModel>>(sr.ReadToEnd());
             }
             Libs.Users.Users.AccountsController.NoCheckAuthorizedRoleList = new List<int>() { 2 };
-            Templates.Services.Converts.ControllerToModulesConverter.CalcAllModules();
         }
     }
 }

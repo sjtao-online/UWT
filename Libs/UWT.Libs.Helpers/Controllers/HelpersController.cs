@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using UWT.Libs.Helpers.Models;
+using UWT.Templates.Attributes.Routes;
 using UWT.Templates.Models.Interfaces;
 using UWT.Templates.Services.Extends;
 
@@ -17,6 +18,7 @@ namespace UWT.Libs.Helpers.Controllers
         , ITemplateController
     {
 #pragma warning disable CS1591 // 缺少对公共可见类型或成员的 XML 注释
+        [UwtMethod("帮助列表")]
         public IActionResult Index()
         {
             var hlist = this.ListObjectResult(m => new HelperListItemModel()
@@ -29,6 +31,7 @@ namespace UWT.Libs.Helpers.Controllers
             ViewBag.HList = hlist;
             return View();
         }
+        [UwtMethod("帮助详情")]
         [Route("/Helpers/Detail/{a}/{b}/{c=_}")]
         public IActionResult HelperDetail(string a, string b, string c)
         {
@@ -60,6 +63,7 @@ namespace UWT.Libs.Helpers.Controllers
             return View();
         }
 
+        [UwtMethod("帮助详情")]
         public IActionResult Detail(int id)
         {
             this.UsingDb(db =>

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using UWT.Libs.Helpers.Models;
 using UWT.Libs.Users;
+using UWT.Templates.Attributes.Routes;
 using UWT.Templates.Models.Interfaces;
 using UWT.Templates.Services.Extends;
 
@@ -15,12 +16,14 @@ namespace UWT.Libs.Helpers.Controllers
     /// 帮助管理控制器
     /// </summary>
     [AuthUser]
+    [UwtControllerName("帮助管理")]
     public class HelperMgrController : Controller
         , IListToPage<IDbHelperTable, HelperMgrListItemModel>
         , IFormToPage<HelperAddModel>
         , IFormToPage<HelperModifyModel>
     {
 #pragma warning disable CS1591 // 缺少对公共可见类型或成员的 XML 注释
+        [UwtMethod("列表")]
         public IActionResult Index()
         {
             this.AddHandler("添加", ".Add");
@@ -33,11 +36,13 @@ namespace UWT.Libs.Helpers.Controllers
             }).View();
         }
 
+        [UwtMethod("添加")]
         public virtual IActionResult Add()
         {
             return this.FormResult<HelperAddModel>().View();
         }
 
+        [UwtMethod("添加")]
         [HttpPost]
         public virtual async Task<object> AddModel([FromBody] HelperAddModel model, string handler)
         {
@@ -46,15 +51,16 @@ namespace UWT.Libs.Helpers.Controllers
             {
                 return this.Error(Templates.Models.Basics.ErrorCode.FormCheckError, ret);
             }
-            this.UsingDb(db =>
+            using (var db = this.GetDB())
             {
                 var map = HandleFormModel(model, handler, db);
                 map[nameof(IDbHelperTable.CreatorId)] = this.GetClaimValue("AccountId", 0);
                 db.UwtGetTable<IDbHelperTable>().UwtInsertWithInt32(map);
-            });
+            }
             return this.Success();
         }
 
+        [UwtMethod("编辑")]
         public virtual IActionResult Modify(int id)
         {
             using (var db = this.GetDB())
@@ -90,7 +96,7 @@ namespace UWT.Libs.Helpers.Controllers
         }
 
         [HttpPost]
-        
+        [UwtMethod("编辑")]
         public virtual async Task<object> ModifyModel([FromBody] HelperModifyModel model, string handler)
         {
             List<Templates.Models.Templates.Forms.FormValidModel> ret = new List<Templates.Models.Templates.Forms.FormValidModel>();
@@ -98,11 +104,11 @@ namespace UWT.Libs.Helpers.Controllers
             {
                 return this.Error(Templates.Models.Basics.ErrorCode.FormCheckError, ret);
             }
-            this.UsingDb(db =>
+            using (var db = this.GetDB())
             {
                 var map = HandleFormModel(model, handler, db);
                 db.UwtGetTable<IDbHelperTable>().UwtUpdate(model.Id, map);
-            });
+            }
             return this.Success();
         }
 
@@ -136,6 +142,7 @@ namespace UWT.Libs.Helpers.Controllers
         }
 
         [HttpPost]
+        [UwtMethod("发布")]
         public virtual object Publish(int id)
         {
             using (var db = this.GetDB())
@@ -155,6 +162,7 @@ namespace UWT.Libs.Helpers.Controllers
         }
 
         [HttpPost]
+        [UwtMethod("撤下")]
         public virtual object PublishRemove(int id)
         {
             using (var db = this.GetDB())
@@ -174,6 +182,7 @@ namespace UWT.Libs.Helpers.Controllers
         }
 
         [HttpPost]
+        [UwtMethod("删除")]
         public virtual object Del(int id)
         {
             using (var db = this.GetDB())

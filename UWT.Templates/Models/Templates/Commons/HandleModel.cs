@@ -167,7 +167,7 @@ namespace UWT.Templates.Models.Templates.Commons
         /// <returns></returns>
         public static HandleModel BuildModify(string url)
         {
-            return BuildApiPost("编辑", url);
+            return BuildNavigate("编辑", url);
         }
 
         /// <summary>

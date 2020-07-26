@@ -55,16 +55,28 @@ namespace UWT.Templates.Services.Converts
                         }
                         string controllername = type.Name;
                         string areaName = null;
+                        string areaShowName = null;
+                        string controllerShowName = null;
                         const string controllerNameConst = "controller";
                         if (controllername.ToLower().EndsWith(controllerNameConst))
                         {
                             controllername = controllername.Substring(0, controllername.Length - controllerNameConst.Length);
                         }
+                        Dictionary<string, string> ttMapBasic = new Dictionary<string, string>();
                         var uwtroute = type.GetCustomAttribute<UwtRouteAttribute>();
                         var area = type.GetCustomAttribute<AreaAttribute>();
                         if (area != null)
                         {
                             areaName = area.RouteValue;
+                        }
+                        if (uwtroute != null && !string.IsNullOrEmpty(uwtroute.ShowName))
+                        {
+                            ttMapBasic.Add("AreaShowName", uwtroute.ShowName);
+                        }
+                        var cShowName = type.GetCustomAttribute<UwtControllerNameAttribute>();
+                        if (cShowName != null && cShowName.ShowName != null)
+                        {
+                            ttMapBasic.Add("ControllerShowName", cShowName.ShowName);
                         }
                         var route = type.GetCustomAttribute<RouteAttribute>();
                         foreach (var method in type.GetMethods(BindingFlags.Public | BindingFlags.Instance))
@@ -120,12 +132,21 @@ namespace UWT.Templates.Services.Converts
                             {
                                 continue;
                             }
+                            string moduleShowName = url;
+                            var mShowName = method.GetCustomAttribute<UwtMethodAttribute>();
+                            if (mShowName != null && !string.IsNullOrEmpty(mShowName.ShowName))
+                            {
+                                ttMapBasic["MethodShowName"] = mShowName.ShowName;
+                                StringTemplateConverter<string> stringTemplateConverter = new StringTemplateConverter<string>(ttMapBasic);
+                                moduleShowName = stringTemplateConverter.ReplacePlaceholder(mShowName.TemplateText);
+                            }
                             if (typeof(IActionResult) == method.ReturnType || typeof(IActionResult).IsInstanceOfType(method.ReturnType) || method.ReturnType == typeof(Task<IActionResult>))
                             {
                                 modules.Add(new ModuleModel()
                                 {
                                     Category = ModuleCategory.Page,
-                                    Url = url
+                                    Url = url,
+                                    ShowName = moduleShowName
                                 });
                             }
                             else
@@ -133,7 +154,8 @@ namespace UWT.Templates.Services.Converts
                                 modules.Add(new ModuleModel()
                                 {
                                     Category = ModuleCategory.API,
-                                    Url = url
+                                    Url = url,
+                                    ShowName = moduleShowName
                                 });
                             }
                         }
@@ -156,6 +178,10 @@ namespace UWT.Templates.Services.Converts
         /// 类型
         /// </summary>
         public ModuleCategory Category { get; set; }
+        /// <summary>
+        /// 显示名
+        /// </summary>
+        public string ShowName { get; set; }
     }
     /// <summary>
     /// 类型

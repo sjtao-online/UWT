@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
 using UWT.Templates.Attributes.Auths;
 using UWT.Templates.Attributes.Forms;
+using UWT.Templates.Attributes.Routes;
 using UWT.Templates.Models.Basics;
 using UWT.Templates.Models.Interfaces;
 using UWT.Templates.Models.Templates.Forms;
@@ -21,6 +22,7 @@ namespace UWT.Libs.Users.MenuGroups
     /// 菜单组控制器
     /// </summary>
     [AuthUser]
+    [UwtControllerName("菜单组管理")]
     public class MenuGroupsController : Controller
         , IListToPage<IDbMenuGroupTable, MenuGroupListItemModel>
         , IFormToPage<MenuGroupAddModel>
@@ -31,6 +33,7 @@ namespace UWT.Libs.Users.MenuGroups
         /// 主列表
         /// </summary>
         /// <returns></returns>
+        [UwtMethod("列表")]
         public virtual IActionResult Index()
         {
             this.ActionLog();
@@ -49,6 +52,7 @@ namespace UWT.Libs.Users.MenuGroups
         /// 添加页面
         /// </summary>
         /// <returns></returns>
+        [UwtMethod("添加")]
         public virtual IActionResult Add()
         {
             this.ActionLog();
@@ -61,6 +65,7 @@ namespace UWT.Libs.Users.MenuGroups
         /// <param name="model">添加模型</param>
         /// <returns></returns>
         [HttpPost]
+        [UwtMethod("添加")]
         public virtual async Task<object> AddModel([FromBody]MenuGroupAddModel model)
         {
             this.ActionLog();
@@ -88,6 +93,7 @@ namespace UWT.Libs.Users.MenuGroups
         /// </summary>
         /// <param name="id">修改Id</param>
         /// <returns></returns>
+        [UwtMethod("编辑")]
         public virtual IActionResult Modify(int id)
         {
             this.ActionLog();
@@ -121,6 +127,7 @@ namespace UWT.Libs.Users.MenuGroups
         /// <param name="model">修改模型</param>
         /// <returns></returns>
         [HttpPost]
+        [UwtMethod("编辑")]
         public virtual async Task<object> ModifyModel([FromBody]MenuGroupModifyModel model)
         {
             this.ActionLog();
@@ -146,6 +153,7 @@ namespace UWT.Libs.Users.MenuGroups
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [UwtMethod("编辑树")]
         public virtual IActionResult ModifyTree(int id)
         {
             this.ActionLog();
@@ -167,6 +175,7 @@ namespace UWT.Libs.Users.MenuGroups
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
+        [UwtMethod("编辑树")]
         public virtual object ModifyTreeModel([FromBody]ModifyTreeModelTemplate<MenuGroupModifyTreeModel> model)
         {
             this.ActionLog();
@@ -218,6 +227,7 @@ namespace UWT.Libs.Users.MenuGroups
         /// <param name="id">菜单组Id</param>
         /// <returns></returns>
         [HttpPost]
+        [UwtMethod("删除")]
         public virtual object Del(int id)
         {
             bool notfound = false;
@@ -278,8 +288,7 @@ namespace UWT.Libs.Users.MenuGroups
         [FormItems.SimpleSelect(0, Builder = typeof(IconSimpleSelectorBuilder))]
         public string Icon { get; set; }
         [FormItem("Url", FormItemType.ChooseId)]
-        //[FormItems.Text]
-        [FormItems.ChooseIdFromTable("${ModulesTableName}", NameColumnName = "url", Where = "type = 'page'")]
+        [FormItems.ChooseIdFromTable("${ModulesTableName}", NameColumnName = "name", Where = "type = 'page'")]
         public int Url { get; set; }
     }
 #pragma warning restore CS1591 // 缺少对公共可见类型或成员的 XML 注释

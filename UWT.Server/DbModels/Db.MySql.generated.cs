@@ -267,6 +267,7 @@ namespace DataModels
 	public partial class UwtUsersModule
 	{
 		[Column("id"),   PrimaryKey, Identity] public int    Id   { get; set; } // int(11)
+		[Column("name"), NotNull             ] public string Name { get; set; } // varchar(64)
 		[Column("url"),  NotNull             ] public string Url  { get; set; } // varchar(255)
 		[Column("type"), NotNull             ] public string Type { get; set; } // enum('page','api')
 	}

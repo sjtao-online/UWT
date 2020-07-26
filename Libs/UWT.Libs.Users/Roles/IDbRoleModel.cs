@@ -52,6 +52,10 @@ namespace UWT.Libs.Users.Roles
         /// </summary>
         int Id { get; }
         /// <summary>
+        /// œ‘ æ√˚
+        /// </summary>
+        string Name { get; }
+        /// <summary>
         /// URL
         /// </summary>
         string Url { get; }

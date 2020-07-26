@@ -22,6 +22,12 @@ namespace UWT.Libs.Users.Users
         , ITemplateController
     {
         /// <summary>
+        /// 禁用本控制器<br/>
+        /// 用于要使用Users内的功能但不用默认登录界面与接口<br/>
+        /// 一般自定义界面或接口使用
+        /// </summary>
+        public static bool DisabledAccountsController { get; set; }
+        /// <summary>
         /// 不检测检测的列表
         /// </summary>
         public static List<int> NoCheckAuthorizedRoleList { get; set; }
@@ -32,6 +38,10 @@ namespace UWT.Libs.Users.Users
         /// <returns></returns>
         public virtual async Task<IActionResult> Login(string @ref = null)
         {
+            if (DisabledAccountsController)
+            {
+                return NotFound();
+            }
             this.ActionLog();
             if (await AuthAttribute.HasSignInUser(HttpContext))
             {
@@ -48,6 +58,10 @@ namespace UWT.Libs.Users.Users
         [HttpPost]
         public virtual object Login([FromBody]UserLoginModel loginModel)
         {
+            if (DisabledAccountsController)
+            {
+                return NotFound();
+            }
             this.ActionLog();
             object ret = null;
             this.UsingDb(db =>

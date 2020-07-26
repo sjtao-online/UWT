@@ -136,6 +136,7 @@ namespace UWT.Libs.Users
                 else
                 {
                     List<IDbModuleTable> marr = m.ToList();
+                    List<KeyValuePair<int, string>> namechanges = new List<KeyValuePair<int, string>>();
                     for (int i = marr.Count - 1; i >= 0; i--)
                     {
                         var current = marr[i];
@@ -143,13 +144,17 @@ namespace UWT.Libs.Users
                         {
                             if (item.Url == current.Url)
                             {
+                                if (item.ShowName != current.Name)
+                                {
+                                    namechanges.Add(new KeyValuePair<int, string>(current.Id, item.ShowName));
+                                }
                                 modules.Remove(item);
                                 marr.RemoveAt(i);
                                 break;
                             }
                         }
                     }
-                    if (marr.Count > 0 || modules.Count > 0)
+                    if (marr.Count > 0 || modules.Count > 0 || namechanges.Count > 0)
                     {
                         var bt = db.BeginTransaction();
                         try
@@ -160,6 +165,13 @@ namespace UWT.Libs.Users
                             foreach (var item in modules)
                             {
                                 m.UwtInsertWithInt32(BuildModuleInsertDic(item));
+                            }
+                            foreach (var item in namechanges)
+                            {
+                                m.UwtUpdate(item.Key, new Dictionary<string, object>()
+                                {
+                                    [nameof(IDbModuleTable.Name)] = item.Value
+                                });
                             }
                             bt.Commit();
                         }
@@ -179,7 +191,8 @@ namespace UWT.Libs.Users
             return new Dictionary<string, object>()
             {
                 [nameof(IDbModuleTable.Url)] = item.Url,
-                [nameof(IDbModuleTable.Type)] = item.Category == ModuleCategory.API ? "api" : "page"
+                [nameof(IDbModuleTable.Type)] = item.Category == ModuleCategory.API ? "api" : "page",
+                [nameof(IDbModuleTable.Name)] = item.ShowName
             };
         }
 

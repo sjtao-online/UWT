@@ -23,10 +23,10 @@ namespace UWT.Libs.Users.Roles
         [FormItems.ChooseIdFromTable("${MenuGroupTableName}", Where = "valid = 1")]
         public int MenuGroupId { get; set; }
         [FormItem("主页", FormItemType.ChooseId, Tooltip = "登录后默认跳转的页面", IsRequire = true)]
-        [FormItems.ChooseIdFromTable("${ModulesTableName}", NameColumnName = "url", Where = "type = 'page'")]
+        [FormItems.ChooseIdFromTable("${ModulesTableName}", NameColumnName = "name", Where = "type = 'page'")]
         public int HomePageUrl { get; set; }
         [FormItem("可用的API", FormItemType.ChooseId)]
-        [FormItems.ChooseIdFromTable("${ModulesTableName}", NameColumnName = "url")]
+        [FormItems.ChooseIdFromTable("${ModulesTableName}", NameColumnName = "CONCAT(name,if(type='page',' - 页面',' - 接口'))")]
         public List<int> Urls { get; set; }
     }
 #pragma warning restore CS1591 // 缺少对公共可见类型或成员的 XML 注释
