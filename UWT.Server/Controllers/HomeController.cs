@@ -44,6 +44,7 @@ namespace UWT.Server.Controllers
                     Name = "123"
                 }
             });
+            this.AddHandler("111", "aaa");
             this.AddFilterFromCshtml("/Views/Home/Index3.cshtml", "search", "reset", "init", "value");
             //this.AddFilter("用户名", m => m.Name, Templates.Models.Filters.FilterType.Like, Templates.Models.Filters.FilterValueType.Text);
             using (DataModels.UwtDB db = new DataModels.UwtDB())
@@ -79,6 +80,22 @@ namespace UWT.Server.Controllers
     {
         [ListColumn("序号", ColumnType = ColumnType.Index)]
         public int Index { get; set; }
+        [ListColumn("序号", ColumnType = ColumnType.Index)]
+        public int Index1 { get; set; }
+        [ListColumn("序号", ColumnType = ColumnType.Index)]
+        public int Index2 { get; set; }
+        [ListColumn("序号", ColumnType = ColumnType.Index)]
+        public int Index3 { get; set; }
+        [ListColumn("序号", ColumnType = ColumnType.Index)]
+        public int Index4 { get; set; }
+        [ListColumn("序号", ColumnType = ColumnType.Index)]
+        public int Index5 { get; set; }
+        [ListColumn("序号", ColumnType = ColumnType.Index)]
+        public int Index6 { get; set; }
+        [ListColumn("序号", ColumnType = ColumnType.Index)]
+        public int Index7 { get; set; }
+        [ListColumn("序号", ColumnType = ColumnType.Index)]
+        public int Index8 { get; set; }
         public string Name { get; set; }
         [ListColumn("操作", ColumnType =  ColumnType.Handle, Styles = "width: 200px;")]
         public List<HandleModel> HandleList

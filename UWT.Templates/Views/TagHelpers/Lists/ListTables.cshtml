@@ -3,84 +3,97 @@
 @{ 
     var tModel = Model.TemplateModel;
 }
-<table class="layui-table layui-form @Model.DataModel.ListViewModel.Class" style="@Model.DataModel.ListViewModel.Styles"
-       lay-even>
-    <thead>
-        <tr>
-            @foreach (var item in Model.DataModel.ListViewModel.Columns)
-            {
-                if (item.IsIgnore)
-                {
-                    continue;
-                }
-                <th class="@item.Class" style="@item.Styles">@item.Title</th>
-            }
-        </tr>
-    </thead>
+
+<div class="layui-table-box">
+    <div class="layui-table-header" style="display: flex;">
+        <table cellspacing="0" cellpadding="0" border="0" class="layui-table uwt-table">
+            <thead>
+                <tr>
+                    @foreach (var item in Model.DataModel.ListViewModel.Columns)
+                    {
+                        if (item.IsIgnore)
+                        {
+                            continue;
+                        }
+                        <th class="@item.Class" style="@item.Styles">
+                            <div class="layui-table-cell">
+                                <span>@item.Title</span>
+                            </div>
+                        </th>
+                    }
+                </tr>
+            </thead>
+        </table>
+        <div id="uwt-query-scroll-block"></div>
+    </div>
     @if (Model.DataModel.ItemTotal != 0)
     {
         int index = 1;
         int mindex = Model.DataModel.PageIndex * Model.DataModel.PageSize + 1;
-        <tbody>
-            @if (Model.DataModel.ListViewModel.HasMutilCheck)
-            {
-                foreach (var item in Model.DataModel.Items)
-                {
-                    var c = Model.DataModel.ListViewModel.Columns[0];
-                    <tr>
-                        <td style="@c.Styles" class="@c.Class"><input lay-filter="batch" class="batch-check-box" type="checkbox" name="" lay-skin="primary" title="@(c.GetRawValue(item, ref tModel, Html))" data-batch-key="@(Model.DataModel.ListViewModel.BatchProperty.GetValue(item))"/></td>
-                        @for (int i = 1; i < Model.DataModel.ListViewModel.Columns.Count; i++)
+        <div class="layui-table-body uwt-list-body">
+            <table cellspacing="0" cellpadding="0" border="0" class="layui-table uwt-table" lay-even>
+                <tbody>
+                    @if (Model.DataModel.ListViewModel.HasMutilCheck)
+                    {
+                        foreach (var item in Model.DataModel.Items)
                         {
-                            var column = Model.DataModel.ListViewModel.Columns[i];
-                            if (column.IsIgnore)
-                            {
-                                continue;
-                            }
-                            if (column.ColumnType == ColumnType.Index)
-                            {
-                                <td style="@column.Styles" class="@column.Class">@index</td>
-                                continue;
-                            }
-                            if (column.ColumnType == ColumnType.MIndex)
-                            {
-                                <td style="@column.Styles" class="@column.Class">@mindex</td>
-                                continue;
-                            }
-                            <td style="@column.Styles" class="@column.Class">@(column.GetRawValue(item, ref tModel, Html))</td>
+                            var c = Model.DataModel.ListViewModel.Columns[0];
+                            <tr>
+                                <td style="@c.Styles" class="layui-table-cell @c.Class"><input lay-filter="batch" class="batch-check-box" type="checkbox" name="" lay-skin="primary" title="@(c.GetRawValue(item, ref tModel, Html))" data-batch-key="@(Model.DataModel.ListViewModel.BatchProperty.GetValue(item))" /></td>
+                                @for (int i = 1; i < Model.DataModel.ListViewModel.Columns.Count; i++)
+                                {
+                                    var column = Model.DataModel.ListViewModel.Columns[i];
+                                    if (column.IsIgnore)
+                                    {
+                                        continue;
+                                    }
+                                    if (column.ColumnType == ColumnType.Index)
+                                    {
+                                        <td style="@column.Styles" class="layui-table-cell @column.Class">@index</td>
+                                        continue;
+                                    }
+                                    if (column.ColumnType == ColumnType.MIndex)
+                                    {
+                                        <td style="@column.Styles" class="layui-table-cell @column.Class">@mindex</td>
+                                        continue;
+                                    }
+                                    <td style="@column.Styles" class="layui-table-cell @column.Class">@(column.GetRawValue(item, ref tModel, Html))</td>
+                                }
+                            </tr>
+                            index++;
+                            mindex++;
                         }
-                    </tr>
-                    index++;
-                    mindex++;
-                }
-            }
-            else
-            {
-                foreach (var item in Model.DataModel.Items)
-                {
-                    <tr>
-                        @foreach (var column in Model.DataModel.ListViewModel.Columns)
+                    }
+                    else
+                    {
+                        foreach (var item in Model.DataModel.Items)
                         {
-                            if (column.IsIgnore)
-                            {
-                                continue;
-                            }
-                            if (column.ColumnType == ColumnType.Index)
-                            {
-                                <td style="@column.Styles" class="@column.Class">@index</td>
-                                continue;
-                            }
-                            if (column.ColumnType == ColumnType.MIndex)
-                            {
-                                <td style="@column.Styles" class="@column.Class">@mindex</td>
-                                continue;
-                            }
-                            <td style="@column.Styles" class="@column.Class">@(column.GetRawValue(item, ref tModel, Html))</td>
+                            <tr>
+                                @foreach (var column in Model.DataModel.ListViewModel.Columns)
+                                {
+                                    if (column.IsIgnore)
+                                    {
+                                        continue;
+                                    }
+                                    if (column.ColumnType == ColumnType.Index)
+                                    {
+                                        <td style="@column.Styles" class="@column.Class">@index</td>
+                                        continue;
+                                    }
+                                    if (column.ColumnType == ColumnType.MIndex)
+                                    {
+                                        <td style="@column.Styles" class="@column.Class">@mindex</td>
+                                        continue;
+                                    }
+                                    <td style="@column.Styles" class="@column.Class">@(column.GetRawValue(item, ref tModel, Html))</td>
+                                }
+                            </tr>
+                            index++;
+                            mindex++;
                         }
-                    </tr>
-                    index++;
-                    mindex++;
-                }
-            }
-        </tbody>
+                    }
+                </tbody>
+            </table>
+        </div>
     }
-</table>
+</div>

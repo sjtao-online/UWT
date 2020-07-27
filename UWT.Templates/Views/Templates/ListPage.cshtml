@@ -10,7 +10,7 @@
         ViewBag.Title = pageModel.ListViewModel.Title;
     }
 }
-<layout-border>
+<div class="layui-card uwt-list-parent" style="height: 100%;">
     @if (filterList != null)
     {
         <query-list query-list="filterList" template-model="meTag"></query-list>
@@ -21,7 +21,8 @@
     }
     <listtable model="pageModel" template-model="meTag"></listtable>
     <page-selector model="pageModel.PageSelector" template-model="meTag"></page-selector>
-</layout-border>
+</div>
+
 
 
 @section Scripts {

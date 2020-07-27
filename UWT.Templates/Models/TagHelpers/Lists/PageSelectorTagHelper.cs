@@ -21,7 +21,7 @@ namespace UWT.Templates.Models.TagHelpers.Lists
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             output.TagName = "div";
-            output.Attributes.Add("class", "layui-card-body");
+            output.Attributes.Add("class", "layui-card-body uwt-page-selector");
             output.Content.SetHtmlContent(this.RenderRazorView("/Views/TagHelpers/Lists/PageSelector.cshtml", Model));
         }
     }

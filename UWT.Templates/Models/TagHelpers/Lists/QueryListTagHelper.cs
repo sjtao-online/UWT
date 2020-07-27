@@ -23,7 +23,7 @@ namespace UWT.Templates.Models.TagHelpers.Lists
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             output.TagName = "div";
-            output.Attributes.Add("class", "layui-card-body");
+            output.Attributes.Add("class", "layui-card-body uwt-query-list");
             output.Content.SetHtmlContent(this.RenderRazorView("/Views/TagHelpers/Lists/QueryList.cshtml", QueryList));
         }
     }

@@ -75,9 +75,32 @@ body{
     border-color: #189f92!important;
 }
 
-.layui-fluid{
-    padding:15px;
-    margin-top: 40px;
+.uwt-table {
+    margin: 0 !important;
+}
+
+#uwt-query-scroll-block {
+    width: 20px;
+    height: 48px;
+    min-width: 20px;
+    background-color: #f2f2f2;
+    display: none;
+    margin-bottom: -1px;
+}
+
+.uwt-page-selector {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+}
+
+.layui-fluid {
+    padding: 15px;
+    position: absolute;
+    left: 0;
+    top: 40px;
+    right: 0;
+    bottom: 0;
 }
 .layui-footer {
     position: fixed;
