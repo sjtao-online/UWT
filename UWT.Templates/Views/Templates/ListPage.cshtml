@@ -5,6 +5,7 @@
     UWT.Templates.Models.Interfaces.IToPageViewModel pageModel = ViewBag.PageModel;
     List<UWT.Templates.Models.Interfaces.IFilterBasicModel> filterList = ViewBag.FilterList;
     List<UWT.Templates.Models.Templates.Commons.HandleModel> handleList = ViewBag.Handlers;
+    Dictionary<string, string> emptyListMap = ViewBag._empty_list_key;
     if (!ViewData.ContainsKey("Title") && !string.IsNullOrEmpty(pageModel.ListViewModel.Title))
     {
         ViewBag.Title = pageModel.ListViewModel.Title;
@@ -20,7 +21,7 @@
         <handle-list model="handleList" template-model="meTag"></handle-list>
     }
     <listtable model="pageModel" template-model="meTag"></listtable>
-    <page-selector model="pageModel.PageSelector" template-model="meTag"></page-selector>
+    <page-selector empty-list-map="emptyListMap" model="pageModel.PageSelector" template-model="meTag"></page-selector>
 </div>
 
 

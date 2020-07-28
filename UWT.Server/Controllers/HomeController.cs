@@ -46,6 +46,7 @@ namespace UWT.Server.Controllers
             });
             this.AddHandler("111", "aaa");
             this.AddFilterFromCshtml("/Views/Home/Index3.cshtml", "search", "reset", "init", "value");
+            this.ChangeEmptyListText("无数据");
             //this.AddFilter("用户名", m => m.Name, Templates.Models.Filters.FilterType.Like, Templates.Models.Filters.FilterValueType.Text);
             using (DataModels.UwtDB db = new DataModels.UwtDB())
             {

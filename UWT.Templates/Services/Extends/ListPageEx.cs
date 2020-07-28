@@ -179,6 +179,38 @@ namespace UWT.Templates.Services.Extends
         }
         #endregion
 
+        #region 列表样式
+        /// <summary>
+        /// 更改空列表显示
+        /// </summary>
+        /// <typeparam name="TTable"></typeparam>
+        /// <typeparam name="TListItem"></typeparam>
+        /// <param name="controller"></param>
+        /// <param name="tipText">提示文字</param>
+        /// <returns></returns>
+        public static IListToPage<TTable, TListItem> ChangeEmptyListText<TTable, TListItem>(this IListToPage<TTable, TListItem> controller, string tipText)
+            where TTable : class
+            where TListItem : class
+        {
+            controller.ChangeViewData(TemplateControllerEx.EmptyListKey, new Dictionary<string, string> {["t"] = "t", ["text"] = tipText } );
+            return controller;
+        }
+        /// <summary>
+        /// 更改空列表显示
+        /// </summary>
+        /// <typeparam name="TTable"></typeparam>
+        /// <typeparam name="TListItem"></typeparam>
+        /// <param name="controller"></param>
+        /// <param name="path">cshtml路径</param>
+        /// <returns></returns>
+        public static IListToPage<TTable, TListItem> ChangeEmptyListCshtml<TTable, TListItem>(this IListToPage<TTable, TListItem> controller, string path)
+            where TTable : class
+            where TListItem : class
+        {
+            controller.ChangeViewData(TemplateControllerEx.EmptyListKey, new Dictionary<string, string> { ["t"] = "v", ["path"] = path });
+            return controller;
+        }
+        #endregion
 
         #region List返回
         #region Api

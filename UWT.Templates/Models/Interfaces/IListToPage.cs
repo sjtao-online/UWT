@@ -10,11 +10,19 @@ using UWT.Templates.Models.Templates.TagHelpers;
 namespace UWT.Templates.Models.Interfaces
 {
     /// <summary>
+    /// 列表页面控制器<br/>
+    /// 请勿直接使用
+    /// </summary>
+    public interface IListToPage
+    {
+
+    }
+    /// <summary>
     /// 列表页面控制器
     /// </summary>
     /// <typeparam name="TTable">数据表类型</typeparam>
     /// <typeparam name="TListItem">列表项类型</typeparam>
-    public interface IListToPage<TTable, TListItem> : ITemplateController
+    public interface IListToPage<TTable, TListItem> : ITemplateController, IListToPage
         where TTable : class
         where TListItem : class
     {

@@ -19,6 +19,7 @@ namespace UWT.Templates.Services.Extends
         internal const string HandlersConstKey = "Handlers";
         internal const string FiltersConstKey = "Filters";
         internal const string TempateViewDataKey = "_template_key";
+        internal const string EmptyListKey = "_empty_list_key";
         /// <summary>
         /// 设置标题
         /// </summary>
@@ -78,6 +79,11 @@ namespace UWT.Templates.Services.Extends
                 controller.ViewData[key] = addList = new List<TItem>();
             }
             addList.Add(listItem);
+        }
+        internal static void ChangeViewData<TData>(this ITemplateController templateController, string key, TData data)
+        {
+            Controller controller = templateController.GetController();
+            controller.ViewData[key] = data;
         }
         internal static string GetTemplatePageKey(this Controller controller, string defaultKey)
         {
