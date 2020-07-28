@@ -119,23 +119,36 @@ namespace UWT.Templates.Models.Templates.Commons
         /// 构建API-POST
         /// </summary>
         /// <param name="title">标题</param>
-        /// <param name="url">URL</param>
+        /// <param name="apiurl">URL</param>
         /// <param name="askContent">询问内容</param>
         /// <param name="tooltip">悬停提示</param>
         /// <returns></returns>
-        public static HandleModel BuildApiPost(string title, string url, string askContent = null, string tooltip = null)
+        public static HandleModel BuildApiPost(string title, string apiurl, string askContent = null, string tooltip = null)
         {
-            return Build(title, url, askContent, tooltip, HandleType.ApiPost);
+            return Build(title, apiurl, askContent, tooltip, HandleType.ApiPost);
+        }
+
+        /// <summary>
+        /// 构建API-GET
+        /// </summary>
+        /// <param name="title">标题</param>
+        /// <param name="apiurl">URL</param>
+        /// <param name="askContent">询问内容</param>
+        /// <param name="tooltip">悬停提示</param>
+        /// <returns></returns>
+        public static HandleModel BuildApiGet(string title, string apiurl, string askContent = null, string tooltip = null)
+        {
+            return Build(title, apiurl, askContent, tooltip, HandleType.ApiGet);
         }
 
         /// <summary>
         /// 构建“删除”
         /// </summary>
-        /// <param name="url">URL</param>
+        /// <param name="apiurl">URL</param>
         /// <returns></returns>
-        public static HandleModel BuildDel(string url)
+        public static HandleModel BuildDel(string apiurl)
         {
-            var del = BuildApiPost("删除", url, TipDel, "删除当前条目");
+            var del = BuildApiPost("删除", apiurl, TipDel, "删除当前条目");
             del.Class = HandleModel.ClassBtnDel;
             return del;
         }
@@ -143,21 +156,21 @@ namespace UWT.Templates.Models.Templates.Commons
         /// <summary>
         /// 构建“发布”
         /// </summary>
-        /// <param name="url">URL</param>
+        /// <param name="apiurl">URL</param>
         /// <returns></returns>
-        public static HandleModel BuildPublish(string url)
+        public static HandleModel BuildPublish(string apiurl)
         {
-            return BuildApiPost("发布", url, TipPublish, "发布当前条目");
+            return BuildApiPost("发布", apiurl, TipPublish, "发布当前条目");
         }
 
         /// <summary>
         /// 构建“撤下”
         /// </summary>
-        /// <param name="url">URL</param>
+        /// <param name="apiurl">URL</param>
         /// <returns></returns>
-        public static HandleModel BuildPublishRemove(string url)
+        public static HandleModel BuildPublishRemove(string apiurl)
         {
-            return BuildApiPost("撤下", url, TipPublishRemove, "撤下当前条目");
+            return BuildApiPost("撤下", apiurl, TipPublishRemove, "撤下当前条目");
         }
 
         /// <summary>
@@ -196,7 +209,7 @@ namespace UWT.Templates.Models.Templates.Commons
             return Build(title, list, askContent, tooltip, HandleType.Comfirm);
         }
         /// <summary>
-        /// 创建更多按钮
+        /// 创建类似“更多”扩展按钮
         /// </summary>
         /// <param name="title">标题</param>
         /// <param name="list">按钮列表</param>

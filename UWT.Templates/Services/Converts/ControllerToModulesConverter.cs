@@ -55,8 +55,6 @@ namespace UWT.Templates.Services.Converts
                         }
                         string controllername = type.Name;
                         string areaName = null;
-                        string areaShowName = null;
-                        string controllerShowName = null;
                         const string controllerNameConst = "controller";
                         if (controllername.ToLower().EndsWith(controllerNameConst))
                         {

@@ -19,6 +19,10 @@ namespace UWT.Templates.Attributes.Routes
         /// 模板字符串
         /// </summary>
         public string TemplateText { get; set; } = TemplateText_AreaControllerMethod;
+        /// <summary>
+        /// 模板常量<br/>
+        /// areaShowName - controllerShowName - methodShowName
+        /// </summary>
         public const string TemplateText_AreaControllerMethod = "[${AreaShowName} - ][${ControllerShowName} - ]${MethodShowName}";
         /// <summary>
         /// URL显示名

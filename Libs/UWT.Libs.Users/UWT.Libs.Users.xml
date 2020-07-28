@@ -245,6 +245,11 @@
             编号
             </summary>
         </member>
+        <member name="P:UWT.Libs.Users.Roles.IDbModuleTable.Name">
+            <summary>
+            显示名
+            </summary>
+        </member>
         <member name="P:UWT.Libs.Users.Roles.IDbModuleTable.Url">
             <summary>
             URL
@@ -316,6 +321,13 @@
         <member name="T:UWT.Libs.Users.Users.AccountsController">
             <summary>
             账号控制器
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Users.Users.AccountsController.DisabledAccountsController">
+            <summary>
+            禁用本控制器<br/>
+            用于要使用Users内的功能但不用默认登录界面与接口<br/>
+            一般自定义界面或接口使用
             </summary>
         </member>
         <member name="P:UWT.Libs.Users.Users.AccountsController.NoCheckAuthorizedRoleList">

@@ -1324,12 +1324,63 @@
             标准模板
             </summary>
         </member>
-        <member name="M:UWT.Templates.Attributes.Routes.UwtRouteAttribute.#ctor(System.String,System.String)">
+        <member name="M:UWT.Templates.Attributes.Routes.UwtRouteAttribute.#ctor(System.String,System.String,System.String)">
             <summary>
             标准模板/area/controller/action
             </summary>
             <param name="area">区域名</param>
             <param name="routetemplate">路由前置部分,默认值[area]/[controller]/[action]</param>
+            <param name="showname">显示名</param>
+        </member>
+        <member name="P:UWT.Templates.Attributes.Routes.UwtRouteAttribute.ShowName">
+            <summary>
+            显示名
+            </summary>
+        </member>
+        <member name="T:UWT.Templates.Attributes.Routes.UwtMethodAttribute">
+            <summary>
+            URL显示名<br/>
+            一般用于菜单组或权限选择
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Attributes.Routes.UwtMethodAttribute.ShowName">
+            <summary>
+            显示名字符串
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Attributes.Routes.UwtMethodAttribute.TemplateText">
+            <summary>
+            模板字符串
+            </summary>
+        </member>
+        <member name="F:UWT.Templates.Attributes.Routes.UwtMethodAttribute.TemplateText_AreaControllerMethod">
+            <summary>
+            模板常量<br/>
+            areaShowName - controllerShowName - methodShowName
+            </summary>
+        </member>
+        <member name="M:UWT.Templates.Attributes.Routes.UwtMethodAttribute.#ctor(System.String)">
+            <summary>
+            URL显示名
+            </summary>
+            <param name="showname">一般用于菜单组或权限选择</param>
+        </member>
+        <member name="T:UWT.Templates.Attributes.Routes.UwtControllerNameAttribute">
+            <summary>
+            与UwtModule共同使用,表示控制器名<br/>
+            默认生成"{UwtControllerName} - {UwtModule}"
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Attributes.Routes.UwtControllerNameAttribute.ShowName">
+            <summary>
+            显示名字符串
+            </summary>
+        </member>
+        <member name="M:UWT.Templates.Attributes.Routes.UwtControllerNameAttribute.#ctor(System.String)">
+            <summary>
+            控制器显示名
+            </summary>
+            <param name="showname">显示名字符串</param>
         </member>
         <member name="T:UWT.Templates.Controllers.ErrorsController">
             <summary>
@@ -2601,6 +2652,12 @@
             <param name="context">上下文</param>
             <param name="layoutModel">布局</param>
         </member>
+        <member name="T:UWT.Templates.Models.Interfaces.IListToPage">
+            <summary>
+            列表页面控制器<br/>
+            请勿直接使用
+            </summary>
+        </member>
         <member name="T:UWT.Templates.Models.Interfaces.IListToPage`2">
             <summary>
             列表页面控制器
@@ -3048,7 +3105,17 @@
             构建API-POST
             </summary>
             <param name="title">标题</param>
-            <param name="url">URL</param>
+            <param name="apiurl">URL</param>
+            <param name="askContent">询问内容</param>
+            <param name="tooltip">悬停提示</param>
+            <returns></returns>
+        </member>
+        <member name="M:UWT.Templates.Models.Templates.Commons.HandleModel.BuildApiGet(System.String,System.String,System.String,System.String)">
+            <summary>
+            构建API-GET
+            </summary>
+            <param name="title">标题</param>
+            <param name="apiurl">URL</param>
             <param name="askContent">询问内容</param>
             <param name="tooltip">悬停提示</param>
             <returns></returns>
@@ -3057,21 +3124,21 @@
             <summary>
             构建“删除”
             </summary>
-            <param name="url">URL</param>
+            <param name="apiurl">URL</param>
             <returns></returns>
         </member>
         <member name="M:UWT.Templates.Models.Templates.Commons.HandleModel.BuildPublish(System.String)">
             <summary>
             构建“发布”
             </summary>
-            <param name="url">URL</param>
+            <param name="apiurl">URL</param>
             <returns></returns>
         </member>
         <member name="M:UWT.Templates.Models.Templates.Commons.HandleModel.BuildPublishRemove(System.String)">
             <summary>
             构建“撤下”
             </summary>
-            <param name="url">URL</param>
+            <param name="apiurl">URL</param>
             <returns></returns>
         </member>
         <member name="M:UWT.Templates.Models.Templates.Commons.HandleModel.BuildModify(System.String)">
@@ -3103,7 +3170,7 @@
         </member>
         <member name="M:UWT.Templates.Models.Templates.Commons.HandleModel.BuildMultiButtons(System.String,System.Collections.Generic.List{UWT.Templates.Models.Templates.Commons.HandleModel},System.String)">
             <summary>
-            创建更多按钮
+            创建类似“更多”扩展按钮
             </summary>
             <param name="title">标题</param>
             <param name="list">按钮列表</param>
@@ -3661,6 +3728,11 @@
         <member name="P:UWT.Templates.Services.Converts.ModuleModel.Category">
             <summary>
             类型
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Services.Converts.ModuleModel.ShowName">
+            <summary>
+            显示名
             </summary>
         </member>
         <member name="T:UWT.Templates.Services.Converts.ModuleCategory">
@@ -4379,6 +4451,26 @@
             <param name="target">目标 一般是URL</param>
             <param name="askTooltip">是否询问</param>
             <param name="controllerType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UWT.Templates.Services.Extends.ListPageEx.ChangeEmptyListText``2(UWT.Templates.Models.Interfaces.IListToPage{``0,``1},System.String)">
+            <summary>
+            更改空列表显示
+            </summary>
+            <typeparam name="TTable"></typeparam>
+            <typeparam name="TListItem"></typeparam>
+            <param name="controller"></param>
+            <param name="tipText">提示文字</param>
+            <returns></returns>
+        </member>
+        <member name="M:UWT.Templates.Services.Extends.ListPageEx.ChangeEmptyListCshtml``2(UWT.Templates.Models.Interfaces.IListToPage{``0,``1},System.String)">
+            <summary>
+            更改空列表显示
+            </summary>
+            <typeparam name="TTable"></typeparam>
+            <typeparam name="TListItem"></typeparam>
+            <param name="controller"></param>
+            <param name="path">cshtml路径</param>
             <returns></returns>
         </member>
         <member name="M:UWT.Templates.Services.Extends.ListPageEx.ListObjectResult``1(UWT.Templates.Models.Interfaces.IListToPage{``0},System.Collections.Generic.List{``0},System.Action{UWT.Templates.Models.Interfaces.IToPageModel})">
