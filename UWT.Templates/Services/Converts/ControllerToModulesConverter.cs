@@ -61,6 +61,11 @@ namespace UWT.Templates.Services.Converts
                             controllername = controllername.Substring(0, controllername.Length - controllerNameConst.Length);
                         }
                         Dictionary<string, string> ttMapBasic = new Dictionary<string, string>();
+                        var nr = type.GetCustomAttribute<UwtNoRecordModuleAttribute>();
+                        if (nr != null)
+                        {
+                            continue;
+                        }
                         var uwtroute = type.GetCustomAttribute<UwtRouteAttribute>();
                         var area = type.GetCustomAttribute<AreaAttribute>();
                         if (area != null)
@@ -89,6 +94,11 @@ namespace UWT.Templates.Services.Converts
                             }
                             var noaction = method.GetCustomAttribute<NonActionAttribute>();
                             if (noaction != null)
+                            {
+                                continue;
+                            }
+                            var mnr = method.GetCustomAttribute<UwtNoRecordModuleAttribute>();
+                            if (mnr != null)
                             {
                                 continue;
                             }

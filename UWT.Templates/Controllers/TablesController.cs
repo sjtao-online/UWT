@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using UWT.Templates.Attributes.Routes;
 using UWT.Templates.Models.Basics;
 using UWT.Templates.Models.Interfaces;
 using UWT.Templates.Services.Extends;
@@ -147,6 +148,7 @@ namespace UWT.Templates.Controllers
         /// </summary>
         /// <param name="rkey">key</param>
         /// <returns></returns>
+        [UwtNoRecordModule]
         public object GetListRun(string rkey)
         {
             using var db = this.GetDB();

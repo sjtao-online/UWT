@@ -13,12 +13,12 @@ namespace UWT.Libs.Helpers.Controllers
     /// <summary>
     /// 帮助显示控制器
     /// </summary>
+    [UwtNoRecordModule]
     public class HelpersController : Controller
         , IListToPage<IDbHelperTable, HelperListItemModel>
         , ITemplateController
     {
 #pragma warning disable CS1591 // 缺少对公共可见类型或成员的 XML 注释
-        [UwtMethod("帮助列表")]
         public IActionResult Index()
         {
             var hlist = this.ListObjectResult(m => new HelperListItemModel()
@@ -31,7 +31,6 @@ namespace UWT.Libs.Helpers.Controllers
             ViewBag.HList = hlist;
             return View();
         }
-        [UwtMethod("帮助详情")]
         [Route("/Helpers/Detail/{a}/{b}/{c=_}")]
         public IActionResult HelperDetail(string a, string b, string c)
         {
@@ -45,7 +44,7 @@ namespace UWT.Libs.Helpers.Controllers
             {
                 url = $"/{a}/{b}/{c}";
             }
-            this.UsingDb(db =>
+            using (var db = this.GetDB())
             {
                 var helper = db.UwtGetTable<IDbHelperTable>();
                 var q = (from it in helper where it.Url.Contains(";" + url + ";") && it.Valid select it).Take(1);
@@ -58,15 +57,14 @@ namespace UWT.Libs.Helpers.Controllers
                     this.ViewBag.HelperSummary = h.Summary;
                     this.ViewBag.HelperAuthor = h.Author;
                 }
-            });
+            }
             ViewBag.Title = url + " - 详情";
             return View();
         }
 
-        [UwtMethod("帮助详情")]
         public IActionResult Detail(int id)
         {
-            this.UsingDb(db =>
+            using (var db = this.GetDB())
             {
                 var helper = db.UwtGetTable<IDbHelperTable>();
                 var q = (from it in helper where it.Id == id && it.Valid select it).Take(1);
@@ -79,7 +77,7 @@ namespace UWT.Libs.Helpers.Controllers
                     ViewBag.HelperSummary = h.Summary;
                     ViewBag.HelperAuthor = h.Author;
                 }
-            });
+            }
             return View("HelperDetail");
         }
 #pragma warning restore CS1591 // 缺少对公共可见类型或成员的 XML 注释

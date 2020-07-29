@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using UWT.Templates.Attributes.Lists;
+using UWT.Templates.Attributes.Routes;
 using UWT.Templates.Models.Basics;
 using UWT.Templates.Models.Interfaces;
 using UWT.Templates.Services.Extends;
@@ -28,6 +29,7 @@ namespace UWT.Templates.Controllers
         /// <param name="errorCode">错误码</param>
         /// <returns></returns>
         [Route("Errors/Error/{errorCode:int}")]
+        [UwtNoRecordModule]
         public object Error(int errorCode)
         {
             //  接口API返回接口形式
@@ -64,6 +66,7 @@ namespace UWT.Templates.Controllers
         /// 通用错误码表
         /// </summary>
         /// <returns></returns>
+        [UwtNoRecordModule]
         public object ErrorCodeMap()
         {
             List<ErrorCodeListModel> list = new List<ErrorCodeListModel>();

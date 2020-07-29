@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using UWT.Libs.Users.Roles;
 using UWT.Templates.Attributes.Auths;
+using UWT.Templates.Attributes.Routes;
 using UWT.Templates.Models.Consts;
 using UWT.Templates.Models.Interfaces;
 using UWT.Templates.Services.Converts;
@@ -18,6 +19,7 @@ namespace UWT.Libs.Users.Users
     /// <summary>
     /// 账号控制器
     /// </summary>
+    [UwtNoRecordModule]
     public class AccountsController : Controller
         , ITemplateController
     {
