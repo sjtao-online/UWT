@@ -76,14 +76,14 @@ namespace UWT.Server.Controllers
     {
         public string Name { get; set; }
     }
-    [ListViewModel]
+    [ListViewModel(BatchKey = "Index")]
     class HomeListItemModel
     {
-        [ListColumn("序号", ColumnType = ColumnType.Index)]
+        [ListColumn("序号", ColumnType = ColumnType.Index, Width = "2*")]
         public int Index { get; set; }
-        [ListColumn("序号", ColumnType = ColumnType.Index)]
+        [ListColumn("序号", ColumnType = ColumnType.Index, Width = "auto")]
         public int Index1 { get; set; }
-        [ListColumn("序号", ColumnType = ColumnType.Index)]
+        [ListColumn("序号", ColumnType = ColumnType.Index, Width = "200")]
         public int Index2 { get; set; }
         [ListColumn("序号", ColumnType = ColumnType.Index)]
         public int Index3 { get; set; }
@@ -98,7 +98,7 @@ namespace UWT.Server.Controllers
         [ListColumn("序号", ColumnType = ColumnType.Index)]
         public int Index8 { get; set; }
         public string Name { get; set; }
-        [ListColumn("操作", ColumnType =  ColumnType.Handle, Styles = "width: 200px;")]
+        [ListColumn("操作", ColumnType =  ColumnType.Handle, Width = "auto")]
         public List<HandleModel> HandleList
         {
             get

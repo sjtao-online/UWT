@@ -84,7 +84,6 @@ body{
     height: 48px;
     min-width: 20px;
     background-color: #f2f2f2;
-    display: none;
     margin-bottom: -1px;
 }
 
@@ -440,8 +439,16 @@ li.active > a {
     color:#888
 }
 
-.layui-table td, .layui-table th{
-    min-width: 80px;
+.layui-table-cell {
+    padding: 0 !important;
+}
+
+.layui-table {
+    width: auto;
+}
+
+.uwt-batch-checkbox {
+    padding: 0;
 }
 
 table th, table td {

@@ -35,9 +35,19 @@ namespace UWT.Templates.Attributes.Lists
         /// </summary>
         public ColumnType ColumnType { get; set; }
         /// <summary>
-        /// Link模式有效
+        /// 宽度使用WPF类似方法GridLength方法<br/>
+        /// 详见readme.md中说明（注1）
         /// </summary>
-        public string Target { get; set; }
+        public string Width { get; set; }
+        /// <summary>
+        /// 最小宽度<br/>
+        /// 默认值80
+        /// </summary>
+        public double MinWidth { get; set; } = 80;
+        /// <summary>
+        /// 默认不限制
+        /// </summary>
+        public double? MaxWidth { get; set; }
         /// <summary>
         /// 列表列项
         /// </summary>

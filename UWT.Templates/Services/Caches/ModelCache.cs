@@ -78,7 +78,6 @@ namespace UWT.Templates.Services.Caches
                                     ColumnType = c.ColumnType,
                                     Styles = c.Styles,
                                     Class = c.Class,
-                                    Target = c.Target,
                                     Property = type.GetProperty(c.Property.Name)
                                 });
                             }
@@ -256,6 +255,12 @@ namespace UWT.Templates.Services.Caches
                                             default:
                                                 break;
                                         }
+                                        CellWidth width = new CellWidth()
+                                        {
+                                            MinWidth = meatt.MinWidth,
+                                            MaxWidth = meatt.MaxWidth,
+                                        };
+                                        FromString(meatt.Width, width);
                                         listColumn = new ListColumnModel()
                                         {
                                             Property = prop,
@@ -265,8 +270,8 @@ namespace UWT.Templates.Services.Caches
                                             Styles = meatt.Styles,
                                             Class = meatt.Class,
                                             ColumnType = meatt.ColumnType,
-                                            Target = meatt.Target,
-                                            ModelEx = mex
+                                            ModelEx = mex,
+                                            Width = width
                                         };
                                     }
                                     else
@@ -275,7 +280,13 @@ namespace UWT.Templates.Services.Caches
                                         {
                                             Property = prop,
                                             Title = prop.Name,
-                                            IsIgnore = true
+                                            IsIgnore = true,
+                                            Width = new CellWidth()
+                                            {
+                                                MinWidth = 80,
+                                                UnitType = CellWidthUnitType.Star,
+                                                Value = 1
+                                            }
                                         };
                                     }
                                     listViewModel.Columns.Add(listColumn);
@@ -792,6 +803,57 @@ namespace UWT.Templates.Services.Caches
                 return new List<string>();
             }
             return files.Split(splits.ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToList();
+        }
+        private static string[] UnitStrings = new string[3]
+        {
+            "auto",
+            "px",
+            "*"
+        };
+        /// <summary>
+        /// 从GridLength抄过来的
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="value"></param>
+        /// <param name="unit"></param>
+        internal static void FromString(string s, CellWidth w)
+        {
+            if (string.IsNullOrEmpty(s))
+            {
+                w.Value = 1;
+                w.UnitType = CellWidthUnitType.Star;
+                return;
+            }
+            string text = s.Trim().ToLowerInvariant();
+            w.Value = 0.0;
+            w.UnitType = CellWidthUnitType.Pixel;
+            int length = text.Length;
+            int num = 0;
+            int i = 0;
+            if (text == UnitStrings[i])
+            {
+                num = UnitStrings[i].Length;
+                w.UnitType = (CellWidthUnitType)i;
+            }
+            else
+            {
+                for (i = 1; i < UnitStrings.Length; i++)
+                {
+                    if (text.EndsWith(UnitStrings[i], StringComparison.Ordinal))
+                    {
+                        num = UnitStrings[i].Length;
+                        w.UnitType = (CellWidthUnitType)i;
+                        break;
+                    }
+                }
+            }
+            if (length == num && (w.UnitType == CellWidthUnitType.Auto || w.UnitType == CellWidthUnitType.Star))
+            {
+                w.Value = 1.0;
+                return;
+            }
+            string value2 = text.Substring(0, length - num);
+            w.Value = Convert.ToDouble(value2);
         }
     }
 }

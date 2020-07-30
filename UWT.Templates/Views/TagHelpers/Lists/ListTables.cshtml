@@ -1,16 +1,54 @@
 ﻿@model UWT.Templates.Models.Templates.TagHelpers.TagHelperDataModel<UWT.Templates.Models.Interfaces.IToPageViewModel>
 @using UWT.Templates.Attributes.Lists
-@{ 
-    var tModel = Model.TemplateModel;
+@{
+    CurrentTModel = Model.TemplateModel;
 }
 
 @functions {
-    private Microsoft.AspNetCore.Html.IHtmlContent RenderCell(Microsoft.AspNetCore.Html.IHtmlContent content, int i)
+    UWT.Templates.Models.Templates.TagHelpers.TagHelperTemplateModel CurrentTModel = null;
+    private Microsoft.AspNetCore.Html.IHtmlContent RenderCell(Microsoft.AspNetCore.Html.IHtmlContent content, string name, UWT.Templates.Models.Interfaces.ICellWidth width)
     {
         Microsoft.AspNetCore.Mvc.Rendering.TagBuilder builder = new TagBuilder("div");
-        builder.AddCssClass("layui-table-cell uwt-table-cell-" + i);
+        if (width == null)
+        {
+            builder.AddCssClass("layui-table-cell uwt-batch-checkbox");
+        }
+        else
+        {
+            builder.AddCssClass("layui-table-cell uwt-table-cell-" + name);
+        }
         builder.InnerHtml.AppendHtml(content);
         return builder;
+    }
+    private Microsoft.AspNetCore.Html.IHtmlContent RenderCell(UWT.Templates.Models.Interfaces.IListColumnModel column, int i, int mi, object item)
+    {
+        if (column.IsIgnore)
+        {
+            return new StringHtmlContent("");
+        }
+        string name = column.Property.Name.ToLower();
+        TagBuilder td = new TagBuilder("td");
+        if (!string.IsNullOrEmpty(column.Class))
+        {
+            td.AddCssClass(column.Class);
+        }
+        if (!string.IsNullOrEmpty(column.Styles))
+        {
+            td.Attributes.Add("style", column.Styles);
+        }
+        if (column.ColumnType == ColumnType.Index)
+        {
+            td.InnerHtml.AppendHtml(RenderCell(Html.Raw(i.ToString()), name, column.Width));
+        }
+        else if (column.ColumnType == ColumnType.MIndex)
+        {
+            td.InnerHtml.AppendHtml(RenderCell(Html.Raw(mi.ToString()), name, column.Width));
+        }
+        else
+        {
+            td.InnerHtml.AppendHtml(RenderCell(column.GetRawValue(item, ref CurrentTModel, Html), name, column.Width));
+        }
+        return td;
     }
 }
 
@@ -19,6 +57,12 @@
         <table cellspacing="0" cellpadding="0" border="0" class="layui-table uwt-table">
             <thead>
                 <tr>
+                    @if (Model.DataModel.ListViewModel.HasMutilCheck)
+                    {
+                        <td>
+                            @RenderCell(Html.Raw($"<input lay-filter='batch' class='batch-check-box' type='checkbox' lay-skin='primary' data-batch-key='' />"), null, null)
+                        </td>
+                    }
                     @for (int i = 0; i < Model.DataModel.ListViewModel.Columns.Count; i++)
                     {
                         var item = Model.DataModel.ListViewModel.Columns[i];
@@ -26,8 +70,22 @@
                         {
                             continue;
                         }
-                        <th class="@item.Class" style="@item.Styles">
-                            @RenderCell(Html.Raw($"<span>{item.Title}</span>"), i)
+                        string type = "*";
+                        if (item.Width.IsAbsolute)
+                        {
+                            type = "px";
+                        }
+                        else if (item.Width.IsAuto)
+                        {
+                            type = "auto";
+                        }
+                        string maxwidth = "";
+                        if (item.Width.MaxWidth != null)
+                        {
+                            maxwidth = "data-max-width='" + item.Width.MaxWidth.ToString() + "'";
+                        }
+                        <th class="@item.Class" style="@item.Styles" data-min-width="@item.Width.MinWidth" @maxwidth data-widthv="@item.Width.Value.ToString()" data-widtht="@type" data-cname="@item.Property.Name.ToLower()">
+                            @RenderCell(Html.Raw($"<span>{item.Title}</span>"), item.Property.Name.ToLower(), item.Width)
                         </th>
                     }
                 </tr>
@@ -37,7 +95,6 @@
     </div>
     @if (Model.DataModel.ItemTotal != 0)
     {
-        int index = 1;
         int mindex = Model.DataModel.PageIndex * Model.DataModel.PageSize + 1;
         <div class="layui-table-body uwt-list-body">
             <table cellspacing="0" cellpadding="0" border="0" class="layui-table uwt-table" lay-even>
@@ -46,32 +103,15 @@
                     {
                         foreach (var item in Model.DataModel.Items)
                         {
-                            var c = Model.DataModel.ListViewModel.Columns[0];
                             <tr>
-                                <td style="@c.Styles" class="@c.Class">
-                                    @RenderCell(Html.Raw($"<input lay-filter='batch' class='batch-check-box' type='checkbox' lay-skin='primary' title='{ c.GetRawValue(item, ref tModel, Html)}' data-batch-key='{(Model.DataModel.ListViewModel.BatchProperty.GetValue(item))} />"), 0)
+                                <td>
+                                    @RenderCell(Html.Raw($"<input lay-filter='batch' class='batch-check-box' type='checkbox' lay-skin='primary' data-batch-key='{(Model.DataModel.ListViewModel.BatchProperty.GetValue(item))}' />"), null, null)
                                 </td>
-                                @for (int i = 1; i < Model.DataModel.ListViewModel.Columns.Count; i++)
+                                @for (int i = 0; i < Model.DataModel.ListViewModel.Columns.Count; i++)
                                 {
-                                    var column = Model.DataModel.ListViewModel.Columns[i];
-                                    if (column.IsIgnore)
-                                    {
-                                        continue;
-                                    }
-                                    if (column.ColumnType == ColumnType.Index)
-                                    {
-                                        <td style="@column.Styles" class="@column.Class">@RenderCell(Html.Raw(index.ToString()), i)</td>
-                                        continue;
-                                    }
-                                    if (column.ColumnType == ColumnType.MIndex)
-                                    {
-                                        <td style="@column.Styles" class="@column.Class">@RenderCell(Html.Raw(mindex.ToString()), i)</td>
-                                        continue;
-                                    }
-                                    <td style="@column.Styles" class="@column.Class">@RenderCell(column.GetRawValue(item, ref tModel, Html), i)</td>
+                                    @RenderCell(Model.DataModel.ListViewModel.Columns[i], i + 1, mindex, item)
                                 }
                             </tr>
-                            index++;
                             mindex++;
                         }
                     }
@@ -82,25 +122,9 @@
                             <tr>
                                 @for (int i = 0; i < Model.DataModel.ListViewModel.Columns.Count; i++)
                                 {
-                                    var column = Model.DataModel.ListViewModel.Columns[i];
-                                    if (column.IsIgnore)
-                                    {
-                                        continue;
-                                    }
-                                    if (column.ColumnType == ColumnType.Index)
-                                    {
-                                        <td style="@column.Styles" class="@column.Class">@RenderCell(Html.Raw(index.ToString()), i)</td>
-                                        continue;
-                                    }
-                                    if (column.ColumnType == ColumnType.MIndex)
-                                    {
-                                        <td style="@column.Styles" class="@column.Class">@RenderCell(Html.Raw(mindex.ToString()), i)</td>
-                                        continue;
-                                    }
-                                    <td style="@column.Styles" class="@column.Class">@RenderCell(column.GetRawValue(item, ref tModel, Html), i)</td>
+                                    @RenderCell(Model.DataModel.ListViewModel.Columns[i], i + 1, mindex, item)
                                 }
                             </tr>
-                            index++;
                             mindex++;
                         }
                     }
@@ -108,4 +132,7 @@
             </table>
         </div>
     }
+    <style>
+    </style>
 </div>
+

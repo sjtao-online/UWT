@@ -46,9 +46,9 @@ namespace UWT.Templates.Models.Templates.Lists
         /// </summary>
         public string Class { get; internal set; }
         /// <summary>
-        /// 目标
+        /// 宽度信息
         /// </summary>
-        public string Target { get; internal set; }
+        public ICellWidth Width { get; set; }
         /// <summary>
         /// 扩展信息
         /// </summary>
@@ -62,6 +62,11 @@ namespace UWT.Templates.Models.Templates.Lists
             }
             switch (ColumnType)
             {
+                case ColumnType.Link:
+                    var a =  new TagBuilder("A");
+                    a.Attributes.Add("href", value.ToString());
+                    a.InnerHtml.Append(value.ToString());
+                    return a;
                 case ColumnType.Text:
                     return new StringHtmlContent(value.ToString());
                 case ColumnType.Summary:
@@ -99,13 +104,13 @@ namespace UWT.Templates.Models.Templates.Lists
             switch (handleModelBasic.Type)
             {
                 case HandleType.EvalJS:
-                    var uwtid = Uwtid.NewUwtid().ToStringZ2();
+                    var guid = Guid.NewGuid().ToStringZ2();
                     if (tagHelperTemplateModel.ScriptList == null)
                     {
                         tagHelperTemplateModel.ScriptList = new List<string>();
                     }
-                    tagHelperTemplateModel.ScriptList.Add($"function func{uwtid}(){{{ModelCache.RechangeUrl(Property.ReflectedType, (string)handleModelBasic.Target)}}}");
-                    target = uwtid;
+                    tagHelperTemplateModel.ScriptList.Add($"function func{guid}(){{{ModelCache.RechangeUrl(Property.ReflectedType, (string)handleModelBasic.Target)}}}");
+                    target = guid;
                     break;
                 case HandleType.PopupDlg:
                 case HandleType.Download:

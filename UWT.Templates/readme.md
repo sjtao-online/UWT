@@ -206,7 +206,33 @@
 
 > 请调用/Errors/ErrorCodeMap获得
 
+## 说明注释
 
+1.  列表列宽使用说明
+    + 支持三种类型“auto”,“NUM*”,“NUMpx”或“NUM”
+        及auto,2*,10px或10
+    + auto:自动宽度，由列最宽内容决定
+    + NUM*:权重值，由其它列分配剩余宽度按权重分配，前面的数值是占多少
+    + NUMpx或NUM:绝对值，以像素为单位  
+
+例子
+```cs
+    //  自动宽度列“序号1”，以该列占最长的内容为宽度(不会超过MaxWidth属性的值)
+    [ListColumn("序号1", Width="auto")]
+    public int Index1 { get; set; }
+    //  权重宽度1*,数字1省略写法,建议和“序号4”的一起看
+    [ListColumn("序号2", Width="*")]
+    public int Index2 { get; set; }
+    //  20像素宽度
+    [ListColumn("序号3", Width="20px")]
+    public int Index3 { get; set; }
+    //  权重宽度2.5*，在未到最大或最小宽度的情况下“序号4”的宽度永远是“序号2”的2.5倍，直到最大最小宽度
+    [ListColumn("序号4", Width="2.5*")]
+    public int Index4 { get; set; }
+    //  20像素宽度，px省略写法
+    [ListColumn("序号5", Width="20")]
+    public int Index5 { get; set; }
+```
 
 ## 感谢
 

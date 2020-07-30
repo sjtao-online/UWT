@@ -25,11 +25,56 @@
                 $('.layui-table-body').scrollTop(0);
             }
         }
+        var minWidth = 0;
+        var tableWidth = $(".layui-table-header").width() - 30;
+        var styles = "";
+        var swidth = 0;
+        var starArr = [];
+        var starCnt = 0;
         if (isscroll) {
-            $('#uwt-query-scroll-block').show();
-        } else {
-            $('#uwt-query-scroll-block').hide();
+            tableWidth -= 20;
         }
+        $('.layui-table-box .layui-table-header th').each(function () {
+            var cmw = $(this).data("min-width");
+            var name = $(this).data("cname");
+            styles += ".uwt-table-cell-" + name + "{ min-width: " + cmw + "px;";
+            if ($(this).data('max-width') !== undefined) {
+                styles += "max-width: " + $(this).data('max-width') + "px;";
+            }
+            var widthv = $(this).data('widthv');
+            switch ($(this).data('widtht')) {
+                case "*":
+                    starArr.push(widthv);
+                    starCnt += Number(widthv);
+                    styles += "width: " + widthv + "*;"
+                    break;
+                case "px":
+                    swidth += Number(widthv) + 30;
+                    styles += "width: " + widthv + "px;";
+                    break;
+                case "auto":
+                    var w = 0;
+                    $('td div.uwt-table-cell-' + name).each(function () {
+                        if (w < $(this).width()) {
+                            w = $(this).width();
+                        }
+                    })
+                    if (w < cmw) {
+                        w = cmw;
+                    }
+                    swidth += w + 30;
+                    styles += "width: " + w + "px;";
+                    break;
+                default:
+            }
+            styles += "}";
+        });
+        var startWidth = (tableWidth - swidth) / starCnt - 30;
+        for (var i in starArr) {
+            styles = styles.replace(starArr[i] + "*", startWidth * starArr[i] + "px");
+        }
+        $(".layui-table-box style").remove();
+        $('.layui-table-box').append("<style>" + styles + "</style>");
     }
     $(window).resize(resizePageList);
     resizePageList();

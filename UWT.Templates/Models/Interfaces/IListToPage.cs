@@ -144,7 +144,6 @@ namespace UWT.Templates.Models.Interfaces
         /// 颜色
         /// </summary>
         string Color { get; }
-
     }
     /// <summary>
     /// 列表项模型接口
@@ -172,13 +171,13 @@ namespace UWT.Templates.Models.Interfaces
         /// </summary>
         string Title { get; }
         /// <summary>
-        /// 目标
-        /// </summary>
-        string Target { get; }
-        /// <summary>
         /// 扩展信息
         /// </summary>
         IListItemExBasicModel ModelEx { get; }
+        /// <summary>
+        /// 表格宽度
+        /// </summary>
+        ICellWidth Width { get; }
         /// <summary>
         /// 转换为显示内容
         /// </summary>
@@ -187,5 +186,35 @@ namespace UWT.Templates.Models.Interfaces
         /// <param name="html">Cshtml中的Html成员</param>
         /// <returns></returns>
         IHtmlContent GetRawValue(object obj, ref TagHelperTemplateModel tagHelperTemplateModel, IHtmlHelper html);
+    }
+    /// <summary>
+    /// 表格宽度结构
+    /// </summary>
+    public interface ICellWidth
+    {
+        /// <summary>
+        /// 是否为*值
+        /// </summary>
+        bool IsStar { get; }
+        /// <summary>
+        /// 是否为自动值
+        /// </summary>
+        bool IsAuto { get; }
+        /// <summary>
+        /// 是否为绝对值
+        /// </summary>
+        bool IsAbsolute { get; }
+        /// <summary>
+        /// 表示当前值
+        /// </summary>
+        double Value { get; }
+        /// <summary>
+        /// 最小值
+        /// </summary>
+        double MinWidth { get; }
+        /// <summary>
+        /// 最大值
+        /// </summary>
+        double? MaxWidth { get; }
     }
 }

@@ -24,7 +24,6 @@ namespace UWT.Templates.Models.Basics
             MachineId = 0
         };
         static DateTimeOffset TimeStampBeginOffset = new DateTimeOffset(2020, 1, 1, 0, 0, 0, TimeSpan.Zero);
-        static ulong UwtIndex = 0;
         /// <summary>
         /// Uwtid配置<br/>
         /// 请参考IUwtidConfig配置说明
@@ -49,8 +48,18 @@ namespace UWT.Templates.Models.Basics
         /// <summary>
         /// 生成唯一值
         /// </summary>
-        /// <returns></returns>
+        /// <returns>生成新的Uwtid</returns>
         public static Uwtid NewUwtid()
+        {
+            return NewUwtid(Config);
+        }
+
+        /// <summary>
+        /// 生成唯一值
+        /// </summary>
+        /// <param name="config">使用自定义配置，此配置应是重复使用</param>
+        /// <returns>生成新的Uwtid</returns>
+        public static Uwtid NewUwtid(IUwtidConfig config)
         {
             //  初始化变量
             const sbyte sizebuf = sizeof(ulong);
@@ -59,15 +68,15 @@ namespace UWT.Templates.Models.Basics
             uint  mi = 0;
             ulong idx = 0;
             //  建锁赋值
-            lock (Config)
+            lock (config)
             {
-                tsb = Config.TimeStampBits;
-                mb = Config.MachineBits;
-                mi = Config.MachineId;
+                tsb = config.TimeStampBits;
+                mb = config.MachineBits;
+                mi = config.MachineId;
                 //  编号递增
-                UwtIndex++;
+                config.UwtidIndex++;
                 //  超范围回归
-                idx = UwtIndex % (ulong)Math.Pow(2, Config.IndexBits);
+                idx = config.UwtidIndex % (ulong)Math.Pow(2, config.IndexBits);
             }
             //  计算时间差值
             TimeSpan timeSpan = DateTimeOffset.Now - TimeStampBeginOffset;
@@ -221,6 +230,10 @@ namespace UWT.Templates.Models.Basics
         /// 默认0 取值区间[0,2^Machine)
         /// </summary>
         uint MachineId { get; }
+        /// <summary>
+        /// 初始序号默认为0
+        /// </summary>
+        ulong UwtidIndex { get; set; }
     }
     class UwtidConfig : IUwtidConfig
     {
@@ -228,5 +241,6 @@ namespace UWT.Templates.Models.Basics
         public sbyte MachineBits { get; set; }
         public sbyte IndexBits { get; set; }
         public uint MachineId { get; set; }
+        public ulong UwtidIndex { get; set; }
     }
 }
