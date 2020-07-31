@@ -14,6 +14,7 @@ using UWT.Templates.Models.Basics;
 using UWT.Templates.Models.Consts;
 using UWT.Templates.Models.Interfaces;
 using UWT.Templates.Models.Templates.Commons;
+using UWT.Templates.Models.Templates.Lists;
 using UWT.Templates.Services.Extends;
 
 namespace UWT.Server.Controllers
@@ -52,7 +53,14 @@ namespace UWT.Server.Controllers
             {
                 return this.ListResult(m => new HomeListItemModel()
                 {
-                    Name = m.Name
+                    Name = new ListColumnTextModel()
+                    {
+                        Title = m.Name,
+                        FontColor = "#F6A",
+                        Background = "#AAA",
+                        BorderRadius = "4px"
+                    },
+                    
                 }, from it in db.UwtUsersAccounts
                    select new QueryTable()
                    {
@@ -63,7 +71,10 @@ namespace UWT.Server.Controllers
 
         public IActionResult Form()
         {
-            return this.FormResult().View();
+            return this.FormResult(new StudentAddModel()
+            {
+                Tags = new List<string>() { "123", "234" }
+            }).View();
         }
 
         public IActionResult Logs()
@@ -97,7 +108,8 @@ namespace UWT.Server.Controllers
         public int Index7 { get; set; }
         [ListColumn("序号", ColumnType = ColumnType.Index)]
         public int Index8 { get; set; }
-        public string Name { get; set; }
+        [ListColumn("名字")]
+        public ListColumnTextModel Name { get; set; }
         [ListColumn("操作", ColumnType =  ColumnType.Handle, Width = "auto")]
         public List<HandleModel> HandleList
         {
@@ -126,6 +138,9 @@ namespace UWT.Server.Controllers
         [FormItem("列名", FormItemType.File)]
         [FormItems.File(FileType = ".pdf")]
         public string File { get; set; }
+        [FormItem("标签", FormItemType.List)]
+        [FormItems.List(Flags = FormItems.ListAttribute.FormListFlag.ShowAsTag)]
+        public List<string> Tags { get; set; }
     }
     class MBulder : SelectItemBuilderBasic
     {

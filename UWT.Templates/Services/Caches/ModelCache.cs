@@ -811,12 +811,9 @@ namespace UWT.Templates.Services.Caches
             "*"
         };
         /// <summary>
-        /// 从GridLength抄过来的
+        /// 从WPF中的GridLength抄过来的
         /// </summary>
-        /// <param name="s"></param>
-        /// <param name="value"></param>
-        /// <param name="unit"></param>
-        internal static void FromString(string s, CellWidth w)
+        static void FromString(string s, CellWidth w)
         {
             if (string.IsNullOrEmpty(s))
             {
