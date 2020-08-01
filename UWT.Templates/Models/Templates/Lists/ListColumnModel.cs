@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.Json;
 using UWT.Templates.Attributes.Lists;
@@ -63,22 +64,46 @@ namespace UWT.Templates.Models.Templates.Lists
             switch (ColumnType)
             {
                 case ColumnType.Link:
-                    var a =  new TagBuilder("A");
-                    a.Attributes.Add("href", value.ToString());
-                    a.InnerHtml.Append(value.ToString());
-                    return a;
+                    var a = new TagBuilder("A");
+                    if (Property.PropertyType == typeof(ListColumnLinkModel))
+                    {
+                        var lm = value as ListColumnLinkModel;
+                        a.Attributes.Add("href", lm.Url);
+                        a.InnerHtml.Append(lm.Title);
+                        a.UwtAppendAttrbite("title", lm.Tooltip);
+                        if (lm.IsNewTableOpen)
+                        {
+                            a.Attributes.Add("target", "_blank");
+                        }
+                        return a;
+                    }
+                    else
+                    {
+                        a.Attributes.Add("href", value.ToString());
+                        a.InnerHtml.Append(value.ToString());
+                        return a;
+                    }
                 case ColumnType.Text:
+                    if (Property.PropertyType == typeof(ListColumnTextModel))
+                    {
+                        var tm = value as ListColumnTextModel;
+                        TagBuilder span = new TagBuilder("SPAN");
+                        span.InnerHtml.Append(tm.Title);
+                        StringBuilder sb = new StringBuilder();
+                        sb.UwtAppend(tm.Background, "background: '{0}';");
+                        sb.UwtAppend(tm.BorderRadius, "border-radius: '{0}';");
+                        sb.UwtAppend(tm.Padding, "padding: '{0}';");
+                        sb.UwtAppend(tm.FontColor, "color: '{0}';");
+                        span.UwtAppendAttrbite("style", sb.ToString());
+                        return span;
+                    }
                     return new StringHtmlContent(value.ToString());
                 case ColumnType.Summary:
                     return new StringHtmlContent(value.ToString());
                 case ColumnType.Image:
                     return html.Raw($"<img style='height: 20px' src='{value}'>");
                 case ColumnType.Handle:
-                    if (Property.PropertyType == typeof(HandleModel))
-                    {
-                        return html.Raw(HandleString(value as HandleModel, ref tagHelperTemplateModel));
-                    }
-                    else if (Property.PropertyType == typeof(List<HandleModel>))
+                    if (Property.PropertyType == typeof(List<HandleModel>))
                     {
                         StringBuilder builder = new StringBuilder("<div class='hidden-sm hidden-xs btn-group'>");
                         foreach (var itemHandle in value as List<HandleModel>)
@@ -87,6 +112,10 @@ namespace UWT.Templates.Models.Templates.Lists
                         }
                         builder.Append("</div>");
                         return html.Raw(builder.ToString());
+                    }
+                    else if (Property.PropertyType == typeof(HandleModel))
+                    {
+                        return html.Raw(HandleString(value as HandleModel, ref tagHelperTemplateModel));
                     }
                     break;
                 case ColumnType.Cshtml:

@@ -147,6 +147,10 @@
         }
         return sb.ToString();
     }
+    object GetPropertyEditValue()
+    {
+        return Model.DataModel.TargetTemplate.PropertyInfo.GetValue(Model.DataModel.TargetObject);
+    }
 }
 @if (template.ItemType == UWT.Templates.Attributes.Forms.FormItemType.Hidden)
 {
@@ -164,7 +168,7 @@
         {
             v = "txt";
         }
-        <input type="hidden" name="@templateName" value="@template.PropertyInfo.GetValue(Model.DataModel.TargetObject)"
+        <input type="hidden" name="@templateName" value="@GetPropertyEditValue()"
                class="uwt-form-hidden-item" data-type="@v" />
     }
 }
@@ -184,7 +188,7 @@ else
             string textValue = "";
             if (isEdit)
             {
-                textValue = template.PropertyInfo.GetValue(Model.DataModel.TargetObject) as string;
+                textValue = GetPropertyEditValue() as string;
             }
             var textex = template.ModelEx as IFormTextEx;
             switch (textex.TextCate)
@@ -275,7 +279,7 @@ else
             var vfile = "";
             if (isEdit)
             {
-                vfile = template.PropertyInfo.GetValue(Model.DataModel.TargetObject) as string;
+                vfile = GetPropertyEditValue() as string;
             }
             var file = template.ModelEx as IFileEx;
             <div class="layui-input-inline">
@@ -307,7 +311,7 @@ else
                 multiSelect = chooseid.MultiSelect;
                 if (isEdit)
                 {
-                    var value = template.PropertyInfo.GetValue(Model.DataModel.TargetObject);
+                    var value = GetPropertyEditValue();
                     v = chooseid.MultiSelect ? ViewBag.ChooseIds2Names(chooseid.ChooseKey, value as List<int>) : ViewBag.ChooseId2Name(chooseid.ChooseKey, (int)value);
                 }
             }
@@ -330,7 +334,7 @@ else
                 if (isEdit)
                 {
                     UWT.Templates.Controllers.TablesController tables = new UWT.Templates.Controllers.TablesController();
-                    var value = template.PropertyInfo.GetValue(Model.DataModel.TargetObject);
+                    var value = GetPropertyEditValue();
                     if (choose.MultiSelect)
                     {
                         vShow = tables.ChangeIdsToText(choose.TableName, choose.IdColumnName, choose.NameColumnName, (List<int>)value);
@@ -357,7 +361,7 @@ else
             string colorText = "";
             if (isEdit)
             {
-                colorText = template.PropertyInfo.GetValue(Model.DataModel.TargetObject) as string;
+                colorText = GetPropertyEditValue() as string;
             }
             <div class="layui-input-inline">
                 <input class="form-color-text layui-input" readonly value="@colorText" id="@templateName" />
@@ -382,7 +386,7 @@ else
             else
             {
                 <div class="layui-input-inline">
-                    <input type="text" data-max="@time.Max" data-min="@time.Min" name="@template.Name" id="@template.Name" class="layui-input form-time" value="@(Model.DataModel.TargetObject == null ? "" : TimeSpan.FromSeconds((int)template.PropertyInfo.GetValue(Model.DataModel.TargetObject)).ToString(@"hh\:mm\:ss"))" />
+                    <input type="text" data-max="@time.Max" data-min="@time.Min" name="@template.Name" id="@template.Name" class="layui-input form-time" value="@(Model.DataModel.TargetObject == null ? "" : TimeSpan.FromSeconds((int)GetPropertyEditValue()).ToString(@"hh\:mm\:ss"))" />
                 </div>
             }
             break;
@@ -393,7 +397,7 @@ else
                 <select id="@templateName" class="uwt-input">
                     @if (isEdit)
                     {
-                        var currentValue = template.PropertyInfo.GetValue(Model.DataModel.TargetObject);
+                        var currentValue = GetPropertyEditValue();
                         foreach (var item in list)
                         {
                             <option value="@item.Key" @(currentValue == item.Key ? "selected" : "")>@item.Name</option>
@@ -416,7 +420,7 @@ else
             HashSet<string> msvalues = ms.DefaultSelected;
             if (isEdit)
             {
-                msvalues = ((List<string>)template.PropertyInfo.GetValue(Model.DataModel.TargetObject)).ToHashSet();
+                msvalues = ((List<string>)GetPropertyEditValue()).ToHashSet();
             }
             <div class="@className multi-select" id="@templateName" data-maxselect="@ms.MaxSelectCount">
                 @{
@@ -446,7 +450,7 @@ else
             bool swvalue = false;
             if (isEdit)
             {
-                swvalue = (bool)template.PropertyInfo.GetValue(Model.DataModel.TargetObject);
+                swvalue = (bool)GetPropertyEditValue();
             }
             else
             {
@@ -460,14 +464,24 @@ else
             var slider = template.ModelEx as ISliderEx;
             <div class="@className">
                 <div class="form-slider" id="@(templateName)__slider" data-rid="@(templateName)"></div>
-                <input class="@(slider.IsRange?"hasrange":"")" type="hidden" data-step="@slider.Block" data-max="@slider.Max" data-min="@slider.Min" id="@templateName" value="@(Model.DataModel.TargetObject==null?"":template.PropertyInfo.GetValue(Model.DataModel.TargetObject).ToString())" />
+                <input class="@(slider.IsRange?"hasrange":"")" type="hidden" data-step="@slider.Block" data-max="@slider.Max" data-min="@slider.Min" id="@templateName" value="@(Model.DataModel.TargetObject==null?"":GetPropertyEditValue().ToString())" />
             </div>
             break;
         case UWT.Templates.Attributes.Forms.FormItemType.List:
+            System.Collections.IEnumerable listValues = null;
+            if (isEdit) 
+            {
+                listValues = (System.Collections.IEnumerable)GetPropertyEditValue();
+            }
+            var vdd = new ViewDataDictionary(ViewData);
+            vdd.Add("tt", (IFormListModel)template.ModelEx);
+            <div class="@className">
+                @Html.Partial("/Views/TagHelpers/Forms/FormListItem.cshtml", (object)listValues, vdd)
+            </div>
             break;
         case UWT.Templates.Attributes.Forms.FormItemType.PartCshtml:
             var cshtml = template.ModelEx as IFormCshtmlEx;
-            @Html.Partial(cshtml.CshtmlPath, isEdit ? template.PropertyInfo.GetValue(Model.DataModel.TargetObject) : null)
+            @Html.Partial(cshtml.CshtmlPath, isEdit ? GetPropertyEditValue() : null)
             foreach (var item in cshtml.CssList)
             {
                 Model.TemplateModel.AddCssList.AddResourcs(item);
@@ -481,12 +495,12 @@ else
         case UWT.Templates.Attributes.Forms.FormItemType.ShowImage:
             var show1 = template.ModelEx as IShowModel;
             <div class="@className">
-                <img src="@(isEdit?template.PropertyInfo.GetValue(Model.DataModel.TargetObject):show1.ShowDefault)" alt="" />
+                <img src="@(isEdit?GetPropertyEditValue():show1.ShowDefault)" alt="" />
             </div>
             break;
         case UWT.Templates.Attributes.Forms.FormItemType.ShowText:
             var show2 = template.ModelEx as IShowModel;
-            <div class="layui-input-inine">@(isEdit?template.PropertyInfo.GetValue(Model.DataModel.TargetObject):show2.ShowDefault)</div>
+            <div class="layui-input-inine">@(isEdit?GetPropertyEditValue():show2.ShowDefault)</div>
             break;
         case UWT.Templates.Attributes.Forms.FormItemType.DisplayGroup:
             var display = template.ModelEx as IDisplayGroupEx;
@@ -495,7 +509,7 @@ else
                 <select id="@templateName" class="uwt-input display-group-select" lay-filter="displaygroup" data-groupname="@(string.IsNullOrEmpty(display.GroupName)?"-default":display.GroupName)">
                     @if (isEdit)
                     {
-                        var selectcurrentValue = template.PropertyInfo.GetValue(Model.DataModel.TargetObject);
+                        var selectcurrentValue = GetPropertyEditValue();
                         foreach (var item in displaylist)
                         {
                             <option value="@item.Key" @(selectcurrentValue == item.Key ? "selected" : "")>@item.Name</option>

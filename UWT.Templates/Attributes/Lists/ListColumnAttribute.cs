@@ -63,7 +63,8 @@ namespace UWT.Templates.Attributes.Lists
     public enum ColumnType
     {
         /// <summary>
-        /// 文本列
+        /// 文本列<br/>
+        /// 支持基本类型与增强型ListColumnTextModel
         /// </summary>
         Text,
         /// <summary>
@@ -80,8 +81,9 @@ namespace UWT.Templates.Attributes.Lists
         /// </summary>
         Handle,
         /// <summary>
-        /// 链接
-        /// 文本的特殊类型
+        /// 链接文本<br/>
+        /// 文本的特殊类型<br/>
+        /// 支持string与增强型ListColumnLinkModel
         /// </summary>
         Link,
         /// <summary>

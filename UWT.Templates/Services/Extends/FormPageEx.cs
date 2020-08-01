@@ -153,8 +153,8 @@ namespace UWT.Templates.Services.Extends
                         break;
                     case FormItemType.PartCshtml:
                         break;
+                    //  不参与计算
                     case FormItemType.ShowImage:
-                        break;
                     case FormItemType.ShowText:
                         break;
                     default:

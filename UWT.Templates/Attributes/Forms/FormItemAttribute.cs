@@ -172,7 +172,7 @@ namespace UWT.Templates.Attributes.Forms
         /// 列表控制<br/>
         /// 应添加FormItems.List<br/>
         /// List泛型内可使用int,string,class的类<br/>
-        /// class类要有FormListItemModel
+        /// class类要有FormListItemModel  未完成
         /// </summary>
         List,
         /// <summary>

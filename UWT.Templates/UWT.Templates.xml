@@ -454,7 +454,7 @@
             列表控制<br/>
             应添加FormItems.List<br/>
             List泛型内可使用int,string,class的类<br/>
-            class类要有FormListItemModel
+            class类要有FormListItemModel  未完成
             </summary>
         </member>
         <member name="F:UWT.Templates.Attributes.Forms.FormItemType.PartCshtml">
@@ -1192,9 +1192,21 @@
             列类型
             </summary>
         </member>
-        <member name="P:UWT.Templates.Attributes.Lists.ListColumnAttribute.Target">
+        <member name="P:UWT.Templates.Attributes.Lists.ListColumnAttribute.Width">
             <summary>
-            Link模式有效
+            宽度使用WPF类似方法GridLength方法<br/>
+            详见readme.md中说明（注1）
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Attributes.Lists.ListColumnAttribute.MinWidth">
+            <summary>
+            最小宽度<br/>
+            默认值80
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Attributes.Lists.ListColumnAttribute.MaxWidth">
+            <summary>
+            默认不限制
             </summary>
         </member>
         <member name="M:UWT.Templates.Attributes.Lists.ListColumnAttribute.#ctor(System.String)">
@@ -1210,7 +1222,8 @@
         </member>
         <member name="F:UWT.Templates.Attributes.Lists.ColumnType.Text">
             <summary>
-            文本列
+            文本列<br/>
+            支持基本类型与增强型ListColumnTextModel
             </summary>
         </member>
         <member name="F:UWT.Templates.Attributes.Lists.ColumnType.Summary">
@@ -1231,8 +1244,9 @@
         </member>
         <member name="F:UWT.Templates.Attributes.Lists.ColumnType.Link">
             <summary>
-            链接
-            文本的特殊类型
+            链接文本<br/>
+            文本的特殊类型<br/>
+            支持string与增强型ListColumnLinkModel
             </summary>
         </member>
         <member name="F:UWT.Templates.Attributes.Lists.ColumnType.Index">
@@ -1318,6 +1332,18 @@
             列表项模型特性
             </summary>
             <param name="title">标题</param>
+        </member>
+        <member name="T:UWT.Templates.Attributes.Routes.UwtNoRecordModuleAttribute">
+            <summary>
+            不收录Module数据库<br/>
+            不参与权限相关的不用收录
+            </summary>
+        </member>
+        <member name="M:UWT.Templates.Attributes.Routes.UwtNoRecordModuleAttribute.#ctor">
+            <summary>
+            不收录Module数据库<br/>
+            不参与权限相关的不用收录
+            </summary>
         </member>
         <member name="T:UWT.Templates.Attributes.Routes.UwtRouteAttribute">
             <summary>
@@ -1810,7 +1836,14 @@
             <summary>
             生成唯一值
             </summary>
-            <returns></returns>
+            <returns>生成新的Uwtid</returns>
+        </member>
+        <member name="M:UWT.Templates.Models.Basics.Uwtid.NewUwtid(UWT.Templates.Models.Basics.IUwtidConfig)">
+            <summary>
+            生成唯一值
+            </summary>
+            <param name="config">使用自定义配置，此配置应是重复使用</param>
+            <returns>生成新的Uwtid</returns>
         </member>
         <member name="M:UWT.Templates.Models.Basics.Uwtid.ToByteArray">
             <summary>
@@ -1861,6 +1894,11 @@
             <summary>
             机器编号<br/>
             默认0 取值区间[0,2^Machine)
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Models.Basics.IUwtidConfig.UwtidIndex">
+            <summary>
+            初始序号默认为0
             </summary>
         </member>
         <member name="T:UWT.Templates.Models.Consts.AuthConst">
@@ -2822,14 +2860,14 @@
             标题
             </summary>
         </member>
-        <member name="P:UWT.Templates.Models.Interfaces.IListColumnModel.Target">
-            <summary>
-            目标
-            </summary>
-        </member>
         <member name="P:UWT.Templates.Models.Interfaces.IListColumnModel.ModelEx">
             <summary>
             扩展信息
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Models.Interfaces.IListColumnModel.Width">
+            <summary>
+            表格宽度
             </summary>
         </member>
         <member name="M:UWT.Templates.Models.Interfaces.IListColumnModel.GetRawValue(System.Object,UWT.Templates.Models.Templates.TagHelpers.TagHelperTemplateModel@,Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper)">
@@ -2840,6 +2878,41 @@
             <param name="tagHelperTemplateModel">可以回写一般东西</param>
             <param name="html">Cshtml中的Html成员</param>
             <returns></returns>
+        </member>
+        <member name="T:UWT.Templates.Models.Interfaces.ICellWidth">
+            <summary>
+            表格宽度结构
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Models.Interfaces.ICellWidth.IsStar">
+            <summary>
+            是否为*值
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Models.Interfaces.ICellWidth.IsAuto">
+            <summary>
+            是否为自动值
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Models.Interfaces.ICellWidth.IsAbsolute">
+            <summary>
+            是否为绝对值
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Models.Interfaces.ICellWidth.Value">
+            <summary>
+            表示当前值
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Models.Interfaces.ICellWidth.MinWidth">
+            <summary>
+            最小值
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Models.Interfaces.ICellWidth.MaxWidth">
+            <summary>
+            最大值
+            </summary>
         </member>
         <member name="T:UWT.Templates.Models.Interfaces.IPageResult">
             <summary>
@@ -3548,6 +3621,21 @@
             其它值为显示文字 文字长度不建议超过4
             </summary>
         </member>
+        <member name="F:UWT.Templates.Models.Templates.Lists.CellWidthUnitType.Auto">
+            <summary>
+            该大小由内容对象的大小属性确定。
+            </summary>
+        </member>
+        <member name="F:UWT.Templates.Models.Templates.Lists.CellWidthUnitType.Pixel">
+            <summary>
+            该值表示为一个像素。
+            </summary>
+        </member>
+        <member name="F:UWT.Templates.Models.Templates.Lists.CellWidthUnitType.Star">
+            <summary>
+            该值表示为可用空间的加权比例。
+            </summary>
+        </member>
         <member name="P:UWT.Templates.Models.Templates.Lists.ListColumnModel.Title">
             <summary>
             标题
@@ -3583,14 +3671,76 @@
             类名
             </summary>
         </member>
-        <member name="P:UWT.Templates.Models.Templates.Lists.ListColumnModel.Target">
+        <member name="P:UWT.Templates.Models.Templates.Lists.ListColumnModel.Width">
             <summary>
-            目标
+            宽度信息
             </summary>
         </member>
         <member name="P:UWT.Templates.Models.Templates.Lists.ListColumnModel.ModelEx">
             <summary>
             扩展信息
+            </summary>
+        </member>
+        <member name="T:UWT.Templates.Models.Templates.Lists.ListColumnBasicModel">
+            <summary>
+            增强列表列
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Models.Templates.Lists.ListColumnBasicModel.Title">
+            <summary>
+            标题文字
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Models.Templates.Lists.ListColumnBasicModel.Tooltip">
+            <summary>
+            悬停提示文本
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Models.Templates.Lists.ListColumnBasicModel.Tag">
+            <summary>
+            存储自定义数据<br/>
+            框架不会使用，扩展自用
+            </summary>
+        </member>
+        <member name="T:UWT.Templates.Models.Templates.Lists.ListColumnLinkModel">
+            <summary>
+            列表超链接增强
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Models.Templates.Lists.ListColumnLinkModel.Url">
+            <summary>
+            URL
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Models.Templates.Lists.ListColumnLinkModel.IsNewTableOpen">
+            <summary>
+            是否新窗口打开
+            </summary>
+        </member>
+        <member name="T:UWT.Templates.Models.Templates.Lists.ListColumnTextModel">
+            <summary>
+            列表文本增强
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Models.Templates.Lists.ListColumnTextModel.Background">
+            <summary>
+            背景<br/>
+            建议直接使用“#AAA”这种颜色
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Models.Templates.Lists.ListColumnTextModel.BorderRadius">
+            <summary>
+            圆角大小
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Models.Templates.Lists.ListColumnTextModel.FontColor">
+            <summary>
+            文本颜色
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Models.Templates.Lists.ListColumnTextModel.Padding">
+            <summary>
+            内边距
             </summary>
         </member>
         <member name="P:UWT.Templates.Models.Templates.Lists.ToPageModel.PageSize">
@@ -3703,6 +3853,11 @@
             初始化
             </summary>
             <param name="assemblies">可以初始化的程序集</param>
+        </member>
+        <member name="M:UWT.Templates.Services.Caches.ModelCache.FromString(System.String,UWT.Templates.Models.Templates.Lists.CellWidth)">
+            <summary>
+            从WPF中的GridLength抄过来的
+            </summary>
         </member>
         <member name="T:UWT.Templates.Services.Converts.ControllerToModulesConverter">
             <summary>
@@ -4846,6 +5001,20 @@
             <param name="sb">StringBuilder主体</param>
             <param name="appendText">要添加的内容，为null或空不添加</param>
             <param name="format">格式化字符串，为空为直接添加内容</param>
+        </member>
+        <member name="T:UWT.Templates.Services.Extends.TagBuilderEx">
+            <summary>
+            TagBuilder扩展
+            </summary>
+        </member>
+        <member name="M:UWT.Templates.Services.Extends.TagBuilderEx.UwtAppendAttrbite(Microsoft.AspNetCore.Mvc.Rendering.TagBuilder,System.String,System.String)">
+            <summary>
+            添加属性
+            </summary>
+            <param name="tag">本体</param>
+            <param name="attr">属性名</param>
+            <param name="value">值</param>
+            <returns>返回本体</returns>
         </member>
         <member name="T:UWT.Templates.Services.Extends.TemplateControllerEx">
             <summary>
