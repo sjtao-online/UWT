@@ -95,7 +95,7 @@ namespace UWT.Libs.WeChats.Controllers
                     BuildWeChatUserDic(dbDic, "update");
                     wxUserTable.UwtUpdate(accountId, dbDic);
                 }
-                accessToken = this.SignInto(BuildSignIntoDic(accountId, loginModel.UserInfo.NickName));
+                accessToken = this.SignInto(BuildSignIntoDic(accountId, loginModel.UserInfo.NickName), AuthWxAttribute.CurrentAuthType);
             });
             if (accountId == 0)
             {

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,21 +23,27 @@ namespace UWT.Templates.Attributes.Auths
     [System.AttributeUsage(AttributeTargets.All, Inherited = false, AllowMultiple = true)]
     public class AuthAttribute : Attribute, IAuthorizationFilter
     {
-        /// <summary>
-        /// View默认值
-        /// </summary>
-        public const string AuthDefaultTypeView = "https://sjtao.online/auth/managers/view";
-        /// <summary>
-        /// Api默认值
-        /// </summary>
-        public const string AuthDefaultTypeApi = "https://sjtao.online/auth/managers/api";
         internal static string LoginUrl = "/Accounts/Login";
         internal static string RefText = "Ref";
         /// <summary>
-        /// 类型<br/>
-        /// 已实现view、api
+        /// 类型
         /// </summary>
-        public string Type { get; set; }
+        public AuthRequestType Type 
+        {
+            get
+            {
+                if (saveType == null)
+                {
+                    saveType = Context.HttpContext.Request.Headers.ContainsKey(ErrorsController.ClientVersionText) ? AuthRequestType.Api : AuthRequestType.View;
+                }
+                return (AuthRequestType)saveType;
+            }
+        }
+        private AuthRequestType? saveType;
+        /// <summary>
+        /// 授权类型
+        /// </summary>
+        public string AuthType { get; protected set; }
         /// <summary>
         /// 上下文
         /// </summary>
@@ -46,8 +53,9 @@ namespace UWT.Templates.Attributes.Auths
         /// </summary>
         public AuthAttribute()
         {
-            Type = AuthDefaultTypeView;
+            AuthType = CookieAuthHandler.CookieName;
         }
+
 
         /// <summary>
         /// 判断是否已经登录
@@ -55,7 +63,7 @@ namespace UWT.Templates.Attributes.Auths
         /// <returns></returns>
         public virtual async Task<bool> HasSignIn()
         {
-            return await HasSignInUser(Context.HttpContext);
+            return await HasSignInUser(Context.HttpContext, AuthType);
         }
         /// <summary>
         /// 判断有无授权
@@ -75,18 +83,13 @@ namespace UWT.Templates.Attributes.Auths
         {
             switch (Type)
             {
-                case AuthDefaultTypeView:
-                    if (Context.HttpContext.Request.Headers.ContainsKey(ErrorsController.ClientVersionText))
-                    {
-                        Context.Result = new JsonResult(ServiceCollectionEx.ApiResultBuildFunc("登录已过期", (int)ErrorCode.Login_SessionExp));
-                    }
-                    else
-                    {
-                        Context.Result = new RedirectResult(LoginUrl + "?" + RefText + "=" + WebUtility.UrlEncode(Context.HttpContext.GetRelativeUri()));
-                    }
+                case AuthRequestType.View:
+                    HandleNoSignView(LoginUrl, RefText);
                     break;
-                case AuthDefaultTypeApi:
-                    Context.Result = new JsonResult(ServiceCollectionEx.ApiResultBuildFunc("登录已过期", (int)ErrorCode.Login_SessionExp));
+                case AuthRequestType.Api:
+                    HandleNoSignApi();
+                    break;
+                case AuthRequestType.Download:
                     break;
                 default:
                     break;
@@ -100,10 +103,10 @@ namespace UWT.Templates.Attributes.Auths
         {
             switch (Type)
             {
-                case AuthDefaultTypeView:
+                case AuthRequestType.View:
                     Context.Result = new ViewResult() { ViewName = ControllerEx.NotAuthorizedPageName };
                     break;
-                case AuthDefaultTypeApi:
+                case AuthRequestType.Api:
                     Context.Result = new JsonResult(ServiceCollectionEx.ApiResultBuildFunc("没权限", (int)ErrorCode.NotAuthorized));
                     break;
                 default:
@@ -148,13 +151,67 @@ namespace UWT.Templates.Attributes.Auths
         }
 
         /// <summary>
+        /// 处理未登录View
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="refParamName"></param>
+        protected void HandleNoSignView(string url, string refParamName, Dictionary<string, string> otherParamters = null)
+        {
+            StringBuilder urlBuilder = new StringBuilder(LoginUrl);
+            urlBuilder.Append("?");
+            urlBuilder.UwtAppend(refParamName, "{0}=" + WebUtility.UrlEncode(Context.HttpContext.GetRelativeUri()) + "&");
+            if (otherParamters != null)
+            {
+                foreach (var item in otherParamters)
+                {
+                    urlBuilder.AppendFormat("{0}={1}", item.Key, WebUtility.HtmlEncode(item.Value));
+                }
+            }
+            Context.Result = new RedirectResult(urlBuilder.ToString());
+        }
+
+        protected void HandleNoSignApi()
+        {
+            Context.Result = new JsonResult(ServiceCollectionEx.ApiResultBuildFunc("登录已过期", (int)ErrorCode.Login_SessionExp));
+        }
+
+        /// <summary>
         /// 是否有用户登录
         /// </summary>
         /// <param name="context">上下文</param>
+        /// <param name="authType">授权类型</param>
         /// <returns></returns>
-        public static async Task<bool> HasSignInUser(HttpContext context)
+        public static async Task<bool> HasSignInUser(HttpContext context, string authType = null)
         {
-            return (await context.AuthenticateAsync(CookieAuthHandler.CookieName)).Succeeded;
+            var ticket = await context.AuthenticateAsync(CookieAuthHandler.CookieName);
+            if (ticket.Succeeded)
+            {
+                var claim = ticket.Principal.FindFirst(CookieAuthHandler.UwtAuthTypeKey);
+                if (claim!= null && claim.Value == authType)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
+    }
+    /// <summary>
+    /// 权限访问类型
+    /// </summary>
+    public enum AuthRequestType
+    {
+        /// <summary>
+        /// View页面
+        /// </summary>
+        View,
+        /// <summary>
+        /// API接口
+        /// </summary>
+        Api,
+        /// <summary>
+        /// 下载文件<br/>
+        /// 暂未使用
+        /// </summary>
+        Download
     }
 }

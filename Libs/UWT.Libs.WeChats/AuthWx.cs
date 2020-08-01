@@ -11,12 +11,13 @@ namespace UWT.Libs.WeChats
     [System.AttributeUsage(AttributeTargets.All, Inherited = false, AllowMultiple = true)]
     public sealed class AuthWxAttribute : AuthAttribute
     {
+        internal const string CurrentAuthType = "wechat";
         /// <summary>
         /// 微信授权特性
         /// </summary>
         public AuthWxAttribute()
         {
-            Type = AuthDefaultTypeApi;
+            AuthType = CurrentAuthType;
         }
     }
 }

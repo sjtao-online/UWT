@@ -108,7 +108,7 @@ namespace UWT.Server.Controllers
                 list.Add(HandleModel.BuildDel(".Del"));
                 list.Add(HandleModel.BuildDownload("下载", ".download"));
                 list.Add(HandleModel.BuildNavigate("详情", ".detail?id=" + Index, "确定要看详情吗？"));
-                list.Add(HandleModel.BuildPopupDlg("弹出", ".PopupDlg", "", ""));
+                list.Add(HandleModel.BuildPopupDlg("弹出", "/Home/Index", "50%", "50%"));
                 list.Add(HandleModel.BuildMultiButtons("更多", new List<HandleModel>()
                 {
                     HandleModel.BuildDel(".Abc"),

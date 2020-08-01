@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using System.Text;
+using UWT.Templates.Attributes.Auths;
 using UWT.Templates.Services.Auths;
 using UWT.Templates.Services.StartupEx;
 
@@ -298,13 +299,18 @@ namespace UWT.Templates.Services.Extends
         /// <param name="controller"></param>
         /// <param name="pairs">登录缓存字典</param>
         /// <returns>返回Token</returns>
-        public static string SignInto(this ControllerBase controller, Dictionary<string, string> pairs)
+        public static string SignInto(this ControllerBase controller, Dictionary<string, string> pairs, string authType = null)
         {
             List<Claim> claims = new List<Claim>();
             foreach (var item in pairs)
             {
                 claims.Add(new Claim(item.Key, item.Value));
             }
+            if (authType == null)
+            {
+                authType = CookieAuthHandler.CookieName;
+            }
+            claims.Add(new Claim(CookieAuthHandler.UwtAuthTypeKey, authType));
             ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(claims, CookieAuthHandler.CookieName));
             controller.HttpContext.SignInAsync(CookieAuthHandler.CookieName, claimsPrincipal).Wait();
             return controller.HttpContext.Items[CookieAuthHandler.CookieName] as string;

@@ -16,6 +16,7 @@ namespace UWT.Templates.Services.Auths
 
         public const string CookieName = "uwt";
         public const string MemoryCacheConstHeader = "__uwt_cookie_auth_";
+        public const string UwtAuthTypeKey = "_uwt_auth_type_";
         /// <summary>
         /// 默认过期和续订时长
         /// </summary>

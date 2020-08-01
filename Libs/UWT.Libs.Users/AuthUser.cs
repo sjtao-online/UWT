@@ -16,9 +16,9 @@ namespace UWT.Libs.Users
     public class AuthUserAttribute : AuthAttribute
     {
         /// <summary>
-        /// 是否已经登录
+        /// 是否有权限
         /// </summary>
-        /// <returns>是否登录</returns>
+        /// <returns>是否有权限</returns>
 #pragma warning disable CS1998 // 异步方法缺少 "await" 运算符，将以同步方式运行
         public override async Task<bool> HasAuthorized()
 #pragma warning restore CS1998 // 异步方法缺少 "await" 运算符，将以同步方式运行
@@ -28,7 +28,6 @@ namespace UWT.Libs.Users
             {
                 return true;
             }
-            //  处理特殊角色 0 可以使用任务权限
             var roleId = Context.HttpContext.User.FindFirst("RoleId")?.Value;
             if (string.IsNullOrEmpty(roleId))
             {
@@ -36,7 +35,8 @@ namespace UWT.Libs.Users
             }
             if (int.TryParse(roleId, out int roleIdInt))
             {
-                this.LogInformation("RoleId" + roleId);
+                //  处理特殊角色 可以使用任何权限
+                //  如果有设置使用设置权限，如果没有设置0为特殊权限
                 if ((AccountsController.NoCheckAuthorizedRoleList == null && roleIdInt == 0)
                     || AccountsController.NoCheckAuthorizedRoleList != null && AccountsController.NoCheckAuthorizedRoleList.Contains(roleIdInt))
                 {
