@@ -298,6 +298,7 @@ namespace UWT.Templates.Services.Extends
         /// </summary>
         /// <param name="controller"></param>
         /// <param name="pairs">登录缓存字典</param>
+        /// <param name="authType">授权类型，对应Auth中的AuthType</param>
         /// <returns>返回Token</returns>
         public static string SignInto(this ControllerBase controller, Dictionary<string, string> pairs, string authType = null)
         {

@@ -153,9 +153,10 @@ namespace UWT.Templates.Attributes.Auths
         /// <summary>
         /// 处理未登录View
         /// </summary>
-        /// <param name="url"></param>
-        /// <param name="refParamName"></param>
-        protected void HandleNoSignView(string url, string refParamName, Dictionary<string, string> otherParamters = null)
+        /// <param name="url">登录界面URL</param>
+        /// <param name="refParamName">重定向的参数名</param>
+        /// <param name="otherParamters">其它参数</param>
+        protected void HandleNoSignView(string url, string refParamName, List<KeyValuePair<string, string>> otherParamters = null)
         {
             StringBuilder urlBuilder = new StringBuilder(LoginUrl);
             urlBuilder.Append("?");
@@ -169,7 +170,9 @@ namespace UWT.Templates.Attributes.Auths
             }
             Context.Result = new RedirectResult(urlBuilder.ToString());
         }
-
+        /// <summary>
+        /// 处理未登录API
+        /// </summary>
         protected void HandleNoSignApi()
         {
             Context.Result = new JsonResult(ServiceCollectionEx.ApiResultBuildFunc("登录已过期", (int)ErrorCode.Login_SessionExp));

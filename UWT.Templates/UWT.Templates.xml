@@ -9,20 +9,14 @@
             登录授权特性
             </summary>
         </member>
-        <member name="F:UWT.Templates.Attributes.Auths.AuthAttribute.AuthDefaultTypeView">
-            <summary>
-            View默认值
-            </summary>
-        </member>
-        <member name="F:UWT.Templates.Attributes.Auths.AuthAttribute.AuthDefaultTypeApi">
-            <summary>
-            Api默认值
-            </summary>
-        </member>
         <member name="P:UWT.Templates.Attributes.Auths.AuthAttribute.Type">
             <summary>
-            类型<br/>
-            已实现view、api
+            类型
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Attributes.Auths.AuthAttribute.AuthType">
+            <summary>
+            授权类型
             </summary>
         </member>
         <member name="P:UWT.Templates.Attributes.Auths.AuthAttribute.Context">
@@ -68,12 +62,47 @@
             </summary>
             <param name="context">上下文</param>
         </member>
-        <member name="M:UWT.Templates.Attributes.Auths.AuthAttribute.HasSignInUser(Microsoft.AspNetCore.Http.HttpContext)">
+        <member name="M:UWT.Templates.Attributes.Auths.AuthAttribute.HandleNoSignView(System.String,System.String,System.Collections.Generic.List{System.Collections.Generic.KeyValuePair{System.String,System.String}})">
+            <summary>
+            处理未登录View
+            </summary>
+            <param name="url">登录界面URL</param>
+            <param name="refParamName">重定向的参数名</param>
+            <param name="otherParamters">其它参数</param>
+        </member>
+        <member name="M:UWT.Templates.Attributes.Auths.AuthAttribute.HandleNoSignApi">
+            <summary>
+            处理未登录API
+            </summary>
+        </member>
+        <member name="M:UWT.Templates.Attributes.Auths.AuthAttribute.HasSignInUser(Microsoft.AspNetCore.Http.HttpContext,System.String)">
             <summary>
             是否有用户登录
             </summary>
             <param name="context">上下文</param>
+            <param name="authType">授权类型</param>
             <returns></returns>
+        </member>
+        <member name="T:UWT.Templates.Attributes.Auths.AuthRequestType">
+            <summary>
+            权限访问类型
+            </summary>
+        </member>
+        <member name="F:UWT.Templates.Attributes.Auths.AuthRequestType.View">
+            <summary>
+            View页面
+            </summary>
+        </member>
+        <member name="F:UWT.Templates.Attributes.Auths.AuthRequestType.Api">
+            <summary>
+            API接口
+            </summary>
+        </member>
+        <member name="F:UWT.Templates.Attributes.Auths.AuthRequestType.Download">
+            <summary>
+            下载文件<br/>
+            暂未使用
+            </summary>
         </member>
         <member name="T:UWT.Templates.Attributes.Details.DetailItemAttribute">
             <summary>
@@ -4274,12 +4303,13 @@
             <param name="key">项名称</param>
             <returns></returns>
         </member>
-        <member name="M:UWT.Templates.Services.Extends.ControllerEx.SignInto(Microsoft.AspNetCore.Mvc.ControllerBase,System.Collections.Generic.Dictionary{System.String,System.String})">
+        <member name="M:UWT.Templates.Services.Extends.ControllerEx.SignInto(Microsoft.AspNetCore.Mvc.ControllerBase,System.Collections.Generic.Dictionary{System.String,System.String},System.String)">
             <summary>
             登入
             </summary>
             <param name="controller"></param>
             <param name="pairs">登录缓存字典</param>
+            <param name="authType">授权类型，对应Auth中的AuthType</param>
             <returns>返回Token</returns>
         </member>
         <member name="M:UWT.Templates.Services.Extends.ControllerEx.SignOuto(Microsoft.AspNetCore.Mvc.ControllerBase)">

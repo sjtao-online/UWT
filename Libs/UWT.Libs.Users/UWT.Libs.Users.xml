@@ -11,9 +11,9 @@
         </member>
         <member name="M:UWT.Libs.Users.AuthUserAttribute.HasAuthorized">
             <summary>
-            是否已经登录
+            是否有权限
             </summary>
-            <returns>是否登录</returns>
+            <returns>是否有权限</returns>
         </member>
         <member name="T:UWT.Libs.Users.MenuGroups.IDbMenuGroupTable">
             <summary>
