@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Libs\UWT.Libs.BBS\UWT.Libs.BBS.csproj" />
     <ProjectReference Include="..\Libs\UWT.Libs.Helpers\UWT.Libs.Helpers.csproj" />
     <ProjectReference Include="..\Libs\UWT.Libs.Normals\UWT.Libs.Normals.csproj" />
     <ProjectReference Include="..\Libs\UWT.Libs.Users\UWT.Libs.Users.csproj" />
