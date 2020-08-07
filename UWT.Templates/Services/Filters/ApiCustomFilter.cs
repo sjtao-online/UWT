@@ -50,7 +50,7 @@ namespace UWT.Templates.Services.Filters
             {
                 var r = context.Result as ObjectResult;
                 var ro = r.Value;
-                if (ro is IResultModelBasic)
+                if (ro is IResultModelBasic && !(ro is ResultModelBasic))
                 {
                     if (keys == null)
                     {
