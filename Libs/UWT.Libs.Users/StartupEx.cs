@@ -110,7 +110,17 @@ namespace UWT.Libs.Users
                     canurls.AddRange(urls.ToList());
                 }
             };
-            app.UseMgrLayout(list => {}, defaultLayoutCallback, LibUserHasAuthHandleAction);
+            app.UseMgrLayout(list => 
+            {
+                list.Add(new Templates.Models.Basics.RouteModel()
+                {
+                    Controller = "MenuGroups"
+                });
+                list.Add(new Templates.Models.Basics.RouteModel()
+                {
+                    Controller = "Role"
+                });
+            }, defaultLayoutCallback, LibUserHasAuthHandleAction);
             TemplateControllerEx.UsingDb(null, db =>
             {
                 //  重新组织Modules

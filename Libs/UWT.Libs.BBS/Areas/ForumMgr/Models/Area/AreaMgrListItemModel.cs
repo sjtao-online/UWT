@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using UWT.Templates.Attributes.Lists;
+using UWT.Templates.Models.Templates.Commons;
 
-namespace UWT.Libs.BBS.Models.AreaMgr
+namespace UWT.Libs.BBS.Areas.ForumMgr.Models.Areas
 {
     [ListViewModel]
     class AreaMgrListItemModel
@@ -24,7 +25,8 @@ namespace UWT.Libs.BBS.Models.AreaMgr
             get
             {
                 List<Templates.Models.Templates.Commons.HandleModel> handles = new List<Templates.Models.Templates.Commons.HandleModel>();
-
+                handles.Add(HandleModel.BuildModify(".Modify?id=" + Id));
+                handles.Add(HandleModel.BuildDel(".Del?id=" + Id));
                 return handles;
             }
         }

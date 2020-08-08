@@ -154,6 +154,17 @@ namespace UWT.Templates.Models.Templates.Commons
         }
 
         /// <summary>
+        /// 构建“删除”<br/>
+        /// .Del?id=id
+        /// </summary>
+        /// <param name="id">当前Id</param>
+        /// <returns></returns>
+        public static HandleModel BuildDel(int id)
+        {
+            return BuildDel(".Del?id=" + id);
+        }
+
+        /// <summary>
         /// 构建“发布”
         /// </summary>
         /// <param name="apiurl">URL</param>
@@ -181,6 +192,17 @@ namespace UWT.Templates.Models.Templates.Commons
         public static HandleModel BuildModify(string url)
         {
             return BuildNavigate("编辑", url);
+        }
+
+        /// <summary>
+        /// 生成“编辑”<br/>
+        /// .Modify?id=id
+        /// </summary>
+        /// <param name="id">当前Id</param>
+        /// <returns></returns>
+        public static HandleModel BuildModify(int id)
+        {
+            return BuildModify(".Modify?id=" + id);
         }
 
         /// <summary>

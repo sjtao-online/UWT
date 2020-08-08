@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using UWT.Libs.BBS;
 using UWT.Libs.Helpers;
 using UWT.Libs.Users;
 using UWT.Templates.Models.Basics;
@@ -45,6 +46,7 @@ namespace UWT.Server
             });
             services.AddUWT("/Accounts/Login", "ref");
             services.AddHelper();
+            services.AddBBS();
             services.AddLogging();
         }
 
@@ -57,6 +59,13 @@ namespace UWT.Server
             }
             app.UseUWT();
             app.UseDbSettings<DataModels.UwtDB>(System.IO.Path.Combine(env.ContentRootPath, "db.conf"));
+            app.UseMgrRouteList(new List<RouteModel>()
+            {
+                new RouteModel()
+                {
+                    Controller = "Home"
+                }
+            });
             app.UseLibUser(m =>
             {
                 m.TitleFormat = "{0} - 管理平台";
@@ -123,6 +132,7 @@ namespace UWT.Server
                     }
                 };
             });
+            app.UseBBS();
             using (StreamReader sr = new StreamReader(System.IO.Path.Combine(env.ContentRootPath, "..", "UWT.Templates", "LayuiIcons.json")))
             {
                 Libs.Users.MenuGroups.IconSimpleSelectorBuilder.IconList = JsonSerializer.Deserialize<List<NameKeyModel>>(sr.ReadToEnd());

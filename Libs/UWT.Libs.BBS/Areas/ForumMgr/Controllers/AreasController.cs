@@ -5,25 +5,30 @@ using System.Threading.Tasks;
 using LinqToDB;
 using Microsoft.AspNetCore.Mvc;
 using UWT.Libs.Users;
+using UWT.Libs.BBS.Areas.ForumMgr.Models.Areas;
+using UWT.Libs.BBS.Models;
+using UWT.Templates.Attributes.Routes;
 using UWT.Templates.Models.Interfaces;
 using UWT.Templates.Services.Extends;
 
-namespace UWT.Libs.BBS.Controllers
+namespace UWT.Libs.BBS.Areas.ForumMgr.Controllers
 {
     [AuthUser]
-    public class AreaMgrController : Controller
-        , IListToPage<Models.AreaMgr.AreaMgrListItemModel, Models.AreaMgr.AreaMgrListItemModel>
-        , IFormToPage<Models.AreaMgr.AreaMgrAddModel>
+    [UwtRoute("ForumMgr")]
+    public class AreasController : Controller
+        , IListToPage<AreaMgrListItemModel, AreaMgrListItemModel>
+        , IFormToPage<AreaMgrAddModel>
     {
         public IActionResult Index()
         {
+            this.AddHandler("添加", ".Add");
             using (var db = this.GetDB())
             {
-                var q = from it in db.GetTable<Models.UwtBbsArea>()
-                        join mgr in db.GetTable<Models.UwtBbsUser>() on it.MgrUserId equals mgr.Id
-                        join p in db.GetTable<Models.UwtBbsArea>() on it.PId equals p.Id into all
+                var q = from it in db.GetTable<UwtBbsArea>()
+                        join mgr in db.GetTable<UwtBbsUser>() on it.MgrUserId equals mgr.Id
+                        join p in db.GetTable<UwtBbsArea>() on it.PId equals p.Id into all
                         from pp in all.DefaultIfEmpty()
-                        select new Models.AreaMgr.AreaMgrListItemModel()
+                        select new AreaMgrListItemModel()
                         {
                             Id = it.Id,
                             Name = it.Name,
@@ -31,7 +36,7 @@ namespace UWT.Libs.BBS.Controllers
                             PName = pp.Name,
                             Status = ""
                         };
-                return this.ListResult(m=> new Models.AreaMgr.AreaMgrListItemModel()
+                return this.ListResult(m=> new AreaMgrListItemModel()
                 {
                     Id = m.Id,
                     MgrName = m.MgrName,
@@ -43,21 +48,21 @@ namespace UWT.Libs.BBS.Controllers
         }
         public virtual IActionResult Add()
         {
-            return this.FormResult<Models.AreaMgr.AreaMgrAddModel>().View();
+            return this.FormResult<AreaMgrAddModel>().View();
         }
 
         [HttpPost]
-        public virtual async Task<object> AddModel([FromBody] Models.AreaMgr.AreaMgrAddModel model)
+        public virtual async Task<object> AddModel([FromBody] AreaMgrAddModel model)
         {
             List<Templates.Models.Templates.Forms.FormValidModel> ret = new List<Templates.Models.Templates.Forms.FormValidModel>();
-            if (!await this.CheckCommitModel<Models.AreaMgr.AreaMgrAddModel>(model, ret))
+            if (!await this.CheckCommitModel(model, ret))
             {
                 return this.Error(Templates.Models.Basics.ErrorCode.FormCheckError, ret);
             }
             using (var db = this.GetDB())
             {
-                var table = db.UwtGetTable<Models.UwtBbsArea>();
-                table.Insert(() => new Models.UwtBbsArea()
+                var table = db.UwtGetTable<UwtBbsArea>();
+                table.Insert(() => new UwtBbsArea()
                 {
                     PId = model.PId,
                     Name = model.Name,
