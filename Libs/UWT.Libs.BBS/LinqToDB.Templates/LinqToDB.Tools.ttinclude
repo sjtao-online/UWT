@@ -1,0 +1,1 @@
+<#@ assembly name="$(ProjectDir)LinqToDB.Templates\linq2db.dll" #>

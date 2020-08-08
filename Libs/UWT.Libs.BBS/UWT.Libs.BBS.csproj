@@ -11,6 +11,27 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\UWT.Templates\UWT.Templates.csproj" />
+    <ProjectReference Include="..\UWT.Libs.Normals\UWT.Libs.Normals.csproj" />
+    <ProjectReference Include="..\UWT.Libs.Users\UWT.Libs.Users.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Models\BBS.MySql.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>BBS.MySql.generated.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Models\BBS.MySql.generated.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>BBS.MySql.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 

@@ -26,16 +26,4 @@ namespace DataModels
     public partial class UwtHelper : UWT.Libs.Helpers.Models.IDbHelperTable { }
 
     #endregion
-    #region BBS
-    public partial class UwtBbsArea : UWT.Libs.BBS.Models.IDbAreaTable { }
-    public partial class UwtBbsAreaMgrRef : UWT.Libs.BBS.Models.IDbAreaMgrRefTable { }
-    public partial class UwtBbsAreaTopicRef : UWT.Libs.BBS.Models.IDbAreaTopicRefTable { }
-    public partial class UwtBbsTopic : UWT.Libs.BBS.Models.IDbTopicTable { }
-    public partial class UwtBbsTopicBack : UWT.Libs.BBS.Models.IDbTopicBackTable { }
-    public partial class UwtBbsTopicBackHis : UWT.Libs.BBS.Models.IDbTopicBackHisTable { }
-    public partial class UwtBbsTopicHis : UWT.Libs.BBS.Models.IDbTopicHisTable { }
-    public partial class UwtBbsUser : UWT.Libs.BBS.Models.IDbUserTable { }
-    public partial class UwtBbsUserLevel : UWT.Libs.BBS.Models.IDbUserLevelTable { }
-    public partial class UwtBbsUserLevelType : UWT.Libs.BBS.Models.IDbUserLevelTypeTable { }
-    #endregion
 }
