@@ -35,8 +35,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\BBS\Controllers\" />
-    <Folder Include="Areas\BBS\Models\" />
     <Folder Include="Controllers\" />
   </ItemGroup>
 
