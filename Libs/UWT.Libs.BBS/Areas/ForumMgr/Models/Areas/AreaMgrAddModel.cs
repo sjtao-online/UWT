@@ -27,6 +27,9 @@ namespace UWT.Libs.BBS.Areas.ForumMgr.Models.Areas
         [FormItem("版主", FormItemType.ChooseId, IsRequire = true)]
         [FormItems.ChooseIdFromTable("uwt_bbs_users", NameColumnName = "nickname")]
         public int MgrId { get; set; }
+        [FormItem("是否审核", FormItemType.Switch)]
+        [FormItems.Switch(DefaultValue = false, OffText = "不需要", OnText = "需要")]
+        public bool Apply { get; set; }
     }
     [FormModel(".ModifyModel")]
     public class AreaMgrModifyModel : AreaMgrAddModel

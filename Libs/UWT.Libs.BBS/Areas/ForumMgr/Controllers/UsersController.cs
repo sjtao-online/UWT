@@ -14,11 +14,13 @@ using UWT.Templates.Models.Basics;
 
 namespace UWT.Libs.BBS.Areas.ForumMgr.Controllers
 {
-    [UwtRoute("ForumMgr")]
+    [UwtRoute("ForumMgr", ShowName = "论坛")]
     [AuthUser]
+    [UwtControllerName("用户管理")]
     public class UsersController : Controller
         , IListToPage<Models.Users.UserListItemModel, Models.Users.UserListItemModel>
     {
+        [UwtMethod("列表")]
         public IActionResult Index()
         {
             using (var db = this.GetDB())
@@ -44,14 +46,59 @@ namespace UWT.Libs.BBS.Areas.ForumMgr.Controllers
         }
 
         [HttpPost]
+        [UwtMethod("违规昵称")]
         public virtual object NicknameBreak(int id)
         {
             using (var db = this.GetDB())
             {
-
+                var q = (from it in db.TableUser() where it.Id == it.Id && it.Valid select it.Id).Take(1);
+                if (q.Count() == 0)
+                {
+                    return this.ItemNotFound();
+                }
                 db.TableUser().Update(m => m.Id == id, m => new UwtBbsUser()
                 {
                     Nickname = "违规昵称" + Uwtid.NewUwtid().ToStringZ2()
+                });
+            }
+            return this.Success();
+        }
+
+        [HttpPost]
+        [UwtMethod("禁言")]
+        public virtual object BanWords(int id)
+        {
+            using (var db = this.GetDB())
+            {
+                var q = (from it in db.TableUser() where it.Id == it.Id && it.Valid select it.Auths).Take(1);
+                if (q.Count() == 0)
+                {
+                    return this.ItemNotFound();
+                }
+                var auth = q.First();
+                db.TableUser().Update(m => m.Id == id, m => new UwtBbsUser()
+                {
+                    Auths = auth
+                });
+            }
+            return this.Success();
+        }
+
+        [HttpPost]
+        [UwtMethod("解除禁言")]
+        public virtual object LiftBanWorks(int id)
+        {
+            using (var db = this.GetDB())
+            {
+                var q = (from it in db.TableUser() where it.Id == it.Id && it.Valid select it.Auths).Take(1);
+                if (q.Count() == 0)
+                {
+                    return this.ItemNotFound();
+                }
+                var auth = q.First();
+                db.TableUser().Update(m => m.Id == id, m => new UwtBbsUser()
+                {
+                    Auths = auth
                 });
             }
             return this.Success();

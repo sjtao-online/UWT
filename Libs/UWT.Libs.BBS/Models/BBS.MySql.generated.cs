@@ -71,6 +71,13 @@ namespace UWT.Libs.BBS.Models
 		[Column("ex"),     NotNull             ] public string Ex     { get; set; } // set('digest','top','hot')
 	}
 
+	[Table("uwt_bbs_config")]
+	public partial class UwtBbsConfig
+	{
+		[Column("key"),   PrimaryKey,  NotNull] public string Key   { get; set; } // varchar(255)
+		[Column("value"),    Nullable         ] public string Value { get; set; } // varchar(255)
+	}
+
 	[Table("uwt_bbs_topics")]
 	public partial class UwtBbsTopic
 	{
@@ -238,6 +245,17 @@ namespace UWT.Libs.BBS.Models
 		public static ITable<UwtBbsAreaTopicRef> TableAreaTopicRef(this DataConnection db)
 		{
 			return db.GetTable<UwtBbsAreaTopicRef>();
+		}
+
+		public static UwtBbsConfig Find(this ITable<UwtBbsConfig> table, string Key)
+		{
+			return table.FirstOrDefault(t =>
+				t.Key == Key);
+		}
+
+		public static ITable<UwtBbsConfig> TableConfig(this DataConnection db)
+		{
+			return db.GetTable<UwtBbsConfig>();
 		}
 
 		public static UwtBbsTopic Find(this ITable<UwtBbsTopic> table, int Id)

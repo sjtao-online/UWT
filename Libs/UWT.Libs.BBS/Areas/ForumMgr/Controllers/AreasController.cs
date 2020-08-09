@@ -14,11 +14,13 @@ using UWT.Templates.Services.Extends;
 namespace UWT.Libs.BBS.Areas.ForumMgr.Controllers
 {
     [AuthUser]
-    [UwtRoute("ForumMgr")]
+    [UwtRoute("ForumMgr", ShowName = "论坛")]
+    [UwtControllerName("版块管理")]
     public class AreasController : Controller
         , IListToPage<AreaMgrListItemModel, AreaMgrListItemModel>
         , IFormToPage<AreaMgrAddModel>
     {
+        [UwtMethod("列表")]
         public IActionResult Index()
         {
             this.AddHandler("添加", ".Add");
@@ -46,12 +48,14 @@ namespace UWT.Libs.BBS.Areas.ForumMgr.Controllers
                 }, q).View();
             }
         }
+        [UwtMethod("添加")]
         public virtual IActionResult Add()
         {
             return this.FormResult<AreaMgrAddModel>().View();
         }
 
         [HttpPost]
+        [UwtMethod("添加")]
         public virtual async Task<object> AddModel([FromBody] AreaMgrAddModel model)
         {
             List<Templates.Models.Templates.Forms.FormValidModel> ret = new List<Templates.Models.Templates.Forms.FormValidModel>();
@@ -70,7 +74,7 @@ namespace UWT.Libs.BBS.Areas.ForumMgr.Controllers
                     Icon = model.Icon,
                     Desc = model.Desc,
                     MgrUserId = model.MgrId,
-                    Apply = "publish",
+                    Apply = model.Apply ? "approved" : "publish",
                     Status = "show"
                 });
             }
