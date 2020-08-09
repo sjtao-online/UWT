@@ -106,7 +106,6 @@ void LoadServerMetadata(DataConnection dataConnection)
 
 	if (DatabaseName == null && GenerateDatabaseName)
 		DatabaseName = db.Database;
-    DataContextObject.NotRender = true;
 	if (DataContextName == null)
 		DataContextObject.Name = DataContextName = ToValidName(db.Database, true) + "DB";
 
@@ -411,7 +410,7 @@ void LoadMetadata(DataConnection dataConnection)
 {
 	if (DataContextObject == null)
 	{
-		DataContextObject = new Class(DataContextName) { BaseClass = BaseDataContextClass, };
+		DataContextObject = new ExClass(DataContextName) { BaseClass = BaseDataContextClass, };
 
 		Model.Types.Add(DataContextObject);
 	}

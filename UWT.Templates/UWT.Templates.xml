@@ -3229,6 +3229,14 @@
             <param name="apiurl">URL</param>
             <returns></returns>
         </member>
+        <member name="M:UWT.Templates.Models.Templates.Commons.HandleModel.BuildDel(System.Int32)">
+            <summary>
+            构建“删除”<br/>
+            .Del?id=id
+            </summary>
+            <param name="id">当前Id</param>
+            <returns></returns>
+        </member>
         <member name="M:UWT.Templates.Models.Templates.Commons.HandleModel.BuildPublish(System.String)">
             <summary>
             构建“发布”
@@ -3248,6 +3256,14 @@
             构建“编辑”
             </summary>
             <param name="url">URL</param>
+            <returns></returns>
+        </member>
+        <member name="M:UWT.Templates.Models.Templates.Commons.HandleModel.BuildModify(System.Int32)">
+            <summary>
+            生成“编辑”<br/>
+            .Modify?id=id
+            </summary>
+            <param name="id">当前Id</param>
             <returns></returns>
         </member>
         <member name="M:UWT.Templates.Models.Templates.Commons.HandleModel.BuildEvalJS(System.String,System.String,System.String,System.String)">

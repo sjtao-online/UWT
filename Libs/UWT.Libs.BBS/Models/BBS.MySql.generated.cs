@@ -11,6 +11,7 @@ using System;
 using System.Linq;
 
 using LinqToDB;
+using LinqToDB.Data;
 using LinqToDB.Mapping;
 
 namespace UWT.Libs.BBS.Models
@@ -157,6 +158,10 @@ namespace UWT.Libs.BBS.Models
 	public partial class UwtBbsUser
 	{
 		[Column("id"),            PrimaryKey, Identity] public int      Id          { get; set; } // int(11)
+		/// <summary>
+		/// ÕËºÅId
+		/// </summary>
+		[Column("a_id"),          NotNull             ] public int      AId         { get; set; } // int(11)
 		[Column("nickname"),      NotNull             ] public string   Nickname    { get; set; } // varchar(255)
 		[Column("avatar"),        NotNull             ] public string   Avatar      { get; set; } // varchar(255)
 		/// <summary>
@@ -168,6 +173,10 @@ namespace UWT.Libs.BBS.Models
 		/// </summary>
 		[Column("exp"),           NotNull             ] public uint     Exp         { get; set; } // int(11) unsigned
 		[Column("join_time"),     NotNull             ] public DateTime JoinTime    { get; set; } // datetime
+		/// <summary>
+		/// Ö´ÐÐµÄ²Ù×÷
+		/// </summary>
+		[Column("auths"),         NotNull             ] public string   Auths       { get; set; } // set('topic','comment','like','thumbs-up','enter')
 		[Column("valid"),         NotNull             ] public bool     Valid       { get; set; } // tinyint(1)
 	}
 
@@ -204,10 +213,20 @@ namespace UWT.Libs.BBS.Models
 				t.Id == Id);
 		}
 
+		public static ITable<UwtBbsArea> TableArea(this DataConnection db)
+		{
+			return db.GetTable<UwtBbsArea>();
+		}
+
 		public static UwtBbsAreaMgrRef Find(this ITable<UwtBbsAreaMgrRef> table, int Id)
 		{
 			return table.FirstOrDefault(t =>
 				t.Id == Id);
+		}
+
+		public static ITable<UwtBbsAreaMgrRef> TableAreaMgrRef(this DataConnection db)
+		{
+			return db.GetTable<UwtBbsAreaMgrRef>();
 		}
 
 		public static UwtBbsAreaTopicRef Find(this ITable<UwtBbsAreaTopicRef> table, int Id)
@@ -216,10 +235,20 @@ namespace UWT.Libs.BBS.Models
 				t.Id == Id);
 		}
 
+		public static ITable<UwtBbsAreaTopicRef> TableAreaTopicRef(this DataConnection db)
+		{
+			return db.GetTable<UwtBbsAreaTopicRef>();
+		}
+
 		public static UwtBbsTopic Find(this ITable<UwtBbsTopic> table, int Id)
 		{
 			return table.FirstOrDefault(t =>
 				t.Id == Id);
+		}
+
+		public static ITable<UwtBbsTopic> TableTopic(this DataConnection db)
+		{
+			return db.GetTable<UwtBbsTopic>();
 		}
 
 		public static UwtBbsTopicBack Find(this ITable<UwtBbsTopicBack> table, int Id)
@@ -228,10 +257,20 @@ namespace UWT.Libs.BBS.Models
 				t.Id == Id);
 		}
 
+		public static ITable<UwtBbsTopicBack> TableTopicBack(this DataConnection db)
+		{
+			return db.GetTable<UwtBbsTopicBack>();
+		}
+
 		public static UwtBbsTopicBackHis Find(this ITable<UwtBbsTopicBackHis> table, int Id)
 		{
 			return table.FirstOrDefault(t =>
 				t.Id == Id);
+		}
+
+		public static ITable<UwtBbsTopicBackHis> TableTopicBackHis(this DataConnection db)
+		{
+			return db.GetTable<UwtBbsTopicBackHis>();
 		}
 
 		public static UwtBbsTopicHis Find(this ITable<UwtBbsTopicHis> table, int Id)
@@ -240,10 +279,20 @@ namespace UWT.Libs.BBS.Models
 				t.Id == Id);
 		}
 
+		public static ITable<UwtBbsTopicHis> TableTopicHis(this DataConnection db)
+		{
+			return db.GetTable<UwtBbsTopicHis>();
+		}
+
 		public static UwtBbsUser Find(this ITable<UwtBbsUser> table, int Id)
 		{
 			return table.FirstOrDefault(t =>
 				t.Id == Id);
+		}
+
+		public static ITable<UwtBbsUser> TableUser(this DataConnection db)
+		{
+			return db.GetTable<UwtBbsUser>();
 		}
 
 		public static UwtBbsUserLevel Find(this ITable<UwtBbsUserLevel> table, int Id)
@@ -252,10 +301,20 @@ namespace UWT.Libs.BBS.Models
 				t.Id == Id);
 		}
 
+		public static ITable<UwtBbsUserLevel> TableUserLevel(this DataConnection db)
+		{
+			return db.GetTable<UwtBbsUserLevel>();
+		}
+
 		public static UwtBbsUserLevelType Find(this ITable<UwtBbsUserLevelType> table, int Id)
 		{
 			return table.FirstOrDefault(t =>
 				t.Id == Id);
+		}
+
+		public static ITable<UwtBbsUserLevelType> TableUserLevelType(this DataConnection db)
+		{
+			return db.GetTable<UwtBbsUserLevelType>();
 		}
 	}
 }

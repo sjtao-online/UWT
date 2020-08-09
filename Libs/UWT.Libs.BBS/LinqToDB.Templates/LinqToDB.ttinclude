@@ -56,6 +56,7 @@ void GenerateTypesFromMetadata()
 
 	Model.Usings.Add("LinqToDB");
 	Model.Usings.Add("LinqToDB.Mapping");
+	Model.Usings.Add("LinqToDB.Data");
 
 	if (NamespaceName == null)
 		NamespaceName = "DataModel";
@@ -636,6 +637,20 @@ void GenerateTypesFromMetadata()
 				{
 					IsStatic = true
 				});
+            tableExtensions.Members.Add(
+                new Method(
+                    ()=> string.Format("ITable<{0}>", t.TypeName),
+                    "Table" + t.TypeName.Substring(6),
+                    new Func<string>[]
+                    {
+                        ()=> "this DataConnection db"
+                    },
+                    () => new [] { string.Format("return db.GetTable<{0}>();", t.TypeName) }
+                )
+                {
+                    IsStatic = true
+                }
+            );
 		}
 
 		addType(t);
