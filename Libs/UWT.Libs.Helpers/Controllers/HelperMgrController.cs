@@ -23,7 +23,6 @@ namespace UWT.Libs.Helpers.Controllers
         , IFormToPage<HelperModifyModel>
     {
 #pragma warning disable CS1591 // 缺少对公共可见类型或成员的 XML 注释
-        [UwtMethod("列表")]
         public IActionResult Index()
         {
             this.AddHandler("添加", ".Add");
@@ -36,13 +35,11 @@ namespace UWT.Libs.Helpers.Controllers
             }).View();
         }
 
-        [UwtMethod("添加")]
         public virtual IActionResult Add()
         {
             return this.FormResult<HelperAddModel>().View();
         }
 
-        [UwtMethod("添加")]
         [HttpPost]
         public virtual async Task<object> AddModel([FromBody] HelperAddModel model, string handler)
         {
@@ -60,7 +57,6 @@ namespace UWT.Libs.Helpers.Controllers
             return this.Success();
         }
 
-        [UwtMethod("编辑")]
         public virtual IActionResult Modify(int id)
         {
             using (var db = this.GetDB())
@@ -96,7 +92,6 @@ namespace UWT.Libs.Helpers.Controllers
         }
 
         [HttpPost]
-        [UwtMethod("编辑")]
         public virtual async Task<object> ModifyModel([FromBody] HelperModifyModel model, string handler)
         {
             List<Templates.Models.Templates.Forms.FormValidModel> ret = new List<Templates.Models.Templates.Forms.FormValidModel>();
@@ -142,7 +137,6 @@ namespace UWT.Libs.Helpers.Controllers
         }
 
         [HttpPost]
-        [UwtMethod("发布")]
         public virtual object Publish(int id)
         {
             using (var db = this.GetDB())
@@ -162,7 +156,6 @@ namespace UWT.Libs.Helpers.Controllers
         }
 
         [HttpPost]
-        [UwtMethod("撤下")]
         public virtual object PublishRemove(int id)
         {
             using (var db = this.GetDB())
@@ -182,7 +175,6 @@ namespace UWT.Libs.Helpers.Controllers
         }
 
         [HttpPost]
-        [UwtMethod("删除")]
         public virtual object Del(int id)
         {
             using (var db = this.GetDB())

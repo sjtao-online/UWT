@@ -11,6 +11,9 @@ namespace UWT.Libs.BBS.Areas.BBS.Controllers
     [UwtNoRecordModule]
     public class HomeController : Controller
     {
+        [Route("/BBS")]
+        [Route("/BBS/Home")]
+        [Route("/BBS/Home/Index")]
         public IActionResult Index()
         {
             return View();

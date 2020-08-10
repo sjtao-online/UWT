@@ -14,6 +14,33 @@ namespace UWT.Templates.Services.Converts
     /// </summary>
     public class ControllerToModulesConverter
     {
+        static Dictionary<string, string> _defaultMethodShowNameDictionary = null;
+        const string CEditText = "编辑";
+        const string CAddText = "添加";
+        const string CListText = "列表";
+        static Dictionary<string, string> DefaultMethodShowNameDictionary
+        {
+            get
+            {
+                if (_defaultMethodShowNameDictionary == null)
+                {
+                    _defaultMethodShowNameDictionary = new Dictionary<string, string>()
+                    {
+                        ["add"] = CAddText,
+                        ["addmodel"] = CAddText,
+                        ["modify"] = CEditText,
+                        ["modifymodel"] = CEditText,
+                        ["del"] = "删除",
+                        ["detail"] = "详情",
+                        ["publish"] = "发布",
+                        ["publishremove"] = "撤下",
+                        ["index"] = CListText,
+                        ["list"] = CListText,
+                    };
+                }
+                return _defaultMethodShowNameDictionary;
+            }
+        }
         /// <summary>
         /// 计算结果
         /// </summary>
@@ -147,6 +174,12 @@ namespace UWT.Templates.Services.Converts
                                 ttMapBasic["MethodShowName"] = mShowName.ShowName;
                                 StringTemplateConverter<string> stringTemplateConverter = new StringTemplateConverter<string>(ttMapBasic);
                                 moduleShowName = stringTemplateConverter.ReplacePlaceholder(mShowName.TemplateText);
+                            }
+                            else if (cShowName != null && DefaultMethodShowNameDictionary.ContainsKey(method.Name.ToLower()))
+                            {
+                                ttMapBasic["MethodShowName"] = DefaultMethodShowNameDictionary[method.Name.ToLower()];
+                                StringTemplateConverter<string> stringTemplateConverter = new StringTemplateConverter<string>(ttMapBasic);
+                                moduleShowName = stringTemplateConverter.ReplacePlaceholder(UwtMethodAttribute.TemplateText_AreaControllerMethod);
                             }
                             if (typeof(IActionResult) == method.ReturnType || typeof(IActionResult).IsInstanceOfType(method.ReturnType) || method.ReturnType == typeof(Task<IActionResult>))
                             {

@@ -10,17 +10,17 @@ using UWT.Libs.BBS.Models;
 using UWT.Templates.Attributes.Routes;
 using UWT.Templates.Models.Interfaces;
 using UWT.Templates.Services.Extends;
+using UWT.Libs.BBS.Areas.ForumMgr.Models;
 
 namespace UWT.Libs.BBS.Areas.ForumMgr.Controllers
 {
     [AuthUser]
-    [UwtRoute("ForumMgr", ShowName = "论坛")]
+    [ForumAreaRoute]
     [UwtControllerName("版块管理")]
     public class AreasController : Controller
         , IListToPage<AreaMgrListItemModel, AreaMgrListItemModel>
         , IFormToPage<AreaMgrAddModel>
     {
-        [UwtMethod("列表")]
         public IActionResult Index()
         {
             this.AddHandler("添加", ".Add");
@@ -48,14 +48,12 @@ namespace UWT.Libs.BBS.Areas.ForumMgr.Controllers
                 }, q).View();
             }
         }
-        [UwtMethod("添加")]
         public virtual IActionResult Add()
         {
             return this.FormResult<AreaMgrAddModel>().View();
         }
 
         [HttpPost]
-        [UwtMethod("添加")]
         public virtual async Task<object> AddModel([FromBody] AreaMgrAddModel model)
         {
             List<Templates.Models.Templates.Forms.FormValidModel> ret = new List<Templates.Models.Templates.Forms.FormValidModel>();

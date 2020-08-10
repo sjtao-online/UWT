@@ -11,16 +11,16 @@ using UWT.Libs.BBS.Models;
 using UWT.Libs.Users.Users;
 using LinqToDB;
 using UWT.Templates.Models.Basics;
+using UWT.Libs.BBS.Areas.ForumMgr.Models;
 
 namespace UWT.Libs.BBS.Areas.ForumMgr.Controllers
 {
-    [UwtRoute("ForumMgr", ShowName = "论坛")]
+    [ForumAreaRoute]
     [AuthUser]
     [UwtControllerName("用户管理")]
     public class UsersController : Controller
         , IListToPage<Models.Users.UserListItemModel, Models.Users.UserListItemModel>
     {
-        [UwtMethod("列表")]
         public IActionResult Index()
         {
             using (var db = this.GetDB())
