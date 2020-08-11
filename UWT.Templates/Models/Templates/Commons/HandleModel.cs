@@ -129,7 +129,8 @@ namespace UWT.Templates.Models.Templates.Commons
         }
 
         /// <summary>
-        /// 构建API-GET
+        /// 构建API-GET<br/>
+        /// 比较少用
         /// </summary>
         /// <param name="title">标题</param>
         /// <param name="apiurl">URL</param>
@@ -175,6 +176,17 @@ namespace UWT.Templates.Models.Templates.Commons
         }
 
         /// <summary>
+        /// 构建“发布”<br/>
+        /// .Publish?id=id
+        /// </summary>
+        /// <param name="id">当前Id</param>
+        /// <returns></returns>
+        public static HandleModel BuildPublish(int id)
+        {
+            return BuildPublish(".Publish?id" + id);
+        }
+
+        /// <summary>
         /// 构建“撤下”
         /// </summary>
         /// <param name="apiurl">URL</param>
@@ -182,6 +194,11 @@ namespace UWT.Templates.Models.Templates.Commons
         public static HandleModel BuildPublishRemove(string apiurl)
         {
             return BuildApiPost("撤下", apiurl, TipPublishRemove, "撤下当前条目");
+        }
+
+        public static HandleModel BuildPublishRemove(int id)
+        {
+            return BuildPublishRemove(".PublishRemove?id=" + id);
         }
 
         /// <summary>
