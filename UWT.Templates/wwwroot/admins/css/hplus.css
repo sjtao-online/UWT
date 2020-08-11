@@ -18,6 +18,10 @@
     background: #FFF;
 }
 
+.layui-fluid {
+    bottom: 0 !important;
+}
+
 .container {
     background: #f3f3f4;
 }

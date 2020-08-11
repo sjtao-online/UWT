@@ -99,7 +99,7 @@ body{
     left: 0;
     top: 40px;
     right: 0;
-    bottom: 0;
+    bottom: 50px;
 }
 .layui-footer {
     position: fixed;

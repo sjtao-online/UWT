@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using UWT.Templates.Models.Interfaces;
 
 namespace UWT.Templates.Attributes.Routes
 {
@@ -9,7 +10,7 @@ namespace UWT.Templates.Attributes.Routes
     /// 一般用于菜单组或权限选择
     /// </summary>
     [System.AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = false)]
-    public sealed class UwtMethodAttribute : Attribute
+    public sealed class UwtMethodAttribute : Attribute, IUwtShowNameHasTemplate
     {
         /// <summary>
         /// 显示名字符串
@@ -34,11 +35,10 @@ namespace UWT.Templates.Attributes.Routes
         }
     }
     /// <summary>
-    /// 与UwtModule共同使用,表示控制器名<br/>
-    /// 默认生成"{UwtControllerName} - {UwtModule}"
+    /// 表示控制器名
     /// </summary>
     [System.AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
-    public sealed class UwtControllerNameAttribute : Attribute
+    public sealed class UwtControllerNameAttribute : Attribute, IUwtShowName
     {
         /// <summary>
         /// 显示名字符串

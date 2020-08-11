@@ -33,7 +33,6 @@ namespace UWT.Libs.Users.MenuGroups
         /// 主列表
         /// </summary>
         /// <returns></returns>
-        [UwtMethod("列表")]
         public virtual IActionResult Index()
         {
             this.ActionLog();
@@ -52,7 +51,6 @@ namespace UWT.Libs.Users.MenuGroups
         /// 添加页面
         /// </summary>
         /// <returns></returns>
-        [UwtMethod("添加")]
         public virtual IActionResult Add()
         {
             this.ActionLog();
@@ -65,7 +63,6 @@ namespace UWT.Libs.Users.MenuGroups
         /// <param name="model">添加模型</param>
         /// <returns></returns>
         [HttpPost]
-        [UwtMethod("添加")]
         public virtual async Task<object> AddModel([FromBody]MenuGroupAddModel model)
         {
             this.ActionLog();
@@ -93,7 +90,6 @@ namespace UWT.Libs.Users.MenuGroups
         /// </summary>
         /// <param name="id">修改Id</param>
         /// <returns></returns>
-        [UwtMethod("编辑")]
         public virtual IActionResult Modify(int id)
         {
             this.ActionLog();
@@ -127,7 +123,6 @@ namespace UWT.Libs.Users.MenuGroups
         /// <param name="model">修改模型</param>
         /// <returns></returns>
         [HttpPost]
-        [UwtMethod("编辑")]
         public virtual async Task<object> ModifyModel([FromBody]MenuGroupModifyModel model)
         {
             this.ActionLog();
@@ -227,7 +222,6 @@ namespace UWT.Libs.Users.MenuGroups
         /// <param name="id">菜单组Id</param>
         /// <returns></returns>
         [HttpPost]
-        [UwtMethod("删除")]
         public virtual object Del(int id)
         {
             bool notfound = false;

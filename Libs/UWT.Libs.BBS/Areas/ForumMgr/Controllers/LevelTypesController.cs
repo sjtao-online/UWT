@@ -7,14 +7,15 @@ using Microsoft.AspNetCore.Mvc;
 using UWT.Libs.BBS.Areas.ForumMgr.Models;
 using UWT.Libs.BBS.Areas.ForumMgr.Models.LevelTypes;
 using UWT.Libs.BBS.Models;
+using UWT.Libs.Users;
 using UWT.Templates.Attributes.Routes;
 using UWT.Templates.Models.Interfaces;
 using UWT.Templates.Services.Extends;
 
 namespace UWT.Libs.BBS.Areas.ForumMgr.Controllers
 {
-    [ForumAreaRoute]
-    [UwtControllerName("等级类型")]
+    [ForumAreaRoute("等级类型")]
+    [AuthUser]
     public class LevelTypesController : Controller
         , IListToPage<UWT.Libs.BBS.Models.UwtBbsUserLevelType, Models.LevelTypes.LevelTypeListItemModel>
         , IFormToPage<Models.LevelTypes.LevelTypeAddModel>

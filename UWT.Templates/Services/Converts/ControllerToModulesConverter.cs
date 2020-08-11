@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UWT.Templates.Attributes.Routes;
+using UWT.Templates.Models.Interfaces;
 using UWT.Templates.Services.Extends;
 
 namespace UWT.Templates.Services.Converts
@@ -88,27 +90,28 @@ namespace UWT.Templates.Services.Converts
                             controllername = controllername.Substring(0, controllername.Length - controllerNameConst.Length);
                         }
                         Dictionary<string, string> ttMapBasic = new Dictionary<string, string>();
-                        var nr = type.GetCustomAttribute<UwtNoRecordModuleAttribute>();
-                        if (nr != null)
+                        //  获得所有特性放在内存中备用
+                        var ctrlAttributes = type.GetCustomAttributes();
+                        if (FromAttributesGet<IUwtNoRecordModule>(ctrlAttributes) != null)
                         {
                             continue;
                         }
-                        var uwtroute = type.GetCustomAttribute<UwtRouteAttribute>();
-                        var area = type.GetCustomAttribute<AreaAttribute>();
+                        var uwtroute = FromAttributesGet<UwtRouteAttribute>(ctrlAttributes);
+                        var area = FromAttributesGet<AreaAttribute>(ctrlAttributes);
                         if (area != null)
                         {
                             areaName = area.RouteValue;
                         }
-                        if (uwtroute != null && !string.IsNullOrEmpty(uwtroute.ShowName))
+                        if (uwtroute != null && !string.IsNullOrEmpty(uwtroute.AreaShowName))
                         {
-                            ttMapBasic.Add("AreaShowName", uwtroute.ShowName);
+                            ttMapBasic.Add("AreaShowName", uwtroute.AreaShowName);
                         }
-                        var cShowName = type.GetCustomAttribute<UwtControllerNameAttribute>();
+                        var cShowName = FromAttributesGet<IUwtShowName>(ctrlAttributes);
                         if (cShowName != null && cShowName.ShowName != null)
                         {
                             ttMapBasic.Add("ControllerShowName", cShowName.ShowName);
                         }
-                        var route = type.GetCustomAttribute<RouteAttribute>();
+                        var route = FromAttributesGet<RouteAttribute>(ctrlAttributes);
                         foreach (var method in type.GetMethods(BindingFlags.Public | BindingFlags.Instance))
                         {
                             if (method.DeclaringType == controllertype || method.DeclaringType == controllerbasetype || method.DeclaringType == objecttype)
@@ -119,17 +122,18 @@ namespace UWT.Templates.Services.Converts
                             {
                                 continue;
                             }
-                            var noaction = method.GetCustomAttribute<NonActionAttribute>();
+                            var methodAttributes = method.GetCustomAttributes();
+                            var noaction = FromAttributesGet<NonActionAttribute>(methodAttributes);;
                             if (noaction != null)
                             {
                                 continue;
                             }
-                            var mnr = method.GetCustomAttribute<UwtNoRecordModuleAttribute>();
+                            var mnr = FromAttributesGet<IUwtNoRecordModule>(methodAttributes);
                             if (mnr != null)
                             {
                                 continue;
                             }
-                            var mroute = method.GetCustomAttribute<RouteAttribute>();
+                            var mroute = FromAttributesGet<RouteAttribute>(methodAttributes);
                             string url;
                             if (uwtroute != null)
                             {
@@ -168,7 +172,7 @@ namespace UWT.Templates.Services.Converts
                                 continue;
                             }
                             string moduleShowName = url;
-                            var mShowName = method.GetCustomAttribute<UwtMethodAttribute>();
+                            var mShowName = FromAttributesGet<IUwtShowNameHasTemplate>(methodAttributes);
                             if (mShowName != null && !string.IsNullOrEmpty(mShowName.ShowName))
                             {
                                 ttMapBasic["MethodShowName"] = mShowName.ShowName;
@@ -204,6 +208,22 @@ namespace UWT.Templates.Services.Converts
                 }
             }
             return modules;
+        }
+        static T FromAttributesGet<T>(IEnumerable<Attribute> list)
+            where T : class
+        {
+            if (list == null || list.Count() == 0)
+            {
+                return null;
+            }
+            foreach (var item in list)
+            {
+                if (item is T)
+                {
+                    return item as T;
+                }
+            }
+            return null;
         }
     }
     /// <summary>

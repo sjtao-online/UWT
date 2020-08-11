@@ -1,13 +1,26 @@
-﻿<!DOCTYPE html>
+﻿@{ 
+    var rPath =
+#if DEBUG
+      "/_content/UWT.Libs.BBS"
+#else
+      ""
+#endif
+    ;
+}
+<!DOCTYPE html>
 
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
+    <link href="@rPath/forum.css" rel="stylesheet" />
+    @RenderSection("CSS", false)
     <title>@ViewBag.Title</title>
 </head>
 <body>
     <div>
         @RenderBody()
     </div>
+    <script src="@rPath/forum.js"></script>
+    @RenderSection("Scripts", false)
 </body>
 </html>

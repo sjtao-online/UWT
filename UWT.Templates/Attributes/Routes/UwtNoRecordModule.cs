@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using UWT.Templates.Models.Interfaces;
 
 namespace UWT.Templates.Attributes.Routes
 {
@@ -9,7 +10,7 @@ namespace UWT.Templates.Attributes.Routes
     /// 不参与权限相关的不用收录
     /// </summary>
     [System.AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = false, AllowMultiple = false)]
-    public sealed class UwtNoRecordModuleAttribute : Attribute
+    public sealed class UwtNoRecordModuleAttribute : Attribute, IUwtNoRecordModule
     {
         /// <summary>
         /// 不收录Module数据库<br/>

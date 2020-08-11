@@ -22,12 +22,12 @@ namespace UWT.Templates.Attributes.Routes
         {
             RouteKey = "area";
             RouteValue = area;
-            ShowName = showname;
+            AreaShowName = showname;
         }
         /// <summary>
         /// 显示名
         /// </summary>
-        public string ShowName { get; set; }
+        public string AreaShowName { get; set; }
 #pragma warning disable CS1591 // 缺少对公共可见类型或成员的 XML 注释
         public string RouteKey { get; private set; }
 

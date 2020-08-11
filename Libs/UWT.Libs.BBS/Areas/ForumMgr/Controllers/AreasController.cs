@@ -15,8 +15,7 @@ using UWT.Libs.BBS.Areas.ForumMgr.Models;
 namespace UWT.Libs.BBS.Areas.ForumMgr.Controllers
 {
     [AuthUser]
-    [ForumAreaRoute]
-    [UwtControllerName("版块管理")]
+    [ForumAreaRoute("版块管理")]
     public class AreasController : Controller
         , IListToPage<AreaMgrListItemModel, AreaMgrListItemModel>
         , IFormToPage<AreaMgrAddModel>

@@ -12,7 +12,7 @@ using UWT.Templates.Services.Extends;
 
 namespace UWT.Libs.BBS.Areas.ForumMgr.Controllers
 {
-    [ForumAreaRoute("/ForumMgr")]
+    [ForumAreaRoute(null, "/ForumMgr")]
     [AuthUser]
     public class ConfigController : Controller
         , ITemplateController

@@ -28,7 +28,6 @@ namespace UWT.Libs.Users.Roles
         /// 列表
         /// </summary>
         /// <returns></returns>
-        [UwtMethod("列表")]
         public virtual IActionResult Index()
         {
             this.ActionLog();
@@ -44,7 +43,6 @@ namespace UWT.Libs.Users.Roles
         /// 添加页面
         /// </summary>
         /// <returns></returns>
-        [UwtMethod("添加")]
         public virtual IActionResult Add()
         {
             this.ActionLog();
@@ -56,7 +54,6 @@ namespace UWT.Libs.Users.Roles
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        [UwtMethod("添加")]
         public virtual async Task<object> AddModel([FromBody]RoleAddModel model)
         {
             this.ActionLog();
@@ -94,7 +91,6 @@ namespace UWT.Libs.Users.Roles
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [UwtMethod("编辑")]
         public virtual IActionResult Modify(int id)
         {
             this.ActionLog();
@@ -131,7 +127,6 @@ namespace UWT.Libs.Users.Roles
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        [UwtMethod("编辑")]
         public virtual async Task<object> ModifyModel([FromBody]RoleModifyModel model)
         {
             this.ActionLog();
@@ -172,7 +167,6 @@ namespace UWT.Libs.Users.Roles
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpPost]
-        [UwtMethod("删除")]
         public virtual object Del(int id)
         {
             this.ActionLog();
