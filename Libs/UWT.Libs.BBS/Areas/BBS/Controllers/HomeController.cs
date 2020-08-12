@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using UWT.Libs.BBS.Areas.BBS.Models;
 using UWT.Templates.Attributes.Routes;
+using UWT.Templates.Services.Extends;
 
 namespace UWT.Libs.BBS.Areas.BBS.Controllers
 {

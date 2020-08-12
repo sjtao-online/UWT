@@ -12,7 +12,11 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <link href="@rPath/forum.css" rel="stylesheet" />
+    <link href="@rPath/bbs/forum.css" rel="stylesheet" />
+    @foreach (string item in ViewBag.ThemeCssList)
+	{
+        <link href="@item" rel="stylesheet" />
+	}
     @RenderSection("CSS", false)
     <title>@ViewBag.Title</title>
 </head>
@@ -20,7 +24,7 @@
     <div>
         @RenderBody()
     </div>
-    <script src="@rPath/forum.js"></script>
+    <script src="@rPath/bbs/forum.js"></script>
     @RenderSection("Scripts", false)
 </body>
 </html>

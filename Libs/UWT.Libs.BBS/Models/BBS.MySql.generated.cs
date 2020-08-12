@@ -66,6 +66,10 @@ namespace UWT.Libs.BBS.Models
 	{
 		[Column("id"),     PrimaryKey, Identity] public int    Id     { get; set; } // int(11)
 		[Column("t_id"),   NotNull             ] public int    TId    { get; set; } // int(11)
+		/// <summary>
+		/// 主题内容主体Id
+		/// </summary>
+		[Column("h_id"),   NotNull             ] public int    HId    { get; set; } // int(11)
 		[Column("a_id"),   NotNull             ] public int    AId    { get; set; } // int(11)
 		[Column("status"), NotNull             ] public string Status { get; set; } // enum('applying','publish','forbid')
 		[Column("ex"),     NotNull             ] public string Ex     { get; set; } // set('digest','top','hot')
@@ -81,29 +85,32 @@ namespace UWT.Libs.BBS.Models
 	[Table("uwt_bbs_topics")]
 	public partial class UwtBbsTopic
 	{
-		[Column("id"),             PrimaryKey,  Identity] public int       Id           { get; set; } // int(11)
+		[Column("id"),             PrimaryKey, Identity] public int      Id           { get; set; } // int(11)
 		/// <summary>
 		/// 标题
 		/// </summary>
-		[Column("title"),          NotNull              ] public string    Title        { get; set; } // varchar(255)
+		[Column("title"),          NotNull             ] public string   Title        { get; set; } // varchar(255)
 		/// <summary>
 		/// 创建者
 		/// </summary>
-		[Column("create_user_id"), NotNull              ] public int       CreateUserId { get; set; } // int(11)
+		[Column("create_user_id"), NotNull             ] public int      CreateUserId { get; set; } // int(11)
+		/// <summary>
+		/// 主题类型分为：讨论，提问，投票
+		/// </summary>
+		[Column("type"),           NotNull             ] public string   Type         { get; set; } // enum('discuss','question','vote')
+		/// <summary>
+		/// 根据type不同而意义不同，暂未使用
+		/// </summary>
+		[Column("type_value"),     NotNull             ] public string   TypeValue    { get; set; } // varchar(255)
+		[Column("status"),         NotNull             ] public string   Status       { get; set; } // enum('publish','forbid')
 		/// <summary>
 		/// 查看次数
 		/// </summary>
-		[Column("touch_cnt"),      NotNull              ] public int       TouchCnt     { get; set; } // int(11)
+		[Column("touch_cnt"),      NotNull             ] public int      TouchCnt     { get; set; } // int(11)
 		/// <summary>
 		/// 创建时间
 		/// </summary>
-		[Column("add_time"),       NotNull              ] public DateTime  AddTime      { get; set; } // datetime
-		[Column("status"),         NotNull              ] public string    Status       { get; set; } // enum('draft','wait_apply','publish','forbid')
-		[Column("apply_time"),        Nullable          ] public DateTime? ApplyTime    { get; set; } // datetime
-		/// <summary>
-		/// 审核意见
-		/// </summary>
-		[Column("apply_note"),        Nullable          ] public string    ApplyNote    { get; set; } // varchar(255)
+		[Column("add_time"),       NotNull             ] public DateTime AddTime      { get; set; } // datetime
 	}
 
 	[Table("uwt_bbs_topic_backs")]
@@ -145,17 +152,20 @@ namespace UWT.Libs.BBS.Models
 	[Table("uwt_bbs_topic_his")]
 	public partial class UwtBbsTopicHis
 	{
-		[Column("id"),       PrimaryKey, Identity] public int      Id      { get; set; } // int(11)
+		[Column("id"),         PrimaryKey,  Identity] public int       Id        { get; set; } // int(11)
 		/// <summary>
 		/// 主题Id
 		/// </summary>
-		[Column("t_id"),     NotNull             ] public int      TId     { get; set; } // int(11)
-		[Column("title"),    NotNull             ] public string   Title   { get; set; } // varchar(255)
+		[Column("t_id"),       NotNull              ] public int       TId       { get; set; } // int(11)
+		[Column("title"),      NotNull              ] public string    Title     { get; set; } // varchar(255)
 		/// <summary>
 		/// 内容
 		/// </summary>
-		[Column("content"),  NotNull             ] public string   Content { get; set; } // text
-		[Column("add_time"), NotNull             ] public DateTime AddTime { get; set; } // datetime
+		[Column("content"),    NotNull              ] public string    Content   { get; set; } // text
+		[Column("status"),     NotNull              ] public string    Status    { get; set; } // enum('draft','wait_apply','publish','forbid')
+		[Column("add_time"),   NotNull              ] public DateTime  AddTime   { get; set; } // datetime
+		[Column("apply_time"),    Nullable          ] public DateTime? ApplyTime { get; set; } // datetime
+		[Column("apply_note"), NotNull              ] public string    ApplyNote { get; set; } // varchar(255)
 	}
 
 	/// <summary>

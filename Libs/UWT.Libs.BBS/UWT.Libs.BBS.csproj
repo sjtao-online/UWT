@@ -37,6 +37,10 @@
   <ItemGroup>
     <EmbeddedResource Include="wwwroot\**\*"></EmbeddedResource>
   </ItemGroup>
+  
+  <ItemGroup>
+    <Content Remove="wwwroot\bbs\themes\red.css" />
+  </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Controllers\" />

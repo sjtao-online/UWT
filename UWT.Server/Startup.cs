@@ -46,7 +46,10 @@ namespace UWT.Server
             });
             services.AddUWT("/Accounts/Login", "ref");
             services.AddHelper();
-            services.AddBBS();
+            services.AddBBS(new List<string>()
+            {
+                "red"
+            });
             services.AddLogging();
 #if DEBUG
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
