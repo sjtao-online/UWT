@@ -2,4 +2,99 @@
 {
     margin: 0;
     padding: 0;
+    padding-top: 45px;
+}
+
+header {
+    background-color: #488fce;
+    position: fixed;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+    right: 0;
+    min-height: 45px;
+}
+
+.header {
+}
+
+.nav {
+
+}
+
+.header .logo > a {
+    display: flex;
+}
+
+.header_search {
+    width: 160px;
+    height: 28px;
+    background: #f2f2f2;
+    margin: 8px 0 0 20px;
+    border-radius: 4px;
+    padding: 0;
+    display: inline;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2) inset;
+}
+
+    .header_search button {
+        padding: 0;
+        margin: 0;
+        overflow: visible;
+        border: 0 none;
+        background: none;
+        cursor: pointer;
+        float: right;
+        width: 25px;
+        height: 28px;
+        text-align: left;
+    }
+
+    .header_search:hover {
+        background: white;
+    }
+
+    .nav {
+        display: flex;
+    }
+
+.nav a {
+    height: 45px;
+    padding: 0 7px;
+    line-height: 45px;
+    text-decoration: none;
+    color: white;
+}
+
+    .nav a.current {
+        background-color: #3b7fc4;
+    }
+
+.header_search input {
+    padding: 0;
+    border: 0 none;
+    float: left;
+    background: none;
+    width: 125px;
+    outline: none;
+    margin: 6px 0 0 6px;
+}
+
+.header > div {
+    float: left;
+}
+
+.cc::after {
+    content: '\20';
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+div.full_screen {
+    width: 1200px;
+    margin: 0 auto;
 }

@@ -1,11 +1,6 @@
 ﻿@{ 
-    var rPath =
-#if DEBUG
-      "/_content/UWT.Libs.BBS"
-#else
-      ""
-#endif
-    ;
+    string rPath = "/_content/uwt.libs.bbs";
+    Layout = null;
 }
 <!DOCTYPE html>
 
@@ -13,11 +8,11 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <link href="@rPath/bbs/forum.css" rel="stylesheet" />
-    @foreach (string item in ViewBag.ThemeCssList)
-	{
-        <link href="@item" rel="stylesheet" />
-	}
-    @RenderSection("CSS", false)
+    @*@foreach (string item in ViewBag.ThemeCssList)
+        {
+            <link href="@item" rel="stylesheet" />
+        }
+        @RenderSection("CSS", false)*@
     <title>@ViewBag.Title</title>
 </head>
 <body>
@@ -27,23 +22,18 @@
                 <div class="header cc">
                     <div class="logo">
                         <a href="/BBS">
-                            <img src="@rPath/BBS/Logo.png" alt="logo" />
+                            <img src="http://bbs.phpwind.net.cn/themes/site/default/images/logo.png" alt="logo" />
                         </a>
                     </div>
-                    <div class="nav_wrap">
-                        <div class="nav">
-                            <ul>
-                                <li></li>
-                            </ul>
-                        </div>
+                    <div class="nav">
+                        <a href="#" class="current">123</a>
                     </div>
                     <div class="header_search">
-                        <input type="text" id="" value="" />
+                        <input type="text" id="name" value="" placeholder="搜索" />
                     </div>
                 </div>
             </div>
         </header>
-        @RenderBody()
         <footer>
             <div class="full_screen">
 
@@ -51,6 +41,6 @@
         </footer>
     </div>
     <script src="@rPath/bbs/forum.js"></script>
-    @RenderSection("Scripts", false)
+    @*@RenderSection("Scripts", false)*@
 </body>
 </html>

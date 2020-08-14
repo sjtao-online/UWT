@@ -107,5 +107,16 @@ namespace UWT.Libs.BBS.Areas.BBS.Controllers
             }
             return this.Success();
         }
+        public object TopicList(int areaId, int pageIndex)
+        {
+            using (var db = this.GetDB())
+            {
+                var topics = from it in db.TableAreaTopicRef()
+                             where it.AId == areaId && it.Status == "publish"
+                             group it by it.TId into g
+                             select g;
+                return this.Success();
+            }
+        }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -19,11 +20,11 @@ using UWT.Templates.Services.Extends;
 
 namespace UWT.Server.Controllers
 {
-    [AuthUser]
     public class HomeController : Controller
         , IFormToPage<StudentAddModel>
         , IListToPage<QueryTable, HomeListItemModel>
     {
+        [AuthUser]
         public IActionResult Index()
         {
             this.AddFilter("123", m => m.Name, Templates.Models.Filters.FilterType.Equal, Templates.Models.Filters.FilterValueType.TagSSelector, new List<HasFilterTypeChildrenNameKeyModel>()
@@ -81,6 +82,10 @@ namespace UWT.Server.Controllers
         {
             ViewBag.Title = "天天天";
             return View("Index");
+        }
+        public IActionResult IndexBBS()
+        {
+            return View();
         }
     }
     class QueryTable
