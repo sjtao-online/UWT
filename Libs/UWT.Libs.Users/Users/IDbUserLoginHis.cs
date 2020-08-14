@@ -19,6 +19,10 @@ namespace UWT.Libs.Users.Users
         /// </summary>
         string Pwd { get; set; }
         /// <summary>
+        /// 账号类型
+        /// </summary>
+        string Type { get; set; }
+        /// <summary>
         /// 账号Id
         /// </summary>
         int AId { get; set; }

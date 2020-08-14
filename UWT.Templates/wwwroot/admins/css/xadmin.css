@@ -43,13 +43,16 @@ body{
     box-shadow: 0 2px 4px rgba(0,0,0,.12);
     border: 1px solid #d2d2d2;
 }
-    .uwt-popup-menus .uwt-handle-item {
-        display: block;
-        border: none;
-        width: 100%;
-        background: white;
-        line-height: 30px;
-    }
+.layui-table-header th, .layui-table-header td {
+    border-bottom: none;
+}
+.uwt-popup-menus .uwt-handle-item {
+    display: block;
+    border: none;
+    width: 100%;
+    background: white;
+    line-height: 30px;
+}
     .uwt-popup-menus .uwt-handle-item:hover {
         background-color: #EEE;
     }

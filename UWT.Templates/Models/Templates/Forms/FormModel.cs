@@ -21,6 +21,7 @@ namespace UWT.Templates.Models.Templates.Forms
         public List<IFormItemModel> FormItems { get; set; }
         public List<IFormHandlerModel> FormHandlers { get; set; }
         public string BackUrl { get; set; }
+        public Dictionary<FormCshtmlPosition, List<string>> CshtmlPartList { get; set; }
     }
     class CshtmlModel : IFormCshtmlEx, IDetailCshtmlEx, IListCshtmlEx
     {

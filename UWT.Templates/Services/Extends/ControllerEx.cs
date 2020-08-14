@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -302,19 +303,7 @@ namespace UWT.Templates.Services.Extends
         /// <returns>返回Token</returns>
         public static string SignInto(this ControllerBase controller, Dictionary<string, string> pairs, string authType = null)
         {
-            List<Claim> claims = new List<Claim>();
-            foreach (var item in pairs)
-            {
-                claims.Add(new Claim(item.Key, item.Value));
-            }
-            if (authType == null)
-            {
-                authType = CookieAuthHandler.CookieName;
-            }
-            claims.Add(new Claim(CookieAuthHandler.UwtAuthTypeKey, authType));
-            ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(claims, CookieAuthHandler.CookieName));
-            controller.HttpContext.SignInAsync(CookieAuthHandler.CookieName, claimsPrincipal).Wait();
-            return controller.HttpContext.Items[CookieAuthHandler.CookieName] as string;
+            return controller.HttpContext.SignInto(pairs, authType);
         }
         /// <summary>
         /// 登出

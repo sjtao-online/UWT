@@ -196,6 +196,12 @@ namespace UWT.Templates.Models.Templates.Commons
             return BuildApiPost("撤下", apiurl, TipPublishRemove, "撤下当前条目");
         }
 
+        /// <summary>
+        /// 构建“撤下”<br/>
+        /// .PublishRemove?id=id
+        /// </summary>
+        /// <param name="id">当前Id</param>
+        /// <returns></returns>
         public static HandleModel BuildPublishRemove(int id)
         {
             return BuildPublishRemove(".PublishRemove?id=" + id);

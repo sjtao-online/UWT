@@ -15,6 +15,9 @@ namespace UWT.Templates.Models.Interfaces
     /// </summary>
     public interface IUwtShowName
     {
+        /// <summary>
+        /// 显示名
+        /// </summary>
         string ShowName { get; }
     }
     /// <summary>
@@ -23,7 +26,10 @@ namespace UWT.Templates.Models.Interfaces
     /// </summary>
     public interface IUwtShowNameHasTemplate : IUwtShowName
     {
-
+        /// <summary>
+        /// 模板字符串<br/>
+        /// 默认值为UwtMethodAttribute.TemplateText_AreaControllerMethod
+        /// </summary>
         string TemplateText { get; }
     }
 }

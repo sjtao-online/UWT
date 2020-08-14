@@ -51,6 +51,13 @@
         }
     </div>
     <div class="layui-card-body">
+        @if (Model.FormModel.CshtmlPartList.ContainsKey(UWT.Templates.Attributes.Forms.FormCshtmlPosition.Header))
+        {
+            @foreach (var item in Model.FormModel.CshtmlPartList[ UWT.Templates.Attributes.Forms.FormCshtmlPosition.Header])
+	        {
+		        @Html.Partial(item)
+	        }
+        }
         <full-page-form-border url="@Model.FormModel.Url" method="@Model.FormModel.Method" id="@guid">
             @{
                 bool isOpenInline = false;
@@ -86,6 +93,13 @@
                     });
                 }
             }
+            @if (Model.FormModel.CshtmlPartList.ContainsKey(UWT.Templates.Attributes.Forms.FormCshtmlPosition.FooterHandleBegin))
+            {
+                @foreach (var item in Model.FormModel.CshtmlPartList[UWT.Templates.Attributes.Forms.FormCshtmlPosition.FooterHandleBegin])
+                {
+                    @Html.Partial(item)
+                }
+            }
             @if (!Model.FormModel.HandleBtnsInTitleBar)
             {
                 <div class="layui-form-item">
@@ -94,6 +108,13 @@
                         <button type="button" class="layui-btn btn-back layui-btn-primary" data-burl="@(Model.FormModel.BackUrl??"")">返回</button>
                     </div>
                 </div>
+            }
+            @if (Model.FormModel.CshtmlPartList.ContainsKey(UWT.Templates.Attributes.Forms.FormCshtmlPosition.FooterHandleEnd))
+            {
+                @foreach (var item in Model.FormModel.CshtmlPartList[UWT.Templates.Attributes.Forms.FormCshtmlPosition.FooterHandleEnd])
+                {
+                    @Html.Partial(item)
+                }
             }
         </full-page-form-border>
     </div>

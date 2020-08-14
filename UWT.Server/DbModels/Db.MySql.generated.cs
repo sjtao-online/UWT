@@ -22,6 +22,26 @@ namespace DataModels
 	/// </summary>
 	public partial class UwtDB : LinqToDB.Data.DataConnection
 	{
+		public ITable<UwtBbsArea>            UwtBbsAreas            { get { return this.GetTable<UwtBbsArea>(); } }
+		public ITable<UwtBbsAreaMgrRef>      UwtBbsAreaMgrRefs      { get { return this.GetTable<UwtBbsAreaMgrRef>(); } }
+		public ITable<UwtBbsAreaTopicRef>    UwtBbsAreaTopicRefs    { get { return this.GetTable<UwtBbsAreaTopicRef>(); } }
+		public ITable<UwtBbsConfig>          UwtBbsConfigs          { get { return this.GetTable<UwtBbsConfig>(); } }
+		public ITable<UwtBbsTopic>           UwtBbsTopics           { get { return this.GetTable<UwtBbsTopic>(); } }
+		public ITable<UwtBbsTopicBack>       UwtBbsTopicBacks       { get { return this.GetTable<UwtBbsTopicBack>(); } }
+		public ITable<UwtBbsTopicBackHis>    UwtBbsTopicBackHis     { get { return this.GetTable<UwtBbsTopicBackHis>(); } }
+		public ITable<UwtBbsTopicHis>        UwtBbsTopicHis         { get { return this.GetTable<UwtBbsTopicHis>(); } }
+		/// <summary>
+		/// 用户信息
+		/// </summary>
+		public ITable<UwtBbsUser>            UwtBbsUsers            { get { return this.GetTable<UwtBbsUser>(); } }
+		/// <summary>
+		/// 用户等级信息
+		/// </summary>
+		public ITable<UwtBbsUserLevel>       UwtBbsUserLevels       { get { return this.GetTable<UwtBbsUserLevel>(); } }
+		/// <summary>
+		/// 用户等级类型
+		/// </summary>
+		public ITable<UwtBbsUserLevelType>   UwtBbsUserLevelTypes   { get { return this.GetTable<UwtBbsUserLevelType>(); } }
 		public ITable<UwtHelper>             UwtHelpers             { get { return this.GetTable<UwtHelper>(); } }
 		public ITable<UwtNormalsBanner>      UwtNormalsBanners      { get { return this.GetTable<UwtNormalsBanner>(); } }
 		public ITable<UwtNormalsFile>        UwtNormalsFiles        { get { return this.GetTable<UwtNormalsFile>(); } }
@@ -52,6 +72,211 @@ namespace DataModels
 
 		partial void InitDataContext  ();
 		partial void InitMappingSchema();
+	}
+
+	[Table("uwt_bbs_areas")]
+	public partial class UwtBbsArea
+	{
+		[Column("id"),          PrimaryKey,  Identity] public int    Id        { get; set; } // int(11)
+		/// <summary>
+		/// 父版块Id
+		/// </summary>
+		[Column("p_id"),        NotNull              ] public int    PId       { get; set; } // int(11)
+		[Column("name"),        NotNull              ] public string Name      { get; set; } // varchar(255)
+		/// <summary>
+		/// 备注
+		/// </summary>
+		[Column("desc"),           Nullable          ] public string Desc      { get; set; } // varchar(255)
+		/// <summary>
+		/// 说明
+		/// </summary>
+		[Column("summary"),     NotNull              ] public string Summary   { get; set; } // varchar(255)
+		[Column("icon"),        NotNull              ] public string Icon      { get; set; } // varchar(255)
+		/// <summary>
+		/// 版主
+		/// </summary>
+		[Column("mgr_user_id"), NotNull              ] public int    MgrUserId { get; set; } // int(11)
+		[Column("status"),      NotNull              ] public string Status    { get; set; } // enum('show')
+		[Column("apply"),       NotNull              ] public string Apply     { get; set; } // enum('publish','approved')
+	}
+
+	[Table("uwt_bbs_area_mgr_ref")]
+	public partial class UwtBbsAreaMgrRef
+	{
+		[Column("id"),    PrimaryKey, Identity] public int    Id    { get; set; } // int(11)
+		/// <summary>
+		/// 版块Id
+		/// </summary>
+		[Column("a_id"),  NotNull             ] public int    AId   { get; set; } // int(11)
+		/// <summary>
+		/// 论坛用户Id
+		/// </summary>
+		[Column("u_id"),  NotNull             ] public int    UId   { get; set; } // int(11)
+		/// <summary>
+		/// 权限
+		/// </summary>
+		[Column("auths"), NotNull             ] public string Auths { get; set; } // set('topic_approved','user_status','topic_top','topic_digest')
+	}
+
+	[Table("uwt_bbs_area_topic_ref")]
+	public partial class UwtBbsAreaTopicRef
+	{
+		[Column("id"),     PrimaryKey, Identity] public int    Id     { get; set; } // int(11)
+		[Column("t_id"),   NotNull             ] public int    TId    { get; set; } // int(11)
+		/// <summary>
+		/// 主题内容主体Id
+		/// </summary>
+		[Column("h_id"),   NotNull             ] public int    HId    { get; set; } // int(11)
+		[Column("a_id"),   NotNull             ] public int    AId    { get; set; } // int(11)
+		[Column("status"), NotNull             ] public string Status { get; set; } // enum('applying','publish','forbid')
+		[Column("ex"),     NotNull             ] public string Ex     { get; set; } // set('digest','top','hot')
+	}
+
+	[Table("uwt_bbs_config")]
+	public partial class UwtBbsConfig
+	{
+		[Column("key"),   PrimaryKey,  NotNull] public string Key   { get; set; } // varchar(255)
+		[Column("value"),    Nullable         ] public string Value { get; set; } // varchar(255)
+	}
+
+	[Table("uwt_bbs_topics")]
+	public partial class UwtBbsTopic
+	{
+		[Column("id"),             PrimaryKey, Identity] public int      Id           { get; set; } // int(11)
+		/// <summary>
+		/// 标题
+		/// </summary>
+		[Column("title"),          NotNull             ] public string   Title        { get; set; } // varchar(255)
+		/// <summary>
+		/// 创建者
+		/// </summary>
+		[Column("create_user_id"), NotNull             ] public int      CreateUserId { get; set; } // int(11)
+		/// <summary>
+		/// 主题类型分为：讨论，提问，投票
+		/// </summary>
+		[Column("type"),           NotNull             ] public string   Type         { get; set; } // enum('discuss','question','vote')
+		/// <summary>
+		/// 根据type不同而意义不同，暂未使用
+		/// </summary>
+		[Column("type_value"),     NotNull             ] public string   TypeValue    { get; set; } // varchar(255)
+		[Column("status"),         NotNull             ] public string   Status       { get; set; } // enum('publish','forbid')
+		/// <summary>
+		/// 查看次数
+		/// </summary>
+		[Column("touch_cnt"),      NotNull             ] public int      TouchCnt     { get; set; } // int(11)
+		/// <summary>
+		/// 创建时间
+		/// </summary>
+		[Column("add_time"),       NotNull             ] public DateTime AddTime      { get; set; } // datetime
+	}
+
+	[Table("uwt_bbs_topic_backs")]
+	public partial class UwtBbsTopicBack
+	{
+		[Column("id"),             PrimaryKey, NotNull] public int      Id           { get; set; } // int(11)
+		/// <summary>
+		/// 哪个话题
+		/// </summary>
+		[Column("t_id"),                       NotNull] public int      TId          { get; set; } // int(11)
+		/// <summary>
+		/// 回复哪条(楼中楼)
+		/// </summary>
+		[Column("t_b_id"),                     NotNull] public int      TBId         { get; set; } // int(11)
+		/// <summary>
+		/// 楼层
+		/// </summary>
+		[Column("index"),                      NotNull] public int      Index        { get; set; } // int(11)
+		[Column("add_time"),                   NotNull] public DateTime AddTime      { get; set; } // datetime
+		/// <summary>
+		/// 状态
+		/// </summary>
+		[Column("status"),                     NotNull] public string   Status       { get; set; } // enum('normal','disabled','delete')
+		[Column("create_user_id"),             NotNull] public int      CreateUserId { get; set; } // int(11)
+	}
+
+	[Table("uwt_bbs_topic_back_his")]
+	public partial class UwtBbsTopicBackHis
+	{
+		[Column("id"),       PrimaryKey, Identity] public int      Id      { get; set; } // int(11)
+		[Column("t_b_id"),   NotNull             ] public int      TBId    { get; set; } // int(11)
+		/// <summary>
+		/// 内容
+		/// </summary>
+		[Column("content"),  NotNull             ] public string   Content { get; set; } // text
+		[Column("add_time"), NotNull             ] public DateTime AddTime { get; set; } // datetime
+	}
+
+	[Table("uwt_bbs_topic_his")]
+	public partial class UwtBbsTopicHis
+	{
+		[Column("id"),         PrimaryKey,  Identity] public int       Id        { get; set; } // int(11)
+		/// <summary>
+		/// 主题Id
+		/// </summary>
+		[Column("t_id"),       NotNull              ] public int       TId       { get; set; } // int(11)
+		[Column("title"),      NotNull              ] public string    Title     { get; set; } // varchar(255)
+		/// <summary>
+		/// 内容
+		/// </summary>
+		[Column("content"),    NotNull              ] public string    Content   { get; set; } // text
+		[Column("status"),     NotNull              ] public string    Status    { get; set; } // enum('draft','wait_apply','publish','forbid')
+		[Column("add_time"),   NotNull              ] public DateTime  AddTime   { get; set; } // datetime
+		[Column("apply_time"),    Nullable          ] public DateTime? ApplyTime { get; set; } // datetime
+		[Column("apply_note"), NotNull              ] public string    ApplyNote { get; set; } // varchar(255)
+	}
+
+	/// <summary>
+	/// 用户信息
+	/// </summary>
+	[Table("uwt_bbs_users")]
+	public partial class UwtBbsUser
+	{
+		[Column("id"),            PrimaryKey, Identity] public int      Id          { get; set; } // int(11)
+		/// <summary>
+		/// 账号Id
+		/// </summary>
+		[Column("a_id"),          NotNull             ] public int      AId         { get; set; } // int(11)
+		[Column("nickname"),      NotNull             ] public string   Nickname    { get; set; } // varchar(255)
+		[Column("avatar"),        NotNull             ] public string   Avatar      { get; set; } // varchar(255)
+		/// <summary>
+		/// 等级类型
+		/// </summary>
+		[Column("level_type_id"), NotNull             ] public int      LevelTypeId { get; set; } // int(11)
+		/// <summary>
+		/// 经验
+		/// </summary>
+		[Column("exp"),           NotNull             ] public uint     Exp         { get; set; } // int(11) unsigned
+		[Column("join_time"),     NotNull             ] public DateTime JoinTime    { get; set; } // datetime
+		/// <summary>
+		/// 执行的操作
+		/// </summary>
+		[Column("auths"),         NotNull             ] public string   Auths       { get; set; } // set('topic','comment','like','thumbs-up','enter')
+		[Column("valid"),         NotNull             ] public bool     Valid       { get; set; } // tinyint(1)
+	}
+
+	/// <summary>
+	/// 用户等级信息
+	/// </summary>
+	[Table("uwt_bbs_user_levels")]
+	public partial class UwtBbsUserLevel
+	{
+		[Column("id"),      PrimaryKey, Identity] public int    Id     { get; set; } // int(11)
+		[Column("name"),    NotNull             ] public string Name   { get; set; } // varchar(255)
+		[Column("avatar"),  NotNull             ] public string Avatar { get; set; } // varchar(255)
+		[Column("type_id"), NotNull             ] public int    TypeId { get; set; } // int(11)
+		[Column("exp"),     NotNull             ] public uint   Exp    { get; set; } // int(11) unsigned
+		[Column("valid"),   NotNull             ] public bool   Valid  { get; set; } // tinyint(1)
+	}
+
+	/// <summary>
+	/// 用户等级类型
+	/// </summary>
+	[Table("uwt_bbs_user_level_types")]
+	public partial class UwtBbsUserLevelType
+	{
+		[Column("id"),    PrimaryKey, Identity] public int    Id    { get; set; } // int(11)
+		[Column("name"),  NotNull             ] public string Name  { get; set; } // varchar(255)
+		[Column("valid"), NotNull             ] public bool   Valid { get; set; } // tinyint(1)
 	}
 
 	[Table("uwt_helpers")]
@@ -190,6 +415,10 @@ namespace DataModels
 		[Column("id"),              PrimaryKey,  Identity] public int       Id            { get; set; } // int(11)
 		[Column("account"),            Nullable          ] public string    Account       { get; set; } // varchar(64)
 		[Column("password"),           Nullable          ] public string    Password      { get; set; } // varchar(40)
+		/// <summary>
+		/// 账号类型
+		/// </summary>
+		[Column("type"),            NotNull              ] public string    Type          { get; set; } // varchar(32)
 		[Column("role_id"),         NotNull              ] public int       RoleId        { get; set; } // int(11)
 		[Column("status"),          NotNull              ] public string    Status        { get; set; } // enum('enabled','disabled','writenoff')
 		[Column("last_login_time"),    Nullable          ] public DateTime? LastLoginTime { get; set; } // datetime
@@ -208,6 +437,7 @@ namespace DataModels
 		/// 填写的密码
 		/// </summary>
 		[Column("pwd"),      NotNull             ] public string   Pwd      { get; set; } // varchar(255)
+		[Column("type"),     NotNull             ] public string   Type     { get; set; } // varchar(32)
 		/// <summary>
 		/// 可能的用户为0是登录时用户名不对
 		/// </summary>
@@ -316,6 +546,72 @@ namespace DataModels
 
 	public static partial class TableExtensions
 	{
+		public static UwtBbsArea Find(this ITable<UwtBbsArea> table, int Id)
+		{
+			return table.FirstOrDefault(t =>
+				t.Id == Id);
+		}
+
+		public static UwtBbsAreaMgrRef Find(this ITable<UwtBbsAreaMgrRef> table, int Id)
+		{
+			return table.FirstOrDefault(t =>
+				t.Id == Id);
+		}
+
+		public static UwtBbsAreaTopicRef Find(this ITable<UwtBbsAreaTopicRef> table, int Id)
+		{
+			return table.FirstOrDefault(t =>
+				t.Id == Id);
+		}
+
+		public static UwtBbsConfig Find(this ITable<UwtBbsConfig> table, string Key)
+		{
+			return table.FirstOrDefault(t =>
+				t.Key == Key);
+		}
+
+		public static UwtBbsTopic Find(this ITable<UwtBbsTopic> table, int Id)
+		{
+			return table.FirstOrDefault(t =>
+				t.Id == Id);
+		}
+
+		public static UwtBbsTopicBack Find(this ITable<UwtBbsTopicBack> table, int Id)
+		{
+			return table.FirstOrDefault(t =>
+				t.Id == Id);
+		}
+
+		public static UwtBbsTopicBackHis Find(this ITable<UwtBbsTopicBackHis> table, int Id)
+		{
+			return table.FirstOrDefault(t =>
+				t.Id == Id);
+		}
+
+		public static UwtBbsTopicHis Find(this ITable<UwtBbsTopicHis> table, int Id)
+		{
+			return table.FirstOrDefault(t =>
+				t.Id == Id);
+		}
+
+		public static UwtBbsUser Find(this ITable<UwtBbsUser> table, int Id)
+		{
+			return table.FirstOrDefault(t =>
+				t.Id == Id);
+		}
+
+		public static UwtBbsUserLevel Find(this ITable<UwtBbsUserLevel> table, int Id)
+		{
+			return table.FirstOrDefault(t =>
+				t.Id == Id);
+		}
+
+		public static UwtBbsUserLevelType Find(this ITable<UwtBbsUserLevelType> table, int Id)
+		{
+			return table.FirstOrDefault(t =>
+				t.Id == Id);
+		}
+
 		public static UwtHelper Find(this ITable<UwtHelper> table, int Id)
 		{
 			return table.FirstOrDefault(t =>

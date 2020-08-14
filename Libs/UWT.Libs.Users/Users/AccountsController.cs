@@ -34,6 +34,10 @@ namespace UWT.Libs.Users.Users
         /// </summary>
         public static List<int> NoCheckAuthorizedRoleList { get; set; }
         /// <summary>
+        /// 登录账号类型
+        /// </summary>
+        public static string LoginAcountType { get; set; } = "mgr";
+        /// <summary>
         /// 登录页面
         /// </summary>
         /// <param name="ref"></param>
@@ -65,93 +69,7 @@ namespace UWT.Libs.Users.Users
                 return NotFound();
             }
             this.ActionLog();
-            object ret = null;
-            this.UsingDb(db =>
-            {
-                var accounttable = db.UwtGetTable<IDbAccountTable>();
-                var q = (from it in accounttable
-                         where it.Account == loginModel.Username && it.Status == "enabled"
-                         select new
-                         {
-                             it.Id,
-                             it.RoleId,
-                             it.Account,
-                             it.Password
-                         }).Take(1);
-                int aid = 0;
-                if (q.Count() != 0)
-                {
-                    var a = q.First();
-                    bool pwdtrue = false;
-                    if (a.Password != loginModel.Password)
-                    {
-                        if (a.Password.EndsWith(")"))
-                        {
-                            if ((a.Password.StartsWith("md5(") && a.Password == PwdConverter.BuildMD5(loginModel.Password))
-                                || (a.Password.StartsWith("sha1(") && a.Password == PwdConverter.BuildSHA1(loginModel.Password))
-                                || (a.Password.StartsWith("sha256(") && a.Password == PwdConverter.BuildSHA256(loginModel.Password)))
-                            {
-                                pwdtrue = true;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        pwdtrue = true;
-                    }
-                    if (!pwdtrue)
-                    {
-                        ret = this.Error(Templates.Models.Basics.ErrorCode.Login_UserPwdError);
-                        return;
-                    }
-                    string rolename = "内置超级管理员";
-                    string homepage = "/";
-                    aid = a.Id;
-                    if (a.RoleId != 0)
-                    {
-                        var roletable = db.UwtGetTable<IDbRoleTable>();
-                        var qrole = (from it in roletable
-                                     where it.Id == a.RoleId
-                                     select new
-                                     {
-                                         it.Id,
-                                         it.Name,
-                                         it.HomePageUrl
-                                     }).Take(1);
-                        if (qrole.Count() != 0)
-                        {
-                            var role = qrole.First();
-                            rolename = role.Name;
-                            homepage = role.HomePageUrl;
-                        }
-                    }
-                    this.SignInto(new Dictionary<string, string>()
-                    {
-                        [AuthConst.RoleIdKey] = a.RoleId.ToString(),
-                        [AuthConst.AccountIdKey] = a.Id.ToString(),
-                        [AuthConst.AccountNameKey] = a.Account,
-                        [AuthConst.RoleNameKey] = rolename,
-                        [AuthConst.DefaultHomeUrl] = homepage
-                    });
-                    accounttable.UwtUpdate(a.Id, new Dictionary<string, object>()
-                    {
-                        [nameof(IDbAccountTable.LastLoginTime)] = DateTime.Now
-                    });
-                    ret = this.Success(homepage);
-                }
-                else
-                {
-                    ret = this.Error(Templates.Models.Basics.ErrorCode.Login_UserPwdError);
-                }
-                db.UwtGetTable<IDbUserLoginHisTable>().UwtInsertWithInt32(new Dictionary<string, object>()
-                {
-                    [nameof(IDbUserLoginHisTable.Username)] = loginModel.Username,
-                    [nameof(IDbUserLoginHisTable.Pwd)] = loginModel.Password,
-                    [nameof(IDbUserLoginHisTable.Status)] = aid != 0,
-                    [nameof(IDbUserLoginHisTable.AId)] = aid
-                });
-            });
-            return ret;
+            return DoLoginToContext(HttpContext, loginModel.Username, loginModel.Password, LoginAcountType);
         }
 
         /// <summary>
@@ -173,7 +91,7 @@ namespace UWT.Libs.Users.Users
         /// <param name="pwd">密码</param>
         /// <param name="pwdEncoder">密码编码方式</param>
         [NonAction]
-        public void ChangePwd(int acccountId, string pwd, PwdEncoder pwdEncoder)
+        public static void ChangePwd(int acccountId, string pwd, PwdEncoder pwdEncoder)
         {
             switch (pwdEncoder)
             {
@@ -191,13 +109,13 @@ namespace UWT.Libs.Users.Users
                 default:
                     break;
             }
-            this.UsingDb(db =>
+            using (var db = TemplateControllerEx.GetDB(null))
             {
                 db.UwtGetTable<IDbAccountTable>().UwtUpdate(acccountId, new Dictionary<string, object>()
                 {
                     [nameof(IDbAccountTable.Password)] = pwd
                 });
-            });
+            }
         }
 
         /// <summary>
@@ -205,12 +123,13 @@ namespace UWT.Libs.Users.Users
         /// </summary>
         /// <param name="account">用户名</param>
         /// <param name="pwd">密码</param>
+        /// <param name="type">账号类型</param>
         /// <param name="roleId">角色Id</param>
         /// <param name="pwdEncoder">密码编码方式</param>
         /// <param name="others">其它项</param>
         /// <returns></returns>
         [NonAction]
-        public int? AddUser(string account, string pwd, int roleId, PwdEncoder pwdEncoder, Dictionary<string, object> others)
+        public static int? AddUser(string account, string type, string pwd, int roleId, PwdEncoder pwdEncoder, Dictionary<string, object> others)
         {
             int? accountId = null;
             switch (pwdEncoder)
@@ -229,15 +148,19 @@ namespace UWT.Libs.Users.Users
                 default:
                     break;
             }
-            this.UsingDb(db =>
+            using (var db = TemplateControllerEx.GetDB(null))
             {
                 var insert = new Dictionary<string, object>()
                 {
                     [nameof(IDbAccountTable.Account)] = account,
                     [nameof(IDbAccountTable.Password)] = pwd,
                     [nameof(IDbAccountTable.Status)] = "enabled",
-                    [nameof(IDbAccountTable.RoleId)] = roleId,
+                    [nameof(IDbAccountTable.RoleId)] = roleId
                 };
+                if (type != null)
+                {
+                    insert[nameof(IDbAccountTable.Type)] = type;
+                }
                 if (others != null)
                 {
                     foreach (var item in others)
@@ -255,10 +178,128 @@ namespace UWT.Libs.Users.Users
                 }
                 catch (Exception ex)
                 {
-                    this.LogError(ex.ToString());
+                    0.LogError(ex.ToString());
                 }
-            });
+            }
             return accountId;
+        }
+
+        /// <summary>
+        /// uwt账号表登录
+        /// </summary>
+        /// <param name="httpContext"></param>
+        /// <param name="account">账号名</param>
+        /// <param name="pwd">密码</param>
+        /// <param name="type">账号类型</param>
+        /// <param name="authType">授权类型</param>
+        /// <returns>API标准回复</returns>
+        public static object DoLoginToContext(HttpContext httpContext, string account, string pwd, string type, string authType = null)
+        {
+            object ret = null;
+            using (var db = TemplateControllerEx.GetDB(null))
+            {
+                var accounttable = db.UwtGetTable<IDbAccountTable>();
+                var q = (from it in accounttable
+                         where it.Account == account && it.Type == type
+                         select new
+                         {
+                             it.Id,
+                             it.RoleId,
+                             it.Account,
+                             it.Password,
+                             it.Status
+                         }).Take(1);
+                int aid = 0;
+                if (q.Count() != 0)
+                {
+                    var a = q.First();
+                    if (a.Status == "enabled")
+                    {
+                        bool pwdtrue = false;
+                        if (a.Password != pwd)
+                        {
+                            if (a.Password.EndsWith(")"))
+                            {
+                                if ((a.Password.StartsWith("md5(") && a.Password == PwdConverter.BuildMD5(pwd))
+                                    || (a.Password.StartsWith("sha1(") && a.Password == PwdConverter.BuildSHA1(pwd))
+                                    || (a.Password.StartsWith("sha256(") && a.Password == PwdConverter.BuildSHA256(pwd)))
+                                {
+                                    pwdtrue = true;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            pwdtrue = true;
+                        }
+                        if (pwdtrue)
+                        {
+                            string rolename = "内置超级管理员";
+                            string homepage = "/";
+                            aid = a.Id;
+                            if (a.RoleId != 0)
+                            {
+                                var roletable = db.UwtGetTable<IDbRoleTable>();
+                                var qrole = (from it in roletable
+                                             where it.Id == a.RoleId
+                                             select new
+                                             {
+                                                 it.Id,
+                                                 it.Name,
+                                                 it.HomePageUrl
+                                             }).Take(1);
+                                if (qrole.Count() != 0)
+                                {
+                                    var role = qrole.First();
+                                    rolename = role.Name;
+                                    homepage = role.HomePageUrl;
+                                }
+                            }
+                            httpContext.SignInto(new Dictionary<string, string>()
+                            {
+                                [AuthConst.RoleIdKey] = a.RoleId.ToString(),
+                                [AuthConst.AccountIdKey] = a.Id.ToString(),
+                                [AuthConst.AccountNameKey] = a.Account,
+                                [AuthConst.RoleNameKey] = rolename,
+                                [AuthConst.DefaultHomeUrl] = homepage
+                            }, authType);
+                            accounttable.UwtUpdate(a.Id, new Dictionary<string, object>()
+                            {
+                                [nameof(IDbAccountTable.LastLoginTime)] = DateTime.Now
+                            });
+                            ret = ControllerEx.Success(null, homepage);
+                        }
+                        else
+                        {
+                            ret = ControllerEx.Error(null, Templates.Models.Basics.ErrorCode.Login_UserPwdError);
+                        }
+                    }
+                    else
+                    {
+                        if (a.Status == "disabled")
+                        {
+                            ret = ControllerEx.Error(null, Templates.Models.Basics.ErrorCode.Login_UserDisabled);
+                        }
+                        else if (a.Status == "writeoff")
+                        {
+                            ret = ControllerEx.Error(null, Templates.Models.Basics.ErrorCode.Login_UserPwdError);
+                        }
+                    }
+                }
+                else
+                {
+                    ret = ControllerEx.Error(null, Templates.Models.Basics.ErrorCode.Login_UserPwdError);
+                }
+                db.UwtGetTable<IDbUserLoginHisTable>().UwtInsertWithInt32(new Dictionary<string, object>()
+                {
+                    [nameof(IDbUserLoginHisTable.Username)] = account,
+                    [nameof(IDbUserLoginHisTable.Pwd)] = pwd,
+                    [nameof(IDbUserLoginHisTable.Type)] = type,
+                    [nameof(IDbUserLoginHisTable.Status)] = aid != 0,
+                    [nameof(IDbUserLoginHisTable.AId)] = aid
+                });
+            }
+            return ret;
         }
     }
 }

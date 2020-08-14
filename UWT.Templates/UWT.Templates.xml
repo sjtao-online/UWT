@@ -1387,7 +1387,7 @@
             <param name="routetemplate">路由前置部分,默认值[area]/[controller]/[action]</param>
             <param name="showname">显示名</param>
         </member>
-        <member name="P:UWT.Templates.Attributes.Routes.UwtRouteAttribute.ShowName">
+        <member name="P:UWT.Templates.Attributes.Routes.UwtRouteAttribute.AreaShowName">
             <summary>
             显示名
             </summary>
@@ -1422,8 +1422,7 @@
         </member>
         <member name="T:UWT.Templates.Attributes.Routes.UwtControllerNameAttribute">
             <summary>
-            与UwtModule共同使用,表示控制器名<br/>
-            默认生成"{UwtControllerName} - {UwtModule}"
+            表示控制器名
             </summary>
         </member>
         <member name="P:UWT.Templates.Attributes.Routes.UwtControllerNameAttribute.ShowName">
@@ -2371,6 +2370,35 @@
             JS回调代码
             </summary>
         </member>
+        <member name="T:UWT.Templates.Models.Interfaces.IUwtNoRecordModule">
+            <summary>
+            不收录Module数据库(接口)
+            不参与权限相关的不用收录
+            </summary>
+        </member>
+        <member name="T:UWT.Templates.Models.Interfaces.IUwtShowName">
+            <summary>
+            显示名接口<br/>
+            一般用于UwtControllerName，UwtMethod之类的特性
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Models.Interfaces.IUwtShowName.ShowName">
+            <summary>
+            显示名
+            </summary>
+        </member>
+        <member name="T:UWT.Templates.Models.Interfaces.IUwtShowNameHasTemplate">
+            <summary>
+            带模板的显示名接口<br/>
+            暂只用于UwtMethod特性
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Models.Interfaces.IUwtShowNameHasTemplate.TemplateText">
+            <summary>
+            模板字符串<br/>
+            默认值为UwtMethodAttribute.TemplateText_AreaControllerMethod
+            </summary>
+        </member>
         <member name="T:UWT.Templates.Models.Interfaces.IDbTableBase">
             <summary>
             数据表最基本的项
@@ -3214,7 +3242,8 @@
         </member>
         <member name="M:UWT.Templates.Models.Templates.Commons.HandleModel.BuildApiGet(System.String,System.String,System.String,System.String)">
             <summary>
-            构建API-GET
+            构建API-GET<br/>
+            比较少用
             </summary>
             <param name="title">标题</param>
             <param name="apiurl">URL</param>
@@ -3244,11 +3273,27 @@
             <param name="apiurl">URL</param>
             <returns></returns>
         </member>
+        <member name="M:UWT.Templates.Models.Templates.Commons.HandleModel.BuildPublish(System.Int32)">
+            <summary>
+            构建“发布”<br/>
+            .Publish?id=id
+            </summary>
+            <param name="id">当前Id</param>
+            <returns></returns>
+        </member>
         <member name="M:UWT.Templates.Models.Templates.Commons.HandleModel.BuildPublishRemove(System.String)">
             <summary>
             构建“撤下”
             </summary>
             <param name="apiurl">URL</param>
+            <returns></returns>
+        </member>
+        <member name="M:UWT.Templates.Models.Templates.Commons.HandleModel.BuildPublishRemove(System.Int32)">
+            <summary>
+            构建“撤下”<br/>
+            .PublishRemove?id=id
+            </summary>
+            <param name="id">当前Id</param>
             <returns></returns>
         </member>
         <member name="M:UWT.Templates.Models.Templates.Commons.HandleModel.BuildModify(System.String)">
@@ -4576,6 +4621,15 @@
             <summary>
             HttpContext扩展方法
             </summary>
+        </member>
+        <member name="M:UWT.Templates.Services.Extends.HttpContextEx.SignInto(Microsoft.AspNetCore.Http.HttpContext,System.Collections.Generic.Dictionary{System.String,System.String},System.String)">
+            <summary>
+            登录系统
+            </summary>
+            <param name="httpContext"></param>
+            <param name="pairs"></param>
+            <param name="authType"></param>
+            <returns></returns>
         </member>
         <member name="M:UWT.Templates.Services.Extends.HttpContextEx.GetAbsoluteUri(Microsoft.AspNetCore.Http.HttpContext)">
             <summary>

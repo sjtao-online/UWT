@@ -52,6 +52,10 @@ namespace UWT.Templates.Models.Interfaces
         /// </summary>
         List<IFormHandlerModel> FormHandlers { get; }
         /// <summary>
+        /// 内嵌页面
+        /// </summary>
+        Dictionary<FormCshtmlPosition, List<string>> CshtmlPartList { get; }
+        /// <summary>
         /// 返回URL
         /// </summary>
         string BackUrl { get; }

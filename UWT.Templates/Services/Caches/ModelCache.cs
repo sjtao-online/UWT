@@ -95,7 +95,8 @@ namespace UWT.Templates.Services.Caches
                                 Method = s.Method,
                                 Type = s.Type,
                                 Url = s.Url,
-                                BackUrl = s.BackUrl
+                                BackUrl = s.BackUrl,
+                                CshtmlPartList = new Dictionary<FormCshtmlPosition, List<string>>()
                             };
                             foreach (var h in s.FormHandlers)
                             {
@@ -116,6 +117,10 @@ namespace UWT.Templates.Services.Caches
                                     ModelEx = it.ModelEx,
                                     PropertyInfo = type.GetProperty(it.Name)
                                 });
+                            }
+                            foreach (var it in s.CshtmlPartList)
+                            {
+                                fm.CshtmlPartList.Add(it.Key, it.Value);
                             }
                             return froms[type] = fm as TModel;
                         }
@@ -309,7 +314,8 @@ namespace UWT.Templates.Services.Caches
                                     Url = url,
                                     FormHandlers = new List<IFormHandlerModel>(),
                                     FormItems = new List<IFormItemModel>(),
-                                    BackUrl = formAtt.BackUrl
+                                    BackUrl = formAtt.BackUrl,
+                                    CshtmlPartList = new Dictionary<FormCshtmlPosition, List<string>>()
                                 };
                                 foreach (var handler in type.GetCustomAttributes<FormHandlerAttribute>())
                                 {
@@ -321,6 +327,17 @@ namespace UWT.Templates.Services.Caches
                                         Styles = handler.Styles,
                                         JSCallback = handler.JSCallback
                                     });
+                                }
+                                foreach (var cpart in type.GetCustomAttributes<FormCshtmlAttribute>())
+                                {
+                                    if (formModel.CshtmlPartList.ContainsKey(cpart.Position))
+                                    {
+                                        formModel.CshtmlPartList[cpart.Position].Add(cpart.CshtmlPath);
+                                    }
+                                    else
+                                    {
+                                        formModel.CshtmlPartList[cpart.Position] = new List<string>() { cpart.CshtmlPath };
+                                    }
                                 }
                                 if (formModel.FormHandlers.Count == 0)
                                 {

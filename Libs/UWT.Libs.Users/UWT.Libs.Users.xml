@@ -335,6 +335,11 @@
             不检测检测的列表
             </summary>
         </member>
+        <member name="P:UWT.Libs.Users.Users.AccountsController.LoginAcountType">
+            <summary>
+            登录账号类型
+            </summary>
+        </member>
         <member name="M:UWT.Libs.Users.Users.AccountsController.Login(System.String)">
             <summary>
             登录页面
@@ -363,16 +368,28 @@
             <param name="pwd">密码</param>
             <param name="pwdEncoder">密码编码方式</param>
         </member>
-        <member name="M:UWT.Libs.Users.Users.AccountsController.AddUser(System.String,System.String,System.Int32,UWT.Templates.Services.Converts.PwdEncoder,System.Collections.Generic.Dictionary{System.String,System.Object})">
+        <member name="M:UWT.Libs.Users.Users.AccountsController.AddUser(System.String,System.String,System.String,System.Int32,UWT.Templates.Services.Converts.PwdEncoder,System.Collections.Generic.Dictionary{System.String,System.Object})">
             <summary>
             添加用户
             </summary>
             <param name="account">用户名</param>
             <param name="pwd">密码</param>
+            <param name="type">账号类型</param>
             <param name="roleId">角色Id</param>
             <param name="pwdEncoder">密码编码方式</param>
             <param name="others">其它项</param>
             <returns></returns>
+        </member>
+        <member name="M:UWT.Libs.Users.Users.AccountsController.DoLoginToContext(Microsoft.AspNetCore.Http.HttpContext,System.String,System.String,System.String,System.String)">
+            <summary>
+            uwt账号表登录
+            </summary>
+            <param name="httpContext"></param>
+            <param name="account">账号名</param>
+            <param name="pwd">密码</param>
+            <param name="type">账号类型</param>
+            <param name="authType">授权类型</param>
+            <returns>API标准回复</returns>
         </member>
         <member name="T:UWT.Libs.Users.Users.IDbAccountTable">
             <summary>
@@ -387,6 +404,11 @@
         <member name="P:UWT.Libs.Users.Users.IDbAccountTable.Password">
             <summary>
             密码
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Users.Users.IDbAccountTable.Type">
+            <summary>
+            账号类型
             </summary>
         </member>
         <member name="P:UWT.Libs.Users.Users.IDbAccountTable.RoleId">
@@ -417,6 +439,11 @@
         <member name="P:UWT.Libs.Users.Users.IDbUserLoginHisTable.Pwd">
             <summary>
             密码
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Users.Users.IDbUserLoginHisTable.Type">
+            <summary>
+            账号类型
             </summary>
         </member>
         <member name="P:UWT.Libs.Users.Users.IDbUserLoginHisTable.AId">
