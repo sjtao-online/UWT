@@ -1,11 +1,11 @@
-﻿@{ 
+﻿@{
     var rPath =
 #if DEBUG
-      "/_content/UWT.Libs.BBS"
+"/_content/UWT.Libs.BBS"
 #else
-      ""
+""
 #endif
-    ;
+;
 }
 <!DOCTYPE html>
 
@@ -14,9 +14,9 @@
     <meta name="viewport" content="width=device-width" />
     <link href="@rPath/bbs/forum.css" rel="stylesheet" />
     @foreach (string item in ViewBag.ThemeCssList)
-	{
+    {
         <link href="@item" rel="stylesheet" />
-	}
+    }
     @RenderSection("CSS", false)
     <title>@ViewBag.Title</title>
 </head>
@@ -27,30 +27,40 @@
                 <div class="header cc">
                     <div class="logo">
                         <a href="/BBS">
-                            <img src="@rPath/BBS/Logo.png" alt="logo" />
+                            <img src="http://bbs.phpwind.net.cn/themes/site/default/images/logo.png" alt="logo" />
                         </a>
                     </div>
-                    <div class="nav_wrap">
-                        <div class="nav">
-                            <ul>
-                                <li></li>
-                            </ul>
-                        </div>
+                    <div class="nav">
+                        <a href="#" class="current">123</a>
                     </div>
                     <div class="header_search">
-                        <input type="text" id="" value="" />
+                        <input type="text" id="name" value="" placeholder="搜索" />
                     </div>
                 </div>
             </div>
         </header>
-        @RenderBody()
-        <footer>
-            <div class="full_screen">
 
+        @RenderBody()
+
+        <footer>
+            <div class="full_screen center">
+                <div>
+                    <div class="info">
+                        <a href="/">content</a>
+                        备案号：<a href="/">号</a>
+                    </div>
+                    <div class="desc">
+                        Powered by UWT.Libs.BBS
+                    </div>
+                </div>
             </div>
         </footer>
     </div>
+    <script src="//libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
     <script src="@rPath/bbs/forum.js"></script>
     @RenderSection("Scripts", false)
 </body>
 </html>
+
+
+

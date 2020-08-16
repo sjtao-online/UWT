@@ -17,6 +17,7 @@ namespace UWT.Libs.BBS.Areas.BBS.Controllers
     public class ForumBasicController : Controller
         , ITemplateController
     {
+        
         /// <summary>
         /// 创建主题
         /// </summary>
@@ -84,6 +85,11 @@ namespace UWT.Libs.BBS.Areas.BBS.Controllers
             return this.Success();
         }
 
+        /// <summary>
+        /// 评论
+        /// </summary>
+        /// <param name="comment"></param>
+        /// <returns></returns>
         [HttpPost]
         public virtual object CommentTopic([FromBody]CommentModel comment)
         {
@@ -107,7 +113,14 @@ namespace UWT.Libs.BBS.Areas.BBS.Controllers
             }
             return this.Success();
         }
-        public object TopicList(int areaId, int pageIndex)
+
+        /// <summary>
+        /// 获得列表
+        /// </summary>
+        /// <param name="areaId"></param>
+        /// <param name="pageIndex"></param>
+        /// <returns></returns>
+        public object TopicList(int areaId, int pageIndex, int pageSize)
         {
             using (var db = this.GetDB())
             {

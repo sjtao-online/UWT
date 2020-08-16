@@ -1,4 +1,17 @@
 ﻿@{
 }
+<div class="full_screen">
+    @if (ViewBag.TopArea != null)
+    {
+        <area-group area-info="ViewBag.TopArea" show-category="Tile"></area-group>
 
-论坛首页
+    }
+    @if (ViewBag.OtherAreas != null)
+    {
+        foreach (var item in ViewBag.OtherAreas)
+        {
+            <area-group area-info="item" show-category="List"></area-group>
+        }
+    }
+
+</div>

@@ -29,11 +29,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="wwwroot\lib\wang\wangEditor.min.js" />
-    <Content Remove="wwwroot\lib\wang\wangEditor.min.js.map" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="readme.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

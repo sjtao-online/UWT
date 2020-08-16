@@ -87,7 +87,24 @@ namespace UWT.Templates.Services.Extends
         #endregion
 
         #region 转换为对象
-
+        /// <summary>
+        /// 秒值转DateTimeOffset
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <returns></returns>
+        public static DateTimeOffset GetDateTimeOffsetFromSecond(this long dt)
+        {
+            return new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.FromSeconds(dt));
+        }
+        /// <summary>
+        /// 毫秒值转DateTimeOffset
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <returns></returns>
+        public static DateTimeOffset GetDateTimeOffsetFromMS(this long dt)
+        {
+            return new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.FromMilliseconds(dt));
+        }
         #endregion
 
         #region 转换字符串
@@ -176,7 +193,7 @@ namespace UWT.Templates.Services.Extends
         /// <returns></returns>
         public static string ToShowTextS(this long dt)
         {
-            return "";
+            return dt.GetDateTimeOffsetFromSecond().ToString(DefaultDateTimeFormat);
         }
         #endregion
     }
