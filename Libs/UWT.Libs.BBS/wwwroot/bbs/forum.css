@@ -5,6 +5,15 @@
     color: #333;
 }
 
+a {
+    color: #333;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline !important;
+}
+
 header {
     background-color: #488fce;
     position: fixed;
@@ -111,11 +120,11 @@ div.full_screen {
     margin: 0 auto;
 }
 
-footer {
-    padding: 15px 0;
-    border-top: 1px solid rgba(255,255,255,0.7);
+div.main_wrap {
+    margin-top: 10px;
 }
 
+/*版块相关*/
 .area-group {
     border: 1px solid #d3d3d3;
     -moz-border-radius: 10px;
@@ -142,10 +151,6 @@ footer {
             color: #6d6868;
             text-decoration: none;
             font-size: 14px;
-        }
-
-        .area-group>.title a:hover {
-            text-decoration: underline;
         }
 
     .area-group .content {
@@ -216,10 +221,6 @@ footer {
         cursor: pointer;
     }
 
-    .area-group .area-item .title a:hover {
-        text-decoration: underline;
-    }
-
     .area-group .area-item .area-logo {
         min-width: 40px;
     }
@@ -236,19 +237,39 @@ footer {
         background: #fff;
     }
 
-    footer .info {
-        font-size: 14px;
-        color: #666;
-        margin-bottom: 10px;
+/*面包屑相关*/
+.bread_crumb {
+    height: 18px;
+    padding: 0 0 10px;
+    position: relative;
+    font-size: 12px;
+    display: flex;
+}
+
+    .bread_crumb a {
+        height: 16px;
+        display: block;
+        overflow: hidden;
     }
+    .bread_crumb .space {
+        margin: 0 5px;
+        color: #666;
+    }
+/*底部栏相关*/
+footer {
+    padding: 15px 0;
+    border-top: 1px solid rgba(255,255,255,0.7);
+}
+
+footer .info {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+}
 
 footer .info a {
     color: #666;
     text-decoration: none;
-}
-
-footer .info a:hover {
-    text-decoration: underline;
 }
 
 footer .desc {

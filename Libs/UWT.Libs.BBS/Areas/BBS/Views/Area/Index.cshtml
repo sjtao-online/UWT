@@ -1,0 +1,14 @@
+﻿@{
+    List<UWT.Templates.Models.Basics.UrlTitleIdModel> list = new List<UWT.Templates.Models.Basics.UrlTitleIdModel>()
+    {
+        new UWT.Templates.Models.Basics.UrlTitleIdModel()
+        {
+            Title = "123",
+            Url = "/BBS/Area/1"
+        }
+    };
+}
+<div class="full_screen main_wrap">
+    <crumb crumb-list="list"></crumb>
+    <area-group area-info="ViewBag.AreaInfo" show-category="List"></area-group>
+</div>

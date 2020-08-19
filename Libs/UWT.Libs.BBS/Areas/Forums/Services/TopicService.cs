@@ -1,34 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using LinqToDB;
+using System;
 using System.Linq;
-using System.Threading.Tasks;
-using LinqToDB;
-using Microsoft.AspNetCore.Mvc;
-using UWT.Libs.BBS.Areas.BBS.Models;
-using UWT.Libs.BBS.Areas.BBS.Models.ForumBasic;
+using System.Collections.Generic;
+using System.Text;
+using UWT.Libs.BBS.Areas.Forums.ServiceModels.Topic;
 using UWT.Libs.BBS.Models;
 using UWT.Libs.BBS.Models.Const;
-using UWT.Templates.Models.Interfaces;
 using UWT.Templates.Services.Extends;
 
-namespace UWT.Libs.BBS.Areas.BBS.Controllers
+namespace UWT.Libs.BBS.Areas.Forums.Services
 {
-    [BBSRoute, AuthBBS]
-    public class ForumBasicController : Controller
-        , ITemplateController
+    public class TopicService
     {
-        
-        /// <summary>
-        /// 创建主题
-        /// </summary>
-        /// <param name="topic"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public virtual object CreateTopic([FromBody]CreateTopicModel topic)
+        public object Create(CreateTopicModel topic)
         {
             //  检测用户当前是否可以发
-            
-            using (var db = this.GetDB())
+
+            using (var db = TemplateControllerEx.GetDB(null))
             {
                 var bt = db.BeginTransaction();
                 try
@@ -71,7 +59,7 @@ namespace UWT.Libs.BBS.Areas.BBS.Controllers
                         else
                         {
                             bt.Rollback();
-                            return this.Error("");
+                            return ControllerEx.Error(null, "");
                         }
                     }
                     bt.Commit();
@@ -79,28 +67,24 @@ namespace UWT.Libs.BBS.Areas.BBS.Controllers
                 catch (Exception)
                 {
                     bt.Rollback();
-                    return this.Error("发贴失败");
+                    return ControllerEx.Error(null, "发贴失败");
                 }
             }
-            return this.Success();
+            return ControllerEx.Success(null);
         }
 
-        /// <summary>
-        /// 评论
-        /// </summary>
-        /// <param name="comment"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public virtual object CommentTopic([FromBody]CommentModel comment)
+        public object Comment(CommentModel comment)
         {
-            using (var db = this.GetDB())
+            //  检测用户当前是否可以回复
+
+            using (var db = TemplateControllerEx.GetDB(null))
             {
                 var topic = from it in db.TableTopic()
                             where it.Id == comment.TopicId && it.Status == TopicStatus.Publish
                             select 0;
                 if (topic.Count() == 0)
                 {
-                    return this.Error("回帖失败");
+                    return ControllerEx.Error(null, "回帖失败");
                 }
 
                 db.TableTopicBack().Insert(() => new UwtBbsTopicBack()
@@ -111,24 +95,19 @@ namespace UWT.Libs.BBS.Areas.BBS.Controllers
 
                 });
             }
-            return this.Success();
+            return ControllerEx.Success(null);
+
         }
 
-        /// <summary>
-        /// 获得列表
-        /// </summary>
-        /// <param name="areaId"></param>
-        /// <param name="pageIndex"></param>
-        /// <returns></returns>
-        public object TopicList(int areaId, int pageIndex, int pageSize)
+        public object List(int areaId, int pageIndex, int pageSize)
         {
-            using (var db = this.GetDB())
+            using (var db = TemplateControllerEx.GetDB(null))
             {
                 var topics = from it in db.TableAreaTopicRef()
                              where it.AId == areaId && it.Status == "publish"
                              group it by it.TId into g
                              select g;
-                return this.Success();
+                return ControllerEx.Success(null);
             }
         }
     }

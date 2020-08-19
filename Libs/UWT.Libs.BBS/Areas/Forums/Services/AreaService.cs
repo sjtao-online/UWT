@@ -11,7 +11,7 @@ namespace UWT.Libs.BBS.Areas.Forums.Services
     public class AreaService
     {
         /// <summary>
-        /// 获得
+        /// 获得主页面版块信息
         /// </summary>
         /// <returns></returns>
         public List<AreaModel> GetHomeAreaList()
@@ -32,6 +32,33 @@ namespace UWT.Libs.BBS.Areas.Forums.Services
                     item.Children = FillChildren(db, item.Id);
                 }
                 return areas;
+            }
+        }
+        /// <summary>
+        /// 获得本版块及子版块列表信息
+        /// </summary>
+        /// <param name="areaId"></param>
+        /// <returns></returns>
+        public AreaModel GetAresInfoSubAreaList(int areaId)
+        {
+            using (var db = TemplateControllerEx.GetDB(null))
+            {
+                var qinfo = from it in db.TableArea()
+                           where it.Status == "show" && it.Apply == "publish" && it.Id == areaId
+                           select new AreaModel()
+                           {
+                               Id = it.Id,
+                               Title = it.Name,
+                               Summary = it.Summary,
+                               Icon = it.Icon
+                           };
+                if (qinfo.Count() != 0)
+                {
+                    var info = qinfo.First();
+                    info.Children = FillChildren(db, areaId);
+                    return info;
+                }
+                return null;
             }
         }
         private List<SubAreaInfoModel> FillChildren(LinqToDB.Data.DataConnection db, int areaId)

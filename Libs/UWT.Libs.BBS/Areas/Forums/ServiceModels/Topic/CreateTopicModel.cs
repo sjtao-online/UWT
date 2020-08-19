@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace UWT.Libs.BBS.Areas.BBS.Models.ForumBasic
+namespace UWT.Libs.BBS.Areas.Forums.ServiceModels.Topic
 {
     public class CreateTopicModel
     {
