@@ -14,8 +14,7 @@ using UWT.Templates.Services.Extends;
 
 namespace UWT.Libs.BBS.Areas.ForumMgr.Controllers
 {
-    [ForumAreaRoute("等级类型")]
-    [AuthUser]
+    [AuthUser, ForumAreaRoute("等级类型")]
     public class LevelTypesController : Controller
         , IListToPage<UWT.Libs.BBS.Models.UwtBbsUserLevelType, Models.LevelTypes.LevelTypeListItemModel>
         , IFormToPage<Models.LevelTypes.LevelTypeAddModel>

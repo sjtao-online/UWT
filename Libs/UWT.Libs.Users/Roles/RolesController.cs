@@ -17,8 +17,7 @@ namespace UWT.Libs.Users.Roles
     /// <summary>
     /// 角色控制器
     /// </summary>
-    [AuthUser]
-    [UwtControllerName("角色管理")]
+    [AuthUser, UwtControllerName("角色管理")]
     public class RolesController : Controller
         , IListToPage<IDbRoleTable, RoleListItemModel>
         , IFormToPage<RoleAddModel>

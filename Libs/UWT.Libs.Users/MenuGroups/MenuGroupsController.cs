@@ -21,8 +21,7 @@ namespace UWT.Libs.Users.MenuGroups
     /// <summary>
     /// 菜单组控制器
     /// </summary>
-    [AuthUser]
-    [UwtControllerName("菜单组管理")]
+    [AuthUser, UwtControllerName("菜单组管理")]
     public class MenuGroupsController : Controller
         , IListToPage<IDbMenuGroupTable, MenuGroupListItemModel>
         , IFormToPage<MenuGroupAddModel>

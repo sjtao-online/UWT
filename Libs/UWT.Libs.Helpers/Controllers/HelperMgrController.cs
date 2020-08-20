@@ -15,8 +15,7 @@ namespace UWT.Libs.Helpers.Controllers
     /// <summary>
     /// 帮助管理控制器
     /// </summary>
-    [AuthUser]
-    [UwtControllerName("帮助管理")]
+    [AuthUser, UwtControllerName("帮助管理")]
     public class HelperMgrController : Controller
         , IListToPage<IDbHelperTable, HelperMgrListItemModel>
         , IFormToPage<HelperAddModel>
