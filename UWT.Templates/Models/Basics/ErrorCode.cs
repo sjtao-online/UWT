@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
+using UWT.Templates.Models.Interfaces;
 
 namespace UWT.Templates.Models.Basics
 {
@@ -179,37 +180,40 @@ namespace UWT.Templates.Models.Basics
         #endregion
         #endregion
     }
-    class ErrorCodeEx
+    class UwtTemplateErrorCodeMap : IErrorCodeMap
     {
-        static Dictionary<ErrorCode, string> ErrCodeToMsgMap = null;
-        static object initMapLocker = new object();
-        public static string GetErrorCodeMsg(ErrorCode code)
+        public List<DescNameIdModel> EnumErrorCodeMsgList()
         {
-            if (ErrCodeToMsgMap == null)
+            List<DescNameIdModel> list = new List<DescNameIdModel>();
+            Type type = typeof(ErrorCode);
+            foreach (ErrorCode item in Enum.GetValues(type))
             {
-                lock (initMapLocker)
+                if (item == ErrorCode.UnkownError_SeeMsg)
                 {
-                    if (ErrCodeToMsgMap == null)
+                    continue;
+                }
+                var field = type.GetField(item.ToString());
+                DescriptionAttribute attribute = Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) as DescriptionAttribute;
+                if (attribute == null)
+                {
+                    list.Add(new DescNameIdModel()
                     {
-                        ErrCodeToMsgMap = new Dictionary<ErrorCode, string>();
-                        Type type = typeof(ErrorCode);
-                        foreach (ErrorCode item in Enum.GetValues(type))
-                        {
-                            var field = type.GetField(item.ToString());
-                            DescriptionAttribute attribute = Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) as DescriptionAttribute;
-                            if (attribute == null)
-                            {
-                                ErrCodeToMsgMap.Add(item, item.ToString());
-                            }
-                            else
-                            {
-                                ErrCodeToMsgMap.Add(item, attribute.Description);
-                            }
-                        }
-                    }
+                        Id = (int)item,
+                        Name = item.ToString(),
+                        Desc = item.ToString()
+                    });
+                }
+                else
+                {
+                    list.Add(new DescNameIdModel()
+                    {
+                        Id = (int)item,
+                        Name = item.ToString(),
+                        Desc = attribute.Description
+                    });
                 }
             }
-            return ErrCodeToMsgMap[code];
+            return list;
         }
     }
 }

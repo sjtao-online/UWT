@@ -38,6 +38,10 @@ namespace UWT.Templates.Services.Caches
         /// </summary>
         public static Dictionary<string, IChoosenIdFromTableEx> TableRKeyMap { get; private set; } = new Dictionary<string, IChoosenIdFromTableEx>();
         /// <summary>
+        /// 错误码信息表
+        /// </summary>
+        public static Dictionary<int, Controllers.ErrorCodeListModel> ErrorCodeMap { get; private set; } = new Dictionary<int, Controllers.ErrorCodeListModel>();
+        /// <summary>
         /// 获得模型
         /// </summary>
         /// <typeparam name="TModel">模型类型</typeparam>
@@ -148,6 +152,28 @@ namespace UWT.Templates.Services.Caches
             }
             return null;
         }
+
+        /// <summary>
+        /// 获得错误信息
+        /// </summary>
+        /// <param name="code">错误码</param>
+        /// <param name="msg">附加错误信息</param>
+        /// <returns>错误信息，null为未定义错误信息</returns>
+        public static string GetErrorMsgFromCode(int code, string msg = null)
+        {
+            if (ErrorCodeMap.ContainsKey(code))
+            {
+                return msg;
+            }
+            if (string.IsNullOrEmpty(msg))
+            {
+                return ErrorCodeMap[code].Desc;
+            }
+            else
+            {
+                return $"{ErrorCodeMap[code].Desc}:{msg}";
+            }
+        }
         /// <summary>
         /// 转换URL
         /// </summary>
@@ -210,12 +236,31 @@ namespace UWT.Templates.Services.Caches
             LoggerEx.ConfigAssembilies(Assemblies);
             0.LogInformation("正在初始化模型缓存");
             List<string> errorModels = new List<string>();
+            Dictionary<string, List<DescNameIdModel>> errCodeMaps = new Dictionary<string, List<DescNameIdModel>>();
             foreach (var item in Assemblies)
             {
                 foreach (var type in item.GetTypes())
                 {
                     try
                     {
+                        if ((!type.IsInterface) && typeof(IErrorCodeMap).IsAssignableFrom(type))
+                        {
+                            var errMap = item.CreateInstance(type.FullName) as IErrorCodeMap;
+                            var list = errMap.EnumErrorCodeMsgList();
+                            if (list == null || list.Count == 0)
+                            {
+                                continue;
+                            }
+                            var assname = item.GetName().Name;
+                            if (errCodeMaps.ContainsKey(assname))
+                            {
+                                errCodeMaps[assname].AddRange(list);
+                            }
+                            else
+                            {
+                                errCodeMaps[assname] = list;
+                            }
+                        }
                         foreach (Attribute att in type.GetCustomAttributes(false))
                         {
                             //  列表项缓存
@@ -751,6 +796,27 @@ namespace UWT.Templates.Services.Caches
                     }
                 }
             }
+            foreach (var item in errCodeMaps)
+            {
+                foreach (var err in item.Value)
+                {
+                    if (ErrorCodeMap.ContainsKey(err.Id))
+                    {
+                        //  错误
+                        errorModels.Add($"错误码{err.Id}二义性 {item.Key}, {ErrorCodeMap[err.Id].AssemblyName}");
+                    }
+                    else
+                    {
+                        ErrorCodeMap.Add(err.Id, new Controllers.ErrorCodeListModel()
+                        {
+                            Code = err.Id,
+                            Name = err.Name,
+                            Desc = err.Desc,
+                            AssemblyName = item.Key
+                        });
+                    }
+                }
+            }
             if (errorModels.Count != 0)
             {
                 StringBuilder errMsg = new StringBuilder();
@@ -765,7 +831,7 @@ namespace UWT.Templates.Services.Caches
                 }
                 0.LogError(errMsg.ToString());
             }
-            0.LogInformation($"成功加载 ListViewModel: {ListViewModel.Count}个，FormModel: {FormModel.Count}个，DetailModel: {DetailModel.Count}个");
+            0.LogInformation($"成功加载 ListViewModel: {ListViewModel.Count}个，FormModel: {FormModel.Count}个，DetailModel: {DetailModel.Count}个，ErrorCode: {ErrorCodeMap.Count}");
         }
 
         private static bool PropertyIsRange(PropertyInfo prop)

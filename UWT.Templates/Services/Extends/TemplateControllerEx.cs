@@ -150,7 +150,7 @@ namespace UWT.Templates.Services.Extends
         /// </summary>
         /// <param name="templateController"></param>
         /// <returns></returns>
-        public static LinqToDB.Data.DataConnection GetDB(this ITemplateController templateController)
+        public static LinqToDB.Data.DataConnection GetDB([System.Diagnostics.CodeAnalysis.AllowNull] this ITemplateController templateController)
         {
             return Models.Database.DbCreator.CreateDb();
         }

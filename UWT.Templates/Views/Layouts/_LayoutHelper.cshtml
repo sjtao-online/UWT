@@ -1,10 +1,11 @@
 ﻿@using UWT.Templates.Services.Extends
 @{ 
+    var rPath = this.GetResourcePath();
     var layoutModel = this.GetCurrentLayoutModel();
 }
 <!DOCTYPE html>
 
-<html>
+<html style="overflow-y: hidden">
 <head>
     <meta name="viewport" content="width=device-width" />
     @if (!string.IsNullOrEmpty(layoutModel.Icon))
@@ -12,10 +13,15 @@
         <link rel="icon" href="@layoutModel.Icon" />
     }
     <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="@rPath/admins/css/font.css" />
+    <link rel="stylesheet" href="@rPath/admins/css/xadmin.css" />
+    <script src="@rPath/lib/layui/layui.js" charset="utf-8"></script>
+    @RenderSection("CSS", false)
 </head>
 <body>
-    <div>
+    <div style="height: 100vh;">
         @RenderBody()
     </div>
+    @RenderSection("Scripts", false)
 </body>
 </html>

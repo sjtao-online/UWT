@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Threading.Tasks;
 using LinqToDB;
@@ -51,6 +52,7 @@ namespace UWT.Server
                 "red"
             });
             services.AddLogging();
+            services.AddSingleton(HtmlEncoder.Create(System.Text.Unicode.UnicodeRanges.All));
 #if DEBUG
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
 #endif

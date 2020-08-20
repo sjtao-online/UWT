@@ -32,7 +32,7 @@ namespace UWT.Templates.Services.Extends
         /// <summary>
         /// 帮助布局
         /// </summary>
-        internal const string LayoutFileName_Help = "/Views/Layouts/_LayoutHelp.cshtml";
+        internal const string LayoutFileName_Help = "/Views/Layouts/_LayoutHelper.cshtml";
         internal const string CustomLayoutKey = "__temp_custom_layout_key__";
         /// <summary>
         /// 获得资源的相对目录
