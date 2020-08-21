@@ -9,6 +9,7 @@ using UWT.Templates.Models.Database;
 using UWT.Templates.Models.Interfaces;
 using UWT.Templates.Models.Templates.Layouts;
 using UWT.Templates.Services.Extends;
+using Microsoft.AspNetCore.StaticFiles;
 
 namespace UWT.Templates.Services.StartupEx
 {
@@ -25,6 +26,26 @@ namespace UWT.Templates.Services.StartupEx
             RazorPageEx.LayoutFileName_XAdmin,
             RazorPageEx.LayoutFileName_HPlus
         };
+
+        static bool UsedLess = false;
+
+        public static IApplicationBuilder UseLess(this IApplicationBuilder app)
+        {
+            UseCurrentAppBuilder(app);
+            if (!UsedLess)
+            {
+                app.UseStaticFiles(new StaticFileOptions()
+                {
+                    ContentTypeProvider = new FileExtensionContentTypeProvider(new Dictionary<string, string>()
+                    {
+                        [".less"] = "text/less"
+                    })
+                });
+                UsedLess = true;
+            }
+            return app;
+        }
+
         /// <summary>
         /// 设置管理布局路由
         /// </summary>
