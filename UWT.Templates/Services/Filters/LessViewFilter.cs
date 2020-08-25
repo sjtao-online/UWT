@@ -15,7 +15,7 @@ namespace UWT.Templates.Services.Filters
             if (context.Result is ViewResult)
             {
                 var vr = context.Result as ViewResult;
-                if (context.HttpContext.Items.ContainsKey("__has_less"))
+                if (context.HttpContext.Items.ContainsKey(Models.TagHelpers.Basic.LessLinkerTagHelper.hasLess))
                 {
                     string rPath =
 #if DEBUG

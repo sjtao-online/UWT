@@ -37,6 +37,10 @@ namespace UWT.Templates.Models.TagHelpers.Basic
         public bool? IsServerMode { get; set; }
         static HashSet<string> Complied = new HashSet<string>();
         static MethodInfo DotlessMethod = null;
+        internal const string hasLess = "__has_less";
+        const string ExtCss = ".css";
+        const string ExtLess = ".less";
+        const char PathBlank = '\\';
         public LessLinkerTagHelper(IHtmlHelper html)
         {
             Html = html;
@@ -63,22 +67,22 @@ namespace UWT.Templates.Models.TagHelpers.Basic
                     else
                     {
                         string filePath = this.GetCurrentWebHost().WebRootPath;
-                        if (filePath[filePath.Length-1] != '\\')
+                        if (filePath[filePath.Length-1] != PathBlank)
                         {
-                            filePath += '\\';
+                            filePath += PathBlank;
                         }
                         filePath += Path;
-                        if (filePath[filePath.Length - 1] != '\\')
+                        if (filePath[filePath.Length - 1] != PathBlank)
                         {
-                            filePath += '\\';
+                            filePath += PathBlank;
                         }
                         filePath += FilenameNoExt;
                         filePath = ReplaceFilePath(filePath);
-                        using (var sr = new StreamReader(filePath + ".less"))
+                        using (var sr = new StreamReader(filePath + ExtLess))
                         {
                             var lessContent = sr.ReadToEnd();
                             var cssText = DotlessMethod.Invoke(null, new object[] { lessContent });
-                            using (var sw = new StreamWriter(filePath + ".css"))
+                            using (var sw = new StreamWriter(filePath + ExtCss))
                             {
                                 sw.Write(cssText);
                             }
@@ -86,7 +90,7 @@ namespace UWT.Templates.Models.TagHelpers.Basic
                         Complied.Add(Path + FilenameNoExt);
                     }
                 }
-                output.Attributes.Add("href", Path + FilenameNoExt + ".css");
+                output.Attributes.Add("href", Path + FilenameNoExt + ExtCss);
                 output.Attributes.Add("rel", "stylesheet");
                 output.Attributes.Add("type", "text/css");
             }
@@ -94,7 +98,6 @@ namespace UWT.Templates.Models.TagHelpers.Basic
             {
                 RenderClientMode(output);
                 (Html as HtmlHelper).Contextualize(ViewContext);
-                const string hasLess = "__has_less";
                 if (!ViewContext.HttpContext.Items.ContainsKey(hasLess))
                 {
                     ViewContext.HttpContext.Items.Add(hasLess, true);
@@ -104,7 +107,7 @@ namespace UWT.Templates.Models.TagHelpers.Basic
 
         private string ReplaceFilePath(string filePath)
         {
-            filePath = filePath.Replace('/', '\\');
+            filePath = filePath.Replace('/', PathBlank);
             while (true)
             {
                 int len = filePath.Length;
@@ -119,7 +122,7 @@ namespace UWT.Templates.Models.TagHelpers.Basic
 
         private void RenderClientMode(TagHelperOutput output)
         {
-            output.Attributes.Add("href", Path + FilenameNoExt + ".less");
+            output.Attributes.Add("href", Path + FilenameNoExt + ExtLess);
             output.Attributes.Add("rel", "stylesheet/less");
         }
     }
