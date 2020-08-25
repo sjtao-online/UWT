@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using UWT.Templates.Models.Interfaces;
+using UWT.Templates.Services.Filters;
 
 namespace UWT.Templates.Services.StartupEx
 {
@@ -23,7 +24,17 @@ namespace UWT.Templates.Services.StartupEx
         {
             services.AddTransient<IUwtHelper, DefaultUwtHelper>();
             services.AddUWTWwwroot();
-            services.AddControllersWithViews();
+            if (ServiceCollectionEx.LessServerMode.HasValue)
+            {
+                services.AddControllersWithViews(op=>
+                {
+                    op.Filters.Add<LessViewFilter>();
+                });
+            }
+            else
+            {
+                services.AddControllersWithViews();
+            }
             services.AddControllers();
             services.AddTemplateModelCache();
             services.AddTemplateAuth(loginUrl, refParamName);

@@ -36,6 +36,21 @@ namespace UWT.Templates.Services.StartupEx
         internal static Delegates.ModelIds2Names ChooseIds2Names;
         internal static Func<string, int, object, IResultModelBasicT> ApiResultBuildFuncT = (msg, code, data)=> new ResultModelBasicT() { Code = code, Msg = msg, Data = data };
         internal static Func<string, int, IResultModelBasic> ApiResultBuildFunc = (msg, code) => new ResultModelBasic() { Code = code, Msg = msg };
+        internal static bool? LessServerMode = null;
+        /// <summary>
+        /// 添加Less支持
+        /// </summary>
+        /// <param name="service">服务</param>
+        /// <param name="isServerMode">是否为服务模式</param>
+        /// <returns></returns>
+        public static IServiceCollection AddLess(this IServiceCollection service, bool isServerMode = false)
+        {
+            if (!LessServerMode.HasValue)
+            {
+                LessServerMode = isServerMode;
+            }
+            return service;
+        }
         /// <summary>
         /// 添加静态字典
         /// </summary>

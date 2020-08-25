@@ -29,6 +29,7 @@ namespace UWT.Server
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddLess(false);
             services.AddConstDictionary(new Dictionary<string, string>()
             {
                 ["BannerController"] = "Banners",
@@ -146,6 +147,7 @@ namespace UWT.Server
                 Libs.Users.MenuGroups.IconSimpleSelectorBuilder.IconList = JsonSerializer.Deserialize<List<NameKeyModel>>(sr.ReadToEnd());
             }
             Libs.Users.Users.AccountsController.NoCheckAuthorizedRoleList = new List<int>() { 2 };
+            app.UseLess();
         }
     }
 }

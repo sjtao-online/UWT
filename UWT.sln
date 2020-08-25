@@ -21,7 +21,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UWT.Publish", "Tools\UWT.Pu
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{D592DA36-4F26-4183-89CA-9F2E66B747D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UWT.Libs.BBS", "Libs\UWT.Libs.BBS\UWT.Libs.BBS.csproj", "{C16A5A46-6C45-499A-8AEC-2A6FF5378DBB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UWT.Libs.BBS", "Libs\UWT.Libs.BBS\UWT.Libs.BBS.csproj", "{C16A5A46-6C45-499A-8AEC-2A6FF5378DBB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Others", "Others", "{429B5C94-B4D7-465B-8389-8C213020C43A}"
+	ProjectSection(SolutionItems) = preProject
+		UWT.Server\bin\Publish\netcoreapp3.1\dotless.Core.dll = UWT.Server\bin\Publish\netcoreapp3.1\dotless.Core.dll
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

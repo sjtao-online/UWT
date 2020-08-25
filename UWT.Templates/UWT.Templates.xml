@@ -259,6 +259,31 @@
             详情模型
             </summary>
         </member>
+        <member name="T:UWT.Templates.Attributes.Forms.FormCshtmlAttribute">
+            <summary>
+            表单页添加纯显示或表单外功能
+            </summary>
+        </member>
+        <member name="T:UWT.Templates.Attributes.Forms.FormCshtmlPosition">
+            <summary>
+            位置信息
+            </summary>
+        </member>
+        <member name="F:UWT.Templates.Attributes.Forms.FormCshtmlPosition.Header">
+            <summary>
+            顶部
+            </summary>
+        </member>
+        <member name="F:UWT.Templates.Attributes.Forms.FormCshtmlPosition.FooterHandleBegin">
+            <summary>
+            底部，但在操作之前
+            </summary>
+        </member>
+        <member name="F:UWT.Templates.Attributes.Forms.FormCshtmlPosition.FooterHandleEnd">
+            <summary>
+            底部，但在操作之后
+            </summary>
+        </member>
         <member name="T:UWT.Templates.Attributes.Forms.FormHandlerAttribute">
             <summary>
             表单操作器
@@ -2470,6 +2495,20 @@
             显示条目
             </summary>
         </member>
+        <member name="T:UWT.Templates.Models.Interfaces.IErrorCodeMap">
+            <summary>
+            错误码映射表接口
+            </summary>
+        </member>
+        <member name="M:UWT.Templates.Models.Interfaces.IErrorCodeMap.EnumErrorCodeMsgList">
+            <summary>
+            枚举设置的所有错误信息<br/>
+            Id为错误码<br/>
+            Name为标准名，可为空<br/>
+            Desc为错误信息
+            </summary>
+            <returns>返回错误列表</returns>
+        </member>
         <member name="T:UWT.Templates.Models.Interfaces.IFilterBasicModel">
             <summary>
             筛选项基础接口
@@ -2608,6 +2647,11 @@
         <member name="P:UWT.Templates.Models.Interfaces.IFormModel.FormHandlers">
             <summary>
             支持的操作
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Models.Interfaces.IFormModel.CshtmlPartList">
+            <summary>
+            内嵌页面
             </summary>
         </member>
         <member name="P:UWT.Templates.Models.Interfaces.IFormModel.BackUrl">
@@ -3921,6 +3965,11 @@
             以表选择Id时key内部映射
             </summary>
         </member>
+        <member name="P:UWT.Templates.Services.Caches.ModelCache.ErrorCodeMap">
+            <summary>
+            错误码信息表
+            </summary>
+        </member>
         <member name="M:UWT.Templates.Services.Caches.ModelCache.GetModelFromType``1(System.Type,System.Collections.Generic.Dictionary{System.Type,``0})">
             <summary>
             获得模型
@@ -3929,6 +3978,14 @@
             <param name="type">类型</param>
             <param name="froms">字典</param>
             <returns></returns>
+        </member>
+        <member name="M:UWT.Templates.Services.Caches.ModelCache.GetErrorMsgFromCode(System.Int32,System.String)">
+            <summary>
+            获得错误信息
+            </summary>
+            <param name="code">错误码</param>
+            <param name="msg">附加错误信息</param>
+            <returns>错误信息，null为未定义错误信息</returns>
         </member>
         <member name="M:UWT.Templates.Services.Caches.ModelCache.RechangeUrl(System.Type,System.String)">
             <summary>
@@ -4268,7 +4325,7 @@
             <param name="data"></param>
             <returns></returns>
         </member>
-        <member name="M:UWT.Templates.Services.Extends.ControllerEx.Error(Microsoft.AspNetCore.Mvc.ControllerBase,System.String,System.Int32)">
+        <member name="M:UWT.Templates.Services.Extends.ControllerEx.Error(Microsoft.AspNetCore.Mvc.ControllerBase,System.Int32,System.String)">
             <summary>
             其它错误
             </summary>
@@ -4277,7 +4334,7 @@
             <param name="code"></param>
             <returns></returns>
         </member>
-        <member name="M:UWT.Templates.Services.Extends.ControllerEx.Error``1(Microsoft.AspNetCore.Mvc.ControllerBase,System.String,System.Int32,``0)">
+        <member name="M:UWT.Templates.Services.Extends.ControllerEx.Error``1(Microsoft.AspNetCore.Mvc.ControllerBase,System.Int32,``0,System.String)">
             <summary>
             其它错误有实体
             </summary>
@@ -4455,6 +4512,20 @@
         <member name="M:UWT.Templates.Services.Extends.DateTimeEx.ToUnixTimeMilliseconds(System.Nullable{System.DateTimeOffset})">
             <summary>
             转换为时间戳(毫秒)
+            </summary>
+            <param name="dt"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UWT.Templates.Services.Extends.DateTimeEx.GetDateTimeOffsetFromSecond(System.Int64)">
+            <summary>
+            秒值转DateTimeOffset
+            </summary>
+            <param name="dt"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UWT.Templates.Services.Extends.DateTimeEx.GetDateTimeOffsetFromMS(System.Int64)">
+            <summary>
+            毫秒值转DateTimeOffset
             </summary>
             <param name="dt"></param>
             <returns></returns>

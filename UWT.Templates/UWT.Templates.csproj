@@ -29,6 +29,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\admins\js\less.js" />
+    <Content Remove="wwwroot\admins\js\less.min.js" />
+    <Content Remove="wwwroot\admins\js\less.min.js.map" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="readme.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
