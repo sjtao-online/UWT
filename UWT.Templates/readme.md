@@ -125,6 +125,21 @@
 
     ```
 
++ 使用less
+    
+    ```cs
+    //  Startup.cs, ConfigureService方法内
+    service.AddLess(true);
+    //  service.AddUWT()前面
+
+    //  Startup.cs, Configure方法内
+    app.UseLess();
+
+    //  cshtml中使用<link-less path="/" filename-no-ext="file"></link-less>
+    //  path为路径名，filename-no-ext为除扩展名的文件名
+    //  自动根据使用模式使用less或css
+    ```
+
 ## 客户端使用说明
 
 + api返回Json结构定义  
