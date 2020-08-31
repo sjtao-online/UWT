@@ -2,7 +2,9 @@
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
+using UWT.Templates.Services.Extends;
 using UWT.Templates.Services.StartupEx;
 
 namespace UWT.Libs.BBS
@@ -78,7 +80,16 @@ namespace UWT.Libs.BBS
                     Area = "ForumMgr"
                 }
             });
+            using (var config = new StreamReader(Path.Combine(app.GetCurrentWebHost().ContentRootPath, "bbsconfig.json")))
+            {
+
+            }
             return app;
         }
+    }
+    class BbsConfigModel
+    {
+        public string BeianCode { get; set; }
+        public string TitleFormat { get; set; }
     }
 }

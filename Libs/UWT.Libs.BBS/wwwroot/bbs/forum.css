@@ -116,8 +116,9 @@ header .logo img {
 }
 
 div.full_screen {
-    width: 1200px;
-    margin: 0 auto;
+    max-width: 1200px;
+    margin: 5px auto;
+    min-width: 600px;
 }
 
 div.main_wrap {
@@ -275,4 +276,8 @@ footer .info a {
 footer .desc {
     font-size: 10px;
     color: #999;
+}
+
+footer .line {
+    border-bottom: 1px solid #DDD;
 }
