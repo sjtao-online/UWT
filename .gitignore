@@ -4,3 +4,4 @@
 /UWT.Server/db.conf
 /**/*.tt
 /UWT.Server/Logs
+/**/*.less.css

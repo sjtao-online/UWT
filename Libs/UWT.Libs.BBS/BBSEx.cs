@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Text.Json.Serialization;
 using UWT.Templates.Services.Extends;
 using UWT.Templates.Services.StartupEx;
 
@@ -71,6 +72,8 @@ namespace UWT.Libs.BBS
             return services;
         }
 
+        public static BbsConfigModel BbsConfigModel;
+
         public static IApplicationBuilder UseBBS(this IApplicationBuilder app)
         {
             app.UseMgrRouteList(new List<Templates.Models.Basics.RouteModel>()
@@ -80,16 +83,42 @@ namespace UWT.Libs.BBS
                     Area = "ForumMgr"
                 }
             });
-            using (var config = new StreamReader(Path.Combine(app.GetCurrentWebHost().ContentRootPath, "bbsconfig.json")))
+            var configJson = Path.Combine(
+#if DEBUG
+                @"E:\Work\UWT\UWTX\UWT.Server\bin\Debug\netcoreapp3.1"
+#else
+                app.GetCurrentWebHost().ContentRootPath
+#endif
+                , "bbsconfig.json");
+            if (File.Exists(configJson))
             {
-
+                using (var config = new StreamReader(configJson))
+                {
+                    BbsConfigModel = System.Text.Json.JsonSerializer.Deserialize<BbsConfigModel>(config.ReadToEnd());
+                }
+            }
+            else
+            {
+                BbsConfigModel = new BbsConfigModel()
+                {
+                    TitleFormat = "{0} - UWT论坛",
+                    ForumName = "UWT论坛",
+                    BeianCode = "",
+                    Logo = ""
+                };
             }
             return app;
         }
     }
-    class BbsConfigModel
+    public class BbsConfigModel
     {
+        [JsonPropertyName("beian-code")]
         public string BeianCode { get; set; }
+        [JsonPropertyName("title-format")]
         public string TitleFormat { get; set; }
+        [JsonPropertyName("forum-name")]
+        public string ForumName { get; set; }
+        [JsonPropertyName("logo")]
+        public string Logo { get; set; }
     }
 }

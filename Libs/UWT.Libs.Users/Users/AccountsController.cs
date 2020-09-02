@@ -38,6 +38,11 @@ namespace UWT.Libs.Users.Users
         /// </summary>
         public static string LoginAcountType { get; set; } = "mgr";
         /// <summary>
+        /// 默认支持
+        /// default,s,star
+        /// </summary>
+        public static string Theme { get; set; } = "default";
+        /// <summary>
         /// 登录页面
         /// </summary>
         /// <param name="ref"></param>
@@ -54,6 +59,7 @@ namespace UWT.Libs.Users.Users
                 return this.Redirect(string.IsNullOrEmpty(@ref) ? this.GetClaimValue(AuthConst.DefaultHomeUrl) : @ref);
             }
             ViewBag.Ref = @ref;
+            ViewBag.Theme = Theme;
             return View();
         }
         /// <summary>

@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.Runtime.TagHelpers;
 using Microsoft.AspNetCore.Razor.TagHelpers;
+using Microsoft.Extensions.Hosting;
+using UWT.Templates.Services.Caches;
 using UWT.Templates.Services.Extends;
 using UWT.Templates.Services.StartupEx;
 
@@ -22,14 +24,7 @@ namespace UWT.Templates.Models.TagHelpers.Basic
         [ViewContext]
         [HtmlAttributeNotBound]
         public ViewContext ViewContext { get; set; }
-        /// <summary>
-        /// 路径
-        /// </summary>
-        public string Path { get; set; }
-        /// <summary>
-        /// 文件名，不要扩展名
-        /// </summary>
-        public string FilenameNoExt { get; set; }
+        public string Href { get; set; }
         /// <summary>
         /// 是否服务器模式<br/>
         /// 不设置
@@ -41,6 +36,18 @@ namespace UWT.Templates.Models.TagHelpers.Basic
         const string ExtCss = ".css";
         const string ExtLess = ".less";
         const char PathBlank = '\\';
+        static bool? isDev = null;
+        static bool IsDev
+        {
+            get
+            {
+                if (isDev == null)
+                {
+                    isDev = isDev.GetCurrentWebHost().IsDevelopment();
+                }
+                return isDev.Value;
+            }
+        }
         public LessLinkerTagHelper(IHtmlHelper html)
         {
             Html = html;
@@ -50,7 +57,7 @@ namespace UWT.Templates.Models.TagHelpers.Basic
             output.TagName = "link";
             if (IsServerMode.HasValue ? (bool)IsServerMode : (ServiceCollectionEx.LessServerMode??false))
             {
-                if (!Complied.Contains(Path + FilenameNoExt))
+                if (IsDev || !Complied.Contains(Href))
                 {
                     //  编译
                     if (DotlessMethod == null)
@@ -71,26 +78,32 @@ namespace UWT.Templates.Models.TagHelpers.Basic
                         {
                             filePath += PathBlank;
                         }
-                        filePath += Path;
-                        if (filePath[filePath.Length - 1] != PathBlank)
-                        {
-                            filePath += PathBlank;
-                        }
-                        filePath += FilenameNoExt;
+                        filePath += Href;
                         filePath = ReplaceFilePath(filePath);
-                        using (var sr = new StreamReader(filePath + ExtLess))
+                        var dir = Path.GetDirectoryName(filePath);
+                        if (!Directory.Exists(dir))
                         {
-                            var lessContent = sr.ReadToEnd();
-                            var cssText = DotlessMethod.Invoke(null, new object[] { lessContent });
-                            using (var sw = new StreamWriter(filePath + ExtCss))
+                            Directory.CreateDirectory(dir);
+                        }
+                        if (File.Exists(filePath))
+                        {
+                            using (var sr = new StreamReader(filePath))
                             {
-                                sw.Write(cssText);
+                                WriteCss(sr, filePath);
                             }
                         }
-                        Complied.Add(Path + FilenameNoExt);
+                        else
+                        {
+                            using var stream = ModelCache.GetManifestResourceStream(Href);
+                            using (var sr = new StreamReader(stream))
+                            {
+                                WriteCss(sr, filePath);
+                            }
+                        }
+                        Complied.Add(Href);
                     }
                 }
-                output.Attributes.Add("href", Path + FilenameNoExt + ExtCss);
+                output.Attributes.Add("href", Href + ExtCss);
                 output.Attributes.Add("rel", "stylesheet");
                 output.Attributes.Add("type", "text/css");
             }
@@ -102,6 +115,16 @@ namespace UWT.Templates.Models.TagHelpers.Basic
                 {
                     ViewContext.HttpContext.Items.Add(hasLess, true);
                 }
+            }
+        }
+
+        private void WriteCss(StreamReader sr, string filePath)
+        {
+            var lessContent = sr.ReadToEnd();
+            var cssText = DotlessMethod.Invoke(null, new object[] { lessContent });
+            using (var sw = new StreamWriter(filePath + ExtCss))
+            {
+                sw.Write(cssText);
             }
         }
 
@@ -122,7 +145,7 @@ namespace UWT.Templates.Models.TagHelpers.Basic
 
         private void RenderClientMode(TagHelperOutput output)
         {
-            output.Attributes.Add("href", Path + FilenameNoExt + ExtLess);
+            output.Attributes.Add("href", Href);
             output.Attributes.Add("rel", "stylesheet/less");
         }
     }

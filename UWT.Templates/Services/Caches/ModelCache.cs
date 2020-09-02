@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -217,27 +218,28 @@ namespace UWT.Templates.Services.Caches
             };
             thread.Start(assemblies);
         }
+        static List<Assembly> UsedAssembles = null;
         private static void InitModelCache(object _assemblies)
         {
-            List<Assembly> Assemblies = (List<Assembly>)_assemblies;
-            if (Assemblies == null)
+            UsedAssembles = (List<Assembly>)_assemblies;
+            if (UsedAssembles == null)
             {
-                Assemblies = new List<Assembly>() { Assembly.GetEntryAssembly() };
+                UsedAssembles = new List<Assembly>() { Assembly.GetEntryAssembly() };
             }
             foreach (var item in AppDomain.CurrentDomain.GetAssemblies())
             {
                 string assName = item.GetName().Name;
                 if (assName.StartsWith("UWT.Libs") && !assName.EndsWith(".Views"))
                 {
-                    Assemblies.Add(item);
+                    UsedAssembles.Add(item);
                 }
             }
-            Assemblies.Add(Assembly.GetExecutingAssembly());
-            LoggerEx.ConfigAssembilies(Assemblies);
+            UsedAssembles.Add(Assembly.GetExecutingAssembly());
+            LoggerEx.ConfigAssembilies(UsedAssembles);
             0.LogInformation("正在初始化模型缓存");
             List<string> errorModels = new List<string>();
             Dictionary<string, List<DescNameIdModel>> errCodeMaps = new Dictionary<string, List<DescNameIdModel>>();
-            foreach (var item in Assemblies)
+            foreach (var item in UsedAssembles)
             {
                 foreach (var type in item.GetTypes())
                 {
@@ -832,6 +834,29 @@ namespace UWT.Templates.Services.Caches
                 0.LogError(errMsg.ToString());
             }
             0.LogInformation($"成功加载 ListViewModel: {ListViewModel.Count}个，FormModel: {FormModel.Count}个，DetailModel: {DetailModel.Count}个，ErrorCode: {ErrorCodeMap.Count}");
+        }
+
+        public static Stream GetManifestResourceStream(string name)
+        {
+            bool isContent = name.StartsWith("/_content/");
+            if (isContent)
+            {
+                name = name.Substring(name.IndexOf('/', 10));
+            }
+            name = ".wwwroot" + name.Replace("/", ".");
+            foreach (var item in UsedAssembles)
+            {
+#if DEBUG
+                string[] rs = item.GetManifestResourceNames();
+#endif
+                string newName = item.GetName().Name + name;
+                var stream = item.GetManifestResourceStream(newName);
+                if (stream != null)
+                {
+                    return stream;
+                }
+            }
+            return null;
         }
 
         private static bool PropertyIsRange(PropertyInfo prop)

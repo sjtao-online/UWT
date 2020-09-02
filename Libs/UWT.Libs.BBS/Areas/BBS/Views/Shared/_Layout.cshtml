@@ -12,13 +12,13 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <link href="@rPath/bbs/forum.css" rel="stylesheet" />
+    <link-less href="@rPath/bbs/forum.less" is-server-mode="false"/>
     @foreach (string item in ViewBag.ThemeCssList)
     {
         <link href="@item" rel="stylesheet" />
     }
     @RenderSection("CSS", false)
-    <title>@ViewBag.Title</title>
+    <title>@(string.Format(BBSEx.BbsConfigModel.TitleFormat, ViewBag.Title??""))</title>
 </head>
 <body>
     <div>
@@ -27,7 +27,14 @@
                 <div class="header cc">
                     <div class="logo">
                         <a href="/BBS">
-                            <img src="http://bbs.phpwind.net.cn/themes/site/default/images/logo.png" alt="logo" />
+                            @if (string.IsNullOrEmpty(BBSEx.BbsConfigModel.Logo))
+                            {
+                                <span>@BBSEx.BbsConfigModel.ForumName</span>
+                            }
+                            else
+                            {
+                                <img src="@BBSEx.BbsConfigModel.Logo" alt="logo" />
+                            }
                         </a>
                     </div>
                     <div class="nav">
@@ -44,15 +51,17 @@
 
 
         <footer>
-            <div class="full_screen center">
+            <div class="full_screen">
                 <div class="line"></div>
-                <div>
-                    <div class="info">
-                        <a href="/">content</a>
-                        备案号：<a href="/"></a>号
-                    </div>
-                    <div class="desc">
-                        Powered by UWT.Libs.BBS
+                <div class="center">
+                    <div>
+                        <div class="info">
+                            <a href="/bbs">@BBSEx.BbsConfigModel.ForumName</a>
+                            备案号：<a href="/">@BBSEx.BbsConfigModel.BeianCode</a>号
+                        </div>
+                        <div class="desc">
+                            Powered by UWT.Libs.BBS
+                        </div>
                     </div>
                 </div>
             </div>
