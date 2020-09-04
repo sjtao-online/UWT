@@ -38,7 +38,7 @@ namespace UWT.Templates.Models.TagHelpers.Forms
         /// <param name="output"></param>
         public override async void Process(TagHelperContext context, TagHelperOutput output)
         {
-            output.TagName = "div";
+            output.TagName = UWT.Templates.Models.Consts.HtmlConst.DIV;
             output.Attributes.Add("class", "login layui-anim layui-anim-up");
             if (!string.IsNullOrEmpty(Title))
             {

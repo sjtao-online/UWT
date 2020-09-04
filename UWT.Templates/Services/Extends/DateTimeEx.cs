@@ -195,6 +195,39 @@ namespace UWT.Templates.Services.Extends
         {
             return dt.GetDateTimeOffsetFromSecond().ToString(DefaultDateTimeFormat);
         }
+
+        /// <summary>
+        /// 显示为最近时间
+        /// </summary>
+        /// <param name="datetime"></param>
+        /// <returns></returns>
+        public static string ToShowLatestText(this DateTime datetime)
+        {
+            var now = DateTime.Now;
+            string date = "";
+            var dt = now.Date - datetime.Date;
+            if (dt > TimeSpan.FromDays(2))
+            {
+                if (datetime.Year != now.Year)
+                {
+                    return datetime.ToString(DefaultDateTimeFormatDate);
+                }
+                if (now.Month != datetime.Month)
+                {
+                    return datetime.ToString("MM-dd");
+                }
+                return "本月" + datetime.ToString("dd");
+            }
+            else if (dt == TimeSpan.FromDays(2))
+            {
+                date = "前天 ";
+            }
+            else if (DateTime.Now.Date != datetime.Date)
+            {
+                date = "昨天 ";
+            }
+            return date + datetime.ToString("HH:mm");
+        }
         #endregion
     }
 }

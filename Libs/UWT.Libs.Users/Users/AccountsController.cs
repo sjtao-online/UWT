@@ -23,25 +23,13 @@ namespace UWT.Libs.Users.Users
     public class AccountsController : Controller
         , ITemplateController
     {
-        /// <summary>
-        /// 禁用本控制器<br/>
-        /// 用于要使用Users内的功能但不用默认登录界面与接口<br/>
-        /// 一般自定义界面或接口使用
-        /// </summary>
-        public static bool DisabledAccountsController { get; set; }
-        /// <summary>
-        /// 不检测检测的列表
-        /// </summary>
-        public static List<int> NoCheckAuthorizedRoleList { get; set; }
-        /// <summary>
-        /// 登录账号类型
-        /// </summary>
-        public static string LoginAcountType { get; set; } = "mgr";
-        /// <summary>
-        /// 默认支持
-        /// default,s,star
-        /// </summary>
-        public static string Theme { get; set; } = "default";
+        public static AccountConfig Config => new AccountConfig
+        {
+            LoginAccountType = "mgr",
+            ViewTheme = "default",
+            NoCheckAuthorizedRoleList = new List<int>(),
+            DisabledController = false
+        };
         /// <summary>
         /// 登录页面
         /// </summary>
@@ -49,7 +37,7 @@ namespace UWT.Libs.Users.Users
         /// <returns></returns>
         public virtual async Task<IActionResult> Login(string @ref = null)
         {
-            if (DisabledAccountsController)
+            if (Config.DisabledController)
             {
                 return NotFound();
             }
@@ -59,7 +47,7 @@ namespace UWT.Libs.Users.Users
                 return this.Redirect(string.IsNullOrEmpty(@ref) ? this.GetClaimValue(AuthConst.DefaultHomeUrl) : @ref);
             }
             ViewBag.Ref = @ref;
-            ViewBag.Theme = Theme;
+            ViewBag.Theme = Config.ViewTheme;
             return View();
         }
         /// <summary>
@@ -70,12 +58,12 @@ namespace UWT.Libs.Users.Users
         [HttpPost]
         public virtual object Login([FromBody]UserLoginModel loginModel)
         {
-            if (DisabledAccountsController)
+            if (Config.DisabledController)
             {
                 return NotFound();
             }
             this.ActionLog();
-            return DoLoginToContext(HttpContext, loginModel.Username, loginModel.Password, LoginAcountType);
+            return DoLoginToContext(HttpContext, loginModel.Username, loginModel.Password, Config.LoginAccountType);
         }
 
         /// <summary>

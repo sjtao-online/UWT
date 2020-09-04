@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using UWT.Templates.Models.Consts;
 using UWT.Templates.Models.Interfaces;
 using UWT.Templates.Models.Templates.Commons;
 using UWT.Templates.Services.Caches;
@@ -165,8 +166,8 @@ namespace UWT.Templates.Services.Extends
         public static ITemplateController AppendJS(this ITemplateController templateController, string jsPath, Dictionary<string, string> appendAttributes = null)
         {
             var map = new Dictionary<string, string>();
-            map.Add("src", jsPath);
-            map.Add("type", "text/javascript");
+            map.Add(HtmlConst.SRC, jsPath);
+            map.Add(HtmlConst.TYPE, HtmlConst.TYPE_JS);
             if (appendAttributes != null)
             {
                 foreach (var item in appendAttributes)
@@ -178,7 +179,7 @@ namespace UWT.Templates.Services.Extends
                     map.Add(item.Key, item.Value);
                 }
             }
-            AppendObjectToViewData(templateController, AppendJsList, "script", map);
+            AppendObjectToViewData(templateController, AppendJsList, HtmlConst.SCRIPT, map);
             return templateController;
         }
 
@@ -192,9 +193,9 @@ namespace UWT.Templates.Services.Extends
         public static ITemplateController AppendCSS(this ITemplateController templateController, string cssPath, Dictionary<string, string> appendAttributes = null)
         {
             var map = new Dictionary<string, string>();
-            map.Add("href", cssPath);
-            map.Add("rel", "stylesheet");
-            map.Add("type", "text/css");
+            map.Add(HtmlConst.HREF, cssPath);
+            map.Add(HtmlConst.REL, HtmlConst.STYLESHEET);
+            map.Add(HtmlConst.TYPE, HtmlConst.TYPE_CSS);
             if (appendAttributes != null)
             {
                 foreach (var item in appendAttributes)
@@ -206,7 +207,7 @@ namespace UWT.Templates.Services.Extends
                     map.Add(item.Key, item.Value);
                 }
             }
-            AppendObjectToViewData(templateController, AppendCssList, "link", map);
+            AppendObjectToViewData(templateController, AppendCssList, HtmlConst.LINK, map);
             return templateController;
         }
         internal const string AppendCssList = "__append_css_list__";

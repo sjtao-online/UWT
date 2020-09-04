@@ -56,8 +56,8 @@ namespace UWT.Libs.Users
                         Title = "首页",
                         Url = role.HomePageUrl
                     });
-                    if ((AccountsController.NoCheckAuthorizedRoleList == null && roleId == 0)
-                        || (AccountsController.NoCheckAuthorizedRoleList != null && AccountsController.NoCheckAuthorizedRoleList.Contains(roleId)))
+                    if ((AccountsController.Config.NoCheckAuthorizedRoleList == null && roleId == 0)
+                        || (AccountsController.Config.NoCheckAuthorizedRoleList != null && AccountsController.Config.NoCheckAuthorizedRoleList.Contains(roleId)))
                     {
                         var ms = from it in db.UwtGetTable<IDbModuleTable>() where it.Type == "page" select it.Url;
                         Dictionary<string, List<string>> maps = new Dictionary<string, List<string>>();

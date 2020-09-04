@@ -7,8 +7,74 @@
             Url = "/BBS/Area/1"
         }
     };
+    var topicList = new List<UWT.Libs.BBS.Areas.BBS.Models.TopicListItemModel>()
+    {
+        new UWT.Libs.BBS.Areas.BBS.Models.TopicListItemModel()
+        {
+            Title = "哈哈",
+            CommitCount = 10,
+            VisitorCount = 20,
+            CreateTime = new DateTime(1999, 10, 20),
+            UserInfo = new UWT.Templates.Models.Basics.IconNameIdModel()
+            {
+                Name = "123123",
+                Icon = "/admins/images/header.jpg"
+            },
+            LastCommitInfo = new UWT.Libs.BBS.Areas.BBS.Models.LastCommitInfo()
+            {
+                Name = "123123",
+                Time = DateTime.Now
+            },
+            TopLevel = 2
+        },
+        new UWT.Libs.BBS.Areas.BBS.Models.TopicListItemModel()
+        {
+            Title = "哈哈",
+            CommitCount = 10,
+            VisitorCount = 20,
+            CreateTime = new DateTime(1999, 10, 20),
+            UserInfo = new UWT.Templates.Models.Basics.IconNameIdModel()
+            {
+                Name = "123123",
+                Icon = "/admins/images/header.jpg"
+            },
+            LastCommitInfo = new UWT.Libs.BBS.Areas.BBS.Models.LastCommitInfo()
+            {
+                Name = "123123",
+                Time = DateTime.Now
+            },
+            IsHot = true
+        },
+        new UWT.Libs.BBS.Areas.BBS.Models.TopicListItemModel()
+        {
+            Title = "哈哈",
+            CommitCount = 10,
+            VisitorCount = 20,
+            CreateTime = new DateTime(1999, 10, 20),
+            UserInfo = new UWT.Templates.Models.Basics.IconNameIdModel()
+            {
+                Name = "123123",
+                Icon = "/admins/images/header.jpg"
+            }
+        }
+    };
 }
 <div class="full_screen main_wrap">
     <crumb crumb-list="list"></crumb>
-    <area-group area-info="ViewBag.AreaInfo" show-category="List"></area-group>
+    <area-group area-info="ViewBag.AreaInfo" show-category="List" hide-me="true"></area-group>
+    <div>
+        
+        @{ 
+            UWT.Libs.BBS.Areas.BBS.Models.TopicListItemModel last = null;
+            foreach (var item in topicList)
+            {
+                if (last != null && last.TopLevel != 0 && item.TopLevel == 0)
+                {
+                    <div class="normal-topic-block-line"></div>
+                }
+                last = item;
+                @Html.Partial("_PartialTopicListItem", item)
+            }
+       }
+    </div>
 </div>

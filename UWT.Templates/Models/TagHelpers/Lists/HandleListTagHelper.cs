@@ -22,7 +22,7 @@ namespace UWT.Templates.Models.TagHelpers.Lists
         public List<HandleModel> Model { get; set; }
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            output.TagName = "div";
+            output.TagName = UWT.Templates.Models.Consts.HtmlConst.DIV;
             output.Attributes.Add("class", "layui-card-body uwt-handle-list");
             output.Content.SetHtmlContent(RenderRazorView("/Views/TagHelpers/Lists/HandleList.cshtml", Model));
         }

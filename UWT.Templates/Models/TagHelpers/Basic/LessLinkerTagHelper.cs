@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.Runtime.TagHelpers;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.Extensions.Hosting;
+using UWT.Templates.Models.Consts;
 using UWT.Templates.Services.Caches;
 using UWT.Templates.Services.Extends;
 using UWT.Templates.Services.StartupEx;
@@ -54,7 +55,7 @@ namespace UWT.Templates.Models.TagHelpers.Basic
         }
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            output.TagName = "link";
+            output.TagName = HtmlConst.LINK;
             if (IsServerMode.HasValue ? (bool)IsServerMode : (ServiceCollectionEx.LessServerMode??false))
             {
                 if (IsDev || !Complied.Contains(Href))
@@ -103,9 +104,9 @@ namespace UWT.Templates.Models.TagHelpers.Basic
                         Complied.Add(Href);
                     }
                 }
-                output.Attributes.Add("href", Href + ExtCss);
-                output.Attributes.Add("rel", "stylesheet");
-                output.Attributes.Add("type", "text/css");
+                output.Attributes.Add(HtmlConst.HREF, Href + ExtCss);
+                output.Attributes.Add(HtmlConst.REL, HtmlConst.STYLESHEET);
+                output.Attributes.Add(HtmlConst.TYPE, HtmlConst.TYPE_CSS);
             }
             else
             {
@@ -145,8 +146,8 @@ namespace UWT.Templates.Models.TagHelpers.Basic
 
         private void RenderClientMode(TagHelperOutput output)
         {
-            output.Attributes.Add("href", Href);
-            output.Attributes.Add("rel", "stylesheet/less");
+            output.Attributes.Add(HtmlConst.HREF, Href);
+            output.Attributes.Add(HtmlConst.REL, HtmlConst.STYLESHEET_LESS);
         }
     }
 }

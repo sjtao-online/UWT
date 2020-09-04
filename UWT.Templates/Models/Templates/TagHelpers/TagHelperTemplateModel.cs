@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using UWT.Templates.Models.Consts;
 
 namespace UWT.Templates.Models.Templates.TagHelpers
 {
@@ -56,21 +57,21 @@ namespace UWT.Templates.Models.Templates.TagHelpers
             HtmlContentBuilder list = new HtmlContentBuilder();
             foreach (var item in AddJsList)
             {
-                if (item.ContainsKey(""))
+                if (item.ContainsKey(string.Empty))
                 {
-                    item.Add("src", item[""]);
-                    item.Remove("");
+                    item.Add(HtmlConst.SRC, item[string.Empty]);
+                    item.Remove(string.Empty);
                 }
-                if (!item.ContainsKey("src"))
+                if (!item.ContainsKey(HtmlConst.SRC))
                 {
                     continue;
                 }
-                if (!item.ContainsKey("type"))
+                if (!item.ContainsKey(HtmlConst.TYPE))
                 {
-                    item.Add("type", "text/javascript");
+                    item.Add(HtmlConst.TYPE, HtmlConst.TYPE_JS);
                 }
                 System.Text.StringBuilder sb = new System.Text.StringBuilder();
-                TagBuilder builder = new TagBuilder("script");
+                TagBuilder builder = new TagBuilder(HtmlConst.SCRIPT);
                 foreach (var attr in item)
                 {
                     builder.Attributes.Add(attr.Key, attr.Value);
@@ -88,21 +89,21 @@ namespace UWT.Templates.Models.Templates.TagHelpers
             HtmlContentBuilder list = new HtmlContentBuilder();
             foreach (var item in AddCssList)
             {
-                if (item.ContainsKey(""))
+                if (item.ContainsKey(string.Empty))
                 {
-                    item.Add("href", item[""]);
-                    item.Remove("");
+                    item.Add(HtmlConst.HREF, item[string.Empty]);
+                    item.Remove(string.Empty);
                 }
-                if (!item.ContainsKey("href"))
+                if (!item.ContainsKey(HtmlConst.HREF))
                 {
                     continue;
                 }
-                if (!item.ContainsKey("rel"))
+                if (!item.ContainsKey(HtmlConst.REL))
                 {
-                    item.Add("rel", "stylesheet");
+                    item.Add(HtmlConst.REL, HtmlConst.STYLESHEET);
                 }
                 System.Text.StringBuilder sb = new System.Text.StringBuilder();
-                TagBuilder builder = new TagBuilder("link");
+                TagBuilder builder = new TagBuilder(HtmlConst.LINK);
                 foreach (var attr in item)
                 {
                     builder.Attributes.Add(attr.Key, attr.Value);

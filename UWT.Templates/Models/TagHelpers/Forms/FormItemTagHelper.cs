@@ -21,7 +21,7 @@ namespace UWT.Templates.Models.TagHelpers.Forms
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            output.TagName = "div";
+            output.TagName = UWT.Templates.Models.Consts.HtmlConst.DIV;
             string className = "";
             if (TargetTemplate.IsInline)
             {

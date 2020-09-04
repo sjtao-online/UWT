@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+using UWT.Templates.Models.Consts;
 using UWT.Templates.Models.Interfaces;
 using UWT.Templates.Models.Templates.Layouts;
 using UWT.Templates.Services.StartupEx;
@@ -107,9 +108,9 @@ namespace UWT.Templates.Services.Extends
                 {
                     skinCssFileName = layout.Skin;
                 }
-                var tag = new TagBuilder("link");
-                tag.Attributes.Add("rel", "stylesheet");
-                tag.Attributes.Add("href", skinCssFileName);
+                var tag = new TagBuilder(HtmlConst.LINK);
+                tag.Attributes.Add(HtmlConst.REL, HtmlConst.STYLESHEET);
+                tag.Attributes.Add(HtmlConst.HREF, skinCssFileName);
                 return tag;
             }
             return new StringHtmlContent("");

@@ -35,7 +35,7 @@ namespace UWT.Templates.Models.TagHelpers.Details
         /// <param name="output"></param>
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            output.TagName = "div";
+            output.TagName = UWT.Templates.Models.Consts.HtmlConst.DIV;
             output.Attributes.Add("class", "layui-form");
             output.Content.SetHtmlContent(this.RenderRazorView("/Views/TagHelpers/Details/DetailItem.cshtml", new Basic.ItemTagHelperModelT<Interfaces.IDetailItemModel>()
             {

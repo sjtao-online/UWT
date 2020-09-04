@@ -37,8 +37,8 @@ namespace UWT.Libs.Users
             {
                 //  处理特殊角色 可以使用任何权限
                 //  如果有设置使用设置权限，如果没有设置0为特殊权限
-                if ((AccountsController.NoCheckAuthorizedRoleList == null && roleIdInt == 0)
-                    || AccountsController.NoCheckAuthorizedRoleList != null && AccountsController.NoCheckAuthorizedRoleList.Contains(roleIdInt))
+                if ((AccountsController.Config.NoCheckAuthorizedRoleList == null && roleIdInt == 0)
+                    || AccountsController.Config.NoCheckAuthorizedRoleList != null && AccountsController.Config.NoCheckAuthorizedRoleList.Contains(roleIdInt))
                 {
                     return true;
                 }

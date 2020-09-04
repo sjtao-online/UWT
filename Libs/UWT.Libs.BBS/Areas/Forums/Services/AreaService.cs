@@ -91,7 +91,7 @@ namespace UWT.Libs.BBS.Areas.Forums.Services
                                         UserName = u.Nickname,
                                         CommentTime = it.AddTime,
                                         UserId = it.CreateUserId
-                                    }).First();
+                                    }).FirstOrDefault();
             }
             return children;
         }

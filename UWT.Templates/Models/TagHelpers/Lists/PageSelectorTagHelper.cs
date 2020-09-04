@@ -23,7 +23,7 @@ namespace UWT.Templates.Models.TagHelpers.Lists
         {
             if (Model.ItemTotal == 0)
             {
-                output.TagName = "div";
+                output.TagName = UWT.Templates.Models.Consts.HtmlConst.DIV;
                 if (EmptyListMap != null && EmptyListMap.ContainsKey("t"))
                 {
                     switch (EmptyListMap["t"])
@@ -47,7 +47,7 @@ namespace UWT.Templates.Models.TagHelpers.Lists
             }
             else
             {
-                output.TagName = "div";
+                output.TagName = UWT.Templates.Models.Consts.HtmlConst.DIV;
                 output.Attributes.Add("class", "layui-card-body uwt-page-selector");
                 output.Content.SetHtmlContent(this.RenderRazorView("/Views/TagHelpers/Lists/PageSelector.cshtml", Model));
             }

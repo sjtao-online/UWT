@@ -108,7 +108,7 @@ namespace UWT.Libs.Normals.Versions
         [FormItems.Text(MaxLength = 20)]
         public string Name { get; set; }
         [FormItem("版本号", IsRequire = true)]
-        [FormItems.Text(Regex = Templates.Models.Consts.RegexConst.Version2)]
+        [FormItems.Text(Regex = RegexConst.Version2)]
         public string Version { get; set; }
         [FormItem("版本号", FormItemType.Integer)]
         [FormItems.Integer]

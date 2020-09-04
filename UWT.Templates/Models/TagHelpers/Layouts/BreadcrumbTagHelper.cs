@@ -33,7 +33,7 @@ namespace UWT.Templates.Models.TagHelpers.Layouts
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            output.TagName = "div";
+            output.TagName = UWT.Templates.Models.Consts.HtmlConst.DIV;
             output.Attributes.Add("class", "x-nav breadcrumb");
             output.Content.SetHtmlContent(this.RenderRazorView("/Views/TagHelpers/Layouts/Breadcrumb.cshtml", new BreadcrumbModel()
             { 

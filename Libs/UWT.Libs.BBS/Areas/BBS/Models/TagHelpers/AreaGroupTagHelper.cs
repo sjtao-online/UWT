@@ -26,6 +26,10 @@ namespace UWT.Libs.BBS.Areas.BBS.Models.TagHelpers
         /// </summary>
         public SubAreaListShowCate ShowCategory { get; set; }
         /// <summary>
+        /// 隐藏自身
+        /// </summary>
+        public bool HideMe { get; set; }
+        /// <summary>
         /// 最后回复URL格式
         /// </summary>
         public string LastCommentUrlFormat { get; set; } = "/BBS/Topic/{1}?comment={0}";
@@ -35,17 +39,30 @@ namespace UWT.Libs.BBS.Areas.BBS.Models.TagHelpers
         public string AreaUrlFormat { get; set; } = "/BBS/Area/{0}";
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            //  主体
             output.TagName = "div";
+            if (AreaInfo.Children == null || AreaInfo.Children.Count == 0)
+            {
+                return;
+            }
+            //  主体
             output.AddClass("area-group", HtmlEncoder.Default);
             var title = new TagBuilder("div");
             title.AddCssClass("title");
 
             #region 标题
-            var titleA = new TagBuilder("A");
-            titleA.InnerHtml.Append(AreaInfo.Title);
-            titleA.Attributes.Add("href", string.Format(AreaUrlFormat, AreaInfo.Id));
-            title.InnerHtml.AppendHtml(titleA);
+            if (HideMe)
+            {
+                var titleL = new TagBuilder("label");
+                titleL.InnerHtml.Append("子版块");
+                title.InnerHtml.AppendHtml(titleL);
+            }
+            else
+            {
+                var titleA = new TagBuilder("A");
+                titleA.InnerHtml.Append(AreaInfo.Title);
+                titleA.Attributes.Add("href", string.Format(AreaUrlFormat, AreaInfo.Id));
+                title.InnerHtml.AppendHtml(titleA);
+            }
             #endregion
             output.Content.AppendHtml(title);
 

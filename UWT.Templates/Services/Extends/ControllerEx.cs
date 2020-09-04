@@ -40,11 +40,11 @@ namespace UWT.Templates.Services.Extends
                     sb.Append("&");
                 }
                 sb = sb.Remove(sb.Length - 1, 1);
-                controller.GetLogger().Log(Microsoft.Extensions.Logging.LogLevel.Information, $"call {controller.Request.Method}: {controller.Request.Path} ? {sb}");
+                controller.GetLogger().Log(LogLevel.Information, $"call {controller.Request.Method}: {controller.Request.Path} ? {sb}");
             }
             else
             {
-                controller.GetLogger().Log(Microsoft.Extensions.Logging.LogLevel.Information, $"call {controller.Request.Method}: {controller.Request.Path} ? []");
+                controller.GetLogger().Log(LogLevel.Information, $"call {controller.Request.Method}: {controller.Request.Path} ? []");
             }
         }
         /// <summary>
@@ -70,7 +70,7 @@ namespace UWT.Templates.Services.Extends
         /// <returns></returns>
         public static object Success([System.Diagnostics.CodeAnalysis.AllowNull] this ControllerBase controller)
         {
-            return ServiceCollectionEx.ApiResultBuildFunc("成功", (int)UWT.Templates.Models.Basics.ErrorCode.Success);
+            return ServiceCollectionEx.ApiResultBuildFunc("成功", (int)Models.Basics.ErrorCode.Success);
         }
         /// <summary>
         /// 有数据的成功返回
@@ -81,7 +81,7 @@ namespace UWT.Templates.Services.Extends
         /// <returns></returns>
         public static object Success<TData>([System.Diagnostics.CodeAnalysis.AllowNull] this ControllerBase controller, TData data)
         {
-            return ServiceCollectionEx.ApiResultBuildFuncT("成功", (int)UWT.Templates.Models.Basics.ErrorCode.Success, data);
+            return ServiceCollectionEx.ApiResultBuildFuncT("成功", (int)Models.Basics.ErrorCode.Success, data);
         }
         /// <summary>
         /// 未定义异常
@@ -91,7 +91,7 @@ namespace UWT.Templates.Services.Extends
         /// <returns></returns>
         public static object Error([System.Diagnostics.CodeAnalysis.AllowNull] this ControllerBase controller, string ErrorMsg)
         {
-            return ServiceCollectionEx.ApiResultBuildFunc(ErrorMsg, (int)UWT.Templates.Models.Basics.ErrorCode.UnkownError_SeeMsg);
+            return ServiceCollectionEx.ApiResultBuildFunc(ErrorMsg, (int)Models.Basics.ErrorCode.UnkownError_SeeMsg);
         }
         /// <summary>
         /// 常规错误
@@ -100,7 +100,7 @@ namespace UWT.Templates.Services.Extends
         /// <param name="code"></param>
         /// <param name="msg"></param>
         /// <returns></returns>
-        public static object Error([System.Diagnostics.CodeAnalysis.AllowNull] this ControllerBase controller, UWT.Templates.Models.Basics.ErrorCode code, string msg = null)
+        public static object Error([System.Diagnostics.CodeAnalysis.AllowNull] this ControllerBase controller, Models.Basics.ErrorCode code, string msg = null)
         {
             int c = (int)code;
             return ServiceCollectionEx.ApiResultBuildFunc(ModelCache.GetErrorMsgFromCode(c, msg), c);
@@ -113,7 +113,7 @@ namespace UWT.Templates.Services.Extends
         /// <param name="code"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static object Error<TData>([System.Diagnostics.CodeAnalysis.AllowNull] this ControllerBase controller, UWT.Templates.Models.Basics.ErrorCode code, TData data)
+        public static object Error<TData>([System.Diagnostics.CodeAnalysis.AllowNull] this ControllerBase controller, Models.Basics.ErrorCode code, TData data)
         {
             int c = (int)code;
             return ServiceCollectionEx.ApiResultBuildFuncT(ModelCache.GetErrorMsgFromCode(c), c, data);

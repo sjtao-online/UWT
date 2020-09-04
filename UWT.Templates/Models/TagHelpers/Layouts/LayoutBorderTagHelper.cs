@@ -15,15 +15,15 @@ namespace UWT.Templates.Models.TagHelpers.Layouts
     {
         public override async void Process(TagHelperContext context, TagHelperOutput output)
         {
-            output.TagName = "div";
+            output.TagName = UWT.Templates.Models.Consts.HtmlConst.DIV;
             output.Attributes.Add("class", "layui-row layui-col-space15");
             var content = await output.GetChildContentAsync();
             var newContent = new DefaultTagHelperContent();
             newContent.SetHtmlContent(content.GetContent());
-            TagBuilder card = new TagBuilder("div");
+            TagBuilder card = new TagBuilder(UWT.Templates.Models.Consts.HtmlConst.DIV);
             card.AddCssClass("layui-card");
             card.InnerHtml.AppendHtml(newContent);
-            TagBuilder col12 = new TagBuilder("div");
+            TagBuilder col12 = new TagBuilder(UWT.Templates.Models.Consts.HtmlConst.DIV);
             col12.AddCssClass("layui-col-md12");
             col12.InnerHtml.AppendHtml(card);
             output.Content.SetHtmlContent(col12);

@@ -53,7 +53,7 @@
                     }
                     var loadindex = layui.layer.load(2);
                     api("/Accounts/Login", data.field, function (rx) {
-                        @if (ViewBag.Ref == null)
+                        @if (string.IsNullOrEmpty((string)ViewBag.Ref))
                         {
                             @: location.href = rx.data;
                         }
