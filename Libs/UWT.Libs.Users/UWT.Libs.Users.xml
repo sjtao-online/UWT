@@ -318,26 +318,33 @@
             <param name="defaultLayoutCallback">构造布局对象</param>
             <returns></returns>
         </member>
-        <member name="T:UWT.Libs.Users.Users.AccountsController">
-            <summary>
-            账号控制器
-            </summary>
-        </member>
-        <member name="P:UWT.Libs.Users.Users.AccountsController.DisabledAccountsController">
+        <member name="P:UWT.Libs.Users.Users.AccountConfig.DisabledController">
             <summary>
             禁用本控制器<br/>
             用于要使用Users内的功能但不用默认登录界面与接口<br/>
             一般自定义界面或接口使用
             </summary>
         </member>
-        <member name="P:UWT.Libs.Users.Users.AccountsController.NoCheckAuthorizedRoleList">
+        <member name="P:UWT.Libs.Users.Users.AccountConfig.NoCheckAuthorizedRoleList">
             <summary>
             不检测检测的列表
             </summary>
         </member>
-        <member name="P:UWT.Libs.Users.Users.AccountsController.LoginAcountType">
+        <member name="P:UWT.Libs.Users.Users.AccountConfig.LoginAccountType">
             <summary>
             登录账号类型
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Users.Users.AccountConfig.ViewTheme">
+            <summary>
+            登录界面样式
+            默认支持<br/>
+            default,s,star
+            </summary>
+        </member>
+        <member name="T:UWT.Libs.Users.Users.AccountsController">
+            <summary>
+            账号控制器
             </summary>
         </member>
         <member name="M:UWT.Libs.Users.Users.AccountsController.Login(System.String)">

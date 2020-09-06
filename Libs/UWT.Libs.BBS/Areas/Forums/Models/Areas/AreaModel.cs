@@ -12,13 +12,6 @@ namespace UWT.Libs.BBS.Areas.Forums.Models.Areas
         /// </summary>
         public string Summary { get; set; }
         public List<SubAreaInfoModel> Children { get; set; }
-    }
-    public class SubAreaInfoModel : IconTitleIdModel
-    {
-        /// <summary>
-        /// 版块摘要
-        /// </summary>
-        public string Summary { get; set; }
         /// <summary>
         /// 主题数
         /// </summary>
@@ -27,6 +20,9 @@ namespace UWT.Libs.BBS.Areas.Forums.Models.Areas
         /// 总帧数
         /// </summary>
         public int CommentCount { get; set; }
+    }
+    public class SubAreaInfoModel : AreaModel
+    {
         /// <summary>
         /// 最后回复
         /// </summary>

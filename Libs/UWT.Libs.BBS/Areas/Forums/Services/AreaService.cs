@@ -55,6 +55,12 @@ namespace UWT.Libs.BBS.Areas.Forums.Services
                 if (qinfo.Count() != 0)
                 {
                     var info = qinfo.First();
+                    info.TopicCount = (from it in db.TableAreaTopicRef() where it.AId == areaId select 1).Count();
+                    info.CommentCount = (from it in db.TableTopicBack()
+                                         join a in db.TableAreaTopicRef() on it.TId equals a.TId
+                                         where a.AId == areaId
+                                         group it by it.TId into x
+                                         select 1).Count();
                     info.Children = FillChildren(db, areaId);
                     return info;
                 }

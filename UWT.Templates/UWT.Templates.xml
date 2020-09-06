@@ -3091,6 +3091,12 @@
             样式
             </summary>
         </member>
+        <member name="P:UWT.Templates.Models.TagHelpers.Basic.LessLinkerTagHelper.IsServerMode">
+            <summary>
+            是否服务器模式<br/>
+            不设置
+            </summary>
+        </member>
         <member name="T:UWT.Templates.Models.TagHelpers.Basic.UwtTagHelper">
             <summary>
             UWTTagHelper所有基类
@@ -4579,6 +4585,13 @@
             <param name="dt"></param>
             <returns></returns>
         </member>
+        <member name="M:UWT.Templates.Services.Extends.DateTimeEx.ToShowLatestText(System.DateTime)">
+            <summary>
+            显示为最近时间
+            </summary>
+            <param name="datetime"></param>
+            <returns></returns>
+        </member>
         <member name="T:UWT.Templates.Services.Extends.DetailPageEx">
             <summary>
             详情扩展
@@ -5064,6 +5077,35 @@
             <param name="this"></param>
             <returns></returns>
         </member>
+        <member name="M:UWT.Templates.Services.Extends.PageSelectorEx.GetPageCount(UWT.Templates.Models.Interfaces.IPageSelectorModel)">
+            <summary>
+            获得总页数
+            </summary>
+            <param name="page"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UWT.Templates.Services.Extends.PageSelectorEx.IsFirstPage(UWT.Templates.Models.Interfaces.IPageSelectorModel)">
+            <summary>
+            是否首页
+            </summary>
+            <param name="page"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UWT.Templates.Services.Extends.PageSelectorEx.IsLastPage(UWT.Templates.Models.Interfaces.IPageSelectorModel)">
+            <summary>
+            是否尾页
+            </summary>
+            <param name="page"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UWT.Templates.Services.Extends.PageSelectorEx.GetRenderRange(UWT.Templates.Models.Interfaces.IPageSelectorModel,System.Int32)">
+            <summary>
+            获得可显示页码区间
+            </summary>
+            <param name="page"></param>
+            <param name="maxPages">最大显示多少个按钮</param>
+            <returns></returns>
+        </member>
         <member name="T:UWT.Templates.Services.Extends.RazorPageEx">
             <summary>
             页面扩展
@@ -5418,6 +5460,14 @@
             <summary>
             ServiceCollection扩展方法
             </summary>
+        </member>
+        <member name="M:UWT.Templates.Services.StartupEx.ServiceCollectionEx.AddLess(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Boolean)">
+            <summary>
+            添加Less支持
+            </summary>
+            <param name="service">服务</param>
+            <param name="isServerMode">是否为服务模式</param>
+            <returns></returns>
         </member>
         <member name="M:UWT.Templates.Services.StartupEx.ServiceCollectionEx.AddConstDictionary(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Collections.Generic.Dictionary{System.String,System.String},System.String)">
             <summary>

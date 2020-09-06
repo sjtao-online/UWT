@@ -30,9 +30,9 @@
         </div>
     </div>
     <div class="visit">
-        <div>@Model.VisitorCount</div>
+        <div>@(Model.VisitorCount >= 1000?"999+":Model.VisitorCount.ToString())</div>
     </div>
     <div class="commit">
-        <div>@Model.CommitCount</div>
+        <div>@(Model.CommitCount >= 1000?"999+":Model.CommitCount.ToString())</div>
     </div>
 </div>

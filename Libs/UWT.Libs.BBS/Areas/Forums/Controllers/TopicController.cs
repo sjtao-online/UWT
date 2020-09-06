@@ -37,10 +37,11 @@ namespace UWT.Libs.BBS.Areas.Forums.Controllers
         /// </summary>
         /// <param name="areaId"></param>
         /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
         /// <returns></returns>
         public object TopicList(int areaId, int pageIndex, int pageSize)
         {
-            return new TopicService().List(areaId, pageIndex, pageSize);
+            return new TopicService().List(areaId, false, pageIndex, pageSize);
         }
     }
 }

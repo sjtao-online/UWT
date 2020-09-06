@@ -85,7 +85,7 @@ namespace UWT.Libs.BBS
             });
             var configJson = Path.Combine(
 #if DEBUG
-                @"E:\Work\UWT\UWTX\UWT.Server\bin\Debug\netcoreapp3.1"
+                @"E:\Work\UWT\UWT.Server\bin\Debug\netcoreapp3.1"
 #else
                 app.GetCurrentWebHost().ContentRootPath
 #endif

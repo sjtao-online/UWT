@@ -99,7 +99,7 @@ namespace UWT.Libs.BBS.Areas.Forums.Services
 
         }
 
-        public object List(int areaId, int pageIndex, int pageSize)
+        public object List(int areaId, bool isPostdate, int pageIndex, int pageSize)
         {
             using (var db = TemplateControllerEx.GetDB(null))
             {

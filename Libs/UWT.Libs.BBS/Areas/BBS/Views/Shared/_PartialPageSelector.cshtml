@@ -1,0 +1,38 @@
+﻿@model UWT.Templates.Models.Interfaces.IPageSelectorModel
+@using UWT.Templates.Services.Extends
+@{
+    string urlFormat = Model.UrlBase + "pageSize=" + Model.PageSize + "&pageIndex=";
+    bool isFirstPage = Model.IsFirstPage();
+    int pageCount = Model.GetPageCount();
+    bool isLastPage = Model.IsLastPage();
+    UWT.Templates.Models.Interfaces.Range<int> range = Model.GetRenderRange();
+}
+
+<div class="page-selector" data-href-base="@urlFormat">
+    @if (isFirstPage)
+    {
+        <button class="unhandle">首页</button>
+        <button class="unhandle">上页</button>
+    }
+    else
+    {
+        <button data-pi="0">首页</button>
+        <button data-pi="@(Model.PageIndex - 1)">上页</button>
+    }
+
+    @for (int i = range.Min; i < range.Max; i++)
+    {
+        <button data-pi="@i" @(Model.PageIndex == i ? "class=current" : "")>@(i+1)</button>
+    }
+
+    @if (isLastPage)
+    {
+        <button class="unhandle">下页</button>
+        <button class="unhandle">尾页</button>
+    }
+    else
+    {
+        <button data-pi="@(Model.PageIndex + 1)">下页</button>
+        <button data-pi="@(Model.PageSize - 1)">尾页</button>
+    }
+</div>

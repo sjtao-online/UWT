@@ -49,7 +49,7 @@
         {
             Title = "哈哈",
             CommitCount = 10,
-            VisitorCount = 20,
+            VisitorCount = 1000,
             CreateTime = new DateTime(1999, 10, 20),
             UserInfo = new UWT.Templates.Models.Basics.IconNameIdModel()
             {
@@ -58,23 +58,48 @@
             }
         }
     };
+    var areaInfo = ViewBag.AreaInfo as UWT.Libs.BBS.Areas.Forums.Models.Areas.AreaModel;
+    bool isPostdate = ViewBag.IsPostDate;
 }
 <div class="full_screen main_wrap">
     <crumb crumb-list="list"></crumb>
-    <area-group area-info="ViewBag.AreaInfo" show-category="List" hide-me="true"></area-group>
-    <div>
-        
-        @{ 
-            UWT.Libs.BBS.Areas.BBS.Models.TopicListItemModel last = null;
-            foreach (var item in topicList)
-            {
-                if (last != null && last.TopLevel != 0 && item.TopLevel == 0)
+    <div class="bbs-border">
+        <div class="forum-info">
+            <div class="name">
+                @areaInfo.Title
+            </div>
+            <div class="num">
+                <div class="comment">@areaInfo.CommentCount</div>
+                <div class="topic">@areaInfo.TopicCount</div>
+            </div>
+        </div>
+
+        <area-group area-info="areaInfo" show-category="List" hide-me="true"></area-group>
+
+        <div class="content-nav">
+            <div class="filter">
+                <a href="/BBS/Area/@areaInfo.Id" class=""></a>
+            </div>
+            <div class="order">
+                <a href="/BBS/Area/@areaInfo.Id?order=postdate" class="postdate @(isPostdate?"current":"")"></a><a href="/BBS/Area/@areaInfo.Id" class="comment @(isPostdate?"":"current")"></a>
+            </div>
+        </div>
+        <div class="topic-list-border">
+            @{
+                UWT.Libs.BBS.Areas.BBS.Models.TopicListItemModel last = null;
+                foreach (var item in topicList)
                 {
-                    <div class="normal-topic-block-line"></div>
+                    if (last != null && last.TopLevel != 0 && item.TopLevel == 0)
+                    {
+                        <div class="normal-topic-block-line"></div>
+                    }
+                    last = item;
+                    @Html.Partial("_PartialTopicListItem", item)
                 }
-                last = item;
-                @Html.Partial("_PartialTopicListItem", item)
             }
-       }
+
+            @Html.Partial("_PartialPageSelector", (UWT.Templates.Models.Interfaces.IPageSelectorModel)ViewBag.PageSelector)
+        </div>
     </div>
+    <button class="post-btn">发贴</button>
 </div>
