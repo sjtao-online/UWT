@@ -586,3 +586,35 @@ footer {
     right: 40px;
     bottom: 60px;
 }
+
+
+/*主题页面相关*/
+.topic {
+    display: flex;
+
+    .user {
+        width: 160px;
+
+        > div {
+            margin: 20px;
+
+            .avatar {
+                img {
+                    -moz-border-radius: 50%;
+                    -webkit-border-radius: 50%;
+                    border-radius: 50%;
+                    width: 120px;
+                    height: 120px;
+                }
+            }
+
+            ul.properties {
+                > li {
+                    &:before{
+                        width: 80px;
+                    }
+                }
+            }
+        }
+    }
+}

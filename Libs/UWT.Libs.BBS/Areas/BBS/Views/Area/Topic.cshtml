@@ -1,2 +1,93 @@
-﻿@{
+﻿@using UWT.Templates.Services.Extends
+@{
+    List<UWT.Libs.BBS.Areas.BBS.Models.TopicItemModel> topicList = ViewBag.TopicList;
+    Dictionary<int, UWT.Libs.BBS.Areas.BBS.Models.UserInfoModel> userMap = ViewBag.UserInfoMap;
+    topicList = new List<UWT.Libs.BBS.Areas.BBS.Models.TopicItemModel>()
+    {
+        new UWT.Libs.BBS.Areas.BBS.Models.TopicItemModel()
+        {
+            PostTime = DateTime.Now,
+            Id = 10,
+            UserId = 10,
+            FlowIndex = 0,
+            Content = "<div>名</div>"
+        }
+    };
+    userMap = new Dictionary<int, UWT.Libs.BBS.Areas.BBS.Models.UserInfoModel>()
+    {
+        [10] = new UWT.Libs.BBS.Areas.BBS.Models.UserInfoModel()
+        {
+            FansCnt = 10,
+            Name = "123",
+            RoleName = "会员",
+            FollowCnt = 10,
+            Icon = "/admins/images/header.jpg"
+        }
+    };
+}
+
+
+
+@foreach (var item in topicList)
+{
+    var userinfo = userMap[item.UserId];
+    <div class="topic topic-@item.Id">
+        <div class="user">
+            <div>
+                <div class="avatar">
+                    <img src="@userinfo.Icon"/>
+                </div>
+                <div class="username">
+                    @userinfo.Name
+                </div>
+                <div class="role">
+                    @userinfo.RoleName
+                </div>
+                <ul class="properties">
+                    <li class="uid">
+                        @userinfo.Id
+                    </li>
+                    <li class="fans">
+                        @userinfo.FansCnt
+                    </li>
+                    <li class="follow">
+                        @userinfo.FollowCnt
+                    </li>
+                    <li class="cnt">
+                        @userinfo.TopicCnt
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="content">
+            @if (item.FlowIndex == 0)
+            {
+                <div class="title">
+                    <div class="post">
+                        <div class="readed">
+
+                        </div>
+                        <div class="back">
+
+                        </div>
+                    </div>
+                    <h1>@ViewBag.Title</h1>
+                </div>
+            }
+            <div class="info">
+                <div class="post-time" title="@item.PostTime.ToShowText()">
+                    @item.PostTime.ToShowLatestText()
+                </div>
+                <div class="flow flow-@item.FlowIndex">
+                    @if (item.FlowIndex > 3)
+                    {
+                        <span>@item.FlowIndex</span>
+                    }
+                </div>
+            </div>
+            <div class="show">
+                @Html.Raw(item.Content)
+            </div>
+        </div>
+    </div>
 }
