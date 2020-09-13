@@ -24,70 +24,80 @@
             Icon = "/admins/images/header.jpg"
         }
     };
+    UWT.Libs.BBS.Areas.BBS.Models.TopicInfoModel topic = new UWT.Libs.BBS.Areas.BBS.Models.TopicInfoModel()
+    {
+        Title = "这里是标题",
+        CommitCount = 20,
+        VisitorCount = 19,
+        TopLevel = 0,
+        IsHot = true
+    };
+    ViewBag.Title = topic.Title;
 }
 
 
-
-@foreach (var item in topicList)
-{
-    var userinfo = userMap[item.UserId];
-    <div class="topic topic-@item.Id">
-        <div class="user">
-            <div>
-                <div class="avatar">
-                    <img src="@userinfo.Icon"/>
-                </div>
-                <div class="username">
-                    @userinfo.Name
-                </div>
-                <div class="role">
-                    @userinfo.RoleName
-                </div>
-                <ul class="properties">
-                    <li class="uid">
-                        @userinfo.Id
-                    </li>
-                    <li class="fans">
-                        @userinfo.FansCnt
-                    </li>
-                    <li class="follow">
-                        @userinfo.FollowCnt
-                    </li>
-                    <li class="cnt">
-                        @userinfo.TopicCnt
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="content">
-            @if (item.FlowIndex == 0)
-            {
-                <div class="title">
-                    <div class="post">
-                        <div class="readed">
-
+<div class="full_screen">
+    @foreach (var item in topicList)
+    {
+        var userinfo = userMap[item.UserId];
+        <div class="topic topic-@item.Id">
+            <div class="user">
+                <div>
+                    <div class="avatar">
+                        <img src="@userinfo.Icon" />
+                    </div>
+                    <div class="username">
+                        @userinfo.Name
+                    </div>
+                    <div class="role">
+                        @userinfo.RoleName
+                    </div>
+                    <div class="properties">
+                        <div class="uid">
+                            @userinfo.Id
                         </div>
-                        <div class="back">
-
+                        <div class="fans">
+                            @userinfo.FansCnt
+                        </div>
+                        <div class="follow">
+                            @userinfo.FollowCnt
+                        </div>
+                        <div class="cnt">
+                            @userinfo.TopicCnt
                         </div>
                     </div>
-                    <h1>@ViewBag.Title</h1>
-                </div>
-            }
-            <div class="info">
-                <div class="post-time" title="@item.PostTime.ToShowText()">
-                    @item.PostTime.ToShowLatestText()
-                </div>
-                <div class="flow flow-@item.FlowIndex">
-                    @if (item.FlowIndex > 3)
-                    {
-                        <span>@item.FlowIndex</span>
-                    }
                 </div>
             </div>
             <div class="show">
-                @Html.Raw(item.Content)
+                @if (item.FlowIndex == 0)
+                {
+                    <div class="title">
+                        <div class="post">
+                            <div class="readed">
+                                @topic.VisitorCount
+                            </div>
+                            <div class="back">
+                                @topic.CommitCount
+                            </div>
+                        </div>
+                        <h1>@topic.Title</h1>
+                    </div>
+                }
+                <div class="info">
+                    <div class="post-time" title="@item.PostTime.ToShowText()">
+                        @item.PostTime.ToShowLatestText()
+                    </div>
+                    <div class="floor floor-@item.FlowIndex">
+                        @if (item.FlowIndex > 3)
+                        {
+                            <span>@item.FlowIndex</span>
+                        }
+                    </div>
+                </div>
+                <div class="content">
+                    @Html.Raw(item.Content)
+                </div>
             </div>
         </div>
-    </div>
-}
+    }
+</div>
