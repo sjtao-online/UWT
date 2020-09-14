@@ -423,19 +423,28 @@ footer {
                 }
 
                 .normal::after {
-                    content: '📃';
+                    content: '📄';
                 }
 
                 .top {
                     color: white;
                     font-size: 12px;
-                    margin-left: -6px;
 
                     &::before {
                         font-size: 14px;
-                        content: '🌰';
-                        margin-right: -13px;
                     }
+                }
+
+                .top-1::before {
+                    content: '🥇';
+                }
+
+                .top-2::before {
+                    content: '🥈';
+                }
+
+                .top-3::before {
+                    content: '🥉';
                 }
 
                 .hot::after {
@@ -697,6 +706,8 @@ footer {
 
             .post-time {
                 float: left;
+                color: @color6;
+                font-size: 12px;
 
                 &:before {
                     content: "发布于：";
@@ -760,31 +771,84 @@ footer {
         display: flex;
         padding: 6px;
         background: white;
+
+        .avatar {
+            img {
+                width: 48px;
+                height: 48px;
+                -moz-border-radius: 50%;
+                -webkit-border-radius: 50%;
+                border-radius: 50%;
+                display: block;
+            }
+        }
+
+        .info {
+            margin-left: 8px;
+
+            .nickname {
+                &::before {
+                    content: "💧";
+                }
+            }
+
+            .infos {
+                display: flex;
+                color: @color6;
+                font-size: 12px;
+                margin-top: 8px;
+
+                ::before {
+                    margin-right: 4px;
+                }
+
+                .fans::before {
+                    content: "粉丝";
+                }
+
+                .flow::before {
+                    content: "关注";
+                }
+
+                .flow, .fans {
+                    &::after {
+                        content: "|";
+                        margin: 0 4px;
+                    }
+                }
+
+                .topic::before {
+                    content: "帖子";
+                }
+            }
+        }
     }
 
-    arrowb, arrow, arrow2 {
-        display: block;
-        width: 0;
-        height: 0;
-        border-width: 10px;
-        border-color: transparent;
-        border-style: solid;
-        z-index: 100;
-        margin-left: 10px;
-    }
+    .arrow {
+        &:before, &:after, arrow {
+            display: block;
+            width: 0;
+            height: 0;
+            border-width: 10px;
+            border-color: transparent;
+            border-style: solid;
+            z-index: 100;
+            content: "";
+        }
 
-    arrowb {
-        border-bottom-color: #bbbbbb;
-        margin-top: -24px;
-    }
+        &:before {
+            border-bottom-color: #bbbbbb;
+            margin-top: -24px;
+        }
 
-    arrow {
-        border-bottom-color: #f5f5f5;
-        margin-top: -19px;
-    }
+        arrow {
+            border-bottom-color: #f5f5f5;
+            margin-top: -19px;
+        }
 
-    arrow2 {
-        border-bottom-color: white;
-        margin-top: -17px;
+        &:after {
+            border-bottom-color: white;
+            margin-top: -17px;
+        }
     }
 }

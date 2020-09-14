@@ -17,6 +17,7 @@
     {
         [10] = new UWT.Libs.BBS.Areas.BBS.Models.UserInfoModel()
         {
+            Id = 1,
             FansCnt = 10,
             Name = "123",
             RoleName = "会员",
@@ -54,9 +55,9 @@
             <div class="user">
                 <div>
                     <div class="avatar">
-                        <img src="@userinfo.Icon" />
+                        <img src="@userinfo.Icon" class="user-show" data-uid="@userinfo.Id"/>
                     </div>
-                    <div class="username">
+                    <div class="username user-show" data-uid="@userinfo.Id">
                         @userinfo.Name
                     </div>
                     <div class="role">
@@ -94,9 +95,7 @@
                     </div>
                 }
                 <div class="info">
-                    <div class="post-time" title="@item.PostTime.ToShowText()">
-                        @item.PostTime.ToShowLatestText()
-                    </div>
+                    <div class="post-time" title="@item.PostTime.ToShowText()">@item.PostTime.ToShowLatestText()</div>
                     <div class="floor floor-@item.FlowIndex">
                         @if (item.FlowIndex > 3)
                         {

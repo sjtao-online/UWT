@@ -16,7 +16,7 @@ namespace UWT.Libs.BBS.Areas.Forums.Services
             {
                 var qinfo = from u in db.TableUser()
                             join level in db.TableUserLevel() on u.LevelTypeId equals level.TypeId
-                            where u.Valid
+                            where u.Valid && u.Id == id
                             select new UserSimpleInfo()
                             {
                                 Id = u.Id,

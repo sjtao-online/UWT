@@ -6,14 +6,14 @@
 
 
 <div class="topic-item">
-    <div class="head user-show" data-uid="@Model.UserInfo.Id">
-        <img src="@Model.UserInfo.Icon" alt="at" />
+    <div class="head">
+        <img src="@Model.UserInfo.Icon" class="user-show" alt="at" data-uid="@Model.UserInfo.Id" />
     </div>
     <div class="body">
         <div class="line">
             <div class="cate">
-                <a href="/BBS/Area/Topic?id=@Model.Id" class="@(Model.TopLevel != 0 ? "top" : (Model.IsHot ? "hot" : "normal"))" target="_blank"
-                   title="@(Model.TopLevel != 0 ? $"置顶{Model.TopLevel}" : (Model.IsHot ? "热门" : "普通")) 新窗口打开">@(Model.TopLevel != 0 ? Model.TopLevel.ToString() : "")</a>
+                <a href="/BBS/Area/Topic?id=@Model.Id" class="@(Model.TopLevel != 0 ? ("top top-" + (Model.TopLevel != 0 ? Model.TopLevel.ToString() : "")) : (Model.IsHot ? "hot" : "normal"))" target="_blank"
+                   title="@(Model.TopLevel != 0 ? $"置顶{Model.TopLevel}" : (Model.IsHot ? "热门" : "普通")) 新窗口打开"></a>
             </div>
             <div class="title"><a href="/BBS/Area/Topic?id=@Model.Id">@Model.Title</a></div>
         </div>
@@ -24,7 +24,7 @@
             @if (Model.LastCommitInfo != null)
             {
                 <div>最后回复：</div>
-                <div class="user-show" data-uid="@Model.LastCommitInfo.Id"><a href="/">@Model.LastCommitInfo.Name</a></div>
+                <div><a class="user-show" data-uid="@Model.LastCommitInfo.Id" href="/">@Model.LastCommitInfo.Name</a></div>
                 <div><a href="@Model.LastCommitInfo.Url">@Model.LastCommitInfo.Time.ToShowLatestText()</a></div>
             }
         </div>
