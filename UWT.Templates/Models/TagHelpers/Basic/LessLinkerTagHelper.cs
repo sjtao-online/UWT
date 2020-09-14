@@ -75,6 +75,15 @@ namespace UWT.Templates.Models.TagHelpers.Basic
                     else
                     {
                         string filePath = this.GetCurrentWebHost().WebRootPath;
+                        if (filePath == null)
+                        {
+                            filePath = this.GetCurrentWebHost().ContentRootPath;
+                            if (filePath[filePath.Length - 1] != PathBlank)
+                            {
+                                filePath += PathBlank;
+                            }
+                            filePath += "wwwroot";
+                        }
                         if (filePath[filePath.Length-1] != PathBlank)
                         {
                             filePath += PathBlank;

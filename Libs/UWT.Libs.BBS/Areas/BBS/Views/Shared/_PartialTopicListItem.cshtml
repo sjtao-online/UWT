@@ -6,7 +6,7 @@
 
 
 <div class="topic-item">
-    <div class="head">
+    <div class="head user-show" data-uid="@Model.UserInfo.Id">
         <img src="@Model.UserInfo.Icon" alt="at" />
     </div>
     <div class="body">
@@ -19,12 +19,12 @@
         </div>
         <div class="line gray">
             <div>楼主：</div>
-            <div><a href="@Model.UserInfo.Icon">@Model.UserInfo.Name</a></div>
+            <div class="user-show" data-uid="@Model.UserInfo.Id"><a href="@Model.UserInfo.Icon">@Model.UserInfo.Name</a></div>
             <div>@Model.CreateTime.ToShowLatestText()</div>
             @if (Model.LastCommitInfo != null)
             {
                 <div>最后回复：</div>
-                <div><a href="/">@Model.LastCommitInfo.Name</a></div>
+                <div class="user-show" data-uid="@Model.LastCommitInfo.Id"><a href="/">@Model.LastCommitInfo.Name</a></div>
                 <div><a href="@Model.LastCommitInfo.Url">@Model.LastCommitInfo.Time.ToShowLatestText()</a></div>
             }
         </div>

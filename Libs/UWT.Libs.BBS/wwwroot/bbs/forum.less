@@ -589,7 +589,7 @@ footer {
 
 
 /*主题页面相关*/
-.topic {
+.topic-main {
     display: flex;
     border-left: 1px solid #efefef;
     border-right: 1px solid #efefef;
@@ -736,5 +736,55 @@ footer {
         .content {
             margin-top: 30px;
         }
+    }
+}
+
+.goto-list {
+    &:before {
+        content: "« 返回列表";
+        font-family: Tahoma;
+    }
+}
+/*用户信息显示*/
+.userinfo-dlg {
+    border: 1px solid #bbbbbb;
+    background: #f5f5f5;
+    padding: 3px;
+    position: absolute;
+    width: 360px;
+    color: #666;
+    z-index: 1;
+    padding: 4px;
+
+    .content {
+        display: flex;
+        padding: 6px;
+        background: white;
+    }
+
+    arrowb, arrow, arrow2 {
+        display: block;
+        width: 0;
+        height: 0;
+        border-width: 10px;
+        border-color: transparent;
+        border-style: solid;
+        z-index: 100;
+        margin-left: 10px;
+    }
+
+    arrowb {
+        border-bottom-color: #bbbbbb;
+        margin-top: -24px;
+    }
+
+    arrow {
+        border-bottom-color: #f5f5f5;
+        margin-top: -19px;
+    }
+
+    arrow2 {
+        border-bottom-color: white;
+        margin-top: -17px;
     }
 }
