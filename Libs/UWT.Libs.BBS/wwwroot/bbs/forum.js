@@ -54,7 +54,7 @@
 </div>
 </div>`);
         }, function (rx) {
-                $('body').append("<div>" + rx.data.nickName + "</div>");
+                $('body').append(`<div class='userinfo-dlg' id='userdlg-${uid}' style='${style}'>无信息</div>`);
         }, "form");
     }, function () {
             usershowtime = waittimes;
