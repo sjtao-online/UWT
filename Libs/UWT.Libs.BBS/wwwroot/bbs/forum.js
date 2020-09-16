@@ -4,7 +4,7 @@
     })
 
     $('.page-selector>button').click(function () {
-        if ($(this).hasClass('unhandle')) {
+        if ($(this).hasClass('unhandle') || $(this).hasClass('current')) {
             return;
         }
         var pageIndex = $(this).data("pi");
@@ -70,5 +70,14 @@
 
     $('.goto-list').click(function () {
         window.location.href = $(this).data("url");
+    })
+
+    $('.search_text').change(function () {
+        var txt = $(this).val();
+        if (txt == "") {
+            $(this).addClass('empty');
+        } else {
+            $(this).removeClass('empty');
+        }
     })
 })

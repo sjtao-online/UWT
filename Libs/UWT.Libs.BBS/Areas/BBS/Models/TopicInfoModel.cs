@@ -11,5 +11,12 @@ namespace UWT.Libs.BBS.Areas.BBS.Models
         public int TopLevel { get; set; }
         public int VisitorCount { get; set; }
         public int CommitCount { get; set; }
+        public TopicCate Category { get; set; }
+    }
+    public enum TopicCate
+    {
+        discuss,
+        question,
+        vote
     }
 }

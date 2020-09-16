@@ -15,7 +15,7 @@
                 <a href="/BBS/Area/Topic?id=@Model.Id" class="@(Model.TopLevel != 0 ? ("top top-" + (Model.TopLevel != 0 ? Model.TopLevel.ToString() : "")) : (Model.IsHot ? "hot" : "normal"))" target="_blank"
                    title="@(Model.TopLevel != 0 ? $"置顶{Model.TopLevel}" : (Model.IsHot ? "热门" : "普通")) 新窗口打开"></a>
             </div>
-            <div class="title"><a href="/BBS/Area/Topic?id=@Model.Id">@Model.Title</a></div>
+            <div class="title">@if (Model.Category != UWT.Libs.BBS.Areas.BBS.Models.TopicCate.discuss) { <span class="@Model.Category"></span> }<a href="/BBS/Area/Topic?id=@Model.Id">@Model.Title</a></div>
         </div>
         <div class="line gray">
             <div>楼主：</div>

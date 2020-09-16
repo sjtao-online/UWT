@@ -82,15 +82,39 @@ header {
     padding: 0;
     display: inline;
     box-shadow: 0 1px 3px rgba(0,0,0,0.2) inset;
+    position: relative;
 
-    input {
+    &::before {
+        content: "搜索";
+        margin-left: 6px;
+        line-height: 26px;
+        font-size: 13px;
+        color: #666;
+    }
+
+    input.search_text {
         padding: 0;
         border: 0 none;
         float: left;
-        background: none;
-        width: 125px;
+        width: 160px;
         outline: none;
-        margin: 6px 0 0 6px;
+        padding-left: 6px;
+        line-height: 28px;
+        position: absolute;
+        left: 0;
+        background: white;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.2) inset;
+
+        &.empty {
+            background: none;
+            box-shadow: none;
+        }
+
+        &:focus {
+            background: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2) inset;
+        }
+
     }
 
     button {
@@ -104,10 +128,6 @@ header {
         width: 25px;
         height: 28px;
         text-align: left;
-    }
-
-    &:hover {
-        background: white;
     }
 }
 
@@ -307,7 +327,15 @@ footer {
         font-size: 14px;
         color: @color6;
         margin-bottom: 10px;
+        .beian{
+            &::before {
+                content: "备案号：";
+            }
 
+            &::after {
+                content: "号";
+            }
+        } 
         a {
             color: @color6;
             text-decoration: none;
@@ -458,6 +486,14 @@ footer {
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
+
+                .question::before {
+                    content: "[问题]";
+                }
+
+                .vote::before {
+                    content: "[投票]";
+                }
             }
         }
 
@@ -616,6 +652,8 @@ footer {
             margin: 20px;
 
             .avatar {
+                margin-bottom: 4px;
+
                 img {
                     -moz-border-radius: 50%;
                     -webkit-border-radius: 50%;
@@ -629,7 +667,6 @@ footer {
                 margin-top: 10px;
 
                 div {
-
                     display: flex;
 
                     &:before {
@@ -664,7 +701,7 @@ footer {
         padding: 10px;
 
         .title {
-            border-bottom: @colord3 1px solid;
+            border-bottom: @colord3 1px dashed;
             padding-bottom: 10px;
 
             h1 {
@@ -708,6 +745,7 @@ footer {
                 float: left;
                 color: @color6;
                 font-size: 12px;
+                margin-top: 6px;
 
                 &:before {
                     content: "发布于：";
@@ -740,6 +778,10 @@ footer {
 
                 &.floor-2:before {
                     content: "板凳";
+                }
+
+                &.floor-3:before {
+                    content: "地板";
                 }
             }
         }
