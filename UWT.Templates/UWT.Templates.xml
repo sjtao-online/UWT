@@ -264,6 +264,23 @@
             表单页添加纯显示或表单外功能
             </summary>
         </member>
+        <member name="P:UWT.Templates.Attributes.Forms.FormCshtmlAttribute.Position">
+            <summary>
+            位置信息
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Attributes.Forms.FormCshtmlAttribute.CshtmlPath">
+            <summary>
+            视图路径
+            </summary>
+        </member>
+        <member name="M:UWT.Templates.Attributes.Forms.FormCshtmlAttribute.#ctor(UWT.Templates.Attributes.Forms.FormCshtmlPosition,System.String)">
+            <summary>
+            表单页添加纯显示或表单外功能
+            </summary>
+            <param name="position">位置</param>
+            <param name="cshtml">路径</param>
+        </member>
         <member name="T:UWT.Templates.Attributes.Forms.FormCshtmlPosition">
             <summary>
             位置信息
@@ -3091,11 +3108,27 @@
             样式
             </summary>
         </member>
+        <member name="T:UWT.Templates.Models.TagHelpers.Basic.LessLinkerTagHelper">
+            <summary>
+            less支持
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Models.TagHelpers.Basic.LessLinkerTagHelper.Href">
+            <summary>
+            less文件的href
+            </summary>
+        </member>
         <member name="P:UWT.Templates.Models.TagHelpers.Basic.LessLinkerTagHelper.IsServerMode">
             <summary>
             是否服务器模式<br/>
             不设置
             </summary>
+        </member>
+        <member name="M:UWT.Templates.Models.TagHelpers.Basic.LessLinkerTagHelper.#ctor(Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper)">
+            <summary>
+            链接LESS
+            </summary>
+            <param name="html"></param>
         </member>
         <member name="T:UWT.Templates.Models.TagHelpers.Basic.UwtTagHelper">
             <summary>
@@ -5077,6 +5110,11 @@
             <param name="this"></param>
             <returns></returns>
         </member>
+        <member name="T:UWT.Templates.Services.Extends.PageSelectorEx">
+            <summary>
+            分页扩展方法
+            </summary>
+        </member>
         <member name="M:UWT.Templates.Services.Extends.PageSelectorEx.GetPageCount(UWT.Templates.Models.Interfaces.IPageSelectorModel)">
             <summary>
             获得总页数
@@ -5372,6 +5410,13 @@
             <summary>
             ApplicationBuilder扩展
             </summary>
+        </member>
+        <member name="M:UWT.Templates.Services.StartupEx.ApplicationBuilderEx.UseLess(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            使用LESS
+            </summary>
+            <param name="app"></param>
+            <returns></returns>
         </member>
         <member name="M:UWT.Templates.Services.StartupEx.ApplicationBuilderEx.UseMgrRouteList(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.Collections.Generic.List{UWT.Templates.Models.Basics.RouteModel})">
             <summary>

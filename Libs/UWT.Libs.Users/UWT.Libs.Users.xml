@@ -318,6 +318,11 @@
             <param name="defaultLayoutCallback">构造布局对象</param>
             <returns></returns>
         </member>
+        <member name="T:UWT.Libs.Users.Users.AccountConfig">
+            <summary>
+            账号配置信息
+            </summary>
+        </member>
         <member name="P:UWT.Libs.Users.Users.AccountConfig.DisabledController">
             <summary>
             禁用本控制器<br/>
@@ -345,6 +350,11 @@
         <member name="T:UWT.Libs.Users.Users.AccountsController">
             <summary>
             账号控制器
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Users.Users.AccountsController.Config">
+            <summary>
+            账号配置
             </summary>
         </member>
         <member name="M:UWT.Libs.Users.Users.AccountsController.Login(System.String)">

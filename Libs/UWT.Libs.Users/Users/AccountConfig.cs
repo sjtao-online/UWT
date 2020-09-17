@@ -4,6 +4,9 @@ using System.Text;
 
 namespace UWT.Libs.Users.Users
 {
+    /// <summary>
+    /// 账号配置信息
+    /// </summary>
     public class AccountConfig
     {
         /// <summary>

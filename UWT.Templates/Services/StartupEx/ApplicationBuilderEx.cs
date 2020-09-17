@@ -29,6 +29,11 @@ namespace UWT.Templates.Services.StartupEx
 
         static bool UsedLess = false;
 
+        /// <summary>
+        /// 使用LESS
+        /// </summary>
+        /// <param name="app"></param>
+        /// <returns></returns>
         public static IApplicationBuilder UseLess(this IApplicationBuilder app)
         {
             UseCurrentAppBuilder(app);

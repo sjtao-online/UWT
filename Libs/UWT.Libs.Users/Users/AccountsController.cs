@@ -23,6 +23,9 @@ namespace UWT.Libs.Users.Users
     public class AccountsController : Controller
         , ITemplateController
     {
+        /// <summary>
+        /// 账号配置
+        /// </summary>
         public static AccountConfig Config => new AccountConfig
         {
             LoginAccountType = "mgr",
@@ -33,7 +36,7 @@ namespace UWT.Libs.Users.Users
         /// <summary>
         /// 登录页面
         /// </summary>
-        /// <param name="ref"></param>
+        /// <param name="ref">登录后跳转页面</param>
         /// <returns></returns>
         public virtual async Task<IActionResult> Login(string @ref = null)
         {

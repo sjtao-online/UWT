@@ -5,6 +5,9 @@ using UWT.Templates.Models.Interfaces;
 
 namespace UWT.Templates.Services.Extends
 {
+    /// <summary>
+    /// 分页扩展方法
+    /// </summary>
     public static class PageSelectorEx
     {
         /// <summary>

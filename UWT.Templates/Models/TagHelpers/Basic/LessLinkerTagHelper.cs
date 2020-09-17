@@ -17,6 +17,9 @@ using UWT.Templates.Services.StartupEx;
 namespace UWT.Templates.Models.TagHelpers.Basic
 {
     // You may need to install the Microsoft.AspNetCore.Razor.Runtime package into your project
+    /// <summary>
+    /// less支持
+    /// </summary>
     [HtmlTargetElement("link-less")]
     public class LessLinkerTagHelper : TagHelper
     {
@@ -24,7 +27,12 @@ namespace UWT.Templates.Models.TagHelpers.Basic
         IHtmlHelper Html { get; set; }
         [ViewContext]
         [HtmlAttributeNotBound]
+#pragma warning disable CS1591 // 缺少对公共可见类型或成员的 XML 注释
         public ViewContext ViewContext { get; set; }
+#pragma warning restore CS1591 // 缺少对公共可见类型或成员的 XML 注释
+        /// <summary>
+        /// less文件的href
+        /// </summary>
         public string Href { get; set; }
         /// <summary>
         /// 是否服务器模式<br/>
@@ -49,11 +57,17 @@ namespace UWT.Templates.Models.TagHelpers.Basic
                 return isDev.Value;
             }
         }
+        /// <summary>
+        /// 链接LESS
+        /// </summary>
+        /// <param name="html"></param>
         public LessLinkerTagHelper(IHtmlHelper html)
         {
             Html = html;
         }
+#pragma warning disable CS1591 // 缺少对公共可见类型或成员的 XML 注释
         public override void Process(TagHelperContext context, TagHelperOutput output)
+#pragma warning restore CS1591 // 缺少对公共可见类型或成员的 XML 注释
         {
             output.TagName = HtmlConst.LINK;
             if (IsServerMode.HasValue ? (bool)IsServerMode : (ServiceCollectionEx.LessServerMode??false))
