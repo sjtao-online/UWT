@@ -53,7 +53,7 @@ namespace UWT.Libs.BBS.Areas.BBS.Models.TagHelpers
             if (HideMe)
             {
                 var titleL = new TagBuilder("label");
-                titleL.InnerHtml.Append("子版块");
+                titleL.AddCssClass("child");
                 title.InnerHtml.AppendHtml(titleL);
             }
             else

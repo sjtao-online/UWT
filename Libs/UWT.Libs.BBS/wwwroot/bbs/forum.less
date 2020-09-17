@@ -198,6 +198,9 @@ div.main_wrap {
 
         label {
             font-weight: 600;
+            &.child::before {
+                content: "子版块";
+            }
         }
 
         a {
@@ -327,7 +330,8 @@ footer {
         font-size: 14px;
         color: @color6;
         margin-bottom: 10px;
-        .beian{
+
+        .beian {
             &::before {
                 content: "备案号：";
             }
@@ -335,7 +339,8 @@ footer {
             &::after {
                 content: "号";
             }
-        } 
+        }
+
         a {
             color: @color6;
             text-decoration: none;
@@ -345,6 +350,10 @@ footer {
     .desc {
         font-size: 10px;
         color: @color9;
+
+        &::before {
+            content: "Powered by UWT.Libs.BBS";
+        }
     }
 
     .line {
@@ -570,6 +579,26 @@ footer {
         text-decoration: none;
         font-size: 12px;
 
+        &::before {
+        }
+
+        &.page-home::before {
+            content: "首页";
+        }
+
+        &.page-last::before {
+            content: "尾页";
+        }
+
+        &.page-prev::before {
+            content: "上页";
+        }
+
+        &.page-next::before {
+            content: "下页";
+        }
+
+
         &:hover {
             background: @colorpagebg;
             color: @colorwhite;
@@ -630,6 +659,10 @@ footer {
     position: fixed;
     right: 40px;
     bottom: 60px;
+
+    &::before {
+        content: "发贴";
+    }
 }
 
 
@@ -669,7 +702,7 @@ footer {
                 div {
                     display: flex;
 
-                    &:before {
+                    &::before {
                         display: block;
                         width: 60px;
                     }
@@ -718,7 +751,7 @@ footer {
                 line-height: 24px;
 
                 .readed {
-                    &:before {
+                    &::before {
                         content: "阅读：";
                     }
 
@@ -729,7 +762,7 @@ footer {
                 }
 
                 .back {
-                    &:before {
+                    &::before {
                         content: "回复：";
                     }
                 }
@@ -747,7 +780,7 @@ footer {
                 font-size: 12px;
                 margin-top: 6px;
 
-                &:before {
+                &::before {
                     content: "发布于：";
                 }
             }
@@ -793,7 +826,7 @@ footer {
 }
 
 .goto-list {
-    &:before {
+    &::before {
         content: "« 返回列表";
         font-family: Tahoma;
     }
@@ -867,7 +900,7 @@ footer {
     }
 
     .arrow {
-        &:before, &:after, arrow {
+        &::before, &:after, arrow {
             display: block;
             width: 0;
             height: 0;
@@ -878,7 +911,7 @@ footer {
             content: "";
         }
 
-        &:before {
+        &::before {
             border-bottom-color: #bbbbbb;
             margin-top: -24px;
         }

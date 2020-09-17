@@ -11,13 +11,13 @@
 <div class="page-selector" data-href-base="@urlFormat">
     @if (isFirstPage)
     {
-        <button class="unhandle">首页</button>
-        <button class="unhandle">上页</button>
+        <button class="unhandle page-home"></button>
+        <button class="unhandle page-prev"></button>
     }
     else
     {
-        <button data-pi="0">首页</button>
-        <button data-pi="@(Model.PageIndex - 1)">上页</button>
+        <button class="page-home" data-pi="0"></button>
+        <button class="page-prev" data-pi="@(Model.PageIndex - 1)"></button>
     }
 
     @for (int i = range.Min; i < range.Max; i++)
@@ -27,12 +27,12 @@
 
     @if (isLastPage)
     {
-        <button class="unhandle">下页</button>
-        <button class="unhandle">尾页</button>
+        <button class="unhandle page-next"></button>
+        <button class="unhandle page-last"></button>
     }
     else
     {
-        <button data-pi="@(Model.PageIndex + 1)">下页</button>
-        <button data-pi="@(Model.PageSize - 1)">尾页</button>
+        <button class="page-next" data-pi="@(Model.PageIndex + 1)"></button>
+        <button class="page-last" data-pi="@(Model.PageSize - 1)"></button>
     }
 </div>
