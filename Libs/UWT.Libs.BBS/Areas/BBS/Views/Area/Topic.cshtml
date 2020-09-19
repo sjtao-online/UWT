@@ -1,7 +1,7 @@
 ﻿@using UWT.Templates.Services.Extends
 @{
     List<UWT.Libs.BBS.Areas.BBS.Models.TopicItemModel> topicList = ViewBag.TopicList;
-    Dictionary<int, UWT.Libs.BBS.Areas.BBS.Models.UserInfoModel> userMap = ViewBag.UserInfoMap;
+    Dictionary<int, UWT.Libs.BBS.Areas.Forums.Models.Users.UserSimpleInfo> userMap = ViewBag.UserInfoMap;
     topicList = new List<UWT.Libs.BBS.Areas.BBS.Models.TopicItemModel>()
     {
         new UWT.Libs.BBS.Areas.BBS.Models.TopicItemModel()
@@ -45,16 +45,16 @@
             Content = "<div>名</div>"
         }
     };
-    userMap = new Dictionary<int, UWT.Libs.BBS.Areas.BBS.Models.UserInfoModel>()
+    userMap = new Dictionary<int, UWT.Libs.BBS.Areas.Forums.Models.Users.UserSimpleInfo>()
     {
-        [10] = new UWT.Libs.BBS.Areas.BBS.Models.UserInfoModel()
+        [10] = new UWT.Libs.BBS.Areas.Forums.Models.Users.UserSimpleInfo()
         {
             Id = 1,
             FansCnt = 10,
-            Name = "123",
+            NickName = "123",
             RoleName = "会员",
             FollowCnt = 10,
-            Icon = "/admins/images/header.jpg"
+            Avatar = "/admins/images/header.jpg"
         }
     };
     UWT.Libs.BBS.Areas.BBS.Models.TopicInfoModel topic = new UWT.Libs.BBS.Areas.BBS.Models.TopicInfoModel()
@@ -87,10 +87,10 @@
             <div class="user">
                 <div>
                     <div class="avatar">
-                        <img src="@userinfo.Icon" class="user-show" data-uid="@userinfo.Id"/>
+                        <img src="@userinfo.Avatar" class="user-show" data-uid="@userinfo.Id"/>
                     </div>
                     <div class="username user-show" data-uid="@userinfo.Id">
-                        @userinfo.Name
+                        @userinfo.NickName
                     </div>
                     <div class="role">
                         @userinfo.RoleName

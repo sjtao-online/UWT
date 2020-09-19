@@ -927,3 +927,63 @@ footer {
         }
     }
 }
+
+
+/*用户相关*/
+.users {
+    display: flex;
+    width: 900px;
+
+    .content {
+        -ms-flex: 1;
+        -webkit-flex: 1;
+        flex: 1;
+        margin-right: 30px;
+    }
+
+    .infos {
+        width: 230px;
+
+        & > div {
+            padding: 25px;
+        }
+
+        .profile {
+            border: 1px solid #e4e4e4;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            min-height: 100px;
+            background: #fff;
+            margin-bottom: 30px;
+
+            .avatar img {
+                width: 180px;
+                height: 180px;
+            }
+
+            .handles {
+                button {
+                }
+
+                .follow::before {
+                    content: "➕";
+                }
+
+                .follow::after {
+                    content: "关注";
+                }
+
+                .call::before {
+                    content: "💬";
+                }
+
+                .call::after {
+                    content: "发私信";
+                }
+            }
+
+            .infos {
+                display: flex;
+            }
+        }
+    }
+}

@@ -1,0 +1,10 @@
+﻿@{
+}
+
+
+<div class="users full_screen">
+    <div class="content"></div>
+    <div class="infos">
+        @Html.Partial("_PartialUserProfile", (UWT.Libs.BBS.Areas.Forums.Models.Users.UserSimpleInfo)ViewBag.Profile)
+    </div>
+</div>
