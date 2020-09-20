@@ -24,5 +24,6 @@ namespace UWT.Libs.BBS.Areas.Forums.Controllers
             }
             return this.Success(info);
         }
+
     }
 }

@@ -1,6 +1,6 @@
 ﻿@model UWT.Libs.BBS.Areas.Forums.Models.Users.UserSimpleInfo
 
-<div class="profile">
+<div class="profile" data-id="@Model.Id">
     <div class="avatar">
         <img src="@Model.Avatar" alt="头像" />
     </div>
@@ -9,7 +9,7 @@
         <button class="follow"></button>
         <button class="call"></button>
     </div>
-    <div class="infos">
+    <div class="cnt-infos">
         <div class="follow">@Model.FollowCnt</div>
         <div class="fans">@Model.FansCnt</div>
         <div class="topic">@Model.TopicCnt</div>

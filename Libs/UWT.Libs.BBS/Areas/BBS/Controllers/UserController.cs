@@ -11,16 +11,72 @@ namespace UWT.Libs.BBS.Areas.BBS.Controllers
     [BBSRoute]
     public class UserController : Controller
     {
+        string mTitle = "";
         [Route("/BBS/User/{uid}")]
         public IActionResult Index(int uid)
         {
-            FillProfile(uid);
+            if (!FillProfile(uid))
+            {
+                return NoProfile();
+            }
             return View();
         }
 
-        private void FillProfile(int uid)
+        public IActionResult Profile(int uid)
         {
-            ViewBag.Profile = new UserService().Find(uid);
+            if (!FillProfile(uid))
+            {
+                return NoProfile();
+            }
+            return View();
+        }
+
+        public IActionResult Topic(int uid)
+        {
+            if (!FillProfile(uid))
+            {
+                return NoProfile();
+            }
+            return View();
+        }
+
+        public IActionResult Fans(int uid)
+        {
+            if (!FillProfile(uid))
+            {
+                return NoProfile();
+            }
+            return View();
+        }
+
+        public IActionResult Follow(int uid)
+        {
+            if (!FillProfile(uid))
+            {
+                return NoProfile();
+            }
+            return View();
+        }
+
+        private IActionResult NoProfile()
+        {
+            return View("NoProfile");
+        }
+
+        private bool FillProfile(int uid)
+        {
+            ViewData["body-class"] = "user-bg";
+            var profile = new UserService().Find<UserProfileModel>(uid, (db, info)=>
+            {
+                info.TouchCount = 100;
+            });
+            if (profile == null)
+            {
+                return false;
+            }
+            ViewBag.Profile = profile;
+            ViewBag.Title = string.Format(BBSEx.BbsConfigModel.Titles.UserSpace, profile.NickName, mTitle);
+            return true;
         }
     }
 }

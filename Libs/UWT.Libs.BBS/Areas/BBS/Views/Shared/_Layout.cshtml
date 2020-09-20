@@ -18,10 +18,10 @@
         <link href="@item" rel="stylesheet" />
     }
     @RenderSection("CSS", false)
-    <title>@(string.Format(BBSEx.BbsConfigModel.TitleFormat, ViewBag.Title??""))</title>
+    <title>@(string.Format(BBSEx.BbsConfigModel.Titles.MainFormat, ViewBag.Title??""))</title>
     
 </head>
-<body>
+<body class="@(ViewData.ContainsKey("body-class") ? (string)ViewData["body-class"] : "")">
     <div>
         <header>
             <div class="full_screen">
@@ -57,8 +57,8 @@
                 <div class="center">
                     <div>
                         <div class="info">
-                            <a href="/bbs">@BBSEx.BbsConfigModel.ForumName</a>
-                            <span class="beian"><a href="//beian.miit.gov.cn/">@BBSEx.BbsConfigModel.BeianCode</a></span>
+                            <a class="gray" href="/bbs">@BBSEx.BbsConfigModel.ForumName</a>
+                            <span class="beian"><a class="gray" href="//beian.miit.gov.cn/">@BBSEx.BbsConfigModel.BeianCode</a></span>
                         </div>
                         <div class="desc"></div>
                     </div>

@@ -19,13 +19,13 @@
         </div>
         <div class="line gray">
             <div>楼主：</div>
-            <div class="user-show" data-uid="@Model.UserInfo.Id"><a href="@Model.UserInfo.Icon">@Model.UserInfo.Name</a></div>
+            <div class="user-show" data-uid="@Model.UserInfo.Id"><a class="light" href="@Model.UserInfo.Icon">@Model.UserInfo.Name</a></div>
             <div>@Model.CreateTime.ToShowLatestText()</div>
             @if (Model.LastCommitInfo != null)
             {
                 <div>最后回复：</div>
-                <div><a class="user-show" data-uid="@Model.LastCommitInfo.Id" href="/">@Model.LastCommitInfo.Name</a></div>
-                <div><a href="@Model.LastCommitInfo.Url">@Model.LastCommitInfo.Time.ToShowLatestText()</a></div>
+                <div><a class="user-show light" data-uid="@Model.LastCommitInfo.Id" href="/">@Model.LastCommitInfo.Name</a></div>
+                <div><a class="light" href="@Model.LastCommitInfo.Url">@Model.LastCommitInfo.Time.ToShowLatestText()</a></div>
             }
         </div>
     </div>

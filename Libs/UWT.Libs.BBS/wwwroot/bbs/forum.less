@@ -9,6 +9,9 @@
 @colorwhite: #fff;
 @colorpagebg: #488fcf;
 @colorpagebgtop: #2470b5;
+@follow: "关注";
+@fans: "粉丝";
+@topic: "贴数";
 
 
 #flex1() {
@@ -25,9 +28,22 @@ body {
     color: @defaultcolor;
 }
 
+.user-bg {
+    background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.04) 10%, rgba(0, 0, 0, 0.01) 10%), linear-gradient(rgba(0, 0, 0, 0.04) 10%, rgba(0, 0, 0, 0.01) 10%);
+    background-size: 8px 8px;
+}
+
 a {
     color: @defaultcolor;
     text-decoration: none;
+
+    &.light {
+        color: @color9;
+    }
+
+    &.gray {
+        color: @color6;
+    }
 
     &:hover {
         text-decoration: underline !important;
@@ -234,10 +250,6 @@ div.main_wrap {
 
         .last-info {
             color: @color9;
-
-            a {
-                color: @color9;
-            }
         }
     }
 }
@@ -339,11 +351,6 @@ footer {
             &::after {
                 content: "号";
             }
-        }
-
-        a {
-            color: @color6;
-            text-decoration: none;
         }
     }
 
@@ -513,10 +520,6 @@ footer {
 
             div {
                 margin-right: 5px;
-            }
-
-            a {
-                color: @color9;
             }
         }
     }
@@ -712,11 +715,11 @@ footer {
                     }
 
                     &.fans:before {
-                        content: "粉丝";
+                        content: @fans;
                     }
 
                     &.follow:before {
-                        content: "关注";
+                        content: @follow;
                     }
 
                     &.cnt:before {
@@ -878,11 +881,11 @@ footer {
                 }
 
                 .fans::before {
-                    content: "粉丝";
+                    content: @fans;
                 }
 
                 .flow::before {
-                    content: "关注";
+                    content: @follow;
                 }
 
                 .flow, .fans {
@@ -930,60 +933,222 @@ footer {
 
 
 /*用户相关*/
-.users {
-    display: flex;
+.user-border {
     width: 900px;
 
-    .content {
-        -ms-flex: 1;
-        -webkit-flex: 1;
-        flex: 1;
-        margin-right: 30px;
-    }
+    .user-header {
+        margin-bottom: 16px;
 
-    .infos {
-        width: 230px;
+        .user-title {
+            display: flex;
 
-        & > div {
-            padding: 25px;
-        }
+            h1 {
+                font-size: 24px;
 
-        .profile {
-            border: 1px solid #e4e4e4;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-            min-height: 100px;
-            background: #fff;
-            margin-bottom: 30px;
-
-            .avatar img {
-                width: 180px;
-                height: 180px;
-            }
-
-            .handles {
-                button {
-                }
-
-                .follow::before {
-                    content: "➕";
-                }
-
-                .follow::after {
-                    content: "关注";
-                }
-
-                .call::before {
-                    content: "💬";
-                }
-
-                .call::after {
-                    content: "发私信";
+                &::after {
+                    content: "的个人空间";
                 }
             }
 
-            .infos {
+            .touch {
+                margin-left: 30px;
+                line-height: 70px;
+                font-size: 12px;
+                color: @color6;
                 display: flex;
+
+                &::before {
+                    content: "访问量";
+                }
+
+                .border {
+                    height: 20px;
+                    display: flex;
+                    line-height: 16px;
+                    margin-top: 26px;
+
+                    .arrow {
+                        content: "";
+                        height: 0;
+                        width: 0;
+                        border-color: transparent;
+                        border-width: 8px;
+                        border-right-color: #81ab00;
+                        border-style: solid;
+                        margin-right: -2px;
+                        margin-top: 2px;
+                    }
+
+                    .count {
+                        background: #81ab00;
+                        -moz-border-radius: 4px;
+                        -webkit-border-radius: 4px;
+                        border-radius: 4px;
+                        padding: 2px 3px;
+                        color: @colorwhite;
+                    }
+                }
+            }
+        }
+
+        .user-link {
+            .handles {
+                display: flex;
+                float: right;
+
+                .topic::before {
+                    content: @topic;
+                }
+
+                .home::before {
+                    content: "新";
+                }
+
+                .profile::before {
+                    content: "资料";
+                }
+
+                a {
+                    padding-left: 20px;
+                }
+
+                .current {
+                    font-weight: 600;
+                }
+            }
+
+            &::after {
+                clear: both;
             }
         }
     }
+
+    .users {
+        display: flex;
+
+        .content {
+            -ms-flex: 1;
+            -webkit-flex: 1;
+            flex: 1;
+            margin-right: 30px;
+        }
+
+        .infos {
+            width: 230px;
+
+            & > div {
+                padding: 25px;
+            }
+
+            .profile {
+                border: 1px solid #e4e4e4;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+                min-height: 100px;
+                background: #fff;
+                margin-bottom: 30px;
+
+                .avatar img {
+                    width: 180px;
+                    height: 180px;
+                }
+
+                .handles {
+                    margin-top: 10px;
+
+                    button {
+                    }
+
+                    .follow::before {
+                        content: "➕";
+                    }
+
+                    .follow::after {
+                        content: @follow;
+                    }
+
+                    .call::before {
+                        content: "💬";
+                    }
+
+                    .call::after {
+                        content: "发私信";
+                    }
+                }
+
+                .cnt-infos {
+                    display: flex;
+                    margin-top: 10px;
+
+                    & > div {
+                        font-size: 18px;
+                        line-height: 25px;
+                        font-weight: 700;
+                        color: @color6;
+                        cursor: pointer;
+                        margin-right: auto;
+
+                        &::after {
+                            display: block;
+                            font-style: normal;
+                            color: @color9;
+                            font-size: 12px;
+                        }
+                    }
+
+                    .follow::after {
+                        content: @follow;
+                    }
+
+                    .fans::after {
+                        content: @fans;
+                    }
+
+                    .topic::after {
+                        content: @topic;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.box {
+    border: 1px solid #e4e4e4;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    min-height: 100px;
+    background: @colorwhite;
+    margin-bottom: 30px;
+
+    & > div {
+        padding: 8px;
+    }
+
+    .box-title {
+        display: flex;
+        background: @coloref;
+
+        .title-text {
+            color: @defaultcolor;
+            font-weight: 600;
+
+            &::before {
+            }
+        }
+    }
+
+    @listclass: profile, topic, fans, follow, home;
+    @listcontent: "Ta的资料", "Ta的帖子", "Ta的粉丝", "Ta的关注", "新鲜事";
+
+    .titletextbefore (@class, @content) {
+        &.@{class} .title-text::before {
+            content: @content;
+        }
+    }
+
+    .loop(@i: 1) when (@i < length(@listclass)+1) {
+        .titletextbefore(extract(@listclass, @i),extract(@listcontent, @i));
+        .loop(@i+1);
+    }
+
+    .loop();
 }

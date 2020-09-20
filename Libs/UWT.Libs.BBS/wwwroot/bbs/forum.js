@@ -80,4 +80,8 @@
             $(this).removeClass('empty');
         }
     })
+
+    $(".profile>.cnt-infos>div").click(function () {
+        window.location.href = "/bbs/user/" + $(this).attr('class') + "?uid=" + $(this).parents(".profile").data('id');
+    })
 })

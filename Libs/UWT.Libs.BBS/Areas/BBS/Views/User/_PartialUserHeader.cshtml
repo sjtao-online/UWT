@@ -1,0 +1,27 @@
+﻿@model UWT.Libs.BBS.Areas.BBS.Models.UserProfileModel
+@{
+    string actionName = Context.Request.RouteValues["action"] as string;
+    string chome = actionName == "Index" ? "current" : "";
+    string ctopic = actionName == "Topic" ? "current" : "";
+    string cprofile = actionName == "Profile" ? "current" : "";
+}
+
+<div class="user-header">
+    <div class="user-title">
+        <h1>@Model.NickName</h1>
+        <div class="touch">
+            <div class="border">
+                <div class="arrow"></div>
+                <div class="count">@Model.TouchCount</div>
+            </div>
+        </div>
+    </div>
+    <div class="user-link">
+        <a class="light" href="/bbs/user/@Model.Id">@(Context.Request.IsHttps ? "https://" : "http://" + Context.Request.Host + "/bbs/user/" + Model.Id)</a>
+        <div class="handles">
+            <a class="home @chome" href="/bbs/user/@Model.Id"></a>
+            <a class="topic @ctopic" href="/bbs/user/topic?uid=@Model.Id"></a>
+            <a class="profile @cprofile" href="/bbs/user/profile?uid=@Model.Id"></a>
+        </div>
+    </div>
+</div>

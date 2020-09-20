@@ -101,7 +101,11 @@ namespace UWT.Libs.BBS
             {
                 BbsConfigModel = new BbsConfigModel()
                 {
-                    TitleFormat = "{0} - UWT论坛",
+                    Titles = new BbsTitleFormat()
+                    {
+                        MainFormat = "{0} - UWT论坛",
+                        UserSpace = "{1} - {0}"
+                    },
                     ForumName = "UWT论坛",
                     BeianCode = "",
                     Logo = ""
@@ -114,11 +118,18 @@ namespace UWT.Libs.BBS
     {
         [JsonPropertyName("beian-code")]
         public string BeianCode { get; set; }
-        [JsonPropertyName("title-format")]
-        public string TitleFormat { get; set; }
+        [JsonPropertyName("titles")]
+        public BbsTitleFormat Titles { get; set; }
         [JsonPropertyName("forum-name")]
         public string ForumName { get; set; }
         [JsonPropertyName("logo")]
         public string Logo { get; set; }
+    }
+    public class BbsTitleFormat
+    {
+        [JsonPropertyName("main-format")]
+        public string MainFormat { get; set; }
+        [JsonPropertyName("user-space")]
+        public string UserSpace { get; set; }
     }
 }

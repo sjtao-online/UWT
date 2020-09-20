@@ -39,14 +39,16 @@ namespace UWT.Libs.BBS.Areas.BBS.Models.TagHelpers
         public string AreaUrlFormat { get; set; } = "/BBS/Area/{0}";
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            output.TagName = "div";
+            const string divTagName = "div";
+            const string aTagName = "a";
+            output.TagName = divTagName;
             if (AreaInfo.Children == null || AreaInfo.Children.Count == 0)
             {
                 return;
             }
             //  主体
             output.AddClass("area-group", HtmlEncoder.Default);
-            var title = new TagBuilder("div");
+            var title = new TagBuilder(divTagName);
             title.AddCssClass("title");
 
             #region 标题
@@ -58,7 +60,7 @@ namespace UWT.Libs.BBS.Areas.BBS.Models.TagHelpers
             }
             else
             {
-                var titleA = new TagBuilder("A");
+                var titleA = new TagBuilder(aTagName);
                 titleA.InnerHtml.Append(AreaInfo.Title);
                 titleA.Attributes.Add("href", string.Format(AreaUrlFormat, AreaInfo.Id));
                 title.InnerHtml.AppendHtml(titleA);
@@ -66,7 +68,7 @@ namespace UWT.Libs.BBS.Areas.BBS.Models.TagHelpers
             #endregion
             output.Content.AppendHtml(title);
 
-            var content = new TagBuilder("div");
+            var content = new TagBuilder(divTagName);
             content.AddCssClass("content");
             output.Content.AppendHtml(content);
             #region 子版块
@@ -90,11 +92,11 @@ namespace UWT.Libs.BBS.Areas.BBS.Models.TagHelpers
                         //  Info
                         var info = new TagBuilder("td");
                         info.AddCssClass("area-info");
-                        var subTitle = new TagBuilder("div");
+                        var subTitle = new TagBuilder(divTagName);
                         subTitle.AddCssClass("title");
                         subTitle.InnerHtml.Append(item.Title);
                         info.InnerHtml.AppendHtml(subTitle);
-                        var summary = new TagBuilder("div");
+                        var summary = new TagBuilder(divTagName);
                         summary.AddCssClass("summary");
                         summary.InnerHtml.Append(item.Summary);
                         info.InnerHtml.AppendHtml(summary);
@@ -117,18 +119,18 @@ namespace UWT.Libs.BBS.Areas.BBS.Models.TagHelpers
                         last.AddCssClass("area-last");
                         if (item.LastComment != null)
                         {
-                            var topic = new TagBuilder("div");
+                            var topic = new TagBuilder(divTagName);
                             topic.InnerHtml.Append(item.LastComment.UserName);
                             last.InnerHtml.AppendHtml(topic);
-                            var lastInfo = new TagBuilder("div");
+                            var lastInfo = new TagBuilder(divTagName);
                             lastInfo.AddCssClass("last-info");
                             lastInfo.InnerHtml.Append("最后回复：");
-                            var usera = new TagBuilder("a");
+                            var usera = new TagBuilder(aTagName);
                             usera.InnerHtml.Append(item.LastComment.UserName);
                             usera.Attributes.Add("href", "/BBS/userinfo/" + item.LastComment.UserId);
                             lastInfo.InnerHtml.AppendHtml(usera);
                             lastInfo.InnerHtml.Append(" ");
-                            var lastTime = new TagBuilder("a");
+                            var lastTime = new TagBuilder(aTagName);
                             lastTime.Attributes.Add("href", string.Format(LastCommentUrlFormat, item.LastComment.Id, item.Id));
                             lastTime.InnerHtml.Append(ToDateTimeShowText(item.LastComment.CommentTime));
                             lastInfo.InnerHtml.AppendHtml(lastTime);
@@ -143,19 +145,19 @@ namespace UWT.Libs.BBS.Areas.BBS.Models.TagHelpers
                     output.AddClass("tile", HtmlEncoder.Default);
                     foreach (var item in AreaInfo.Children)
                     {
-                        var areaItem = new TagBuilder("div");
+                        var areaItem = new TagBuilder(divTagName);
                         areaItem.AddCssClass("area-item");
                         //  Logo Div
-                        var logoDiv = new TagBuilder("div");
+                        var logoDiv = new TagBuilder(divTagName);
                         logoDiv.AddCssClass("area-logo");
                         var logoImg = new TagBuilder("img");
                         logoImg.Attributes.Add("src", item.Icon);
                         logoDiv.InnerHtml.AppendHtml(logoImg);
                         areaItem.InnerHtml.AppendHtml(logoDiv);
                         //  Info
-                        var info = new TagBuilder("div");
+                        var info = new TagBuilder(divTagName);
                         info.AddCssClass("area-info");
-                        var subTitle = new TagBuilder("div");
+                        var subTitle = new TagBuilder(divTagName);
                         subTitle.AddCssClass("title");
                         subTitle.InnerHtml.Append(item.Title);
                         info.InnerHtml.AppendHtml(subTitle);
@@ -164,7 +166,7 @@ namespace UWT.Libs.BBS.Areas.BBS.Models.TagHelpers
                         {
                             info.InnerHtml.AppendHtml("<br/>");
                             info.InnerHtml.Append("最后回复：");
-                            var lastComment = new TagBuilder("A");
+                            var lastComment = new TagBuilder(aTagName);
                             lastComment.InnerHtml.Append(ToDateTimeShowText(item.LastComment.CommentTime));
                             lastComment.Attributes.Add("href", string.Format(LastCommentUrlFormat, item.LastComment.Id, item.Id));
                             info.InnerHtml.AppendHtml(lastComment);
