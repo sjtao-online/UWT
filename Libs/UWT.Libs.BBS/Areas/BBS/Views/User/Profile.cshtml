@@ -10,7 +10,19 @@
                     <div class="title-text"></div>
                 </div>
                 <div class="box-content">
-
+                    @foreach (UWT.Libs.BBS.Areas.Forums.Models.Users.UserPropertiesModel item in ViewBag.UserProperties)
+                    {
+                        <div class="group-title">@item.GroupName</div>
+                        <div class="properties">
+                            @foreach (var prop in item.Children)
+                            {
+                                <div class="property">
+                                    <div class="prop-title">@(item.TitleMap[prop.Id])</div>
+                                    <div class="prop-value">@prop.Title</div>
+                                </div>
+                            }
+                        </div>
+                    }
                 </div>
             </div>
         </div>

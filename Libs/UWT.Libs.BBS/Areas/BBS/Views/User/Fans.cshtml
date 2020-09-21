@@ -10,7 +10,28 @@
                     <div class="title-text"></div>
                 </div>
                 <div class="box-content">
-
+                    @foreach (UWT.Libs.BBS.Areas.Forums.Models.Users.UserSimpleInfo item in ViewBag.Fans)
+                    {
+                        <div class="user-simple">
+                            <img src="@item.Avatar" alt="avatar"  class="user-show" data-uid="@item.Id"/>
+                            <div>
+                                <div class="user-show" data-uid="@item.Id">
+                                    <a href="/bbs/user/@item.Id">@item.NickName</a>
+                                </div>
+                                <div class="user-cnt">
+                                    <div class="fans">
+                                        <a href="/bbs/user/fans?uid=@item.Id">@item.FansCnt</a>
+                                    </div>
+                                    <div class="follow">
+                                        <a href="/bbs/user/follow?uid=@item.Id">@item.FollowCnt</a>
+                                    </div>
+                                    <div class="topic">
+                                        <a href="/bbs/user/topic?uid=@item.Id">@item.TopicCnt</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
                 </div>
             </div>
         </div>

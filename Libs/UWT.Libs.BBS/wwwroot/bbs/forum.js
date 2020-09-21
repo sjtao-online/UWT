@@ -1,6 +1,6 @@
 ﻿$(function () {
     $('.area-item').click(function () {
-
+        window.location.href = "/bbs/area/" + $(this).data('aid');
     })
 
     $('.page-selector>button').click(function () {
@@ -15,6 +15,7 @@
     usershowtime = 0;
     const waittimes = 2;
     const userdlg = ".userinfo-dlg";
+    cacheUserInfos = {};
     function usershowdlgcallback() {
         usershowtime--;
         if (usershowtime === 0) {
@@ -23,6 +24,30 @@
         } else {
             setTimeout(usershowdlgcallback, 100);
         }
+    }
+
+    function showUserInfo(info, hw, style, uid) {
+        if (info === null) {
+            $('body').append(`<div class='userinfo-dlg' id='userdlg-${uid}' style='${style}'>无信息</div>`);
+            return;
+        }
+        $('body').append(
+            `<div class='userinfo-dlg' id='userdlg-${uid}' style='${style}'>
+<div class='arrow' style='margin-left: ${hw}px'><arrow></arrow></div>
+<div class='content'>
+    <div class='avatar'>
+        <img src='${info.avatar}' />
+    </div>
+    <div class='info'>
+        <div class='nickname'><a href='/bbs/user/${info.id}'>${info.nickName}</a></div>
+        <div class='infos'>
+            <div class='flow'>${info.followCnt}</div>
+            <div class='fans'>${info.fansCnt}</div>
+            <div class='topic'>${info.topicCnt}</div>
+        </div>
+    </div>
+</div>
+</div>`);
     }
 
     $('.user-show').hover(function () {
@@ -35,26 +60,16 @@
         var halfWidth = $(this).width() / 2 - 20;
         usershowing = uid;
         setTimeout(usershowdlgcallback, 100);
+        if (uid in cacheUserInfos) {
+            showUserInfo(cacheUserInfos[uid], halfWidth, style, uid);
+            return;
+        }
         api("/forums/user/info?id=" + uid, null, function (rx) {
-            $('body').append(
-                `<div class='userinfo-dlg' id='userdlg-${uid}' style='${style}'>
-<div class='arrow' style='margin-left: ${halfWidth}px'><arrow></arrow></div>
-<div class='content'>
-    <div class='avatar'>
-        <img src='${rx.data.avatar}' />
-    </div>
-    <div class='info'>
-        <div class='nickname'><a href='/bbs/user/${rx.data.id}'>${rx.data.nickName}</a></div>
-        <div class='infos'>
-            <div class='flow'>${rx.data.followCnt}</div>
-            <div class='fans'>${rx.data.fansCnt}</div>
-            <div class='topic'>${rx.data.topicCnt}</div>
-        </div>
-    </div>
-</div>
-</div>`);
+            cacheUserInfos[uid] = rx.data;
+            showUserInfo(rx.data, halfWidth, style, uid);
         }, function (rx) {
-                $('body').append(`<div class='userinfo-dlg' id='userdlg-${uid}' style='${style}'>无信息</div>`);
+               cacheUserInfos[uid] = null;
+               showUserInfo(null, halfWidth, style, uid);
         }, "form");
     }, function () {
             usershowtime = waittimes;
@@ -74,7 +89,7 @@
 
     $('.search_text').change(function () {
         var txt = $(this).val();
-        if (txt == "") {
+        if (txt === "") {
             $(this).addClass('empty');
         } else {
             $(this).removeClass('empty');

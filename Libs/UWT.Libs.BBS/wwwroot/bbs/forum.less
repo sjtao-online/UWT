@@ -228,6 +228,10 @@ div.main_wrap {
     .content {
         padding: 10px;
         line-height: 22px;
+
+        .last-info::before {
+            content: "最后回复：";
+        }
     }
 }
 
@@ -1009,7 +1013,7 @@ footer {
                 }
 
                 a {
-                    padding-left: 20px;
+                    margin-left: 20px;
                 }
 
                 .current {
@@ -1031,16 +1035,71 @@ footer {
             -webkit-flex: 1;
             flex: 1;
             margin-right: 30px;
+
+            .properties {
+                .property {
+                    display: flex;
+
+                    .prop-title {
+                        width: 140px;
+                    }
+
+                    .prop-value {
+                        -ms-flex: 1;
+                        -webkit-flex: 1;
+                        flex: 1;
+                    }
+                }
+            }
+
+            .user-simple {
+                display: flex;
+                border-bottom: 1px solid @colord3;
+
+                &:last-child {
+                    border-bottom: none;
+                }
+
+                > div {
+                    margin-left: 10px;
+                }
+
+                .user-cnt {
+                    display: flex;
+
+                    ::before {
+                        color: @color9;
+                    }
+
+                    a {
+                        margin-right: 10px;
+                    }
+
+                    .fans::before {
+                        content: @fans;
+                    }
+
+                    .follow::before {
+                        content: @follow;
+                    }
+
+                    .topic::before {
+                        content: @topic;
+                    }
+                }
+
+                img {
+                    height: 50px;
+                    width: 50px;
+                }
+            }
         }
 
         .infos {
             width: 230px;
 
-            & > div {
-                padding: 25px;
-            }
-
             .profile {
+                padding: 25px;
                 border: 1px solid #e4e4e4;
                 box-shadow: 0 1px 3px rgba(0,0,0,0.2);
                 min-height: 100px;
@@ -1108,6 +1167,22 @@ footer {
                     }
                 }
             }
+
+            .fans .box-content {
+                display: flex;
+                -ms-flex-wrap: wrap;
+                -webkit-flex-wrap: wrap;
+                flex-wrap: wrap;
+
+                .user-show {
+                    margin: 0 10px;
+                }
+
+                img {
+                    height: 50px;
+                    width: 50px;
+                }
+            }
         }
     }
 }
@@ -1133,6 +1208,14 @@ footer {
 
             &::before {
             }
+        }
+    }
+
+    .box-content {
+        .group-title {
+            font-weight: 600;
+            padding: 6px 0;
+            border-bottom: 1px solid @colord3;
         }
     }
 

@@ -17,7 +17,7 @@
         </div>
     </div>
     <div class="user-link">
-        <a class="light" href="/bbs/user/@Model.Id">@(Context.Request.IsHttps ? "https://" : "http://" + Context.Request.Host + "/bbs/user/" + Model.Id)</a>
+        <a class="light" href="/bbs/user/@Model.Id">@((Context.Request.IsHttps ? "https://" : "http://") + Context.Request.Host + "/bbs/user/" + Model.Id)</a>
         <div class="handles">
             <a class="home @chome" href="/bbs/user/@Model.Id"></a>
             <a class="topic @ctopic" href="/bbs/user/topic?uid=@Model.Id"></a>

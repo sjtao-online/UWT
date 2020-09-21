@@ -5,19 +5,19 @@ using UWT.Templates.Models.Basics;
 
 namespace UWT.Libs.BBS.Areas.Forums.Models.Users
 {
-    public class UserSimpleInfo : UserLightInfo
+    public class UserLightInfo : IdModel
     {
         /// <summary>
-        /// 粉丝数
+        /// 昵称
         /// </summary>
-        public int FansCnt { get; set; }
+        public string NickName { get; set; }
         /// <summary>
-        /// 发贴数
+        /// 头像
         /// </summary>
-        public int TopicCnt { get; set; }
+        public string Avatar { get; set; }
         /// <summary>
-        /// 关注数
+        /// 身份
         /// </summary>
-        public int FollowCnt { get; set; }
+        public string RoleName { get; set; }
     }
 }

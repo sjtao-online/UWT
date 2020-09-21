@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UWT.Libs.BBS.Areas.BBS.Models;
+using UWT.Libs.BBS.Areas.Forums.Models.Users;
 using UWT.Libs.BBS.Areas.Forums.Services;
 
 namespace UWT.Libs.BBS.Areas.BBS.Controllers
@@ -19,6 +20,7 @@ namespace UWT.Libs.BBS.Areas.BBS.Controllers
             {
                 return NoProfile();
             }
+            ViewBag.Fans = new UserService().GetFans<UserLightInfo>(uid);
             return View();
         }
 
@@ -28,6 +30,7 @@ namespace UWT.Libs.BBS.Areas.BBS.Controllers
             {
                 return NoProfile();
             }
+            ViewBag.UserProperties = new UserService().GetProperties(uid);
             return View();
         }
 
@@ -46,6 +49,7 @@ namespace UWT.Libs.BBS.Areas.BBS.Controllers
             {
                 return NoProfile();
             }
+            ViewBag.Fans = new UserService().GetFans<UserSimpleInfo>(uid);
             return View();
         }
 
@@ -55,6 +59,7 @@ namespace UWT.Libs.BBS.Areas.BBS.Controllers
             {
                 return NoProfile();
             }
+            ViewBag.Follows = new UserService().GetFollows<UserSimpleInfo>(uid);
             return View();
         }
 

@@ -31,6 +31,10 @@ namespace UWT.Libs.BBS.Models
 		/// </summary>
 		[Column("desc"),           Nullable          ] public string Desc      { get; set; } // varchar(255)
 		/// <summary>
+		/// 序号
+		/// </summary>
+		[Column("index"),       NotNull              ] public int    Index     { get; set; } // int(11)
+		/// <summary>
 		/// 说明
 		/// </summary>
 		[Column("summary"),     NotNull              ] public string Summary   { get; set; } // varchar(255)
@@ -39,7 +43,7 @@ namespace UWT.Libs.BBS.Models
 		/// 版主
 		/// </summary>
 		[Column("mgr_user_id"), NotNull              ] public int    MgrUserId { get; set; } // int(11)
-		[Column("status"),      NotNull              ] public string Status    { get; set; } // enum('show')
+		[Column("status"),      NotNull              ] public string Status    { get; set; } // enum('show','hidden')
 		[Column("apply"),       NotNull              ] public string Apply     { get; set; } // enum('publish','approved')
 	}
 
@@ -82,6 +86,31 @@ namespace UWT.Libs.BBS.Models
 		[Column("value"),    Nullable         ] public string Value { get; set; } // varchar(255)
 	}
 
+	/// <summary>
+	/// 关注人与取消关系表
+	/// </summary>
+	[Table("uwt_bbs_follows")]
+	public partial class UwtBbsFollow
+	{
+		[Column("id"),       PrimaryKey, Identity] public int      Id      { get; set; } // int(11)
+		/// <summary>
+		/// 补关注的用户Id
+		/// </summary>
+		[Column("u_id"),     NotNull             ] public int      UId     { get; set; } // int(11)
+		/// <summary>
+		/// 关注人
+		/// </summary>
+		[Column("f_id"),     NotNull             ] public int      FId     { get; set; } // int(11)
+		/// <summary>
+		/// 关注时间
+		/// </summary>
+		[Column("add_time"), NotNull             ] public DateTime AddTime { get; set; } // datetime
+		/// <summary>
+		/// 无效代表取消关注了
+		/// </summary>
+		[Column("valid"),    NotNull             ] public bool     Valid   { get; set; } // tinyint(1)
+	}
+
 	[Table("uwt_bbs_topics")]
 	public partial class UwtBbsTopic
 	{
@@ -102,7 +131,7 @@ namespace UWT.Libs.BBS.Models
 		/// 根据type不同而意义不同，暂未使用
 		/// </summary>
 		[Column("type_value"),     NotNull             ] public string   TypeValue    { get; set; } // varchar(255)
-		[Column("status"),         NotNull             ] public string   Status       { get; set; } // enum('publish','forbid')
+		[Column("status"),         NotNull             ] public string   Status       { get; set; } // enum('apply','publish','forbid')
 		/// <summary>
 		/// 查看次数
 		/// </summary>
@@ -222,6 +251,48 @@ namespace UWT.Libs.BBS.Models
 		[Column("valid"), NotNull             ] public bool   Valid { get; set; } // tinyint(1)
 	}
 
+	/// <summary>
+	/// 用户可用属性表
+	/// </summary>
+	[Table("uwt_bbs_user_prop_configs")]
+	public partial class UwtBbsUserPropConfig
+	{
+		[Column("id"),   PrimaryKey, Identity] public int    Id   { get; set; } // int(11)
+		/// <summary>
+		/// 显示名称
+		/// </summary>
+		[Column("name"), NotNull             ] public string Name { get; set; } // varchar(255)
+		[Column("g_id"), NotNull             ] public int    GId  { get; set; } // int(11)
+	}
+
+	/// <summary>
+	/// 用户额外信息表
+	/// </summary>
+	[Table("uwt_bbs_user_properties")]
+	public partial class UwtBbsUserProperty
+	{
+		[Column("id"),    PrimaryKey, Identity] public int    Id    { get; set; } // int(11)
+		/// <summary>
+		/// 用户Id
+		/// </summary>
+		[Column("u_id"),  NotNull             ] public int    UId   { get; set; } // int(11)
+		/// <summary>
+		/// 属性名
+		/// </summary>
+		[Column("p_id"),  NotNull             ] public int    PId   { get; set; } // int(11)
+		/// <summary>
+		/// 值
+		/// </summary>
+		[Column("value"), NotNull             ] public string Value { get; set; } // text
+	}
+
+	[Table("uwt_bbs_user_prop_groups")]
+	public partial class UwtBbsUserPropGroup
+	{
+		[Column("id"),   PrimaryKey, Identity] public int    Id   { get; set; } // int(11)
+		[Column("name"), NotNull             ] public string Name { get; set; } // varchar(255)
+	}
+
 	public static partial class TableExtensions
 	{
 		public static UwtBbsArea Find(this ITable<UwtBbsArea> table, int Id)
@@ -266,6 +337,17 @@ namespace UWT.Libs.BBS.Models
 		public static ITable<UwtBbsConfig> TableConfig(this DataConnection db)
 		{
 			return db.GetTable<UwtBbsConfig>();
+		}
+
+		public static UwtBbsFollow Find(this ITable<UwtBbsFollow> table, int Id)
+		{
+			return table.FirstOrDefault(t =>
+				t.Id == Id);
+		}
+
+		public static ITable<UwtBbsFollow> TableFollow(this DataConnection db)
+		{
+			return db.GetTable<UwtBbsFollow>();
 		}
 
 		public static UwtBbsTopic Find(this ITable<UwtBbsTopic> table, int Id)
@@ -343,6 +425,39 @@ namespace UWT.Libs.BBS.Models
 		public static ITable<UwtBbsUserLevelType> TableUserLevelType(this DataConnection db)
 		{
 			return db.GetTable<UwtBbsUserLevelType>();
+		}
+
+		public static UwtBbsUserPropConfig Find(this ITable<UwtBbsUserPropConfig> table, int Id)
+		{
+			return table.FirstOrDefault(t =>
+				t.Id == Id);
+		}
+
+		public static ITable<UwtBbsUserPropConfig> TableUserPropConfig(this DataConnection db)
+		{
+			return db.GetTable<UwtBbsUserPropConfig>();
+		}
+
+		public static UwtBbsUserProperty Find(this ITable<UwtBbsUserProperty> table, int Id)
+		{
+			return table.FirstOrDefault(t =>
+				t.Id == Id);
+		}
+
+		public static ITable<UwtBbsUserProperty> TableUserProperty(this DataConnection db)
+		{
+			return db.GetTable<UwtBbsUserProperty>();
+		}
+
+		public static UwtBbsUserPropGroup Find(this ITable<UwtBbsUserPropGroup> table, int Id)
+		{
+			return table.FirstOrDefault(t =>
+				t.Id == Id);
+		}
+
+		public static ITable<UwtBbsUserPropGroup> TableUserPropGroup(this DataConnection db)
+		{
+			return db.GetTable<UwtBbsUserPropGroup>();
 		}
 	}
 }

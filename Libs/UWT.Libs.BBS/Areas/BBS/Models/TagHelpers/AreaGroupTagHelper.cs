@@ -82,6 +82,7 @@ namespace UWT.Libs.BBS.Areas.BBS.Models.TagHelpers
                     {
                         var areaItem = new TagBuilder("tr");
                         areaItem.AddCssClass("area-item");
+                        areaItem.Attributes.Add("data-aid", item.Id.ToString());
                         //  Logo Div
                         var logoDiv = new TagBuilder("td");
                         logoDiv.AddCssClass("area-logo");
@@ -146,6 +147,7 @@ namespace UWT.Libs.BBS.Areas.BBS.Models.TagHelpers
                     foreach (var item in AreaInfo.Children)
                     {
                         var areaItem = new TagBuilder(divTagName);
+                        areaItem.Attributes.Add("data-aid", item.Id.ToString());
                         areaItem.AddCssClass("area-item");
                         //  Logo Div
                         var logoDiv = new TagBuilder(divTagName);

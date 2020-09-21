@@ -16,6 +16,20 @@
         </div>
         <div class="infos">
             @Html.Partial("_PartialUserProfile", profile)
+            <div class="box fans">
+                <div class="box-title">
+                    <div class="title-text"></div>
+                </div>
+                <div class="box-content">
+                    @foreach (UWT.Libs.BBS.Areas.Forums.Models.Users.UserLightInfo item in ViewBag.Fans)
+	                {
+		                <div class="user-show" data-uid="@item.Id">
+                            <img src="@item.Avatar" alt="avatar" />
+                            <div>@item.NickName</div>
+                        </div>
+	                }
+                </div>
+            </div>
         </div>
     </div>
 </div>

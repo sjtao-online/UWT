@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using LinqToDB.Data;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,10 @@ namespace UWT.Libs.BBS
         {
             "red"
         };
+        internal static DataConnection GetDB(this IBBSService service)
+        {
+            return TemplateControllerEx.GetDB(null);
+        }
         /// <summary>
         /// 添加论坛功能
         /// </summary>
@@ -113,6 +118,10 @@ namespace UWT.Libs.BBS
             }
             return app;
         }
+    }
+    public interface IBBSService
+    {
+
     }
     public class BbsConfigModel
     {
