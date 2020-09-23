@@ -38,6 +38,18 @@ namespace UWT.Templates.Services.Extends
             return table.InsertWithInt32Identity(exp);
         }
         /// <summary>
+        /// 查询分页
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="query"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public static IQueryable<T> UwtQueryPageSelector<T>(this IQueryable<T> query, int pageIndex, int pageSize)
+        {
+            return query.Skip(pageIndex * pageSize).Take(pageSize);
+        }
+        /// <summary>
         /// 更新条目
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -128,5 +140,6 @@ namespace UWT.Templates.Services.Extends
             }
             return binds;
         }
+
     }
 }

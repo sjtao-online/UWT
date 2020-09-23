@@ -16,8 +16,8 @@ namespace UWT.Libs.BBS.Areas.Forums.Models.Users
         /// </summary>
         public string Avatar { get; set; }
         /// <summary>
-        /// 身份
+        /// 等级名
         /// </summary>
-        public string RoleName { get; set; }
+        public string LevelName { get; set; }
     }
 }

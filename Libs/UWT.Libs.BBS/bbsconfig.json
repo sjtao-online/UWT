@@ -4,5 +4,10 @@
     "main-format": "{0} - 论坛",
     "user-space": "{1} - {0}个人空间"
   },
-  "forum-name": "呵呵论坛"
+  "forum-name": "呵呵论坛",
+  "page-config": {
+    "default": {
+      "page-size": 30
+    }
+  }
 }

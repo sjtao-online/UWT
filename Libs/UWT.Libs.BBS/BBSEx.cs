@@ -113,7 +113,14 @@ namespace UWT.Libs.BBS
                     },
                     ForumName = "UWT论坛",
                     BeianCode = "",
-                    Logo = ""
+                    Logo = "",
+                    PageConfig = new BbsPageConfigModel()
+                    {
+                        Default = new BbsPageConfig()
+                        {
+                            PageSize = 30
+                        }
+                    }
                 };
             }
             return app;
@@ -133,6 +140,8 @@ namespace UWT.Libs.BBS
         public string ForumName { get; set; }
         [JsonPropertyName("logo")]
         public string Logo { get; set; }
+        [JsonPropertyName("page-config")]
+        public BbsPageConfigModel PageConfig { get; set; }
     }
     public class BbsTitleFormat
     {
@@ -140,5 +149,15 @@ namespace UWT.Libs.BBS
         public string MainFormat { get; set; }
         [JsonPropertyName("user-space")]
         public string UserSpace { get; set; }
+    }
+    public class BbsPageConfigModel
+    {
+        [JsonPropertyName("default")]
+        public BbsPageConfig Default { get; set; }
+    }
+    public class BbsPageConfig
+    {
+        [JsonPropertyName("page-size")]
+        public int PageSize { get; set; }
     }
 }

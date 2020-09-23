@@ -52,7 +52,7 @@
 
     $('.user-show').hover(function () {
         var uid = $(this).data("uid");
-        usershowtime = 1000;
+        usershowtime = 500;
         if (usershowing === uid) {
             return;
         }
@@ -77,7 +77,7 @@
 
     $('body').on('mouseover mouseout', userdlg, function () {
         if (event.type == "mouseover") {
-            usershowtime = 1000;
+            usershowtime = 500;
         } else if (event.type == "mouseout") {
             usershowtime = waittimes;
         }

@@ -20,10 +20,10 @@ namespace UWT.Templates.Services.Extends
         public const string PageSizeKey = "pageSize";
         public const string QueryParamKey = "query";
         public static void FillList<TTable, TListItem, TOrder>(Controller controller, ref ToPageModel ToPageModel,
-            System.Linq.Expressions.Expression<Func<TTable, TListItem>> selector,
-            System.Linq.Expressions.Expression<Func<TTable, bool>> where,
-            System.Linq.Expressions.Expression<Func<TTable, TOrder>> orderby,
-            System.Linq.Expressions.Expression<Func<TTable, TOrder>> orderbydesc,
+            Expression<Func<TTable, TListItem>> selector,
+            Expression<Func<TTable, bool>> where,
+            Expression<Func<TTable, TOrder>> orderby,
+            Expression<Func<TTable, TOrder>> orderbydesc,
             Dictionary<string, string> paramMaps)
             where TTable : class
             where TListItem : class
@@ -61,7 +61,7 @@ namespace UWT.Templates.Services.Extends
             var query = querys.Select(selector);
             ToPageModel.ItemTotal = query.Count();
             ToPageModel.Items = new List<object>();
-            foreach (var item in query.Skip(pageIndex * pageSize).Take(pageSize).ToList())
+            foreach (var item in query.UwtQueryPageSelector(pageIndex, pageSize).ToList())
             {
                 ToPageModel.Items.Add(item);
             }
@@ -88,9 +88,9 @@ namespace UWT.Templates.Services.Extends
                 }
             }
             addWhere = null;
-            if (controller.ViewData.ContainsKey(QueryExpression) && controller.ViewData[QueryExpression] is System.Linq.Expressions.Expression<Func<TTable, bool>>)
+            if (controller.ViewData.ContainsKey(QueryExpression) && controller.ViewData[QueryExpression] is Expression<Func<TTable, bool>>)
             {
-                addWhere = controller.ViewData[QueryExpression] as System.Linq.Expressions.Expression<Func<TTable, bool>>;
+                addWhere = controller.ViewData[QueryExpression] as Expression<Func<TTable, bool>>;
             }
             else if (controller.HttpContext.Request.Query.ContainsKey(QueryParamKey))
             {

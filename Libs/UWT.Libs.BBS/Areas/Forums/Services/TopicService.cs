@@ -7,68 +7,66 @@ using UWT.Libs.BBS.Areas.Forums.ServiceModels.Topic;
 using UWT.Libs.BBS.Models;
 using UWT.Libs.BBS.Models.Const;
 using UWT.Templates.Services.Extends;
+using UWT.Libs.BBS.Areas.BBS.Models;
 
 namespace UWT.Libs.BBS.Areas.Forums.Services
 {
-    public class TopicService
+    public class TopicService : BBSService
     {
         public object Create(CreateTopicModel topic)
         {
             //  检测用户当前是否可以发
 
-            using (var db = TemplateControllerEx.GetDB(null))
+            var bt = DataConnection.BeginTransaction();
+            try
             {
-                var bt = db.BeginTransaction();
-                try
+                //  创建主题主表
+                int topicId = DataConnection.TableTopic().InsertWithInt32Identity(() => new UwtBbsTopic()
                 {
-                    //  创建主题主表
-                    int topicId = db.TableTopic().InsertWithInt32Identity(() => new UwtBbsTopic()
+                    Title = topic.Title,
+                    Type = topic.Type
+                });
+                //  添加一个内容主体
+                int topicHisId = DataConnection.TableTopicHis().InsertWithInt32Identity(() => new UwtBbsTopicHis()
+                {
+                    Content = topic.Content,
+                    TId = topicId,
+                    Title = topic.Title,
+                    ApplyTime = null,
+                    Status = topic.IsPublish ? TopicStatus.WaitApply : TopicStatus.Draft
+                });
+                //  给版块添加
+                foreach (var item in topic.AreaList)
+                {
+                    var a = from it in DataConnection.TableArea() where it.Id == item && it.Status == AreaStatus.Show select it.Apply;
+                    if (a.Count() == 1)
                     {
-                        Title = topic.Title,
-                        Type = topic.Type
-                    });
-                    //  添加一个内容主体
-                    int topicHisId = db.TableTopicHis().InsertWithInt32Identity(() => new UwtBbsTopicHis()
-                    {
-                        Content = topic.Content,
-                        TId = topicId,
-                        Title = topic.Title,
-                        ApplyTime = null,
-                        Status = topic.IsPublish ? TopicStatus.WaitApply : TopicStatus.Draft
-                    });
-                    //  给版块添加
-                    foreach (var item in topic.AreaList)
-                    {
-                        var a = from it in db.TableArea() where it.Id == item && it.Status == AreaStatus.Show select it.Apply;
-                        if (a.Count() == 1)
+                        var status = "applying";
+                        if (a.First() == "publish")
                         {
-                            var status = "applying";
-                            if (a.First() == "publish")
-                            {
-                                status = "publish";
-                            }
-                            db.TableAreaTopicRef().Insert(() => new UwtBbsAreaTopicRef()
-                            {
-                                TId = topicId,
-                                AId = item,
-                                HId = topicHisId,
-                                Ex = "",
-                                Status = status
-                            });
+                            status = "publish";
                         }
-                        else
+                        DataConnection.TableAreaTopicRef().Insert(() => new UwtBbsAreaTopicRef()
                         {
-                            bt.Rollback();
-                            return ControllerEx.Error(null, "");
-                        }
+                            TId = topicId,
+                            AId = item,
+                            HId = topicHisId,
+                            Ex = "",
+                            Status = status
+                        });
                     }
-                    bt.Commit();
+                    else
+                    {
+                        bt.Rollback();
+                        return ControllerEx.Error(null, "");
+                    }
                 }
-                catch (Exception)
-                {
-                    bt.Rollback();
-                    return ControllerEx.Error(null, "发贴失败");
-                }
+                bt.Commit();
+            }
+            catch (Exception)
+            {
+                bt.Rollback();
+                return ControllerEx.Error(null, "发贴失败");
             }
             return ControllerEx.Success(null);
         }
@@ -99,16 +97,23 @@ namespace UWT.Libs.BBS.Areas.Forums.Services
 
         }
 
+        public object ListFromCreator(int uid, int pageIndex, int pageSize)
+        {
+            var topicList = from it in DataConnection.TableTopic()
+                            select new TopicListItemModel()
+                            {
+
+                            };
+            return ControllerEx.Success(null);
+        }
+
         public object List(int areaId, bool isPostdate, int pageIndex, int pageSize)
         {
-            using (var db = TemplateControllerEx.GetDB(null))
-            {
-                var topics = from it in db.TableAreaTopicRef()
-                             where it.AId == areaId && it.Status == "publish"
-                             group it by it.TId into g
-                             select g;
-                return ControllerEx.Success(null);
-            }
+            var topics = from it in DataConnection.TableAreaTopicRef()
+                         where it.AId == areaId && it.Status == TopicStatus.Publish
+                         group it by it.TId into g
+                         select g;
+            return ControllerEx.Success(null);
         }
     }
 }

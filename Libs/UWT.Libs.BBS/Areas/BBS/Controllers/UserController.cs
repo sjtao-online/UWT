@@ -12,20 +12,29 @@ namespace UWT.Libs.BBS.Areas.BBS.Controllers
     [BBSRoute]
     public class UserController : Controller
     {
+        UserService service = new UserService();
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            service.Dispose();
+        }
         string mTitle = "";
         [Route("/BBS/User/{uid}")]
         public IActionResult Index(int uid)
         {
+            mTitle = "主页";
             if (!FillProfile(uid))
             {
                 return NoProfile();
             }
-            ViewBag.Fans = new UserService().GetFans<UserLightInfo>(uid);
+            ViewBag.Fans = service.GetFans<UserLightInfo>(uid, 0, 9);
+            ViewBag.FansCount = service.GetLastPageCount();
             return View();
         }
 
         public IActionResult Profile(int uid)
         {
+            mTitle = "资料";
             if (!FillProfile(uid))
             {
                 return NoProfile();
@@ -36,6 +45,7 @@ namespace UWT.Libs.BBS.Areas.BBS.Controllers
 
         public IActionResult Topic(int uid)
         {
+            mTitle = "帖子";
             if (!FillProfile(uid))
             {
                 return NoProfile();
@@ -43,23 +53,43 @@ namespace UWT.Libs.BBS.Areas.BBS.Controllers
             return View();
         }
 
-        public IActionResult Fans(int uid)
+        public IActionResult Fans(int uid, int pageIndex, int pageSize)
         {
+            mTitle = "粉丝";
             if (!FillProfile(uid))
             {
                 return NoProfile();
             }
-            ViewBag.Fans = new UserService().GetFans<UserSimpleInfo>(uid);
+            var fs = service.GetFans<UserSimpleInfo>(uid, pageIndex, pageSize);
+            ViewBag.Fans = fs;
+            ViewBag.PageSelector = new PageSelectorModel()
+            {
+                ItemTotal = service.GetLastPageCount(),
+                PageIndex = pageIndex,
+                PageSize = pageSize == 0 ? service.GetDefaultPageSize(): pageSize,
+                CurrentPageCount = fs.Count,
+                UrlBase = $"/BBS/User/Fans?uid={uid}"
+            };
             return View();
         }
 
-        public IActionResult Follow(int uid)
+        public IActionResult Follow(int uid, int pageIndex, int pageSize)
         {
+            mTitle = "关注";
             if (!FillProfile(uid))
             {
                 return NoProfile();
             }
-            ViewBag.Follows = new UserService().GetFollows<UserSimpleInfo>(uid);
+            var fs = service.GetFollows<UserSimpleInfo>(uid, pageIndex, pageSize);
+            ViewBag.Follows = fs;
+            ViewBag.PageSelector = new PageSelectorModel()
+            {
+                ItemTotal = service.GetLastPageCount(),
+                PageIndex = pageIndex,
+                PageSize = pageSize == 0 ? service.GetDefaultPageSize() : pageSize,
+                CurrentPageCount = fs.Count,
+                UrlBase = $"/BBS/User/Follow?uid={uid}"
+            };
             return View();
         }
 
@@ -70,7 +100,7 @@ namespace UWT.Libs.BBS.Areas.BBS.Controllers
 
         private bool FillProfile(int uid)
         {
-            ViewData["body-class"] = "user-bg";
+            ViewData["body-class"] = "user-bg-2";
             var profile = new UserService().Find<UserProfileModel>(uid, (db, info)=>
             {
                 info.TouchCount = 100;
