@@ -39,6 +39,11 @@
   </ItemGroup>
   
   <ItemGroup>
+    <Content Remove="wwwroot\bbs\themes\green.css" />
+    <Content Remove="wwwroot\bbs\themes\orange.css" />
+  </ItemGroup>
+  
+  <ItemGroup>
     <Folder Include="Controllers\" />
   </ItemGroup>
 

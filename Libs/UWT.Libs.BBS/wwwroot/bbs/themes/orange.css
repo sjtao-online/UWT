@@ -1,14 +1,15 @@
-﻿header {
-    background-color: #D24D57;
+﻿
+header {
+    background-color: #EB7347;
 }
 
 .page-selector button.current, .page-selector button.current:hover {
-    background-color: #D24D57;
-    border-color: #D5505A;
+    background-color: #EB7347;
+    border-color: #EE764A;
 }
 
 .page-selector button:hover {
-    background-color: #D5505A;
+    background-color: #EE764A;
 }
 
 .page-selector button.unhandle:hover {

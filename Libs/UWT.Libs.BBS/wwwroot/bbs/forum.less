@@ -30,7 +30,7 @@ body {
     color: @defaultcolor;
 }
 
-.user-bg-1, .user-bg-2, .user-bg-3 {
+.user-bg-1, .user-bg-2, .user-bg-3, .user-bg-4 {
     background-color: @coloruserbg;
     background-size: 8px 8px;
 }
@@ -45,6 +45,11 @@ body {
 
 .user-bg-3 {
     background-image: linear-gradient(45deg, @coloruserbgline 25%, transparent 0, transparent 75%, @coloruserbgline 0), linear-gradient(45deg, @coloruserbgline 25%, transparent 0, transparent 75%, @coloruserbgline 0);
+}
+
+.user-bg-4 {
+    background-image: linear-gradient(45deg, @coloruserbgline 25%, transparent 0, transparent 75%, @coloruserbgline 0), linear-gradient(45deg, @coloruserbgline 25%, transparent 0, transparent 75%, @coloruserbgline 0);
+    background-position: 0 0, 4px 4px;
 }
 
 a {
@@ -195,7 +200,7 @@ header {
         color: white;
 
         &.current {
-            background-color: #3b7fc4;
+            background-color: rgba(0,0,0,0.2);
         }
     }
 }
@@ -649,8 +654,8 @@ footer {
         }
 
         &.current {
-            color: @colorwhite !important;
-            background: @colorpagebg !important;
+            color: @colorwhite;
+            background: @colorpagebg;
             border-color: @colorpagebgtop @colorpagebg @colorpagebg @colorpagebg;
 
             &:hover {

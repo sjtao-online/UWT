@@ -102,9 +102,15 @@ namespace UWT.Libs.BBS.Areas.Forums.Services
             var topicList = from it in DataConnection.TableTopic()
                             select new TopicListItemModel()
                             {
-
+                                Id = it.Id,
+                                Category = Enum.Parse<TopicCate>(it.Type),
+                                Title = it.Title,
+                                IsHot = false,
+                                VisitorCount = it.TouchCnt,
+                                CreateTime = it.AddTime,
                             };
-            return ControllerEx.Success(null);
+            
+            return ControllerEx.Success(null, topicList.ToList());
         }
 
         public object List(int areaId, bool isPostdate, int pageIndex, int pageSize)

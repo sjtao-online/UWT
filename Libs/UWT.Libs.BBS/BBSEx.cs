@@ -90,7 +90,7 @@ namespace UWT.Libs.BBS
             });
             var configJson = Path.Combine(
 #if DEBUG
-                @"E:\Work\UWT\UWT.Server\bin\Debug\netcoreapp3.1"
+                @"E:\Work\UWT\UWTX\UWT.Server\bin\Debug\netcoreapp3.1"
 #else
                 app.GetCurrentWebHost().ContentRootPath
 #endif
@@ -120,6 +120,15 @@ namespace UWT.Libs.BBS
                         {
                             PageSize = 30
                         }
+                    },
+                    HeaderLinkList = new List<BbsHeaderLink>()
+                    {
+                        new BbsHeaderLink()
+                        {
+                            Url = "/bbs",
+                            Title = "论坛",
+                            Regex = null
+                        }
                     }
                 };
             }
@@ -142,6 +151,8 @@ namespace UWT.Libs.BBS
         public string Logo { get; set; }
         [JsonPropertyName("page-config")]
         public BbsPageConfigModel PageConfig { get; set; }
+        [JsonPropertyName("header-links")]
+        public List<BbsHeaderLink> HeaderLinkList { get; set; }
     }
     public class BbsTitleFormat
     {
@@ -155,6 +166,17 @@ namespace UWT.Libs.BBS
         [JsonPropertyName("default")]
         public BbsPageConfig Default { get; set; }
     }
+
+    public class BbsHeaderLink
+    {
+        [JsonPropertyName("title")]
+        public string Title { get; set; }
+        [JsonPropertyName("url")]
+        public string Url { get; set; }
+        [JsonPropertyName("regex")]
+        public string Regex { get; set; }
+    }
+
     public class BbsPageConfig
     {
         [JsonPropertyName("page-size")]

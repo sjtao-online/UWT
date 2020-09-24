@@ -18,7 +18,7 @@
         <link href="@item" rel="stylesheet" />
     }
     @RenderSection("CSS", false)
-    <title>@(string.Format(BBSEx.BbsConfigModel.Titles.MainFormat, ViewBag.Title??""))</title>
+    <title>@(string.Format(BBSEx.BbsConfigModel.Titles.MainFormat, ViewBag.Title ?? ""))</title>
     
 </head>
 <body class="@(ViewData.ContainsKey("body-class") ? (string)ViewData["body-class"] : "")">
@@ -39,7 +39,33 @@
                         </a>
                     </div>
                     <div class="nav">
-                        <a href="#" class="current">123</a>
+                        @{ 
+                            string currentUrl = "";
+                            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                            bool hasCurrent = false;
+                            foreach (var item in BBSEx.BbsConfigModel.HeaderLinkList)
+                            {
+                                if (item.Regex == null)
+                                {
+                                    sb.AppendFormat("<a href=\"{0}\" class=\"want-current\">{1}</a>", item.Url, item.Title);
+                                }
+                                else
+                                {
+                                    bool regex = System.Text.RegularExpressions.Regex.IsMatch(currentUrl, item.Regex);
+                                    if (regex)
+                                    {
+                                        hasCurrent = true;
+                                    }
+                                    sb.AppendFormat("<a href=\"{0}\" class=\"{2}\">{1}</a>", item.Url, item.Title, regex ? "current" : "");
+                                }
+                            }
+                            string urlList = sb.ToString();
+                            if (!hasCurrent)
+                            {
+                                urlList = urlList.Replace("want-current", "current");
+                            }
+                            @Html.Raw(urlList)
+                        }
                     </div>
                     <div class="header_search">
                         <input type="text" id="search_text" class="search_text empty" value=""/>
