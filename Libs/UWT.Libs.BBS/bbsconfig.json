@@ -12,14 +12,19 @@
   },
   "header-links": [
     {
-      "url": "/bss",
+      "url": "/bbs",
       "title": "123",
       "regex": null
     },
     {
-      "url": "/bss/area/1",
-      "title": "123",
-      "regex": "/bss/area/1"
+      "url": "/bbs/area/1",
+      "title": "111",
+      "regex": "^/bbs/area/1$"
+    },
+    {
+      "url": "/bbs/area/2?a=123",
+      "title": "222",
+      "regex": "^/bbs/area/2"
     }
   ]
 }

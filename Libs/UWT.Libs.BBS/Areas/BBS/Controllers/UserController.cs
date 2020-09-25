@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using UWT.Libs.BBS.Areas.BBS.Models;
 using UWT.Libs.BBS.Areas.Forums.Models.Users;
 using UWT.Libs.BBS.Areas.Forums.Services;
+using UWT.Templates.Services.Extends;
 
 namespace UWT.Libs.BBS.Areas.BBS.Controllers
 {
@@ -91,6 +92,20 @@ namespace UWT.Libs.BBS.Areas.BBS.Controllers
                 UrlBase = $"/BBS/User/Follow?uid={uid}"
             };
             return View();
+        }
+
+        [AuthBBS]
+        public IActionResult ModifyProperties()
+        {
+            service.GetPropertyConfig();
+            return View();
+        }
+
+        [HttpPost, AuthBBS]
+        public object ModifyProperties([FromBody]Dictionary<string, string> pairs)
+        {
+
+            return this.Success();
         }
 
         private IActionResult NoProfile()

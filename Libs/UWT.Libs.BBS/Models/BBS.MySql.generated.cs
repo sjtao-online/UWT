@@ -262,6 +262,7 @@ namespace UWT.Libs.BBS.Models
 		/// 显示名称
 		/// </summary>
 		[Column("name"), NotNull             ] public string Name { get; set; } // varchar(255)
+		[Column("type"), NotNull             ] public string Type { get; set; } // enum('text','gender','date','time_of_day','weekday','datetime')
 		[Column("g_id"), NotNull             ] public int    GId  { get; set; } // int(11)
 	}
 
@@ -291,6 +292,28 @@ namespace UWT.Libs.BBS.Models
 	{
 		[Column("id"),   PrimaryKey, Identity] public int    Id   { get; set; } // int(11)
 		[Column("name"), NotNull             ] public string Name { get; set; } // varchar(255)
+	}
+
+	[Table("uwt_bbs_visit_his")]
+	public partial class UwtBbsVisitHis
+	{
+		[Column("id"),       PrimaryKey, Identity] public int      Id      { get; set; } // int(11)
+		/// <summary>
+		/// 拜访者Id
+		/// </summary>
+		[Column("v_id"),     NotNull             ] public int      VId     { get; set; } // int(11)
+		/// <summary>
+		/// 受访者Id
+		/// </summary>
+		[Column("u_id"),     NotNull             ] public int      UId     { get; set; } // int(11)
+		/// <summary>
+		/// 访问的URL
+		/// </summary>
+		[Column("url"),      NotNull             ] public string   Url     { get; set; } // varchar(255)
+		/// <summary>
+		/// 访问时间
+		/// </summary>
+		[Column("add_time"), NotNull             ] public DateTime AddTime { get; set; } // datetime
 	}
 
 	public static partial class TableExtensions
@@ -458,6 +481,17 @@ namespace UWT.Libs.BBS.Models
 		public static ITable<UwtBbsUserPropGroup> TableUserPropGroup(this DataConnection db)
 		{
 			return db.GetTable<UwtBbsUserPropGroup>();
+		}
+
+		public static UwtBbsVisitHis Find(this ITable<UwtBbsVisitHis> table, int Id)
+		{
+			return table.FirstOrDefault(t =>
+				t.Id == Id);
+		}
+
+		public static ITable<UwtBbsVisitHis> TableVisitHis(this DataConnection db)
+		{
+			return db.GetTable<UwtBbsVisitHis>();
 		}
 	}
 }

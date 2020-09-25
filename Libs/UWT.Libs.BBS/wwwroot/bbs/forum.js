@@ -1,4 +1,10 @@
 ﻿$(function () {
+    $('#search_text').keyup(function (event) {
+        if (event.keycode == 13) {
+            window.location.href = '/bbs/topic/list?k=' + $('#search_text').val();
+        }
+    })
+
     $('.area-item').click(function () {
         window.location.href = "/bbs/area/" + $(this).data('aid');
     })

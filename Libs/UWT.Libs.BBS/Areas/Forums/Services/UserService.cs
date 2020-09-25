@@ -78,6 +78,11 @@ namespace UWT.Libs.BBS.Areas.Forums.Services
             }
         }
 
+        public void GetPropertyConfig()
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// 获得关注列表(分页)
         /// </summary>

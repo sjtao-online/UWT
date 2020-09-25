@@ -40,7 +40,7 @@
                     </div>
                     <div class="nav">
                         @{ 
-                            string currentUrl = "";
+                            string currentUrl = Context.Request.Path + Context.Request.QueryString.ToString();
                             System.Text.StringBuilder sb = new System.Text.StringBuilder();
                             bool hasCurrent = false;
                             foreach (var item in BBSEx.BbsConfigModel.HeaderLinkList)
