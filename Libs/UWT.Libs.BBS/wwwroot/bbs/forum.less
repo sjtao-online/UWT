@@ -503,6 +503,18 @@ footer {
             line-height: 30px;
             display: flex;
 
+            .topicer {
+                &::before {
+                    content: "楼主：";
+                }
+            }
+
+            .last-commit {
+                &::before {
+                    content: "最后回复：";
+                }
+            }
+
             .cate {
                 width: 30px;
                 margin-right: 4px;
@@ -886,7 +898,7 @@ footer {
     background: #f5f5f5;
     padding: 3px;
     position: absolute;
-    width: 360px;
+    width: 240px;
     color: #666;
     z-index: 1;
     padding: 4px;

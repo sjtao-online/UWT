@@ -22,7 +22,7 @@
       "regex": "^/bbs/area/1$"
     },
     {
-      "url": "/bbs/area/2?a=123",
+      "url": "/bbs/area/2",
       "title": "222",
       "regex": "^/bbs/area/2"
     }

@@ -1,12 +1,5 @@
 ﻿@{
-    List<UWT.Templates.Models.Basics.UrlTitleIdModel> list = new List<UWT.Templates.Models.Basics.UrlTitleIdModel>()
-    {
-        new UWT.Templates.Models.Basics.UrlTitleIdModel()
-        {
-            Title = "123",
-            Url = "/BBS/Area/1"
-        }
-    };
+    List<UWT.Templates.Models.Basics.UrlTitleIdModel> list = ViewBag.CrumbList;
     var topicList = new List<UWT.Libs.BBS.Areas.BBS.Models.TopicListItemModel>()
     {
         new UWT.Libs.BBS.Areas.BBS.Models.TopicListItemModel()

@@ -51,7 +51,7 @@
                                 }
                                 else
                                 {
-                                    bool regex = System.Text.RegularExpressions.Regex.IsMatch(currentUrl, item.Regex);
+                                    bool regex = System.Text.RegularExpressions.Regex.IsMatch(currentUrl, item.Regex, System.Text.RegularExpressions.RegexOptions.IgnoreCase);
                                     if (regex)
                                     {
                                         hasCurrent = true;

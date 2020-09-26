@@ -66,20 +66,13 @@
         IsHot = true
     };
     ViewBag.Title = topic.Title;
-    List<UWT.Templates.Models.Basics.UrlTitleIdModel> list = new List<UWT.Templates.Models.Basics.UrlTitleIdModel>()
-    {
-        new UWT.Templates.Models.Basics.UrlTitleIdModel()
-        {
-            Title = "123",
-            Url = "/BBS/Area/1"
-        }
-    };
+    List<UWT.Templates.Models.Basics.UrlTitleIdModel> list = ViewBag.CrumbList;
 }
 
 
 <div class="full_screen main_wrap">
     <crumb crumb-list="list"></crumb>
-    <button class="goto-list" data-url="/bbs/area/1"></button>
+    <button class="goto-list" data-url="/bbs/area/@ViewBag.AreaId "></button>
     @foreach (var item in topicList)
     {
         var userinfo = userMap[item.UserId];
@@ -137,5 +130,5 @@
             </div>
         </div>
     }
-    <button class="goto-list" data-url="/bbs/area/1"></button>
+    <button class="goto-list" data-url="/bbs/area/@ViewBag.AreaId"></button>
 </div>

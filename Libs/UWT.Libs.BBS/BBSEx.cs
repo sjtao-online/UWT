@@ -37,12 +37,7 @@ namespace UWT.Libs.BBS
             if (UwtThemeList.Contains(appendCss))
             {
                 //  内置主题
-#if DEBUG
-                css = "/_content/uwt.libs.bbs" +
-#else
-                css = 
-#endif
-                      "/bbs/themes/" + appendCss + ".css";
+                css = "/bbs/themes/" + appendCss;
             }
             else if (appendCss.StartsWith("//") || appendCss.ToLower().StartsWith("http://") || appendCss.ToLower().StartsWith("https://") || appendCss.StartsWith("/"))
             {
@@ -90,7 +85,7 @@ namespace UWT.Libs.BBS
             });
             var configJson = Path.Combine(
 #if DEBUG
-                @"E:\Work\UWT\UWTX\UWT.Server\bin\Debug\netcoreapp3.1"
+                @"E:\Work\UWT\UWT.Server\bin\Debug\netcoreapp3.1"
 #else
                 app.GetCurrentWebHost().ContentRootPath
 #endif
@@ -153,6 +148,8 @@ namespace UWT.Libs.BBS
         public BbsPageConfigModel PageConfig { get; set; }
         [JsonPropertyName("header-links")]
         public List<BbsHeaderLink> HeaderLinkList { get; set; }
+        [JsonPropertyName("themes")]
+        public Dictionary<string, string> Themes { get; set; }
     }
     public class BbsTitleFormat
     {
