@@ -1,0 +1,32 @@
+# UWT.Libs.BBS
+
+
+## 内置主题
+
+> 使用
+
+1. NAVY
+2. NAVY2
+3. BLUE
+4. BLUE2
+5. AQUA
+6. AQUA2
+7. TEAL
+8. TEAL2
+9. OLIVE
+10. GREEN
+11. GREEN2
+12. YELLOW
+13. YELLOW2
+14. ORANGE
+15. ORANGE2
+16. RED
+17. RED2
+18. MAROON
+19. FUCHSIA
+20. PURPLE
+21. SILVER
+
+22. CUSTOM1	# 自定义，用于config覆盖
+23.	CUSTOM2 # 自定义，用于config覆盖
+24.	CUSTOM3 # 自定义，用于config覆盖

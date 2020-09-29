@@ -47,7 +47,7 @@
                             {
                                 if (item.Regex == null)
                                 {
-                                    sb.AppendFormat("<a href=\"{0}\" class=\"want-current\">{1}</a>", item.Url, item.Title);
+                                    sb.AppendFormat("<a href=\"{0}\" class=\"want-current white\">{1}</a>", item.Url, item.Title);
                                 }
                                 else
                                 {
@@ -56,7 +56,7 @@
                                     {
                                         hasCurrent = true;
                                     }
-                                    sb.AppendFormat("<a href=\"{0}\" class=\"{2}\">{1}</a>", item.Url, item.Title, regex ? "current" : "");
+                                    sb.AppendFormat("<a href=\"{0}\" class=\"{2} white\">{1}</a>", item.Url, item.Title, regex ? "current" : "");
                                 }
                             }
                             string urlList = sb.ToString();

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.Json.Serialization;
+using UWT.Libs.BBS.Areas.BBS.Controllers;
 using UWT.Templates.Services.Extends;
 using UWT.Templates.Services.StartupEx;
 
@@ -17,10 +18,6 @@ namespace UWT.Libs.BBS
     public static class BBSEx
     {
         internal static List<string> ThemeCssList = new List<string>();
-        static HashSet<string> UwtThemeList = new HashSet<string>()
-        {
-            "red"
-        };
         internal static DataConnection GetDB(this IBBSService service)
         {
             return TemplateControllerEx.GetDB(null);
@@ -34,7 +31,7 @@ namespace UWT.Libs.BBS
         public static IServiceCollection AddBBS(this IServiceCollection services, string appendCss)
         {
             string css = "";
-            if (UwtThemeList.Contains(appendCss))
+            if (ThemeController.UwtColorMap.ContainsKey(appendCss))
             {
                 //  内置主题
                 css = "/bbs/themes/" + appendCss;

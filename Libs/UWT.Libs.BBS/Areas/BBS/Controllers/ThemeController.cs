@@ -11,27 +11,32 @@ namespace UWT.Libs.BBS.Areas.BBS.Controllers
     public class ThemeController
     {
         static Dictionary<string, byte[]> ThemeMapCache = new Dictionary<string, byte[]>();
-        static Dictionary<string, Color> UwtColorMap = new Dictionary<string, Color>()
+        internal static Dictionary<string, Color> UwtColorMap = new Dictionary<string, Color>()
         {
-            ["NAVY"] = FromWebColorText("#001f3f"),
+            ["NAVY"] = FromWebColorText("#104080"),
+            ["NAVY2"] = FromWebColorText("#001f3f"),
             ["BLUE"] = FromWebColorText("#0074D9"),
+            ["BLUE2"] = FromWebColorText("#0064c9"),
             ["AQUA"] = FromWebColorText("#7FDBFF"),
+            ["AQUA2"] = FromWebColorText("#6FCBEF"),
             ["TEAL"] = FromWebColorText("#39CCCC"),
+            ["TEAL2"] = FromWebColorText("#008080"),
             ["OLIVE"] = FromWebColorText("#3D9970"),
             ["GREEN"] = FromWebColorText("#2ECC40"),
-            ["LIME"] = FromWebColorText("#01FF70"),
+            ["GREEN2"] = FromWebColorText("#26A65B"),
             ["YELLOW"] = FromWebColorText("#FFDC00"),
+            ["YELLOW2"] = FromWebColorText("#EFCC00"),
             ["ORANGE"] = FromWebColorText("#FF851B"),
+            ["ORANGE2"] = FromWebColorText("#EB7347"),
             ["RED"] = FromWebColorText("#FF4136"),
+            ["RED2"] = FromWebColorText("#D24D57"),
             ["MAROON"] = FromWebColorText("#85144b"),
             ["FUCHSIA"] = FromWebColorText("#F012BE"),
             ["PURPLE"] = FromWebColorText("#B10DC9"),
-            ["BLACK"] = FromWebColorText("#111111"),
-            ["GRAY"] = FromWebColorText("#AAAAAA"),
             ["SILVER"] = FromWebColorText("#DDDDDD"),
-            ["RED2"] = FromWebColorText("#D24D57"),
-            ["GREEN2"] = FromWebColorText("#26A65B"),
-            ["ORANGE2"] = FromWebColorText("#EB7347")
+            ["CUSTOM1"] = FromWebColorText("#F00"),
+            ["CUSTOM2"] = FromWebColorText("#F00"),
+            ["CUSTOM3"] = FromWebColorText("#F00"),
         };
 
         private static int _FromHex1(char c)

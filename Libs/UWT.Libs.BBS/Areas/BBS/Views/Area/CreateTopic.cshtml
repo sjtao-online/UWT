@@ -1,0 +1,56 @@
+﻿@using UWT.Templates.Services.Extends
+@{
+}
+
+<div class="full_screen create-topic">
+    <div class="title">
+        <input type="text" name="name" value="" id="title" />
+        <div id="cate" class="cate">
+            <div value="discuss" class="discuss"></div>
+            <div value="question" class="question"></div>
+            <div value="vote" class="vote"></div>
+        </div>
+    </div>
+    <div class="content" id="content"></div>
+
+    <div class="handles">
+        <button class="publish"></button>
+        <button class="saved"></button>
+        <button class="back"></button>
+    </div>
+</div>
+
+
+@section CSS {
+    <link href="/lib/layui/css/layui.css" rel="stylesheet" />
+}
+
+@section Scripts {
+    <script src="/lib/layui/layui.js"></script>
+    <script>
+        layui.use(['jquery', 'form', 'layedit'], function () {
+            $ = layui.$;
+            var id = $(this).attr('id');
+            var index = layui.layedit.build(content);
+            layui.layedit.set({
+                uploadImage: {
+                    url: '@this.GetFileManagerOptional().UploadApi'   //接口url
+                    , type: 'post' //默认post
+                }
+            })
+            $('#cate').change(function () {
+                
+            })
+            $('.publish').click(function () {
+                $('.cate>div').removeClass()
+            })
+            $('.saved').click(function () {
+
+            })
+            $('.back').click(function () {
+            })
+
+            //layui.layedit.setContent(index, $('#' + id + "-src").html(), false)
+        })
+    </script>
+}

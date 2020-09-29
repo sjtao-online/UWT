@@ -26,7 +26,7 @@
 body {
     margin: 0;
     padding: 0;
-    padding-top: @headerheight;
+    padding-top: @headerheight !important;
     color: @defaultcolor;
 }
 
@@ -58,14 +58,26 @@ a {
 
     &.light {
         color: @color9;
+
+        &:hover {
+            color: @color9;
+        }
     }
 
     &.gray {
         color: @color6;
+
+        &:hover {
+            color: @color6;
+        }
     }
 
     &.white {
         color: @colorwhite;
+
+        &:hover {
+            color: @colorwhite;
+        }
     }
 
     &:hover {
@@ -923,8 +935,8 @@ footer {
             margin-left: 8px;
 
             .nickname {
-                &::before {
-                    content: "👤";
+                &::after {
+                    content: "🚩";
                 }
             }
 
@@ -1289,4 +1301,92 @@ footer {
     }
 
     .loop();
+}
+
+
+/*创建新主题页*/
+.create-topic {
+    margin-top: 20px;
+
+    .title {
+        padding: 10px 0;
+        display: flex;
+
+        &::before {
+            content: "标题：";
+            width: 50px;
+            line-height: 25px;
+        }
+
+        input {
+            border: 1px solid @color9;
+            -moz-border-radius: 3px;
+            -webkit-border-radius: 3px;
+            border-radius: 3px;
+            padding: 3px 5px;
+            -ms-flex: 1;
+            -webkit-flex: 1;
+            flex: 1;
+        }
+
+        .cate {
+            display: flex;
+
+            div {
+                margin-left: 10px;
+                -moz-border-radius: 3px;
+                -webkit-border-radius: 3px;
+                border-radius: 3px;
+                padding: 2px 4px;
+
+                &:hover {
+                    background-color: @coloref;
+                }
+            }
+
+            .selected {
+                background-color: @colord3;
+
+                &:hover {
+                    background-color: @colord3;
+                }
+            }
+
+            .discuss::after {
+                content: "讨论";
+            }
+
+            .question::after {
+                content: "提问";
+            }
+
+            .vote::after {
+                content: "投票";
+            }
+        }
+    }
+
+    .handles {
+        display: flex;
+        -webkit-justify-content: center;
+        justify-content: center;
+        margin: 10px 0;
+
+        button {
+            margin: 0 4px;
+            padding: 0 6px;
+        }
+
+        .publish::before {
+            content: "发布";
+        }
+
+        .saved::before {
+            content: "保存草稿";
+        }
+
+        .back::before {
+            content: "返回";
+        }
+    }
 }

@@ -58,5 +58,11 @@ namespace UWT.Libs.BBS.Areas.BBS.Controllers
             ViewBag.CrumbList = crumbList;
             return View();
         }
+
+        public IActionResult CreateTopic(int id)
+        {
+            ViewBag.AreaId = id;
+            return View();
+        }
     }
 }
