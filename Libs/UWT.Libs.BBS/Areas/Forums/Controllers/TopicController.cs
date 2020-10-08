@@ -18,7 +18,12 @@ namespace UWT.Libs.BBS.Areas.Forums.Controllers
         [HttpPost]
         public virtual object CreateTopic([FromBody] CreateTopicModel topic)
         {
-            return new TopicService().Create(topic);
+            return TopicService.Create(topic);
+        }
+
+        public object ModifyTopic([FromBody] ModifyTopicModel topic)
+        {
+            return TopicService.Modify(topic);
         }
 
         /// <summary>
@@ -29,7 +34,7 @@ namespace UWT.Libs.BBS.Areas.Forums.Controllers
         [HttpPost]
         public virtual object CommentTopic([FromBody] CommentModel comment)
         {
-            return new TopicService().Comment(comment);
+            return TopicService.Comment(comment);
         }
 
         /// <summary>
@@ -41,7 +46,13 @@ namespace UWT.Libs.BBS.Areas.Forums.Controllers
         /// <returns></returns>
         public object TopicList(int areaId, int pageIndex, int pageSize)
         {
-            return new TopicService().List(areaId, false, pageIndex, pageSize);
+            return TopicService.List(areaId, false, pageIndex, pageSize);
+        }
+        TopicService TopicService = new TopicService();
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            TopicService.Dispose();
         }
     }
 }

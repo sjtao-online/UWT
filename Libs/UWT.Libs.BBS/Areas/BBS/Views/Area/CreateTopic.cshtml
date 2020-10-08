@@ -6,9 +6,9 @@
     <div class="title">
         <input type="text" name="name" value="" id="title" />
         <div id="cate" class="cate">
-            <div value="discuss" class="discuss"></div>
-            <div value="question" class="question"></div>
-            <div value="vote" class="vote"></div>
+            <div data-value="discuss" class="discuss"></div>
+            <div data-value="question" class="question"></div>
+            <div data-value="vote" class="vote"></div>
         </div>
     </div>
     <div class="content" id="content"></div>
@@ -38,17 +38,35 @@
                     , type: 'post' //默认post
                 }
             })
-            $('#cate').change(function () {
-                
-            })
             $('.publish').click(function () {
+                commitTopic(true);
                 $('.cate>div').removeClass()
             })
             $('.saved').click(function () {
-
+                commitTopic(false);
             })
             $('.back').click(function () {
             })
+
+            function commitTopic(publish) {
+                var type = 'discuss';
+                $('.cate>div').each(function () {
+                    if ($(this).hasClass('selected')) {
+                         type = $(this).data('value');
+                    }
+                })
+                var topic = {
+                    title: $('#title').val(),
+                    content: curData = layui.layedit.getContent(index),
+                    type: type,
+                    publish: publish
+                }
+                api('/forums/topic/create', topic, function (rx) {
+                    alert("成功");
+                }, function (x) {
+                    alert("失败");
+                });
+            }
 
             //layui.layedit.setContent(index, $('#' + id + "-src").html(), false)
         })

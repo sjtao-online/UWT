@@ -28,4 +28,8 @@ namespace UWT.Libs.BBS.Areas.Forums.ServiceModels.Topic
         /// </summary>
         public bool IsPublish { get; set; }
     }
+    public class ModifyTopicModel : CreateTopicModel
+    {
+        public int Id { get; set; }
+    }
 }

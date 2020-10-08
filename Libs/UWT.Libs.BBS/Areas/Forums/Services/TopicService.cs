@@ -71,6 +71,11 @@ namespace UWT.Libs.BBS.Areas.Forums.Services
             return ControllerEx.Success(null);
         }
 
+        public object Modify(ModifyTopicModel topic)
+        {
+            throw new NotImplementedException();
+        }
+
         public object Comment(CommentModel comment)
         {
             //  检测用户当前是否可以回复

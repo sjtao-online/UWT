@@ -105,4 +105,15 @@
     $(".profile>.cnt-infos>div").click(function () {
         window.location.href = "/bbs/user/" + $(this).attr('class') + "?uid=" + $(this).parents(".profile").data('id');
     })
+
+    $(".cate>div").click(function () {
+        $('.cate>div').each(function () {
+            $(this).removeClass('selected');
+        })
+        $(this).addClass('selected');
+    })
+
+    $('.post-btn').click(function () {
+        window.location.href = "/bbs/area/createtopic?id=" + $(this).data('aid');
+    })
 })
