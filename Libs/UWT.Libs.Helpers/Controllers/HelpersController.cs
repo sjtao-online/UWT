@@ -31,19 +31,9 @@ namespace UWT.Libs.Helpers.Controllers
             ViewBag.HList = hlist;
             return View();
         }
-        [Route("/Helpers/Detail/{a}/{b}/{c=_}")]
-        public IActionResult HelperDetail(string a, string b, string c)
+        [Route("/Helpers/Detail/{**url}")]
+        public IActionResult HelperDetail(string url)
         {
-            string url = null;
-            //  是否为没有区域的URL
-            if (c == "_")
-            {
-                url = $"/{a}/{b}";
-            }
-            else
-            {
-                url = $"/{a}/{b}/{c}";
-            }
             using (var db = this.GetDB())
             {
                 var helper = db.UwtGetTable<IDbHelperTable>();
@@ -56,6 +46,10 @@ namespace UWT.Libs.Helpers.Controllers
                     this.ViewBag.HelperPublishTime = h.PublishTime;
                     this.ViewBag.HelperSummary = h.Summary;
                     this.ViewBag.HelperAuthor = h.Author;
+                }
+                else
+                {
+                    return View("NotFount");
                 }
             }
             ViewBag.Title = url + " - 详情";
