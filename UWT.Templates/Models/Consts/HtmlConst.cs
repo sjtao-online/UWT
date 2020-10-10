@@ -7,6 +7,9 @@ namespace UWT.Templates.Models.Consts
     class HtmlConst
     {
         public const string DIV = "div";
+        public const string IMG = "img";
+        public const string SPAN = "span";
+        public const string A = "a";
         public const string LINK = "link";
         public const string SRC = "src";
         public const string SCRIPT = "script";

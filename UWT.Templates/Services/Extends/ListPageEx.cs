@@ -328,7 +328,7 @@ namespace UWT.Templates.Services.Extends
             controller.ViewBag.PageModel = toPageViewModel;
             callback?.Invoke(toPageViewModel);
             controller.ViewBag.ModelType = typeof(TListItem);
-            return Models.Consts.PageTemplateKeyConst.GetPageResult(controller, controller.GetTemplatePageKey(Models.Consts.PageTemplateKeyConst.TemplateListKey));
+            return Models.Consts.PageTemplateKeyConst.GetPageResult<ListPageResult>(controller);
         }
         /// <summary>
         /// View列表返回
@@ -380,7 +380,7 @@ namespace UWT.Templates.Services.Extends
             {
                 ListImplEx.FillList(controller, ref pageModel, selector, where, orderby, orderbydesc, paramMaps);
             });
-            return Models.Consts.PageTemplateKeyConst.GetPageResult(controller, controller.GetTemplatePageKey(Models.Consts.PageTemplateKeyConst.TemplateListKey));
+            return Models.Consts.PageTemplateKeyConst.GetPageResult<ListPageResult>(controller);
         }
 
         /// <summary>
@@ -408,7 +408,7 @@ namespace UWT.Templates.Services.Extends
             {
                 ListImplEx.FillList(controller, ref pageModel, selector, query, paramMaps);
             });
-            return Models.Consts.PageTemplateKeyConst.GetPageResult(controller, controller.GetTemplatePageKey(Models.Consts.PageTemplateKeyConst.TemplateListKey));
+            return Models.Consts.PageTemplateKeyConst.GetPageResult<ListPageResult>(controller);
         }
         private static void ListToPageCallBack<TTable, TListItem>(IListToPage<TTable, TListItem> @this, Action<IToPageModel> callback, Action<ToPageModel> fileitems)
             where TTable : class

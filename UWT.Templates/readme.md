@@ -4,6 +4,7 @@
 
 + 本模板使用linq2db，暂不支持efcore
 + 本模板使用mvc,暂不支持pages或blazor
+  + 使用可以自行使用pages或blazor，可以使用本模板提供的其它功能
 
 ## 初次使用指南
 
@@ -17,9 +18,9 @@
 ### 具体操作
 
 1.  添加nuget包
-    + Microsoft.Extensions.FileProviders.Embedded (3.1.4)
-    + Microsoft.Extensions.Caching.Memory (3.1.4)
-    + linq2db (2.9.8)
+    + Microsoft.Extensions.FileProviders.Embedded (5.0)
+    + Microsoft.Extensions.Caching.Memory (5.0)
+    + linq2db (3.1.4)
       + linq2db.mysql或linq2db.postgresql都可以
 
 2. 启动配置  
@@ -215,6 +216,7 @@
 2001-3000|用户错误|由UWT.Libs.Normals使用，如引用此类库，请避开使用
 3001-4000|用户错误|由UWT.Libs.WeChats使用，如引用此类库，请避开使用
 4001-5000|用户错误|由UWT.Libs.Helpers使用，如引用此类库，请避开使用
+5000-6000|用户错误|由UWT.Libs.BBS使用,如引用此类库，请避开使用
 \>10000|用户错误|用户自行定义错误函数及用法
 
 ### 现有错误码

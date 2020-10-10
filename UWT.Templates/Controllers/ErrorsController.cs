@@ -104,7 +104,7 @@ namespace UWT.Templates.Controllers
         public string Name { get; set; }
         [ListColumn("描述")]
         public string Desc { get; set; }
-        [ListColumn("程序集")]
+        [ListColumn("程序集", Width = "100px")]
         public string AssemblyName { get; set; }
     }
 #pragma warning restore CS1591 // 缺少对公共可见类型或成员的 XML 注释

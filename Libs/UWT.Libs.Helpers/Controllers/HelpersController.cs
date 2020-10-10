@@ -31,9 +31,19 @@ namespace UWT.Libs.Helpers.Controllers
             ViewBag.HList = hlist;
             return View();
         }
-        [Route("/Helpers/Detail/{**url}")]
-        public IActionResult HelperDetail(string url)
+        [Route("/Helpers/Detail/{a}/{b}/{c=_}")]
+        public IActionResult HelperDetail(string a, string b, string c)
         {
+            string url = null;
+            //  是否为没有区域的URL
+            if (c == "_")
+            {
+                url = $"/{a}/{b}";
+            }
+            else
+            {
+                url = $"/{a}/{b}/{c}";
+            }
             using (var db = this.GetDB())
             {
                 var helper = db.UwtGetTable<IDbHelperTable>();

@@ -29,7 +29,7 @@ namespace UWT.Templates.Controllers
         public string ChangeIdToText(string tableName, string idColumnName, string nameColumnName, int id)
         {
             string title = null;
-            this.UsingDb(db=>
+            using (var db = this.GetDB())
             {
                 var cmdText = $"select {nameColumnName} as title from {tableName} where {idColumnName} = '{id}'";
                 using (var cmd = db.CreateCommand())
@@ -44,7 +44,7 @@ namespace UWT.Templates.Controllers
                         }
                     }
                 }
-            });
+            }
             return title;
         }
         /// <summary>

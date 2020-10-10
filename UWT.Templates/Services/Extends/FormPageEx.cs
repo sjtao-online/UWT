@@ -39,7 +39,7 @@ namespace UWT.Templates.Services.Extends
             controller.ViewBag.ChooseIds2Names = ServiceCollectionEx.ChooseIds2Names;
             controller.ViewBag.ModelType = typeof(TFormModel);
             controller.ViewData.Model = formModel;
-            return Models.Consts.PageTemplateKeyConst.GetPageResult(controller, Models.Consts.PageTemplateKeyConst.TemplateFormKey);
+            return Models.Consts.PageTemplateKeyConst.GetPageResult<FormPageResult>(controller);
         }
         /// <summary>
         /// 检查合法性

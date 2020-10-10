@@ -16,7 +16,7 @@ namespace UWT.Libs.BBS
                 new DescNameIdModel()
                 {
                     Id = 5001,
-                    Name = "Fafafa",
+                    Name = "BBS",
                     Desc = "发发发"
                 }
             };

@@ -33,19 +33,6 @@ namespace UWT.Templates.Services.Extends
             return controller;
         }
         /// <summary>
-        /// 切换为自己的模板
-        /// </summary>
-        /// <typeparam name="TTemplateController">控制器模板类</typeparam>
-        /// <param name="controller">控制器</param>
-        /// <param name="newTemplateKey">新模板键</param>
-        /// <returns></returns>
-        public static TTemplateController ChangeTemplate<TTemplateController>(this TTemplateController controller, string newTemplateKey)
-            where TTemplateController : ITemplateController
-        {
-            controller.GetController().ViewData[TempateViewDataKey] = newTemplateKey;
-            return controller;
-        }
-        /// <summary>
         /// 获得控制器
         /// </summary>
         /// <param name="controller">控制器</param>
@@ -85,15 +72,6 @@ namespace UWT.Templates.Services.Extends
         {
             Controller controller = templateController.GetController();
             controller.ViewData[key] = data;
-        }
-        internal static string GetTemplatePageKey(this Controller controller, string defaultKey)
-        {
-            string key = defaultKey;
-            if (controller.ViewData.ContainsKey(TempateViewDataKey))
-            {
-                key = controller.ViewData[TempateViewDataKey] as string;
-            }
-            return key;
         }
         internal static HandleModel CreateHandleModel(this ITemplateController templateController, HandleModel model, Type type = null)
         {
@@ -227,14 +205,9 @@ namespace UWT.Templates.Services.Extends
             StringBuilder sb = new StringBuilder();
             sb.Append("<");
             sb.Append(tagName);
-            sb.Append(" ");
             foreach (var item in map)
             {
-                sb.Append(item.Key);
-                sb.Append("=");
-                sb.Append("\"");
-                sb.Append(item.Value);
-                sb.Append("\" ");
+                sb.AppendFormat(" {0}=\"{1}\"", item.Key, item.Value);
             }
             sb.Append("></");
             sb.Append(tagName);

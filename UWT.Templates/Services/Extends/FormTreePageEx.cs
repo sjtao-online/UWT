@@ -46,7 +46,7 @@ namespace UWT.Templates.Services.Extends
             controller.ViewData.Model = formTreeModel;
             controller.ViewBag.NewDefault = newDefault;
             controller.ViewBag.TitlePropertyName = titleProperyName;
-            return PageTemplateKeyConst.GetPageResult(controller, PageTemplateKeyConst.TemplateFormTreeKey);
+            return PageTemplateKeyConst.GetPageResult<FormTreeResult>(controller);
         }
         private static void FillResult<TFormTreeModel, TDbTreeTableModel, TOrder>(ref List<TFormTreeModel> result, ITable<TDbTreeTableModel> table,
             Expression<Func<TDbTreeTableModel, TFormTreeModel>> selector,

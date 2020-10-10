@@ -60,10 +60,9 @@ namespace UWT.Libs.WeChats.Controllers
                 return this.Error(Templates.Models.Basics.ErrorCode.Login_Failed, "微信远程登录失败");
             }
             string refreshToken = Guid.NewGuid().ToString("N");
-            string accessToken = "";
             int accountId = 0;
             DateTimeOffset exp = DateTimeOffset.Now + (WxConfig.TokenExpiry ?? TimeSpan.FromDays(30));
-            this.UsingDb(db =>
+            using (var db = this.GetDB())
             {
                 var dbDic = new Dictionary<string, object>()
                 {
@@ -80,7 +79,7 @@ namespace UWT.Libs.WeChats.Controllers
                 var wxUserTable = db.UwtGetTable<IDbWxUserModel>();
                 if (wxUserTable == null)
                 {
-                    return;
+                    return this.Error(Templates.Models.Basics.ErrorCode.DatatableNotFound, "IDbWxUserModel");
                 }
                 var q = (from it in wxUserTable where it.OpenId == openId select it.Id).Take(1);
                 if (q.Count() == 0)
@@ -95,20 +94,16 @@ namespace UWT.Libs.WeChats.Controllers
                     BuildWeChatUserDic(dbDic, "update");
                     wxUserTable.UwtUpdate(accountId, dbDic);
                 }
-                accessToken = this.SignInto(BuildSignIntoDic(accountId, loginModel.UserInfo.NickName), AuthWxAttribute.CurrentAuthType);
-            });
-            if (accountId == 0)
-            {
-                return this.Error(Templates.Models.Basics.ErrorCode.DatatableNotFound, "IDbWxUserModel");
+                string accessToken = this.SignInto(BuildSignIntoDic(accountId, loginModel.UserInfo.NickName), AuthWxAttribute.CurrentAuthType);
+                return this.Success(new SignIntoModel()
+                {
+                    AccessToken = accessToken,
+                    RefreshToken = refreshToken,
+                    AccountId = accountId,
+                    TokenExpiry = exp.LocalDateTime,
+                    UserInfo = loginModel.UserInfo
+                });
             }
-            return this.Success(new SignIntoModel()
-            {
-                AccessToken = accessToken,
-                RefreshToken = refreshToken,
-                AccountId = accountId,
-                TokenExpiry = exp.LocalDateTime,
-                UserInfo = loginModel.UserInfo
-            });
         }
 
         /// <summary>
@@ -120,55 +115,70 @@ namespace UWT.Libs.WeChats.Controllers
         public virtual object RefreshToken(string refreshToken)
         {
             this.ActionLog();
-            object retObj = null;
             DateTimeOffset exp = DateTimeOffset.Now + (WxConfig.TokenExpiry ?? TimeSpan.FromDays(30));
-            this.UsingDb(db =>
+            using (var db = this.GetDB())
             {
                 var wxUserTable = db.UwtGetTable<IDbWxUserModel>();
                 if (wxUserTable == null)
                 {
-                    retObj = this.Error(Templates.Models.Basics.ErrorCode.DatatableNotFound, "IDbWxUserModel");
-                    return;
+                    return this.Error(Templates.Models.Basics.ErrorCode.DatatableNotFound, "IDbWxUserModel");
                 }
                 var q = (from it in wxUserTable
                          where it.Token == refreshToken
-                         select new UserInfoModel()
+                         select new 
                          {
-                             Id = it.Id,
-                             NickName = it.NickName,
-                             AvatarUrl = it.AvatarUrl,
-                             City = it.City,
-                             Country = it.Country,
-                             Gender = it.Gender,
-                             Language = it.Language,
-                             Province = it.Province
+                             Exp = it.TokenExp,
+                             Token = it.Token,
+                             Account = new UserInfoModel()
+                             {
+                                 Id = it.Id,
+                                 NickName = it.NickName,
+                                 AvatarUrl = it.AvatarUrl,
+                                 City = it.City,
+                                 Country = it.Country,
+                                 Gender = it.Gender,
+                                 Language = it.Language,
+                                 Province = it.Province
+                             }
                          }).Take(1);
                 if (q.Count() == 0)
                 {
-                    retObj = this.Error(Templates.Models.Basics.ErrorCode.Login_Failed, "刷新Token失败");
+                    return this.Error(Templates.Models.Basics.ErrorCode.Login_Failed, "刷新Token失败");
                 }
                 else
                 {
                     var newRefreshToken = Guid.NewGuid().ToString("N");
-                    var account = q.First();
-                    wxUserTable.UwtUpdate(account.Id, new Dictionary<string, object>()
+                    var m = q.First();
+                    var account = m.Account;
+                    if (m.Exp >= DateTime.Now - TimeSpan.FromHours(4))
                     {
-                        [nameof(IDbWxUserModel.Token)] = newRefreshToken,
-                        [nameof(IDbWxUserModel.TokenExp)] = exp.LocalDateTime
-                    });
-                    var accessToken = this.SignInto(BuildSignIntoDic(account.Id, account.NickName));
-                    retObj = this.Success(new SignIntoModel()
+                        return this.Success(new SignIntoModel()
+                        {
+                            AccessToken = m.Token,
+                            AccountId = account.Id,
+                            RefreshToken = refreshToken,
+                            TokenExpiry = m.Exp,
+                            UserInfo = account
+                        });
+                    }
+                    else
                     {
-                        AccessToken = accessToken,
-                        AccountId = account.Id,
-                        RefreshToken = newRefreshToken,
-                        TokenExpiry = exp.LocalDateTime,
-                        UserInfo = account
-                    });
+                        wxUserTable.UwtUpdate(account.Id, new Dictionary<string, object>()
+                        {
+                            [nameof(IDbWxUserModel.Token)] = newRefreshToken,
+                            [nameof(IDbWxUserModel.TokenExp)] = exp.LocalDateTime
+                        });
+                        return this.Success(new SignIntoModel()
+                        {
+                            AccessToken = this.SignInto(BuildSignIntoDic(account.Id, account.NickName)),
+                            AccountId = account.Id,
+                            RefreshToken = newRefreshToken,
+                            TokenExpiry = exp.LocalDateTime,
+                            UserInfo = account
+                        });
+                    }
                 }
-            });
-            return retObj;
+            }
         }
-
     }
 }

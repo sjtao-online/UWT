@@ -29,7 +29,7 @@ namespace UWT.Templates.Services.Extends
                 DetailModel = ModelCache.GetModelFromType(typeof(TDetailModel), ModelCache.DetailModel)
             };
             controller.ViewBag.ModelType = typeof(TDetailModel);
-            return Models.Consts.PageTemplateKeyConst.GetPageResult(controller, Models.Consts.PageTemplateKeyConst.TemplateDetailKey);
+            return Models.Consts.PageTemplateKeyConst.GetPageResult<DetailPageResult>(controller);
         }
     }
 }
