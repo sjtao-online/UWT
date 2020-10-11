@@ -2,6 +2,7 @@
 @model UWT.Libs.BBS.Areas.BBS.Models.TopicListItemModel
 
 @{
+    string href = $"/BBS/Area/Topic?id={Model.Id}&areaId={ViewBag.AreaInfo.Id}";
 }
 
 
@@ -12,24 +13,24 @@
     <div class="body">
         <div class="line">
             <div class="cate">
-                <a href="/BBS/Area/Topic?id=@Model.Id" class="@(@Model.TopLevel != 0 ? ("top top-" + (Model.TopLevel != 0 ? Model.TopLevel.ToString() : "")) : (Model.IsHot ? "hot" : "normal")) topic-cate" target="_blank"></a>
+                <a href="@href" class="@(@Model.TopLevel != 0 ? ("top top-" + (Model.TopLevel != 0 ? Model.TopLevel.ToString() : "")) : (Model.IsHot ? "hot" : "normal")) topic-cate" target="_blank"></a>
             </div>
-            <div class="title">@if (Model.Category != UWT.Libs.BBS.Areas.BBS.Models.TopicCate.discuss) { <span class="@Model.Category"></span> }<a href="/BBS/Area/Topic?id=@Model.Id">@Model.Title</a></div>
+            <div class="title">@if (Model.Category != UWT.Libs.BBS.Areas.BBS.Models.TopicCate.discuss) { <span class="@Model.Category"></span> }<a href="@href">@Model.Title</a></div>
         </div>
         <div class="line gray">
             <div class="user-show topicer" data-uid="@Model.UserInfo.Id"><a class="light" href="/bbs/user/@Model.UserInfo.Id">@Model.UserInfo.Name</a></div>
             <div>@Model.CreateTime.ToShowLatestText()</div>
             @if (Model.LastCommitInfo != null)
             {
-                <div class="last-commit"><a class="user-show light" data-uid="@Model.LastCommitInfo.Id" href="/">@Model.LastCommitInfo.Name</a></div>
+                <div class="last-commit"><a class="user-show light" data-uid="@Model.LastCommitInfo.Id" href="/bbs/user/@Model.LastCommitInfo.Id">@Model.LastCommitInfo.Name</a></div>
                 <div><a class="light" href="@Model.LastCommitInfo.Url">@Model.LastCommitInfo.Time.ToShowLatestText()</a></div>
             }
         </div>
     </div>
     <div class="visit">
-        <div>@(Model.VisitorCount >= 1000?"999+":Model.VisitorCount.ToString())</div>
+        <div>@(Model.VisitorCount >= 10000?"9999+":Model.VisitorCount.ToString())</div>
     </div>
     <div class="commit">
-        <div>@(Model.CommitCount >= 1000?"999+":Model.CommitCount.ToString())</div>
+        <div>@(Model.CommitCount >= 10000?"9999+":Model.CommitCount.ToString())</div>
     </div>
 </div>

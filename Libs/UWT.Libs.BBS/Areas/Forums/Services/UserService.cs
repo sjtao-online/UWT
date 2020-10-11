@@ -65,17 +65,24 @@ namespace UWT.Libs.BBS.Areas.Forums.Services
         /// <returns></returns>
         public List<UserPropertiesModel> GetProperties(int uid)
         {
-            using (var db = this.GetDB())
+            var qprop = from it in DataConnection.TableUserPropGroup()
+                        select new UserPropertiesModel()
+                        {
+                            GroupName = it.Name,
+                            TitleMap = (from c in DataConnection.TableUserPropConfig() where c.GId == it.Id select new { c.Id, c.Name }).ToDictionary(m => m.Id, m => m.Name),
+                            Children = (from p in DataConnection.TableUserProperty() join c in DataConnection.TableUserPropConfig() on p.PId equals c.Id where c.GId == it.Id select new TitleIdModel() { Id = p.Id, Title = p.Value }).ToList()
+                        };
+            return qprop.ToList();
+        }
+
+        public List<UserSimpleInfo> List(List<int> userList)
+        {
+            var list = new List<UserSimpleInfo>();
+            foreach (var uid in userList)
             {
-                var qprop = from it in db.TableUserPropGroup()
-                            select new UserPropertiesModel()
-                            {
-                                GroupName = it.Name,
-                                TitleMap = (from c in db.TableUserPropConfig() where c.GId == it.Id select new { c.Id, c.Name }).ToDictionary(m => m.Id, m => m.Name),
-                                Children = (from p in db.TableUserProperty() join c in db.TableUserPropConfig() on p.PId equals c.Id where c.GId == it.Id select new TitleIdModel() { Id = p.Id, Title = p.Value }).ToList()
-                            };
-                return qprop.ToList();
+                list.Add(Find(uid));
             }
+            return list;
         }
 
         public void GetPropertyConfig()

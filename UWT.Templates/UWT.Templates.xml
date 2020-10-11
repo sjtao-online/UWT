@@ -4489,6 +4489,16 @@
             <param name="insert">插入字典</param>
             <returns></returns>
         </member>
+        <member name="M:UWT.Templates.Services.Extends.DataConnectionEx.UwtQueryPageSelector``1(System.Linq.IQueryable{``0},System.Int32,System.Int32)">
+            <summary>
+            查询分页
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="query"></param>
+            <param name="pageIndex"></param>
+            <param name="pageSize"></param>
+            <returns></returns>
+        </member>
         <member name="M:UWT.Templates.Services.Extends.DataConnectionEx.UwtUpdate``1(LinqToDB.ITable{``0},System.Int32,System.Collections.Generic.Dictionary{System.String,System.Object})">
             <summary>
             更新条目
@@ -5278,15 +5288,6 @@
             </summary>
             <param name="controller">控制器</param>
             <param name="title">标题</param>
-            <returns></returns>
-        </member>
-        <member name="M:UWT.Templates.Services.Extends.TemplateControllerEx.ChangeTemplate``1(``0,System.String)">
-            <summary>
-            切换为自己的模板
-            </summary>
-            <typeparam name="TTemplateController">控制器模板类</typeparam>
-            <param name="controller">控制器</param>
-            <param name="newTemplateKey">新模板键</param>
             <returns></returns>
         </member>
         <member name="M:UWT.Templates.Services.Extends.TemplateControllerEx.GetController(UWT.Templates.Models.Interfaces.ITemplateController)">

@@ -2,70 +2,6 @@
 @{
     List<UWT.Libs.BBS.Areas.BBS.Models.TopicItemModel> topicList = ViewBag.TopicList;
     Dictionary<int, UWT.Libs.BBS.Areas.Forums.Models.Users.UserSimpleInfo> userMap = ViewBag.UserInfoMap;
-    topicList = new List<UWT.Libs.BBS.Areas.BBS.Models.TopicItemModel>()
-    {
-        new UWT.Libs.BBS.Areas.BBS.Models.TopicItemModel()
-        {
-            PostTime = DateTime.Now,
-            Id = 10,
-            UserId = 10,
-            FlowIndex = 0,
-            Content = "<div>名</div>"
-        },
-        new UWT.Libs.BBS.Areas.BBS.Models.TopicItemModel()
-        {
-            PostTime = DateTime.Now,
-            Id = 10,
-            UserId = 10,
-            FlowIndex = 1,
-            Content = "<div>名</div>"
-        },
-        new UWT.Libs.BBS.Areas.BBS.Models.TopicItemModel()
-        {
-            PostTime = DateTime.Now,
-            Id = 10,
-            UserId = 10,
-            FlowIndex = 2,
-            Content = "<div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div><div>名</div>"
-        },
-        new UWT.Libs.BBS.Areas.BBS.Models.TopicItemModel()
-        {
-            PostTime = DateTime.Now,
-            Id = 10,
-            UserId = 10,
-            FlowIndex = 3,
-            Content = "<div>名</div>"
-        },
-        new UWT.Libs.BBS.Areas.BBS.Models.TopicItemModel()
-        {
-            PostTime = DateTime.Now,
-            Id = 10,
-            UserId = 10,
-            FlowIndex = 4,
-            Content = "<div>名</div>"
-        }
-    };
-    userMap = new Dictionary<int, UWT.Libs.BBS.Areas.Forums.Models.Users.UserSimpleInfo>()
-    {
-        [10] = new UWT.Libs.BBS.Areas.Forums.Models.Users.UserSimpleInfo()
-        {
-            Id = 1,
-            FansCnt = 10,
-            NickName = "123",
-            LevelName = "会员",
-            FollowCnt = 10,
-            Avatar = "/admins/images/header.jpg"
-        }
-    };
-    UWT.Libs.BBS.Areas.BBS.Models.TopicInfoModel topic = new UWT.Libs.BBS.Areas.BBS.Models.TopicInfoModel()
-    {
-        Title = "这里是标题",
-        CommitCount = 20,
-        VisitorCount = 19,
-        TopLevel = 0,
-        IsHot = true
-    };
-    ViewBag.Title = topic.Title;
     List<UWT.Templates.Models.Basics.UrlTitleIdModel> list = ViewBag.CrumbList;
 }
 
@@ -109,10 +45,10 @@
                 {
                     <div class="title">
                         <div class="post">
-                            <div class="readed">@topic.VisitorCount</div>
-                            <div class="back">@topic.CommitCount</div>
+                            <div class="readed">@ViewBag.VisitorCount</div>
+                            <div class="back">@ViewBag.CommitCount</div>
                         </div>
-                        <h1>@topic.Title</h1>
+                        <h1>@ViewBag.Title</h1>
                     </div>
                 }
                 <div class="info">

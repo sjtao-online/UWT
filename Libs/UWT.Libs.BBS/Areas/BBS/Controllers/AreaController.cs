@@ -47,15 +47,50 @@ namespace UWT.Libs.BBS.Areas.BBS.Controllers
             return View();
         }
 
-        public IActionResult Topic(int id, int areaId, int pageIndex)
+        public IActionResult Topic(int id, int areaId, int pageIndex, int pageSize)
         {
+            if (pageSize == 0)
+            {
+                pageSize = BBSEx.BbsConfigModel.PageConfig.Default.PageSize;
+            }
             List<TopicItemModel> topicList = new List<TopicItemModel>();
-            Dictionary<string, Forums.Models.Users.UserSimpleInfo> userInfoMap = new Dictionary<string, Forums.Models.Users.UserSimpleInfo>();
+            Dictionary<int, Forums.Models.Users.UserSimpleInfo> userInfoMap = new Dictionary<int, Forums.Models.Users.UserSimpleInfo>();
+            List<int> userList = new List<int>();
+            int itemCount = 0;
+            using (var topic = new TopicService())
+            {
+                topicList = topic.ItemList(id, areaId, pageIndex, pageSize, ref itemCount);
+                if (topicList == null)
+                {
+                    return View("TopicNotFound");
+                }
+                if (pageSize == 0)
+                {
+                    int vcount = 0, ccount = 0;
+                    topic.FillToCount(id, ref vcount, ref ccount);
+                    ViewBag.VisitorCount = vcount;
+                    ViewBag.CommitCount = ccount;
+                }
+            }
+            foreach (var item in topicList)
+            {
+                userList.Add(item.UserId);
+            }
+            userList = userList.Distinct().ToList();
+            using (var user = new UserService())
+            {
+                List<Forums.Models.Users.UserSimpleInfo> list = user.List(userList);
+                foreach (var item in list)
+                {
+                    userInfoMap[item.Id] = item;
+                }
+            }
             List<UrlTitleIdModel> crumbList = AreaService.GetCrumbListFromTopicId(id, areaId);
             ViewBag.AreaId = areaId;
             ViewBag.TopicList = topicList;
             ViewBag.UserInfoMap = userInfoMap;
             ViewBag.CrumbList = crumbList;
+            ViewBag.Title = crumbList.Last().Title;
             return View();
         }
 

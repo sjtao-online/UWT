@@ -71,6 +71,69 @@ namespace UWT.Libs.BBS.Areas.Forums.Services
             return ControllerEx.Success(null);
         }
 
+
+        public List<TopicItemModel> ItemList(int id, int areaId, int pageIndex, int pageSize, ref int count)
+        {
+            List<TopicItemModel> list = new List<TopicItemModel>();
+            if (pageIndex == 0)
+            {
+                var q = from it in DataConnection.TableTopic()
+                        join c in DataConnection.TableTopicHis() on it.Id equals c.TId into ls
+                        from content in ls orderby content.AddTime descending where content.Status == TopicStatus.Publish
+                        where it.Id == id && it.Status == TopicStatus.Publish
+                        select new TopicItemModel()
+                        {
+                            Id = content.Id,
+                            Content = content.Content,
+                            FlowIndex = 0,
+                            PostTime = it.AddTime,
+                            UserId = it.CreateUserId
+                        };
+                if (q.Take(1).Count() == 0)
+                {
+                    return null;
+                }
+                var info = q.First();
+                list.Add(info);
+                pageSize -= 1;
+            }
+            var backs = from it in DataConnection.TableTopicBack()
+                        join c in DataConnection.TableTopicBackHis() on it.Id equals c.TBId into ls
+                        from content in ls orderby content.AddTime descending
+                        where it.TId == id && it.Status == TopicStatus.Publish
+                        select new TopicItemModel()
+                        {
+                            Id = it.Id,
+                            FlowIndex = it.Index,
+                            UserId = it.CreateUserId,
+                            PostTime = it.AddTime
+                        };
+            count = backs.Count() + 1;
+            if (count == 1)
+            {
+                return null;
+            }
+            list.AddRange(backs.UwtQueryPageSelector(pageIndex, pageSize));
+            return list;
+        }
+
+        public void FillToCount(int tid, ref int vcount, ref int ccount)
+        {
+            var q = from it in DataConnection.TableTopic()
+                    where it.Id == tid
+                    select new
+                    {
+                        it.TouchCnt,
+                        CCount = (from b in DataConnection.TableTopicBack() where it.Id == b.TId select 1).Count()
+                    };
+            if (q.Count() != 0)
+            {
+                var info = q.First();
+                vcount = info.TouchCnt;
+                ccount = info.CCount;
+            }
+        }
+
         public object Modify(ModifyTopicModel topic)
         {
             throw new NotImplementedException();
