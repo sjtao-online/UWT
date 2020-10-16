@@ -135,6 +135,16 @@ namespace UWT.Templates.Services.Extends
         }
 
         /// <summary>
+        /// 获得数据库对象<br/>
+        /// 需要自己using (var db = TemplateControllerEx.GetDB())
+        /// </summary>
+        /// <returns></returns>
+        public static LinqToDB.Data.DataConnection GetDB()
+        {
+            return Models.Database.DbCreator.CreateDb();
+        }
+
+        /// <summary>
         /// 添加额外的JS
         /// </summary>
         /// <param name="templateController">模板控制器</param>

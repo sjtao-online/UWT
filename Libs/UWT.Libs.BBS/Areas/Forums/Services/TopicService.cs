@@ -143,7 +143,7 @@ namespace UWT.Libs.BBS.Areas.Forums.Services
         {
             //  检测用户当前是否可以回复
 
-            using (var db = TemplateControllerEx.GetDB(null))
+            using (var db = TemplateControllerEx.GetDB())
             {
                 var topic = from it in db.TableTopic()
                             where it.Id == comment.TopicId && it.Status == TopicStatus.Publish

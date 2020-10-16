@@ -126,7 +126,7 @@ namespace UWT.Libs.Helpers.Controllers
                 [nameof(IDbHelperTable.ModifyId)] = userId,
                 [nameof(IDbHelperTable.Title)] = model.Title,
                 [nameof(IDbHelperTable.Summary)] = model.Summary,
-                [nameof(IDbHelperTable.Url)] = urls,
+                [nameof(IDbHelperTable.Url)] = urls.ToLower(),
             };
             if (handle == "publish")
             {

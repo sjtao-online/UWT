@@ -12,9 +12,9 @@ namespace UWT.Libs.Helpers
     {
         public bool HasHelper(string url)
         {
-            using (var db = TemplateControllerEx.GetDB(null))
+            using (var db = TemplateControllerEx.GetDB())
             {
-                return (from it in db.UwtGetTable<IDbHelperTable>() where it.PublishTime != null && it.Url.Contains(";" + url + ";") select 1).Take(1).Count() != 0;
+                return (from it in db.UwtGetTable<IDbHelperTable>() where it.PublishTime != null && it.Url.Contains(";" + url.ToLower() + ";") select 1).Take(1).Count() != 0;
             }
         }
     }

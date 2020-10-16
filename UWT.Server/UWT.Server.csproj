@@ -5,6 +5,7 @@
     <AssemblyVersion>1.0.*</AssemblyVersion>
     <FileVersion>1.0.*</FileVersion>
     <Deterministic>false</Deterministic>
+    <UserSecretsId>c43b5e4a-3b2c-4fae-986f-8ce9ca2bd84a</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,9 +19,9 @@
 
   <ItemGroup>
     <PackageReference Include="linq2db.MySql" Version="3.1.4" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.0-rc.1.20451.17" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="5.0.0-rc.1.20451.14" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.0-rc.1.20453.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.0-rc.2.*" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="5.0.0-rc.2.*" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.0-rc.2.*" />
   </ItemGroup>
 
   <ItemGroup>

@@ -34,7 +34,7 @@ namespace UWT.Libs.Users
         {
             MenuGroupEx.BuildRoleCacheFunc = (roleId, menuGroup, canurls) =>
             {
-                using (var db = TemplateControllerEx.GetDB(null))
+                using (var db = TemplateControllerEx.GetDB())
                 {
                     var roleTable = db.UwtGetTable<IDbRoleTable>();
                     var roles = (from it in roleTable
@@ -121,7 +121,7 @@ namespace UWT.Libs.Users
                     Controller = "Role"
                 });
             }, defaultLayoutCallback, LibUserHasAuthHandleAction);
-            TemplateControllerEx.UsingDb(null, db =>
+            using (var db = TemplateControllerEx.GetDB())
             {
                 //  重新组织Modules
                 var m = db.UwtGetTable<IDbModuleTable>();
@@ -192,7 +192,7 @@ namespace UWT.Libs.Users
                         }
                     }
                 }
-            });
+            }
             return app;
         }
 

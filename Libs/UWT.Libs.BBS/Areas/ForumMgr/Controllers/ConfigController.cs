@@ -24,7 +24,7 @@ namespace UWT.Libs.BBS.Areas.ForumMgr.Controllers
             {
                 if (_config == null)
                 {
-                    using (var db = TemplateControllerEx.GetDB(null))
+                    using (var db = TemplateControllerEx.GetDB())
                     {
                         var query = from it in db.TableConfig() select it;
                         Dictionary<string, string> dic = query.ToDictionary(k => k.Key, v => v.Value);

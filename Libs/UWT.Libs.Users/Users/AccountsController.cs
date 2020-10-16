@@ -106,7 +106,7 @@ namespace UWT.Libs.Users.Users
                 default:
                     break;
             }
-            using (var db = TemplateControllerEx.GetDB(null))
+            using (var db = TemplateControllerEx.GetDB())
             {
                 db.UwtGetTable<IDbAccountTable>().UwtUpdate(acccountId, new Dictionary<string, object>()
                 {
@@ -145,7 +145,7 @@ namespace UWT.Libs.Users.Users
                 default:
                     break;
             }
-            using (var db = TemplateControllerEx.GetDB(null))
+            using (var db = TemplateControllerEx.GetDB())
             {
                 var insert = new Dictionary<string, object>()
                 {
@@ -193,7 +193,7 @@ namespace UWT.Libs.Users.Users
         public static object DoLoginToContext(HttpContext httpContext, string account, string pwd, string type, string authType = null)
         {
             object ret = null;
-            using (var db = TemplateControllerEx.GetDB(null))
+            using (var db = TemplateControllerEx.GetDB())
             {
                 var accounttable = db.UwtGetTable<IDbAccountTable>();
                 var q = (from it in accounttable

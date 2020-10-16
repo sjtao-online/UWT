@@ -88,7 +88,7 @@ namespace UWT.Libs.BBS.Areas.Forums.Services
         /// <returns></returns>
         public AreaModel GetAresInfoSubAreaList(int areaId)
         {
-            using (var db = TemplateControllerEx.GetDB(null))
+            using (var db = TemplateControllerEx.GetDB())
             {
                 var qinfo = from it in db.TableArea()
                            where it.Status == "show" && it.Apply == "publish" && it.Id == areaId

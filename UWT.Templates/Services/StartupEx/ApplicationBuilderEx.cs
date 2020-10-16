@@ -203,6 +203,10 @@ namespace UWT.Templates.Services.StartupEx
         }
         static void AddRouteList(string layoutKey, List<RouteModel> routeList)
         {
+            if (routeList == null)
+            {
+                throw new Exception("List<RouteModel> 现为 null，本不应该为null");
+            }
             if (LayoutRouteList.ContainsKey(layoutKey))
             {
                 LayoutRouteList[layoutKey].AddRange(routeList);

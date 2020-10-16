@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LinqToDB.Common;
 using Microsoft.AspNetCore.Mvc;
 using UWT.Libs.Helpers.Models;
 using UWT.Templates.Attributes.Routes;
@@ -31,23 +32,32 @@ namespace UWT.Libs.Helpers.Controllers
             ViewBag.HList = hlist;
             return View();
         }
-        [Route("/Helpers/Detail/{a}/{b}/{c=_}")]
-        public IActionResult HelperDetail(string a, string b, string c)
+
+        [Route("/Helpers/Detail/{**path}")]
+        public IActionResult HelperDetail(string path, int id)
         {
-            string url = null;
-            //  是否为没有区域的URL
-            if (c == "_")
-            {
-                url = $"/{a}/{b}";
-            }
-            else
-            {
-                url = $"/{a}/{b}/{c}";
-            }
             using (var db = this.GetDB())
             {
                 var helper = db.UwtGetTable<IDbHelperTable>();
-                var q = (from it in helper where it.Url.Contains(";" + url + ";") && it.Valid select it).Take(1);
+                var q = (from it in helper where it.Valid select new
+                {
+                    it.Title,
+                    it.Id,
+                    it.Content,
+                    it.PublishTime,
+                    it.Summary,
+                    it.Author,
+                    it.Url
+                });
+                if (string.IsNullOrEmpty(path))
+                {
+                    q = q.Where(it => it.Id == id);
+                }
+                else
+                {
+                    q = q.Where(it => it.Url.Contains(";/" + path.ToLower() + ";"));
+                }
+                q = q.Take(1);
                 if (q.Count() != 0)
                 {
                     var h = q.First();
@@ -62,27 +72,8 @@ namespace UWT.Libs.Helpers.Controllers
                     return View("NotFount");
                 }
             }
-            ViewBag.Title = url + " - 详情";
+            ViewBag.Title = $"/{path} - 详情";
             return View();
-        }
-
-        public IActionResult Detail(int id)
-        {
-            using (var db = this.GetDB())
-            {
-                var helper = db.UwtGetTable<IDbHelperTable>();
-                var q = (from it in helper where it.Id == id && it.Valid select it).Take(1);
-                if (q.Count() != 0)
-                {
-                    var h = q.First();
-                    ViewBag.HelperTitle = h.Title;
-                    ViewBag.HelperContent = h.Content;
-                    ViewBag.HelperPublishTime = h.PublishTime;
-                    ViewBag.HelperSummary = h.Summary;
-                    ViewBag.HelperAuthor = h.Author;
-                }
-            }
-            return View("HelperDetail");
         }
 #pragma warning restore CS1591 // 缺少对公共可见类型或成员的 XML 注释
     }

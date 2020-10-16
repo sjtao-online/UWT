@@ -18,10 +18,6 @@ namespace UWT.Libs.BBS
     public static class BBSEx
     {
         internal static List<string> ThemeCssList = new List<string>();
-        internal static DataConnection GetDB(this IBBSService service)
-        {
-            return TemplateControllerEx.GetDB(null);
-        }
         /// <summary>
         /// 添加论坛功能
         /// </summary>
