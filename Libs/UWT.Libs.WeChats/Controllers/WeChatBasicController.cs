@@ -180,5 +180,39 @@ namespace UWT.Libs.WeChats.Controllers
                 }
             }
         }
+
+        /// <summary>
+        /// 退出登录
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public virtual object Logout()
+        {
+            this.ActionLog();
+            using (var db = this.GetDB())
+            {
+                var wxUserTable = db.UwtGetTable<IDbWxUserModel>();
+                if (wxUserTable == null)
+                {
+                    return this.Error(Templates.Models.Basics.ErrorCode.DatatableNotFound, "IDbWxUserModel");
+                }
+                var q = (from it in wxUserTable
+                         where it.Id == this.GetClaimValue(AccountIdKey, 0)
+                         select it.Id).Take(1);
+                if (q.Count() == 0)
+                {
+                    return this.Success();
+                }
+                else
+                {
+                    wxUserTable.UwtUpdate(q.First(), new Dictionary<string, object>()
+                    {
+                        [nameof(IDbWxUserModel.Token)] = "",
+                    });
+                    this.SignOuto();
+                }
+                return this.Success();
+            }
+        }
     }
 }
