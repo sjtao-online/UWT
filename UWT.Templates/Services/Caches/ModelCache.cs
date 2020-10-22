@@ -679,6 +679,7 @@ namespace UWT.Templates.Services.Caches
                                                 {
                                                     Block = slider.Block,
                                                     Class = slider.Class,
+                                                    ShowNumber = slider.ShowNumber,
                                                     Max = slider.Max,
                                                     Min = slider.Min,
                                                     IsRange = PropertyIsRange(prop)

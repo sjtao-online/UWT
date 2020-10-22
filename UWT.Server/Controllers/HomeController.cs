@@ -72,10 +72,7 @@ namespace UWT.Server.Controllers
 
         public IActionResult Form()
         {
-            return this.FormResult(new StudentAddModel()
-            {
-                Tags = new List<string>() { "123", "234" }
-            }).View();
+            return this.FormResult().View();
         }
 
         public IActionResult Logs()
@@ -146,6 +143,12 @@ namespace UWT.Server.Controllers
         [FormItem("标签", FormItemType.List)]
         [FormItems.List(Flags = FormItems.ListAttribute.FormListFlag.ShowAsTag)]
         public List<string> Tags { get; set; }
+        [FormItem("Slider1", FormItemType.Slider)]
+        [FormItems.Slider(ShowNumber = true, Min = 3, Max = 100)]
+        public int Slider1 { get; set; }
+        [FormItem("Slider2", FormItemType.Slider)]
+        [FormItems.Slider(ShowNumber = true, Min = 3, Max = 100)]
+        public Range<int> Slider2 { get; set; }
     }
     class MBulder : SelectItemBuilderBasic
     {

@@ -464,6 +464,10 @@ else
             var slider = template.ModelEx as ISliderEx;
             <div class="@className">
                 <div class="form-slider" id="@(templateName)__slider" data-rid="@(templateName)"></div>
+                @if (slider.ShowNumber)
+	            {
+                    <span id="@(templateName)_show">@(Model.DataModel.TargetObject==null?(slider.IsRange?(slider.Min+","+ slider.Max) :slider.Min.ToString()) :GetPropertyEditValue().ToString())</span>
+	            }
                 <input class="@(slider.IsRange?"hasrange":"")" type="hidden" data-step="@slider.Block" data-max="@slider.Max" data-min="@slider.Min" id="@templateName" value="@(Model.DataModel.TargetObject==null?"":GetPropertyEditValue().ToString())" />
             </div>
             break;

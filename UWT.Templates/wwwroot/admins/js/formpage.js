@@ -57,6 +57,11 @@ layui.use(arr, function () {
                 elem: id + '__slider',
                 change: function (value) {
                     $(id).val(value);
+                    if (Array.isArray(value)) {
+                        $(id + '_show').text(value[0] + " - " + value[1]);
+                    } else {
+                        $(id + '_show').text(value);
+                    }
                 },
                 max: max,
                 min: min,
@@ -68,12 +73,14 @@ layui.use(arr, function () {
                 if (r.value == '') {
                     r.value = [min, max];
                     $(id).val(min + "," + max);
+                    $(id + '_show').text(min + " - " + max);
                 }
             } else {
                 r.value = $(id).val();
                 if (r.value == '') {
                     r.value = min;
                     $(id).val(min);
+                    $(id + '_show').text(min);
                 }
             }
             layui.slider.render(r);

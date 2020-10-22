@@ -35,6 +35,7 @@ namespace UWT.Templates.Models.Templates.Forms
         public uint Block { get; set; }
         public uint Max { get; set; }
         public uint Min { get; set; }
+        public bool ShowNumber { get; set; }
         public string Class { get; set; }
         public bool IsRange { get; set; }
     }

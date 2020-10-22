@@ -7,23 +7,26 @@
 @if (template.Flags.HasFlag(FormItems.ListAttribute.FormListFlag.ShowAsTag))
 {
 <div data-eold="@template.Flags.HasFlag( FormItems.ListAttribute.FormListFlag.CanEditOld)">
-    @if (template.Flags.HasFlag(FormItems.ListAttribute.FormListFlag.CanDelOld))
+    @if (listValues != null)
     {
-        @foreach (var item in listValues)
+        if (template.Flags.HasFlag(FormItems.ListAttribute.FormListFlag.CanDelOld))
         {
-            <div>
-                <input type="text" value="@item.ToString()" data-old="true" />
-                <span class="layui-icon layui-icon-close-fill"></span>
-            </div>
+            foreach (var item in listValues)
+            {
+                <div>
+                    <input type="text" value="@item.ToString()" data-old="true" />
+                    <span class="layui-icon layui-icon-close-fill"></span>
+                </div>
+            }
         }
-    }
-    else
-    {
-        @foreach (var item in listValues)
+        else
         {
-            <div>
-                <input type="text" value="@item.ToString()" data-old="true" />
-            </div>
+            foreach (var item in listValues)
+            {
+                <div>
+                    <input type="text" value="@item.ToString()" data-old="true" />
+                </div>
+            }
         }
     }
     @if (template.Flags.HasFlag(FormItems.ListAttribute.FormListFlag.CanAddNew))

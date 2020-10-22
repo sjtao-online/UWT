@@ -3984,6 +3984,33 @@
             默认过期和续订时长
             </summary>
         </member>
+        <member name="T:UWT.Templates.Services.Caches.ConfigMemoryCache">
+            <summary>
+            缓存信息
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Services.Caches.ConfigMemoryCache.Keys">
+            <summary>
+            现有所有Key
+            </summary>
+        </member>
+        <member name="M:UWT.Templates.Services.Caches.ConfigMemoryCache.Get(System.String,System.String)">
+            <summary>
+            获得
+            </summary>
+            <param name="key">键(key)</param>
+            <param name="defaultValue">无指定key时的默认值</param>
+            <returns>返回key的值</returns>
+        </member>
+        <member name="M:UWT.Templates.Services.Caches.ConfigMemoryCache.Set(System.String,System.String,System.Boolean)">
+            <summary>
+            设置值
+            </summary>
+            <param name="key">键(key)</param>
+            <param name="value">值(value)</param>
+            <param name="replace">存在是否强制替换</param>
+            <returns></returns>
+        </member>
         <member name="P:UWT.Templates.Services.Caches.ModelCache.ListViewModel">
             <summary>
             列表模型
@@ -5328,6 +5355,13 @@
             需要自己using (var db = this.GetDB())
             </summary>
             <param name="templateController"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UWT.Templates.Services.Extends.TemplateControllerEx.GetDB">
+            <summary>
+            获得数据库对象<br/>
+            需要自己using (var db = TemplateControllerEx.GetDB())
+            </summary>
             <returns></returns>
         </member>
         <member name="M:UWT.Templates.Services.Extends.TemplateControllerEx.AppendJS(UWT.Templates.Models.Interfaces.ITemplateController,System.String,System.Collections.Generic.Dictionary{System.String,System.String})">

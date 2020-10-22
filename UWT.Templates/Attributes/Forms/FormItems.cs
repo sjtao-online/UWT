@@ -511,6 +511,10 @@ namespace UWT.Templates.Attributes.Forms
             /// </summary>
             public string Class { get; set; } = "ui-slider-green ui-slider-small";
             /// <summary>
+            /// 是否显示当前数值
+            /// </summary>
+            public bool ShowNumber { get; set; }
+            /// <summary>
             /// 滑杆类型
             /// </summary>
             public SliderAttribute()

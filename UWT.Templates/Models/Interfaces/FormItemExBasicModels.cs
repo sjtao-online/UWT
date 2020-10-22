@@ -46,6 +46,7 @@ namespace UWT.Templates.Models.Interfaces
         uint Max { get; }
         uint Min { get; }
         uint Block { get; }
+        bool ShowNumber { get; }
         bool IsRange { get; }
     }
     public interface IFormListModel : IFormItemExBasicModel

@@ -54,6 +54,12 @@
             <param name="refreshToken">RefreshToken</param>
             <returns></returns>
         </member>
+        <member name="M:UWT.Libs.WeChats.Controllers.WeChatBasicController.Logout">
+            <summary>
+            退出登录
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:UWT.Libs.WeChats.Models.IDbWxUserModel">
             <summary>
             微信用户表
