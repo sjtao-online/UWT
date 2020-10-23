@@ -5,7 +5,10 @@
     padding: 0px;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
-a{
+.uwt-content {
+    overflow: auto !important;
+}
+a {
     text-decoration: none;
 }
 html{
@@ -345,7 +348,6 @@ li.active > a {
     /*bottom: 42px;*/
     bottom: 0px;
     left: 220px;
-    overflow: auto;
     z-index: 1;
 }
 .page-content-bg{

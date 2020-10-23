@@ -1094,6 +1094,11 @@
             样式
             </summary>
         </member>
+        <member name="P:UWT.Templates.Attributes.Forms.FormItems.SliderAttribute.ShowNumber">
+            <summary>
+            是否显示当前数值
+            </summary>
+        </member>
         <member name="M:UWT.Templates.Attributes.Forms.FormItems.SliderAttribute.#ctor">
             <summary>
             滑杆类型
