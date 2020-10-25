@@ -68,7 +68,7 @@
                                         <i class="iconfont">@Html.Raw(item.Icon)</i>
                                     }
                                     <cite>@item.Title</cite>
-                                    @if (string.Empty != item.RedPoint)
+                                    @if (item.RedPoint != null)
                                     {
                                         <span class='x-red-point'>@item.RedPoint</span>;
                                     }

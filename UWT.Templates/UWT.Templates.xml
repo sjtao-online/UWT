@@ -1233,6 +1233,27 @@
             </summary>
             <param name="url">提交URL</param>
         </member>
+        <member name="M:UWT.Templates.Attributes.Forms.FormModelAttribute.#ctor(UWT.Templates.Attributes.Forms.FormCategory)">
+            <summary>
+            Form模型特性
+            </summary>
+            <param name="category">Form常用类型</param>
+        </member>
+        <member name="T:UWT.Templates.Attributes.Forms.FormCategory">
+            <summary>
+            常用Form类型
+            </summary>
+        </member>
+        <member name="F:UWT.Templates.Attributes.Forms.FormCategory.Add">
+            <summary>
+            添加 ".AddModel"
+            </summary>
+        </member>
+        <member name="F:UWT.Templates.Attributes.Forms.FormCategory.Modify">
+            <summary>
+            编辑 ".ModifyModel"
+            </summary>
+        </member>
         <member name="T:UWT.Templates.Attributes.Lists.ListColumnAttribute">
             <summary>
             列表列项
@@ -1283,6 +1304,13 @@
         <member name="P:UWT.Templates.Attributes.Lists.ListColumnAttribute.MaxWidth">
             <summary>
             默认不限制
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Attributes.Lists.ListColumnAttribute.CallbackType">
+            <summary>
+            列值转换委托<br/>
+            必须为UWT.Templates.Models.Interfaces.IListColumnConverter实现类型
+            对ColumnType为Index、MIndex无效，这两值是自动计算的
             </summary>
         </member>
         <member name="M:UWT.Templates.Attributes.Lists.ListColumnAttribute.#ctor(System.String)">
@@ -2813,6 +2841,19 @@
             <param name="context">上下文</param>
             <param name="layoutModel">布局</param>
         </member>
+        <member name="T:UWT.Templates.Models.Interfaces.IListColumnConverter">
+            <summary>
+            列值转换器接口
+            </summary>
+        </member>
+        <member name="M:UWT.Templates.Models.Interfaces.IListColumnConverter.Convert(System.Object,System.Object)">
+            <summary>
+            执行转换
+            </summary>
+            <param name="item">当前条目值</param>
+            <param name="columnValue">列值</param>
+            <returns></returns>
+        </member>
         <member name="T:UWT.Templates.Models.Interfaces.IListToPage">
             <summary>
             列表页面控制器<br/>
@@ -2992,6 +3033,14 @@
             <summary>
             表格宽度
             </summary>
+        </member>
+        <member name="M:UWT.Templates.Models.Interfaces.IListColumnModel.Convert(System.Object,System.Object)">
+            <summary>
+            转换
+            </summary>
+            <param name="item"></param>
+            <param name="columnValue"></param>
+            <returns></returns>
         </member>
         <member name="M:UWT.Templates.Models.Interfaces.IListColumnModel.GetRawValue(System.Object,UWT.Templates.Models.Templates.TagHelpers.TagHelperTemplateModel@,Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper)">
             <summary>
@@ -3852,6 +3901,11 @@
         <member name="P:UWT.Templates.Models.Templates.Lists.ListColumnModel.Width">
             <summary>
             宽度信息
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Models.Templates.Lists.ListColumnModel.Callback">
+            <summary>
+            值转换委托
             </summary>
         </member>
         <member name="P:UWT.Templates.Models.Templates.Lists.ListColumnModel.ModelEx">

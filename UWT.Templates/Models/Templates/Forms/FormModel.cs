@@ -95,6 +95,10 @@ namespace UWT.Templates.Models.Templates.Forms
     {
         public int DigitCnt { get; set; }
     }
+    class FormItemTimeSpanEx : FormItemsCanRangeMaxMinEx<TimeSpan>, ITimeSpanEx
+    {
+        public FormItems.TimeSpanAttribute.TimeSpanMinSize MinSize { get; set; }
+    }
     class FormItemsCanRangeMaxMinExSlider : FormItemsCanRangeMaxMinEx<long>
     {
         public bool IsSlider { get; set; }

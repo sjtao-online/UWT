@@ -257,6 +257,43 @@ else
             @Html.Raw(BuildRangeDateTime(template, template.ModelEx as ICanRangeMaxMinEx<string>, m => m == null ? "" : m.Value.ToShowText(), "form-datetime"))
             break;
         case UWT.Templates.Attributes.Forms.FormItemType.TimeSpan:
+            var timespan = template.ModelEx as ITimeSpanEx;
+            string vtimespan = "";
+            if (isEdit)
+            {
+                Func<UWT.Templates.Attributes.Forms.FormItems.TimeSpanAttribute.TimeSpanMinSize, TimeSpan, string> myBuildFunc = (size, ts) =>
+                {
+                    switch (size)
+                    {
+                        case UWT.Templates.Attributes.Forms.FormItems.TimeSpanAttribute.TimeSpanMinSize.Day:
+                            return ((int)ts.Days).ToString();
+                        case UWT.Templates.Attributes.Forms.FormItems.TimeSpanAttribute.TimeSpanMinSize.Hour:
+                            return ts.ToString("dd\\天hh小时");
+                        case UWT.Templates.Attributes.Forms.FormItems.TimeSpanAttribute.TimeSpanMinSize.Minute:
+                            return ts.ToString("dd\\天hh小时\\mm分钟");
+                        case UWT.Templates.Attributes.Forms.FormItems.TimeSpanAttribute.TimeSpanMinSize.Second:
+                            return ts.ToString("dd\\天hh时\\mm分\\ss秒");
+                        default:
+                            break;
+                    }
+                    return "";
+                };
+                var cv = GetPropertyEditValue();
+                if (timespan.IsRange)
+                {
+                    var tRange = cv as Range<TimeSpan>;
+
+                    vtimespan = myBuildFunc(timespan.MinSize, tRange.Min) + " - " + myBuildFunc(timespan.MinSize, tRange.Max);
+                }
+                else
+                {
+                    vtimespan = myBuildFunc(timespan.MinSize, (TimeSpan)cv);
+                }
+            }
+            <div class="@className">
+                <input type="text" name="@templateName" value="" id="@templateName" class="layui-input uwt-timespan" readonly
+                       data-range="@(timespan.IsRange?1:0)" data-max="@timespan.Max.ToString("dd\\-hh\\-mm\\-ss")" data-min="@timespan.Min.ToString("dd\\-hh\\-mm\\-ss")" data-size="@timespan.MinSize"/>
+            </div>
             break;
         case UWT.Templates.Attributes.Forms.FormItemType.Password:
             var password = template.ModelEx as IPwdEx;

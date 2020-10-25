@@ -140,9 +140,9 @@ namespace UWT.Server.Controllers
         [FormItem("列名", FormItemType.File)]
         [FormItems.File(FileType = ".pdf")]
         public string File { get; set; }
-        [FormItem("标签", FormItemType.List)]
-        [FormItems.List(Flags = FormItems.ListAttribute.FormListFlag.ShowAsTag)]
-        public List<string> Tags { get; set; }
+        [FormItem("时间长度", FormItemType.TimeSpan)]
+        [FormItems.TimeSpan]
+        public TimeSpan TimeS { get; set; }
         [FormItem("Slider1", FormItemType.Slider)]
         [FormItems.Slider(ShowNumber = true, Min = 3, Max = 100)]
         public int Slider1 { get; set; }

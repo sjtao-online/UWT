@@ -51,12 +51,17 @@ namespace UWT.Templates.Models.Templates.Lists
         /// </summary>
         public ICellWidth Width { get; set; }
         /// <summary>
+        /// 值转换委托
+        /// </summary>
+        public IListColumnConverter Callback { get; set; }
+        /// <summary>
         /// 扩展信息
         /// </summary>
         public IListItemExBasicModel ModelEx { get; set; }
+
         public IHtmlContent GetRawValue(object item, ref TagHelperTemplateModel tagHelperTemplateModel, IHtmlHelper html)
         {
-            var value = Property.GetValue(item);
+            var value = Convert(item, Property.GetValue(item));
             if (value == null)
             {
                 return new StringHtmlContent("");
@@ -204,6 +209,19 @@ namespace UWT.Templates.Models.Templates.Lists
                 }
             }
             return JsonSerializer.Serialize(childrens);
+        }
+
+        public object Convert(object item, object columnValue)
+        {
+            if (columnValue == null)
+            {
+                return null;
+            }
+            if (Callback == null)
+            {
+                return columnValue;
+            }
+            return Callback.Convert(item, columnValue);
         }
     }
 }

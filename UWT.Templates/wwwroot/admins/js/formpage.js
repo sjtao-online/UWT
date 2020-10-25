@@ -134,6 +134,30 @@ layui.use(arr, function () {
             })
         })
     }
+    $('.uwt-timespan').click(function () {
+        var tip = '';
+        if ($(this).data('range') == 1) {
+            tip = 
+`
+<div class='uwt-timespan-dlg'>
+</div>
+`;
+
+        } else {
+            tip = 
+            `
+<div class='uwt-timespan-dlg'>
+</div>
+`;
+        }
+        $('body').append("<div class=uwt-shade>" + tip + "</div>");
+    })
+    $('.uwt-timespan').blur(function () {
+        $('.uwt-shade').remove();
+    })
+    $('.uwt-shade').click(function () {
+        $('.uwt-shade').remove();
+    })
     $('#uwt-file-input').on("change", function () {
         function selectfileerror(errormsg) {
             layui.layer.msg(errormsg);

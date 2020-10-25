@@ -49,6 +49,12 @@ namespace UWT.Templates.Attributes.Lists
         /// </summary>
         public double? MaxWidth { get; set; }
         /// <summary>
+        /// 列值转换委托<br/>
+        /// 必须为UWT.Templates.Models.Interfaces.IListColumnConverter实现类型
+        /// 对ColumnType为Index、MIndex无效，这两值是自动计算的
+        /// </summary>
+        public Type CallbackType { get; set; }
+        /// <summary>
         /// 列表列项
         /// </summary>
         /// <param name="title">列标头</param>

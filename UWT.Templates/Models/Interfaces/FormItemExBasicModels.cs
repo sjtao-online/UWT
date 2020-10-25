@@ -40,6 +40,10 @@ namespace UWT.Templates.Models.Interfaces
     {
         int DigitCnt { get; }
     }
+    public interface ITimeSpanEx : ICanRangeMaxMinEx<TimeSpan>
+    {
+        TimeSpanAttribute.TimeSpanMinSize MinSize { get; }
+    }
     public interface ISliderEx : IFormItemExBasicModel
     {
         string Class { get; }

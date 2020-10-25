@@ -44,11 +44,46 @@ namespace UWT.Templates.Attributes.Forms
         /// Form模型特性
         /// </summary>
         /// <param name="url">提交URL</param>
-        public FormModelAttribute(string url = ".AddModel")
+        public FormModelAttribute(string url)
         {
             Method = "POST";
             Type = "JSON";
             Url = url;
         }
+
+        /// <summary>
+        /// Form模型特性
+        /// </summary>
+        /// <param name="category">Form常用类型</param>
+        public FormModelAttribute(FormCategory category = FormCategory.Add)
+        {
+            Method = "POST";
+            Type = "JSON";
+            switch (category)
+            {
+                case FormCategory.Add:
+                    Url = ".AddModel";
+                    break;
+                case FormCategory.Modify:
+                    Url = ".ModifyModel";
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    /// <summary>
+    /// 常用Form类型
+    /// </summary>
+    public enum FormCategory
+    {
+        /// <summary>
+        /// 添加 ".AddModel"
+        /// </summary>
+        Add,
+        /// <summary>
+        /// 编辑 ".ModifyModel"
+        /// </summary>
+        Modify
     }
 }

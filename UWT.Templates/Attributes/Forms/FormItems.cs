@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using UWT.Templates.Models.Interfaces;
 
@@ -141,18 +142,31 @@ namespace UWT.Templates.Attributes.Forms
         public sealed class TimeSpanAttribute : Attribute, ICanMaxMinEx<int>
         {
             /// <summary>
-            /// 最大值
+            /// 最大值(秒)<br/>
+            /// 默认值一天
             /// </summary>
-            public int Max { get; set; } = 60 * 24;
+            public int Max { get; set; } = 60 * 60 * 24;
             /// <summary>
-            /// 大小值
+            /// 大小值(秒)<br/>
+            /// 默认值0
             /// </summary>
             public int Min { get; set; } = 0;
+            /// <summary>
+            /// 最小粒度，最大粒度由最小、大值确定
+            /// </summary>
+            public TimeSpanMinSize MinSize { get; set; }
             /// <summary>
             /// 时长类型
             /// </summary>
             public TimeSpanAttribute()
             {
+            }
+            public enum TimeSpanMinSize
+            {
+                Day,
+                Hour,
+                Minute,
+                Second
             }
         }
         /// <summary>

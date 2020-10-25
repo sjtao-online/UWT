@@ -159,9 +159,8 @@
         </Literal>
       </Declarations>
       <Code Language="csharp">
-        <![CDATA[public virtual IActionResult Modify(int id)
+        <![CDATA[public IActionResult Modify(int id)
         {
-            $type$ modify = null;
             using (var db = this.GetDB())
             {
                 var table = db.UwtGetTable<$ttable$>();
@@ -181,7 +180,7 @@
         }
         
         [HttpPost]
-        public virtual async Task<object> ModifyModel([FromBody]$type$ model)
+        public async Task<object> ModifyModel([FromBody]$type$ model)
         {
             List<$FormValidModel$> ret = new List<$FormValidModel$>();
             if (!await this.CheckCommitModel(model, ret))
@@ -274,7 +273,7 @@
       </Declarations>
       <Code Language="csharp">
         <![CDATA[[HttpPost]
-        public virtual object Del(int id)
+        public object Del(int id)
         {
             using (var db = this.GetDB())
             {
@@ -326,13 +325,13 @@
         </Literal>
       </Declarations>
       <Code Language="csharp">
-        <![CDATA[public virtual IActionResult Add() 
+        <![CDATA[public IActionResult Add() 
         {
             return this.FormResult<$tdb$>().View();
         }
         
         [HttpPost]
-        public virtual async Task<object> AddModel([FromBody]$tdb$ model)
+        public async Task<object> AddModel([FromBody]$tdb$ model)
         {
             List<$f$> ret = new List<$f$>();
             if (!await this.CheckCommitModel<$tdb$>(model, ret))
@@ -377,7 +376,7 @@
       </Declarations>
       <Code Language="csharp">
         <![CDATA[[HttpPost]
-        public virtual object $funcname$($param$)
+        public object $funcname$($param$)
         {
 			      $end$
             return this.Success();

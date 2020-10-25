@@ -313,6 +313,11 @@ namespace UWT.Templates.Services.Caches
                                             MaxWidth = meatt.MaxWidth,
                                         };
                                         FromString(meatt.Width, width);
+                                        IListColumnConverter converter = null;
+                                        if (meatt.CallbackType != null && typeof(IListColumnConverter).IsAssignableFrom(meatt.CallbackType))
+                                        {
+                                            converter = (IListColumnConverter)meatt.CallbackType.Assembly.CreateInstance(meatt.CallbackType.FullName);
+                                        }
                                         listColumn = new ListColumnModel()
                                         {
                                             Property = prop,
@@ -322,6 +327,7 @@ namespace UWT.Templates.Services.Caches
                                             Styles = meatt.Styles,
                                             Class = meatt.Class,
                                             ColumnType = meatt.ColumnType,
+                                            Callback = converter,
                                             ModelEx = mex,
                                             Width = width
                                         };
@@ -477,7 +483,15 @@ namespace UWT.Templates.Services.Caches
                                                 formItemModel.ModelEx = Fill(prop.GetCustomAttribute<FormItems.DateTimeAttribute>() ?? new FormItems.DateTimeAttribute(), prop);
                                                 break;
                                             case FormItemType.TimeSpan:
-                                                formItemModel.ModelEx = Fill(prop.GetCustomAttribute<FormItems.TimeSpanAttribute>() ?? new FormItems.TimeSpanAttribute(), prop);
+                                                var myTimeSpanAttr = prop.GetCustomAttribute<FormItems.TimeSpanAttribute>() ?? new FormItems.TimeSpanAttribute();
+                                                var mm = new FormItemTimeSpanEx()
+                                                {
+                                                    IsRange = PropertyIsRange(prop),
+                                                    MinSize = myTimeSpanAttr.MinSize,
+                                                    Max = TimeSpan.FromSeconds(myTimeSpanAttr.Max),
+                                                    Min = TimeSpan.FromSeconds(myTimeSpanAttr.Min)
+                                                };
+                                                formItemModel.ModelEx = mm;
                                                 break;
                                             case FormItemType.Password:
                                                 var pwd = prop.GetCustomAttribute<FormItems.PasswordAttribute>();

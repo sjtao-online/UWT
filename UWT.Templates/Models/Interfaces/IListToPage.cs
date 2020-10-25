@@ -179,6 +179,13 @@ namespace UWT.Templates.Models.Interfaces
         /// </summary>
         ICellWidth Width { get; }
         /// <summary>
+        /// 转换
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="columnValue"></param>
+        /// <returns></returns>
+        object Convert(object item, object columnValue);
+        /// <summary>
         /// 转换为显示内容
         /// </summary>
         /// <param name="obj">实体</param>
