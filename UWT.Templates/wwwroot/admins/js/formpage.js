@@ -134,29 +134,109 @@ layui.use(arr, function () {
             })
         })
     }
-    $('.uwt-timespan').click(function () {
-        var tip = '';
-        if ($(this).data('range') == 1) {
-            tip = 
-`
-<div class='uwt-timespan-dlg'>
-</div>
-`;
+    const unitArr = ["天", "时", "分", "秒"];
+    const plusArr = ['day', 'hour', 'minu', 'second'];
+    function buildInputHtml(plus, value, maxMinArr, index) {
+        return `<input class=ts-input type=number id=${plus}-${plusArr[index]} value=${value[plusArr[index]]} max=${maxMinArr[index].max} min=${maxMinArr[index].min}>${unitArr[index]}`;
+    }
+    function buildMaxMinObject(max, min) {
+        //var maxs = max.split('-');
+        //var mins = min.split('-');
+        var obj = [{ max: 24, min: -24 }, { max: 23, min: 0 }, { max: 59, min: 0 }, { max: 59, min: 0 }];
 
-        } else {
-            tip = 
-            `
-<div class='uwt-timespan-dlg'>
-</div>
-`;
+        return obj;
+    }
+
+    function buildTimeSpanObj(current) {
+
+        return {};
+    }
+
+    function buildTimeSpan(size, maxMinArr, current, plus) {
+        var value = buildTimeSpanObj(current);
+
+        switch (size) {
+            case 'Day':
+                return buildInputHtml(plus, value, maxMinArr, 0);
+            case 'Hour':
+                return buildInputHtml(plus, value, maxMinArr, 0)
+                    + buildInputHtml(plus, value, maxMinArr, 1);
+            case 'Minute':
+                return buildInputHtml(plus, value, maxMinArr, 0)
+                    + buildInputHtml(plus, value, maxMinArr, 1)
+                    + buildInputHtml(plus, value, maxMinArr, 2);
+            case 'Second':
+                return buildInputHtml(plus, value, maxMinArr, 0)
+                    + buildInputHtml(plus, value, maxMinArr, 1)
+                    + buildInputHtml(plus, value, maxMinArr, 2)
+                    + buildInputHtml(plus, value, maxMinArr, 3);
+            default:
+                break;
         }
-        $('body').append("<div class=uwt-shade>" + tip + "</div>");
+        return "";
+    }
+    var currentTimeSpanInput = null;
+    $('.uwt-timespan').click(function () {
+        var content = '';
+        var size = $(this).data('size');
+        var maxMinArr = buildMaxMinObject($(this).data('max'), $(this).data('min'))
+        if ($(this).data('range') == 1) {
+            var values = $(this).val().split(' - ');
+            content = buildTimeSpan(size, maxMinArr, values[0], 'begin') + "<div>　-　</div>" + buildTimeSpan(size, maxMinArr, values[1], 'end');
+        } else {
+            content = buildTimeSpan(size, maxMinArr, $(this).val(), 'c');
+        }
+        var off = $(this).offset();
+        currentTimeSpanInput = $(this);
+        $('body').append("<div class=uwt-shade></div><div class='uwt-timespan-dlg'><div class=uwt-flex>" + content + "</div><div class=uwt-flex><button class='layui-btn layui-btn-xs apply'>应用</button><button class='layui-btn layui-btn-xs clear'>清空</button></div></div>");
+        $(".uwt-timespan-dlg").css('left', off.left);
+        $(".uwt-timespan-dlg").css('top', off.top + $(this).height());
     })
-    $('.uwt-timespan').blur(function () {
+    $('body').on("click", '.uwt-shade', function () {
         $('.uwt-shade').remove();
+        $('.uwt-timespan-dlg').remove();
     })
-    $('.uwt-shade').click(function () {
+    $('body').on('click', '.uwt-timespan-dlg .clear', function () {
         $('.uwt-shade').remove();
+        $('.uwt-timespan-dlg').remove();
+        currentTimeSpanInput.val("")
+    })
+    $('body').on('blur', '.ts-input', function () {
+        var val = $(this).val();
+        if (val == '') {
+            $(this).val('0');
+        } else if (val > $(this).prop('max')) {
+            $(this).val($(this).prop('max'));
+        } else if (val < $(this).prop('min')) {
+            $(this).val($(this).prop('min'));
+        }
+    })
+    function buildNewValue(plus) {
+        var newValue = '';
+        for (var i = 0; i < 4; i++) {
+            var input = $('#' + plus + '-' + plusArr[i]);
+            if (input.length == 0) {
+                continue;
+            }
+            var v = input.val();
+            if (v != null && v != '' && v != 0) {
+                newValue += v + unitArr[i];
+            } else {
+                newValue += '0' + unitArr[i];
+            }
+        }
+        return newValue;
+    }
+    $('body').on('click', '.uwt-timespan-dlg .apply', function () {
+        var newValue = '';
+        if (currentTimeSpanInput.data('range') == 1) {
+            newValue = buildNewValue('begin') + " - " + buildNewValue('end');
+        } else {
+            newValue = buildNewValue('c');
+        }
+        currentTimeSpanInput.val(newValue)
+        $('.uwt-shade').remove();
+        $('.uwt-timespan-dlg').remove();
     })
     $('#uwt-file-input').on("change", function () {
         function selectfileerror(errormsg) {

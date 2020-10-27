@@ -663,9 +663,19 @@ table th, table td {
     -moz-border-radius: 2px;
     -webkit-border-radius: 2px;
     border-radius: 2px;
+    background-color: white;
     position: absolute;
     top: 300px;
     left: 300px;
-    width: 200px;
-    height: 100px;
+    height: 60px;
+    z-index: 1004;
+}
+
+.uwt-timespan-dlg input {
+    width: 35px;
+}
+
+.uwt-flex {
+    padding: 4px;
+    display: flex;
 }

@@ -15,6 +15,7 @@ using UWT.Templates.Models.Interfaces;
 using UWT.Templates.Models.Templates.Layouts;
 using UWT.Templates.Services.Auths;
 using UWT.Templates.Services.Caches;
+using UWT.Templates.Services.Converts.Json;
 using UWT.Templates.Services.Extends;
 using UWT.Templates.Services.Filters;
 
@@ -37,6 +38,18 @@ namespace UWT.Templates.Services.StartupEx
         internal static Func<string, int, object, IResultModelBasicT> ApiResultBuildFuncT = (msg, code, data)=> new ResultModelBasicT() { Code = code, Msg = msg, Data = data };
         internal static Func<string, int, IResultModelBasic> ApiResultBuildFunc = (msg, code) => new ResultModelBasic() { Code = code, Msg = msg };
         internal static bool? LessServerMode = null;
+        internal static void AddJson(this IMvcBuilder mvc)
+        {
+            mvc.AddJsonOptions(m =>
+            {
+                m.JsonSerializerOptions.IgnoreNullValues = true;
+                m.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+                m.JsonSerializerOptions.ReadCommentHandling = System.Text.Json.JsonCommentHandling.Skip;
+                m.JsonSerializerOptions.Converters.Add(new TimeSpanConverter());
+                m.JsonSerializerOptions.Converters.Add(new TimeSpanNullConverter());
+                ApiCustomFilter.JsonOptional = m;
+            });
+        }
         /// <summary>
         /// 添加Less支持
         /// </summary>
@@ -135,13 +148,7 @@ namespace UWT.Templates.Services.StartupEx
             where TResultBasicT : IResultModelBasicT, new ()
         {
             var mvc = service.AddControllers();
-            mvc.AddJsonOptions(m =>
-            {
-                m.JsonSerializerOptions.IgnoreNullValues = true;
-                m.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
-                m.JsonSerializerOptions.ReadCommentHandling = System.Text.Json.JsonCommentHandling.Skip;
-                ApiCustomFilter.JsonOptional = m;
-            });
+            mvc.AddJson();
             mvc.AddMvcOptions(op =>
             {
                 op.Filters.Add<ApiCustomFilter>();

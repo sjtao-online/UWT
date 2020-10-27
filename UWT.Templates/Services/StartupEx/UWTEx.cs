@@ -29,11 +29,11 @@ namespace UWT.Templates.Services.StartupEx
                 services.AddControllersWithViews(op=>
                 {
                     op.Filters.Add<LessViewFilter>();
-                });
+                }).AddJson();
             }
             else
             {
-                services.AddControllersWithViews();
+                services.AddControllersWithViews().AddJson();
             }
             services.AddControllers();
             services.AddTemplateModelCache();

@@ -70,6 +70,18 @@ namespace UWT.Server.Controllers
             }
         }
 
+        public object TimeS()
+        {
+            return new
+            {
+                T1 = TimeSpan.FromSeconds(4),
+                T2 = new TimeSpan(1,1,1),
+                T3 = new TimeSpan(1,1, 1, 1),
+                T4 = new TimeSpan(0, 2, 4),
+                D1 = DateTime.Now
+            };
+        }
+
         public IActionResult Form()
         {
             return this.FormResult().View();
@@ -143,6 +155,18 @@ namespace UWT.Server.Controllers
         [FormItem("时间长度", FormItemType.TimeSpan)]
         [FormItems.TimeSpan]
         public TimeSpan TimeS { get; set; }
+        [FormItem("时间长度", FormItemType.TimeSpan)]
+        [FormItems.TimeSpan(MinSize = FormItems.TimeSpanAttribute.TimeSpanMinSize.Minute)]
+        public TimeSpan TimeS2 { get; set; }
+        [FormItem("时间长度2", FormItemType.TimeSpan)]
+        [FormItems.TimeSpan(MinSize = FormItems.TimeSpanAttribute.TimeSpanMinSize.Minute)]
+        public Range<TimeSpan> TimeS22 { get; set; }
+        [FormItem("时间长度", FormItemType.TimeSpan)]
+        [FormItems.TimeSpan(MinSize = FormItems.TimeSpanAttribute.TimeSpanMinSize.Second)]
+        public TimeSpan TimeS3 { get; set; }
+        [FormItem("时间长度", FormItemType.TimeSpan)]
+        [FormItems.TimeSpan(MinSize = FormItems.TimeSpanAttribute.TimeSpanMinSize.Hour)]
+        public TimeSpan TimeS4 { get; set; }
         [FormItem("Slider1", FormItemType.Slider)]
         [FormItems.Slider(ShowNumber = true, Min = 3, Max = 100)]
         public int Slider1 { get; set; }

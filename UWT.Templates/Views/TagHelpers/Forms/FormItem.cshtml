@@ -268,9 +268,9 @@ else
                         case UWT.Templates.Attributes.Forms.FormItems.TimeSpanAttribute.TimeSpanMinSize.Day:
                             return ((int)ts.Days).ToString();
                         case UWT.Templates.Attributes.Forms.FormItems.TimeSpanAttribute.TimeSpanMinSize.Hour:
-                            return ts.ToString("dd\\天hh小时");
+                            return ts.ToString("dd\\天hh时");
                         case UWT.Templates.Attributes.Forms.FormItems.TimeSpanAttribute.TimeSpanMinSize.Minute:
-                            return ts.ToString("dd\\天hh小时\\mm分钟");
+                            return ts.ToString("dd\\天hh时\\mm分");
                         case UWT.Templates.Attributes.Forms.FormItems.TimeSpanAttribute.TimeSpanMinSize.Second:
                             return ts.ToString("dd\\天hh时\\mm分\\ss秒");
                         default:
