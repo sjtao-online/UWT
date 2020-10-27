@@ -147,9 +147,26 @@ layui.use(arr, function () {
         return obj;
     }
 
-    function buildTimeSpanObj(current) {
 
-        return {};
+    function buildTimeSpanObj(current) {
+        var r = {
+            day: 0,
+            hour: 0,
+            minu: 0,
+            second: 0
+        };
+        var start = 0;
+        function calcTimeFromIndex(i) {
+            var index = current.indexOf(unitArr[i]);
+            if (index != -1) {
+                r[plusArr[i]] = current.substr(start, index - start);
+                start = index + 1;
+            }
+        }
+        for (var i = 0; i < 4; i++) {
+            calcTimeFromIndex(i)
+        }
+        return r;
     }
 
     function buildTimeSpan(size, maxMinArr, current, plus) {
@@ -181,7 +198,11 @@ layui.use(arr, function () {
         var size = $(this).data('size');
         var maxMinArr = buildMaxMinObject($(this).data('max'), $(this).data('min'))
         if ($(this).data('range') == 1) {
-            var values = $(this).val().split(' - ');
+            var values = ["", ""];
+            var value = $(this).val();
+            if (value.indexOf(' - ') != -1) {
+                values = value.split(' - ');
+            }
             content = buildTimeSpan(size, maxMinArr, values[0], 'begin') + "<div>　-　</div>" + buildTimeSpan(size, maxMinArr, values[1], 'end');
         } else {
             content = buildTimeSpan(size, maxMinArr, $(this).val(), 'c');
@@ -202,7 +223,7 @@ layui.use(arr, function () {
         currentTimeSpanInput.val("")
     })
     $('body').on('blur', '.ts-input', function () {
-        var val = $(this).val();
+        var val = Number($(this).val());
         if (val == '') {
             $(this).val('0');
         } else if (val > $(this).prop('max')) {
@@ -691,6 +712,27 @@ layui.use(arr, function () {
                     }
                     break;
                 case 'TimeSpan':
+                    var val = $(selector).val();
+                    if (isRange()) {
+                        if (val == '' || val == ' - ') {
+                            curData = null
+                        } else {
+                            var arr = val.split(' - ');
+                            var maxt = buildTimeSpanObj(arr[0]);
+                            var mint = buildTimeSpanObj(arr[1]);
+                            curData = {
+                                max: maxt.day + '.' + maxt.hour + ':' + maxt.minu + ':' + maxt.second,
+                                min: mint.day + '.' + mint.hour + ':' + mint.minu + ':' + mint.second
+                            }
+                        }
+                    } else {
+                        if (val == '') {
+                            curData = null;
+                        } else {
+                            var mint = buildTimeSpanObj(val);
+                            curData = mint.day + '.' + mint.hour + ':' + mint.minu + ':' + mint.second;
+                        }
+                    }
                     break;
                 case 'Password':
                     if ($(selector).data('hasconfirm') == 1) {
