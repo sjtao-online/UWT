@@ -129,6 +129,39 @@
   </CodeSnippet>
   <CodeSnippet Format="1.0.0">
     <Header>
+      <Title>propdetail</Title>
+      <Shortcut>propdetail</Shortcut>
+      <Description>自动实现的详情属性的代码片段</Description>
+      <Author>sjtao.online</Author>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>type</ID>
+          <ToolTip>属性类型</ToolTip>
+          <Default>string</Default>
+        </Literal>
+        <Literal>
+          <ID>title</ID>
+          <ToolTip>标题</ToolTip>
+          <Default>标题名</Default>
+        </Literal>
+        <Literal>
+          <ID>property</ID>
+          <Default>NewProperty</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp">
+        <![CDATA[[DetailItem("$title$")]
+        public $type$ $property$ { get; set; }$end$]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+  <CodeSnippet Format="1.0.0">
+    <Header>
       <Title>uwtmodify</Title>
       <Shortcut>uwtmodify</Shortcut>
       <Description>自动实现的修改接口相关代码</Description>
