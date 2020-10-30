@@ -47,7 +47,7 @@
             }
             //  必要处理
             app.UseUWT();
-            //  添加数据库支持(文件名是步骤3中的文件)
+            //  添加数据库支持(文件名是步骤4中的文件)
             app.UseDbSettings<DataModels.UwtDB>(System.IO.Path.Combine(env.ContentRootPath, "db.conf"));
             //  添加后台布局基本配置，也可以使用另外一个重载做权限处理
             app.UseMgrLayout(new Models.LayoutRouteMap());
@@ -140,6 +140,26 @@
     //  path为路径名，filename-no-ext为除扩展名的文件名
     //  自动根据使用模式使用less或css
     ```
+
+## 自定义管理界面
+
++ 用户可用section
+    + CSS
+      > 添加到head中的后面，用于添加link或style
+    + Scripts
+      > 添加到body最后，一般用于添加script
+    + BodyAppend
+      > 添加到scripts之前，所有其它标签之后，一般用来做弹出窗之类的
+
++ 常用cshtml代码
+  ```html
+  <!-- 公共api,一般用于api访问 -->
+  <script src="/admins/js/common.js"></script>
+  <!-- 载入jquery,一般用于不想使用layui但又要操作界面或其它功能情况 -->
+  <script src="/admins/js/jquery.min.js"></script>
+
+  ```
+
 
 ## 客户端使用说明
 

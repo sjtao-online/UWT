@@ -722,12 +722,19 @@
         </member>
         <member name="P:UWT.Templates.Attributes.Forms.FormItems.TimeSpanAttribute.Max">
             <summary>
-            最大值
+            最大值(秒)<br/>
+            默认值一天
             </summary>
         </member>
         <member name="P:UWT.Templates.Attributes.Forms.FormItems.TimeSpanAttribute.Min">
             <summary>
-            大小值
+            大小值(秒)<br/>
+            默认值0
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Attributes.Forms.FormItems.TimeSpanAttribute.MinSize">
+            <summary>
+            最小粒度，最大粒度由最小、大值确定
             </summary>
         </member>
         <member name="M:UWT.Templates.Attributes.Forms.FormItems.TimeSpanAttribute.#ctor">
@@ -4260,6 +4267,29 @@
         <member name="T:UWT.Templates.Services.Converts.Json.DateTimeSecondsConverter">
             <summary>
             DateTime-秒
+            </summary>
+        </member>
+        <member name="T:UWT.Templates.Services.Converts.Json.TimeSpanConverter">
+            <summary>
+            TimeSpan转换器(默认)
+            序列化输出为字符串
+            </summary>
+        </member>
+        <member name="T:UWT.Templates.Services.Converts.Json.TimeSpanNullConverter">
+            <summary>
+            TimeSpan?转换器(默认)
+            序列化输出为字符串
+            </summary>
+        </member>
+        <member name="T:UWT.Templates.Services.Converts.Json.TimeSpanSConverter">
+            <summary>
+            TimeSpan转换器
+            </summary>
+        </member>
+        <member name="T:UWT.Templates.Services.Converts.Json.TimeSpanNullSConverter">
+            <summary>
+            TimeSpan?转换器
+            序列化转换为秒数字
             </summary>
         </member>
         <member name="T:UWT.Templates.Services.Converts.PwdConverter">
