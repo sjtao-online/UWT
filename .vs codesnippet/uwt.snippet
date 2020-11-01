@@ -367,7 +367,7 @@
         public async Task<object> AddModel([FromBody]$tdb$ model)
         {
             List<$f$> ret = new List<$f$>();
-            if (!await this.CheckCommitModel<$tdb$>(model, ret))
+            if (!await this.CheckCommitModel(model, ret))
             {
                 return this.Error($e$.FormCheckError, ret);
             }

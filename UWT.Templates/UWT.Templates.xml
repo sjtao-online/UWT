@@ -742,6 +742,36 @@
             时长类型
             </summary>
         </member>
+        <member name="T:UWT.Templates.Attributes.Forms.FormItems.TimeSpanAttribute.TimeSpanMinSize">
+            <summary>
+            时长粒度
+            </summary>
+        </member>
+        <member name="F:UWT.Templates.Attributes.Forms.FormItems.TimeSpanAttribute.TimeSpanMinSize.Day">
+            <summary>
+            天
+            </summary>
+        </member>
+        <member name="F:UWT.Templates.Attributes.Forms.FormItems.TimeSpanAttribute.TimeSpanMinSize.Hour">
+            <summary>
+            小时
+            </summary>
+        </member>
+        <member name="F:UWT.Templates.Attributes.Forms.FormItems.TimeSpanAttribute.TimeSpanMinSize.Minute">
+            <summary>
+            分钟
+            </summary>
+        </member>
+        <member name="F:UWT.Templates.Attributes.Forms.FormItems.TimeSpanAttribute.TimeSpanMinSize.Second">
+            <summary>
+            秒
+            </summary>
+        </member>
+        <member name="F:UWT.Templates.Attributes.Forms.FormItems.TimeSpanAttribute.TimeSpanMinSize.MSecond">
+            <summary>
+            毫秒(内核代码示支持)
+            </summary>
+        </member>
         <member name="T:UWT.Templates.Attributes.Forms.FormItems.MoneyAttribute">
             <summary>
             钱类型

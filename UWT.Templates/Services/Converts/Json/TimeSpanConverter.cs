@@ -14,6 +14,7 @@ namespace UWT.Templates.Services.Converts.Json
     /// </summary>
     public class TimeSpanConverter : JsonConverter<TimeSpan>
     {
+#pragma warning disable CS1591 // 缺少对公共可见类型或成员的 XML 注释
         public override TimeSpan Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             var v = TimeSpanConvert.Obj2TimeSpan(ref reader, options);
@@ -28,6 +29,7 @@ namespace UWT.Templates.Services.Converts.Json
         {
             TimeSpanConvert.TimeSpanWrite(writer, value, options, TimeSpanWriteCate.String);
         }
+#pragma warning restore CS1591 // 缺少对公共可见类型或成员的 XML 注释
     }
 
     /// <summary>
@@ -36,6 +38,7 @@ namespace UWT.Templates.Services.Converts.Json
     /// </summary>
     public class TimeSpanNullConverter : JsonConverter<TimeSpan?>
     {
+#pragma warning disable CS1591 // 缺少对公共可见类型或成员的 XML 注释
         public override TimeSpan? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             return TimeSpanConvert.Obj2TimeSpan(ref reader, options);
@@ -45,12 +48,14 @@ namespace UWT.Templates.Services.Converts.Json
         {
             TimeSpanConvert.TimeSpanWrite(writer, value, options, TimeSpanWriteCate.String);
         }
+#pragma warning restore CS1591 // 缺少对公共可见类型或成员的 XML 注释
     }
     /// <summary>
     /// TimeSpan转换器
     /// </summary>
     public class TimeSpanSConverter : JsonConverter<TimeSpan>
     {
+#pragma warning disable CS1591 // 缺少对公共可见类型或成员的 XML 注释
         public override TimeSpan Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             var v = TimeSpanConvert.Obj2TimeSpan(ref reader, options);
@@ -65,6 +70,7 @@ namespace UWT.Templates.Services.Converts.Json
         {
             TimeSpanConvert.TimeSpanWrite(writer, value, options, TimeSpanWriteCate.NumberS);
         }
+#pragma warning restore CS1591 // 缺少对公共可见类型或成员的 XML 注释
     }
 
     /// <summary>
@@ -73,6 +79,7 @@ namespace UWT.Templates.Services.Converts.Json
     /// </summary>
     public class TimeSpanNullSConverter : JsonConverter<TimeSpan?>
     {
+#pragma warning disable CS1591 // 缺少对公共可见类型或成员的 XML 注释
         public override TimeSpan? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             return TimeSpanConvert.Obj2TimeSpan(ref reader, options);
@@ -82,6 +89,7 @@ namespace UWT.Templates.Services.Converts.Json
         {
             TimeSpanConvert.TimeSpanWrite(writer, value, options, TimeSpanWriteCate.NumberS);
         }
+#pragma warning restore CS1591 // 缺少对公共可见类型或成员的 XML 注释
     }
 
     static class TimeSpanConvert

@@ -154,19 +154,38 @@ namespace UWT.Templates.Attributes.Forms
             /// <summary>
             /// 最小粒度，最大粒度由最小、大值确定
             /// </summary>
-            public TimeSpanMinSize MinSize { get; set; }
+            public TimeSpanMinSize MinSize { get; set; } = TimeSpanMinSize.Minute;
             /// <summary>
             /// 时长类型
             /// </summary>
             public TimeSpanAttribute()
             {
             }
+            /// <summary>
+            /// 时长粒度
+            /// </summary>
             public enum TimeSpanMinSize
             {
+                /// <summary>
+                /// 天
+                /// </summary>
                 Day,
+                /// <summary>
+                /// 小时
+                /// </summary>
                 Hour,
+                /// <summary>
+                /// 分钟
+                /// </summary>
                 Minute,
-                Second
+                /// <summary>
+                /// 秒
+                /// </summary>
+                Second,
+                /// <summary>
+                /// 毫秒(内核代码示支持)
+                /// </summary>
+                MSecond,
             }
         }
         /// <summary>
