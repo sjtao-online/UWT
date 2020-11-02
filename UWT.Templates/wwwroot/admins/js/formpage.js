@@ -677,7 +677,6 @@ layui.use(arr, function () {
                     break;
                 case 'Date':
                 case 'DateTime':
-                case 'Time':
                     var change = function (r) { return new Date(r); }
                     if (isRange()) {
                         curData = {};
@@ -708,6 +707,49 @@ layui.use(arr, function () {
                             if (!checkMaxMin(curData, $(selector), change)) {
                                 return;
                             }
+                        }
+                    }
+                    break;
+                case 'Time':
+                    var change = function (r) {
+                        var arr = r.split(':');
+                        if (arr.length == 3) {
+                            return Number(arr[0] * 60 * 60 + arr[1] * 60 + arr[2]);
+                        }
+                        return -1;
+                    }
+                    if (isRange()) {
+                        curData = {};
+                        if ($(selector + start).val() != '') {
+                            curData.Min = $(selector + start).val();
+                            if (!checkMaxMin(curData.Min, $(selector + start), change)) {
+                                return;
+                            }
+                            curData.Min = change(curData.Min);
+                        }
+                        if ($(selector + end).val() != '') {
+                            curData.Max = $(selector + end).val();
+                            if (!checkMaxMin(curData.Max, $(selector + end), change)) {
+                                return;
+                            }
+                            curData.Max = change(curData.Max);
+                        }
+                        if (isEmptyObject(curData)) {
+                            curData = null;
+                        } else {
+                            if (!checkRangeMaxMin(curData)) {
+                                return;
+                            }
+                        }
+                    } else {
+                        curData = $(selector).val();
+                        if (curData == '') {
+                            curData = null;
+                        } else {
+                            if (!checkMaxMin(curData, $(selector), change)) {
+                                return;
+                            }
+                            curData = change(curData);
                         }
                     }
                     break;

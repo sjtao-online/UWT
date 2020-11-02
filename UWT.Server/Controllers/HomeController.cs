@@ -84,7 +84,10 @@ namespace UWT.Server.Controllers
 
         public IActionResult Form()
         {
-            return this.FormResult().View();
+            return this.FormResult(new StudentAddModel()
+            {
+                TimeS = new TimeSpan(10,0,0),
+            }).View();
         }
 
         public IActionResult Logs()

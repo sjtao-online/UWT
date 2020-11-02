@@ -266,13 +266,13 @@ else
                     switch (size)
                     {
                         case UWT.Templates.Attributes.Forms.FormItems.TimeSpanAttribute.TimeSpanMinSize.Day:
-                            return ((int)ts.Days).ToString();
+                            return $"{((int)ts.Days):D2}天";
                         case UWT.Templates.Attributes.Forms.FormItems.TimeSpanAttribute.TimeSpanMinSize.Hour:
-                            return ts.ToString("dd\\天hh时");
+                            return $"{((int)ts.Days):D2}天{((int)ts.Hours):D2}时";
                         case UWT.Templates.Attributes.Forms.FormItems.TimeSpanAttribute.TimeSpanMinSize.Minute:
-                            return ts.ToString("dd\\天hh时\\mm分");
+                            return $"{((int)ts.Days):D2}天{((int)ts.Hours):D2}时{((int)ts.Minutes):D2}分";
                         case UWT.Templates.Attributes.Forms.FormItems.TimeSpanAttribute.TimeSpanMinSize.Second:
-                            return ts.ToString("dd\\天hh时\\mm分\\ss秒");
+                            return $"{((int)ts.Days):D2}天{((int)ts.Hours):D2}时{((int)ts.Minutes):D2}分{((int)ts.Seconds):D2}秒";
                         default:
                             break;
                     }
@@ -282,7 +282,10 @@ else
                 if (timespan.IsRange)
                 {
                     var tRange = cv as Range<TimeSpan>;
-
+                    if (tRange == null)
+                    {
+                        tRange = new Range<TimeSpan>();
+                    }
                     vtimespan = myBuildFunc(timespan.MinSize, tRange.Min) + " - " + myBuildFunc(timespan.MinSize, tRange.Max);
                 }
                 else
@@ -292,7 +295,7 @@ else
             }
             <div class="@className">
                 <input type="text" name="@templateName" value="@vtimespan" id="@templateName" class="layui-input uwt-timespan" readonly
-                       data-range="@(timespan.IsRange?1:0)" data-max="@timespan.Max.ToString("dd\\-hh\\-mm\\-ss")" data-min="@timespan.Min.ToString("dd\\-hh\\-mm\\-ss")" data-size="@timespan.MinSize"/>
+                       data-range="@(timespan.IsRange?1:0)" data-max="@timespan.Max.ToString("dd\\-hh\\-mm\\-ss")" data-min="@timespan.Min.ToString("dd\\-hh\\-mm\\-ss")" data-size="@timespan.MinSize" />
             </div>
             break;
         case UWT.Templates.Attributes.Forms.FormItemType.Password:
@@ -385,7 +388,7 @@ else
                 }
             }
             <div class="className">
-                <input type="hidden" id="@templateName" value="@v" data-rkey="@vRKey"/>
+                <input type="hidden" id="@templateName" value="@v" data-rkey="@vRKey" />
                 <div style="display: flex;">
                     <input class="layui-input choose" readonly data-mselect="@multiSelect" data-url="@sUrl"
                            value="@vShow" data-rkey="@vRKey" data-ukey="@uKey"
@@ -499,18 +502,53 @@ else
             break;
         case UWT.Templates.Attributes.Forms.FormItemType.Slider:
             var slider = template.ModelEx as ISliderEx;
+            var soliderShowValue = "";
+            var soliderInputValue = "";
+            if (isEdit)
+            {
+                var sliderValue = GetPropertyEditValue();
+                if (sliderValue == null)
+                {
+                    if (slider.IsRange)
+                    {
+                        soliderShowValue = slider.Min + " - " + slider.Max;
+                        soliderInputValue = slider.Min + "," + slider.Max;
+                    }
+                    else
+                    {
+                        soliderShowValue = slider.Min.ToString();
+                    }
+                }
+                else
+                {
+                    soliderShowValue = sliderValue.ToString();
+                    soliderInputValue = soliderShowValue.Replace(",", " - ");
+                }
+            }
+            else
+            {
+                if (slider.IsRange)
+                {
+                    soliderShowValue = slider.Min + " - " + slider.Max;
+                    soliderInputValue = slider.Min + "," + slider.Max;
+                }
+                else
+                {
+                    soliderShowValue = slider.Min.ToString();
+                }
+            }
             <div class="@className">
                 <div class="form-slider" id="@(templateName)__slider" data-rid="@(templateName)"></div>
                 @if (slider.ShowNumber)
-	            {
-                    <span id="@(templateName)_show">@(Model.DataModel.TargetObject==null?(slider.IsRange?(slider.Min+","+ slider.Max) :slider.Min.ToString()) :GetPropertyEditValue().ToString())</span>
-	            }
-                <input class="@(slider.IsRange?"hasrange":"")" type="hidden" data-step="@slider.Block" data-max="@slider.Max" data-min="@slider.Min" id="@templateName" value="@(Model.DataModel.TargetObject==null?"":GetPropertyEditValue().ToString())" />
+                {
+                    <span id="@(templateName)_show">@(soliderShowValue)</span>
+                }
+                <input class="@(slider.IsRange?"hasrange":"")" type="hidden" data-step="@slider.Block" data-max="@slider.Max" data-min="@slider.Min" id="@templateName" value="@(soliderShowValue)" />
             </div>
             break;
         case UWT.Templates.Attributes.Forms.FormItemType.List:
             System.Collections.IEnumerable listValues = null;
-            if (isEdit) 
+            if (isEdit)
             {
                 listValues = (System.Collections.IEnumerable)GetPropertyEditValue();
             }
