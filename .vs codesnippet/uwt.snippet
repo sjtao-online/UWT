@@ -101,6 +101,34 @@
   </CodeSnippet>
   <CodeSnippet Format="1.0.0">
     <Header>
+      <Title>uwtrecord</Title>
+      <Shortcut>uwtrecord</Shortcut>
+      <Description>API快捷模型</Description>
+      <Author>sjtao.online</Author>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>classname</ID>
+          <ToolTip>类模型名称</ToolTip>
+          <Default>MyClass</Default>
+        </Literal>
+        <Literal>
+          <ID>props</ID>
+          <ToolTip>众属性</ToolTip>
+          <Default>int Id</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp">
+        <![CDATA[public record Api$classname$Model($props$);$end$]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+  <CodeSnippet Format="1.0.0">
+    <Header>
       <Title>prophide</Title>
       <Shortcut>prophide</Shortcut>
       <Description>自动实现的表单隐藏属性的代码片段(表单项)</Description>
