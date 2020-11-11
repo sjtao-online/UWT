@@ -902,6 +902,12 @@
             数据库Id选择类型
             </summary>
         </member>
+        <member name="P:UWT.Templates.Attributes.Forms.FormItems.ChooseIdFromSqlAttribute.SqlText">
+            <summary>
+            SQL语句
+            必须有id,name
+            </summary>
+        </member>
         <member name="T:UWT.Templates.Attributes.Forms.FormItems.FileAttribute">
             <summary>
             上传文件

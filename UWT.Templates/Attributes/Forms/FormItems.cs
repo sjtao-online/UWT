@@ -319,6 +319,18 @@ namespace UWT.Templates.Attributes.Forms
                 TableName = tableName;
             }
         }
+        [System.AttributeUsage(AttributeTargets.Property, Inherited = false, AllowMultiple = false)]
+        sealed class ChooseIdFromSqlAttribute : Attribute
+        {
+            /// <summary>
+            /// SQL语句
+            /// 必须有id,name
+            /// </summary>
+            public string SqlText { get; set; }
+            public ChooseIdFromSqlAttribute()
+            {
+            }
+        }
         /// <summary>
         /// 上传文件
         /// </summary>
