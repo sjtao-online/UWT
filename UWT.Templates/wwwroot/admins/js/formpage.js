@@ -515,7 +515,7 @@ layui.use(arr, function () {
             return null;
         }
         //  处理标准输入
-        $('.layui-form-item.uwt-form-item').each(function () {
+        $('.layui-form-item.uwt-form-item,.layui-form-item layui-inline.uwt-form-item').each(function () {
             var curData = null;
             var key = $(this).data('name');
             var that = this;
