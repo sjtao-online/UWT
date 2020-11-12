@@ -26,4 +26,8 @@ namespace DataModels
     public partial class UwtHelper : UWT.Libs.Helpers.Models.IDbHelperTable { }
 
     #endregion
+
+    #region WeChats
+    public partial class UwtWechatsUser : UWT.Libs.WeChats.Models.IDbWxUserModel { }
+    #endregion
 }

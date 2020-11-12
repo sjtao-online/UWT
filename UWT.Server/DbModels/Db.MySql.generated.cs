@@ -26,6 +26,10 @@ namespace DataModels
 		public ITable<UwtBbsAreaMgrRef>      UwtBbsAreaMgrRefs      { get { return this.GetTable<UwtBbsAreaMgrRef>(); } }
 		public ITable<UwtBbsAreaTopicRef>    UwtBbsAreaTopicRefs    { get { return this.GetTable<UwtBbsAreaTopicRef>(); } }
 		public ITable<UwtBbsConfig>          UwtBbsConfigs          { get { return this.GetTable<UwtBbsConfig>(); } }
+		/// <summary>
+		/// 关注人与取消关系表
+		/// </summary>
+		public ITable<UwtBbsFollow>          UwtBbsFollows          { get { return this.GetTable<UwtBbsFollow>(); } }
 		public ITable<UwtBbsTopic>           UwtBbsTopics           { get { return this.GetTable<UwtBbsTopic>(); } }
 		public ITable<UwtBbsTopicBack>       UwtBbsTopicBacks       { get { return this.GetTable<UwtBbsTopicBack>(); } }
 		public ITable<UwtBbsTopicBackHis>    UwtBbsTopicBackHis     { get { return this.GetTable<UwtBbsTopicBackHis>(); } }
@@ -42,6 +46,16 @@ namespace DataModels
 		/// 用户等级类型
 		/// </summary>
 		public ITable<UwtBbsUserLevelType>   UwtBbsUserLevelTypes   { get { return this.GetTable<UwtBbsUserLevelType>(); } }
+		/// <summary>
+		/// 用户可用属性表
+		/// </summary>
+		public ITable<UwtBbsUserPropConfig>  UwtBbsUserPropConfigs  { get { return this.GetTable<UwtBbsUserPropConfig>(); } }
+		/// <summary>
+		/// 用户额外信息表
+		/// </summary>
+		public ITable<UwtBbsUserProperty>    UwtBbsUserProperties   { get { return this.GetTable<UwtBbsUserProperty>(); } }
+		public ITable<UwtBbsUserPropGroup>   UwtBbsUserPropGroups   { get { return this.GetTable<UwtBbsUserPropGroup>(); } }
+		public ITable<UwtBbsVisitHis>        UwtBbsVisitHis         { get { return this.GetTable<UwtBbsVisitHis>(); } }
 		public ITable<UwtHelper>             UwtHelpers             { get { return this.GetTable<UwtHelper>(); } }
 		public ITable<UwtNormalsBanner>      UwtNormalsBanners      { get { return this.GetTable<UwtNormalsBanner>(); } }
 		public ITable<UwtNormalsFile>        UwtNormalsFiles        { get { return this.GetTable<UwtNormalsFile>(); } }
@@ -88,6 +102,10 @@ namespace DataModels
 		/// </summary>
 		[Column("desc"),           Nullable          ] public string Desc      { get; set; } // varchar(255)
 		/// <summary>
+		/// 序号
+		/// </summary>
+		[Column("index"),       NotNull              ] public int    Index     { get; set; } // int(11)
+		/// <summary>
 		/// 说明
 		/// </summary>
 		[Column("summary"),     NotNull              ] public string Summary   { get; set; } // varchar(255)
@@ -96,7 +114,7 @@ namespace DataModels
 		/// 版主
 		/// </summary>
 		[Column("mgr_user_id"), NotNull              ] public int    MgrUserId { get; set; } // int(11)
-		[Column("status"),      NotNull              ] public string Status    { get; set; } // enum('show')
+		[Column("status"),      NotNull              ] public string Status    { get; set; } // enum('show','hidden')
 		[Column("apply"),       NotNull              ] public string Apply     { get; set; } // enum('publish','approved')
 	}
 
@@ -139,6 +157,31 @@ namespace DataModels
 		[Column("value"),    Nullable         ] public string Value { get; set; } // varchar(255)
 	}
 
+	/// <summary>
+	/// 关注人与取消关系表
+	/// </summary>
+	[Table("uwt_bbs_follows")]
+	public partial class UwtBbsFollow
+	{
+		[Column("id"),       PrimaryKey, Identity] public int      Id      { get; set; } // int(11)
+		/// <summary>
+		/// 补关注的用户Id
+		/// </summary>
+		[Column("u_id"),     NotNull             ] public int      UId     { get; set; } // int(11)
+		/// <summary>
+		/// 关注人
+		/// </summary>
+		[Column("f_id"),     NotNull             ] public int      FId     { get; set; } // int(11)
+		/// <summary>
+		/// 关注时间
+		/// </summary>
+		[Column("add_time"), NotNull             ] public DateTime AddTime { get; set; } // datetime
+		/// <summary>
+		/// 无效代表取消关注了
+		/// </summary>
+		[Column("valid"),    NotNull             ] public bool     Valid   { get; set; } // tinyint(1)
+	}
+
 	[Table("uwt_bbs_topics")]
 	public partial class UwtBbsTopic
 	{
@@ -159,7 +202,7 @@ namespace DataModels
 		/// 根据type不同而意义不同，暂未使用
 		/// </summary>
 		[Column("type_value"),     NotNull             ] public string   TypeValue    { get; set; } // varchar(255)
-		[Column("status"),         NotNull             ] public string   Status       { get; set; } // enum('publish','forbid')
+		[Column("status"),         NotNull             ] public string   Status       { get; set; } // enum('apply','publish','forbid')
 		/// <summary>
 		/// 查看次数
 		/// </summary>
@@ -279,6 +322,71 @@ namespace DataModels
 		[Column("valid"), NotNull             ] public bool   Valid { get; set; } // tinyint(1)
 	}
 
+	/// <summary>
+	/// 用户可用属性表
+	/// </summary>
+	[Table("uwt_bbs_user_prop_configs")]
+	public partial class UwtBbsUserPropConfig
+	{
+		[Column("id"),   PrimaryKey, Identity] public int    Id   { get; set; } // int(11)
+		/// <summary>
+		/// 显示名称
+		/// </summary>
+		[Column("name"), NotNull             ] public string Name { get; set; } // varchar(255)
+		[Column("type"), NotNull             ] public string Type { get; set; } // enum('text','gender','date','time_of_day','weekday','datetime')
+		[Column("g_id"), NotNull             ] public int    GId  { get; set; } // int(11)
+	}
+
+	/// <summary>
+	/// 用户额外信息表
+	/// </summary>
+	[Table("uwt_bbs_user_properties")]
+	public partial class UwtBbsUserProperty
+	{
+		[Column("id"),    PrimaryKey, Identity] public int    Id    { get; set; } // int(11)
+		/// <summary>
+		/// 用户Id
+		/// </summary>
+		[Column("u_id"),  NotNull             ] public int    UId   { get; set; } // int(11)
+		/// <summary>
+		/// 属性名
+		/// </summary>
+		[Column("p_id"),  NotNull             ] public int    PId   { get; set; } // int(11)
+		/// <summary>
+		/// 值
+		/// </summary>
+		[Column("value"), NotNull             ] public string Value { get; set; } // text
+	}
+
+	[Table("uwt_bbs_user_prop_groups")]
+	public partial class UwtBbsUserPropGroup
+	{
+		[Column("id"),   PrimaryKey, Identity] public int    Id   { get; set; } // int(11)
+		[Column("name"), NotNull             ] public string Name { get; set; } // varchar(255)
+	}
+
+	[Table("uwt_bbs_visit_his")]
+	public partial class UwtBbsVisitHis
+	{
+		[Column("id"),       PrimaryKey, Identity] public int      Id      { get; set; } // int(11)
+		/// <summary>
+		/// 拜访者Id
+		/// </summary>
+		[Column("v_id"),     NotNull             ] public int      VId     { get; set; } // int(11)
+		/// <summary>
+		/// 受访者Id
+		/// </summary>
+		[Column("u_id"),     NotNull             ] public int      UId     { get; set; } // int(11)
+		/// <summary>
+		/// 访问的URL
+		/// </summary>
+		[Column("url"),      NotNull             ] public string   Url     { get; set; } // varchar(255)
+		/// <summary>
+		/// 访问时间
+		/// </summary>
+		[Column("add_time"), NotNull             ] public DateTime AddTime { get; set; } // datetime
+	}
+
 	[Table("uwt_helpers")]
 	public partial class UwtHelper
 	{
@@ -287,6 +395,9 @@ namespace DataModels
 		[Column("content"),         Nullable          ] public string    Content     { get; set; } // text
 		[Column("summary"),      NotNull              ] public string    Summary     { get; set; } // varchar(255)
 		[Column("publish_time"),    Nullable          ] public DateTime? PublishTime { get; set; } // datetime
+		/// <summary>
+		/// 可以是多个url以;分开，但必须为小写
+		/// </summary>
 		[Column("url"),          NotNull              ] public string    Url         { get; set; } // text
 		/// <summary>
 		/// 作者名称（随便写的东西）
@@ -534,6 +645,7 @@ namespace DataModels
 		[Column("id"),         PrimaryKey, Identity] public int      Id        { get; set; } // int(11)
 		[Column("nick_name"),  NotNull             ] public string   NickName  { get; set; } // varchar(255)
 		[Column("token"),      NotNull             ] public string   Token     { get; set; } // varchar(32)
+		[Column("token_exp"),  NotNull             ] public DateTime TokenExp  { get; set; } // datetime
 		[Column("open_id"),    NotNull             ] public string   OpenId    { get; set; } // varchar(64)
 		[Column("gender"),     NotNull             ] public sbyte    Gender    { get; set; } // tinyint(4)
 		[Column("language"),   NotNull             ] public string   Language  { get; set; } // varchar(16)
@@ -542,6 +654,7 @@ namespace DataModels
 		[Column("province"),   NotNull             ] public string   Province  { get; set; } // varchar(32)
 		[Column("avatar_url"), NotNull             ] public string   AvatarUrl { get; set; } // varchar(255)
 		[Column("add_time"),   NotNull             ] public DateTime AddTime   { get; set; } // datetime
+		[Column("status"),     NotNull             ] public string   Status    { get; set; } // enum('enabled')
 	}
 
 	public static partial class TableExtensions
@@ -568,6 +681,12 @@ namespace DataModels
 		{
 			return table.FirstOrDefault(t =>
 				t.Key == Key);
+		}
+
+		public static UwtBbsFollow Find(this ITable<UwtBbsFollow> table, int Id)
+		{
+			return table.FirstOrDefault(t =>
+				t.Id == Id);
 		}
 
 		public static UwtBbsTopic Find(this ITable<UwtBbsTopic> table, int Id)
@@ -607,6 +726,30 @@ namespace DataModels
 		}
 
 		public static UwtBbsUserLevelType Find(this ITable<UwtBbsUserLevelType> table, int Id)
+		{
+			return table.FirstOrDefault(t =>
+				t.Id == Id);
+		}
+
+		public static UwtBbsUserPropConfig Find(this ITable<UwtBbsUserPropConfig> table, int Id)
+		{
+			return table.FirstOrDefault(t =>
+				t.Id == Id);
+		}
+
+		public static UwtBbsUserProperty Find(this ITable<UwtBbsUserProperty> table, int Id)
+		{
+			return table.FirstOrDefault(t =>
+				t.Id == Id);
+		}
+
+		public static UwtBbsUserPropGroup Find(this ITable<UwtBbsUserPropGroup> table, int Id)
+		{
+			return table.FirstOrDefault(t =>
+				t.Id == Id);
+		}
+
+		public static UwtBbsVisitHis Find(this ITable<UwtBbsVisitHis> table, int Id)
 		{
 			return table.FirstOrDefault(t =>
 				t.Id == Id);

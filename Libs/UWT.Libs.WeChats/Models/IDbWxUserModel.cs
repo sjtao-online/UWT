@@ -51,7 +51,7 @@ namespace UWT.Libs.WeChats.Models
         /// </summary>
         string AvatarUrl { get; set; }
         /// <summary>
-        /// 状态
+        /// 状态 默认 'enabled'
         /// </summary>
         string Status { get; set; }
     }

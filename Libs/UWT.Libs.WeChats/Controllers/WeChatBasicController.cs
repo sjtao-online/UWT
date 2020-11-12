@@ -73,6 +73,7 @@ namespace UWT.Libs.WeChats.Controllers
                     [nameof(IDbWxUserModel.Gender)] = (sbyte)loginModel.UserInfo.Gender,
                     [nameof(IDbWxUserModel.Language)] = loginModel.UserInfo.Language,
                     [nameof(IDbWxUserModel.Token)] = refreshToken,
+                    [nameof(IDbWxUserModel.Province)] = loginModel.UserInfo.Province,
                     [nameof(IDbWxUserModel.TokenExp)] = exp.LocalDateTime,
                     [nameof(IDbWxUserModel.Status)] = "enabled"
                 };

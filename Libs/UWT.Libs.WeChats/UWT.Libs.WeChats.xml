@@ -117,7 +117,7 @@
         </member>
         <member name="P:UWT.Libs.WeChats.Models.IDbWxUserModel.Status">
             <summary>
-            状态
+            状态 默认 'enabled'
             </summary>
         </member>
         <member name="T:UWT.Libs.WeChats.Models.SignIntoModel">
