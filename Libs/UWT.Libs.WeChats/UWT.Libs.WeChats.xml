@@ -210,6 +210,32 @@
             不应该
             </summary>
         </member>
+        <member name="T:UWT.Libs.WeChats.Services.WxControllerEx">
+            <summary>
+            微信控制器的扩展功能
+            </summary>
+        </member>
+        <member name="M:UWT.Libs.WeChats.Services.WxControllerEx.GetWxUserId``1(``0)">
+            <summary>
+            获得微信用户表Id
+            </summary>
+            <typeparam name="TWxController"></typeparam>
+            <param name="wxController"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UWT.Libs.WeChats.Services.WxControllerEx.GetWxNickName``1(``0)">
+            <summary>
+            获得微信用户昵称
+            </summary>
+            <typeparam name="TWxController"></typeparam>
+            <param name="wxController"></param>
+            <returns></returns>
+        </member>
+        <member name="T:UWT.Libs.WeChats.Services.IWxController">
+            <summary>
+            使用微信功能的控制器
+            </summary>
+        </member>
         <member name="T:UWT.Libs.WeChats.Services.WxLogin">
             <summary>
             微信登录服务

@@ -22,12 +22,12 @@ namespace UWT.Server.Controllers
 {
     public class HomeController : Controller
         , IFormToPage<StudentAddModel>
-        , IListToPage<QueryTable, HomeListItemModel>
+        , IListToPage<string, HomeListItemModel>
     {
         [AuthUser]
         public IActionResult Index()
         {
-            this.AddFilter("123", m => m.Name, Templates.Models.Filters.FilterType.Equal, Templates.Models.Filters.FilterValueType.TagSSelector, new List<HasFilterTypeChildrenNameKeyModel>()
+            this.AddFilter("123", m => m, Templates.Models.Filters.FilterType.Equal, Templates.Models.Filters.FilterValueType.TagSSelector, new List<HasFilterTypeChildrenNameKeyModel>()
             {
                 new HasFilterTypeChildrenNameKeyModel()
                 {
@@ -52,21 +52,18 @@ namespace UWT.Server.Controllers
             //this.AddFilter("用户名", m => m.Name, Templates.Models.Filters.FilterType.Like, Templates.Models.Filters.FilterValueType.Text);
             using (DataModels.UwtDB db = new DataModels.UwtDB())
             {
-                return this.ListResult(m => new HomeListItemModel()
-                {
-                    Name = new ListColumnTextModel()
+                return this.ListResult(from it in db.UwtUsersAccounts select it.Account,
+                    m => new HomeListItemModel()
                     {
-                        Title = m.Name,
-                        FontColor = "#F6A",
-                        Background = "#AAA",
-                        BorderRadius = "4px"
-                    },
+                        Name = new ListColumnTextModel()
+                        {
+                            Title = m,
+                            FontColor = "#F6A",
+                            Background = "#AAA",
+                            BorderRadius = "4px"
+                        },
                     
-                }, from it in db.UwtUsersAccounts
-                   select new QueryTable()
-                   {
-                       Name = it.Account
-                   }).View();
+                    }).View();
             }
         }
 
@@ -99,10 +96,6 @@ namespace UWT.Server.Controllers
         {
             return View();
         }
-    }
-    class QueryTable
-    {
-        public string Name { get; set; }
     }
     [ListViewModel(BatchKey = "Index")]
     class HomeListItemModel

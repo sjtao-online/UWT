@@ -20,8 +20,8 @@ namespace UWT.Libs.WeChats.Controllers
         /// 微信配置
         /// </summary>
         public abstract WxConfig WxConfig { get; }
-        const string AccountIdKey = "AccountId";
-        const string NickNameKey = "NickName";
+        internal const string AccountIdKey = "AccountId";
+        internal const string NickNameKey = "NickName";
         /// <summary>
         /// 创建签名字典
         /// </summary>
@@ -171,7 +171,7 @@ namespace UWT.Libs.WeChats.Controllers
                         });
                         return this.Success(new SignIntoModel()
                         {
-                            AccessToken = this.SignInto(BuildSignIntoDic(account.Id, account.NickName)),
+                            AccessToken = this.SignInto(BuildSignIntoDic(account.Id, account.NickName), AuthWxAttribute.CurrentAuthType),
                             AccountId = account.Id,
                             RefreshToken = newRefreshToken,
                             TokenExpiry = exp.LocalDateTime,

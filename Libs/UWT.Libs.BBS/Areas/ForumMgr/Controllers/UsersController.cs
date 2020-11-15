@@ -17,7 +17,7 @@ namespace UWT.Libs.BBS.Areas.ForumMgr.Controllers
 {
     [AuthUser, ForumAreaRoute("用户管理")]
     public class UsersController : Controller
-        , IListToPage<Models.Users.UserListItemModel, Models.Users.UserListItemModel>
+        , IListToPage<Models.Users.UserListItemModel>
     {
         public IActionResult Index()
         {
@@ -33,7 +33,7 @@ namespace UWT.Libs.BBS.Areas.ForumMgr.Controllers
                             JoinTime = it.JoinTime.ToShowText(),
                             Status = it.Auths
                         };
-                return this.ListResult(m => new Models.Users.UserListItemModel(), q, callback: p=>
+                return this.ListResult(q, m => new Models.Users.UserListItemModel(), callback: p=>
                 {
                     foreach (Models.Users.UserListItemModel item in p.Items)
                     {

@@ -376,7 +376,7 @@ namespace UWT.Templates.Services.Extends
             where TListItem : class
         {
             var controller = @this.GetController();
-            ListToPageCallBack(@this, callback, pageModel =>
+            ListToPageCallBack<TTable, TListItem>(controller, callback, pageModel =>
             {
                 ListImplEx.FillList(controller, ref pageModel, selector, where, orderby, orderbydesc, paramMaps);
             });
@@ -395,26 +395,52 @@ namespace UWT.Templates.Services.Extends
         /// <param name="paramMaps">参数映射字典</param>
         /// <param name="callback">回调方法，可以修改其中的值</param>
         /// <returns></returns>
-        public static IPageResult ListResult<TTable, TListItem>(this IListToPage<TTable, TListItem> @this,
-            System.Linq.Expressions.Expression<Func<TTable, TListItem>> selector,
+        public static IPageResult ListResult<TTable, TListItem>(this IListToPage<TListItem> @this,
             IQueryable<TTable> query,
+            System.Linq.Expressions.Expression<Func<TTable, TListItem>> selector,
             Dictionary<string, string> paramMaps = null,
             Action<IToPageModel> callback = null)
             where TTable : class
             where TListItem : class
         {
             var controller = @this.GetController();
-            ListToPageCallBack(@this, callback, pageModel =>
+            ListToPageCallBack<TTable, TListItem>(controller, callback, pageModel =>
             {
                 ListImplEx.FillList(controller, ref pageModel, selector, query, paramMaps);
             });
             return Models.Consts.PageTemplateKeyConst.GetPageResult<ListPageResult>(controller);
         }
-        private static void ListToPageCallBack<TTable, TListItem>(IListToPage<TTable, TListItem> @this, Action<IToPageModel> callback, Action<ToPageModel> fileitems)
+        /// <summary>
+        /// View列表返回<br/>
+        /// 用于已打开DB 使用linq获得方式
+        /// </summary>
+        /// <typeparam name="TTable">上层Select出来的对象</typeparam>
+        /// <typeparam name="TListItem">列表模型</typeparam>
+        /// <param name="this">当前列表控制器</param>
+        /// <param name="selector">选择器</param>
+        /// <param name="query">查询结果</param>
+        /// <param name="paramMaps">参数映射字典</param>
+        /// <param name="callback">回调方法，可以修改其中的值</param>
+        /// <returns></returns>
+        public static IPageResult ListResult<TTable, TListItem>(this IListToPage<TTable, TListItem> @this,
+            IQueryable<TTable> query,
+            System.Linq.Expressions.Expression<Func<TTable, TListItem>> selector,
+            Dictionary<string, string> paramMaps = null,
+            Action<IToPageModel> callback = null)
             where TTable : class
             where TListItem : class
         {
             var controller = @this.GetController();
+            ListToPageCallBack<TTable, TListItem>(controller, callback, pageModel =>
+            {
+                ListImplEx.FillList(controller, ref pageModel, selector, query, paramMaps);
+            });
+            return Models.Consts.PageTemplateKeyConst.GetPageResult<ListPageResult>(controller);
+        }
+        private static void ListToPageCallBack<TTable, TListItem>(Controller controller, Action<IToPageModel> callback, Action<ToPageModel> fileitems)
+            where TTable : class
+            where TListItem : class
+        {
             var toPageViewModel = new ToPageViewModel()
             {
                 ListViewModel = ModelCache.GetModelFromType(typeof(TListItem), ModelCache.ListViewModel),

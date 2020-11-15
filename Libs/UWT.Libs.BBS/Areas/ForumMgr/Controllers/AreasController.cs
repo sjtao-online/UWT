@@ -16,7 +16,7 @@ namespace UWT.Libs.BBS.Areas.ForumMgr.Controllers
 {
     [AuthUser, ForumAreaRoute("版块管理")]
     public class AreasController : Controller
-        , IListToPage<AreaMgrListItemModel, AreaMgrListItemModel>
+        , IListToPage<AreaMgrListItemModel>
         , IFormToPage<AreaMgrAddModel>
     {
         public IActionResult Index()
@@ -28,7 +28,7 @@ namespace UWT.Libs.BBS.Areas.ForumMgr.Controllers
                         join mgr in db.GetTable<UwtBbsUser>() on it.MgrUserId equals mgr.Id
                         join p in db.GetTable<UwtBbsArea>() on it.PId equals p.Id into all
                         from pp in all.DefaultIfEmpty()
-                        select new AreaMgrListItemModel()
+                        select new
                         {
                             Id = it.Id,
                             Name = it.Name,
@@ -36,14 +36,14 @@ namespace UWT.Libs.BBS.Areas.ForumMgr.Controllers
                             PName = pp.Name,
                             Status = ""
                         };
-                return this.ListResult(m=> new AreaMgrListItemModel()
+                return this.ListResult(q, m=> new AreaMgrListItemModel()
                 {
                     Id = m.Id,
                     MgrName = m.MgrName,
                     Name = m.Name,
                     PName = m.PName,
                     Status = m.Status
-                }, q).View();
+                }).View();
             }
         }
         public virtual IActionResult Add()

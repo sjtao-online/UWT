@@ -15,7 +15,7 @@ namespace UWT.Libs.BBS.Areas.ForumMgr.Controllers
 {
     [AuthUser, ForumAreaRoute("等级")]
     public class LevelsController : Controller
-        , IListToPage<Models.Levels.LevelListItemModel, Models.Levels.LevelListItemModel>
+        , IListToPage<Models.Levels.LevelListItemModel>
         , IFormToPage<Models.Levels.LevelAddModel>
         , IFormToPage<Models.Levels.LevelModifyModel>
     {
@@ -35,14 +35,14 @@ namespace UWT.Libs.BBS.Areas.ForumMgr.Controllers
                             TypeId = t.Id,
                             Exp = it.Exp,
                         };
-                return this.ListResult(m => new Models.Levels.LevelListItemModel()
+                return this.ListResult(q, m => new Models.Levels.LevelListItemModel()
                 {
                     Id = m.Id,
                     Name = m.Name,
                     TypeName = m.TypeName,
                     Exp = m.Exp,
                     TypeId = m.TypeId,
-                }, q).View();
+                }).View();
             }
         }
 

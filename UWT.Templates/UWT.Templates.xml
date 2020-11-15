@@ -5086,7 +5086,21 @@
             <param name="callback">回调方法，可以修改其中的值</param>
             <returns></returns>
         </member>
-        <member name="M:UWT.Templates.Services.Extends.ListPageEx.ListResult``2(UWT.Templates.Models.Interfaces.IListToPage{``0,``1},System.Linq.Expressions.Expression{System.Func{``0,``1}},System.Linq.IQueryable{``0},System.Collections.Generic.Dictionary{System.String,System.String},System.Action{UWT.Templates.Models.Interfaces.IToPageModel})">
+        <member name="M:UWT.Templates.Services.Extends.ListPageEx.ListResult``2(UWT.Templates.Models.Interfaces.IListToPage{``1},System.Linq.IQueryable{``0},System.Linq.Expressions.Expression{System.Func{``0,``1}},System.Collections.Generic.Dictionary{System.String,System.String},System.Action{UWT.Templates.Models.Interfaces.IToPageModel})">
+            <summary>
+            View列表返回<br/>
+            用于已打开DB 使用linq获得方式
+            </summary>
+            <typeparam name="TTable">上层Select出来的对象</typeparam>
+            <typeparam name="TListItem">列表模型</typeparam>
+            <param name="this">当前列表控制器</param>
+            <param name="selector">选择器</param>
+            <param name="query">查询结果</param>
+            <param name="paramMaps">参数映射字典</param>
+            <param name="callback">回调方法，可以修改其中的值</param>
+            <returns></returns>
+        </member>
+        <member name="M:UWT.Templates.Services.Extends.ListPageEx.ListResult``2(UWT.Templates.Models.Interfaces.IListToPage{``0,``1},System.Linq.IQueryable{``0},System.Linq.Expressions.Expression{System.Func{``0,``1}},System.Collections.Generic.Dictionary{System.String,System.String},System.Action{UWT.Templates.Models.Interfaces.IToPageModel})">
             <summary>
             View列表返回<br/>
             用于已打开DB 使用linq获得方式

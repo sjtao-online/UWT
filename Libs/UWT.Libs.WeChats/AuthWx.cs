@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 using UWT.Templates.Attributes.Auths;
+using UWT.Templates.Services.Extends;
 
 namespace UWT.Libs.WeChats
 {
@@ -9,7 +12,7 @@ namespace UWT.Libs.WeChats
     /// 微信授权特性
     /// </summary>
     [System.AttributeUsage(AttributeTargets.All, Inherited = false, AllowMultiple = true)]
-    public sealed class AuthWxAttribute : AuthAttribute
+    public class AuthWxAttribute : AuthAttribute
     {
         internal const string CurrentAuthType = "wechat";
         /// <summary>
