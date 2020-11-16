@@ -25,12 +25,12 @@
             sb.Append(func(tvalue.Max));
             sb.Append("' data-min='");
             sb.Append(func(tvalue.Min));
+            sb.Append("' ");
             if (!string.IsNullOrEmpty(ex))
             {
-                sb.Append("' data-ex='");
                 sb.Append(ex);
             }
-            sb.Append("' id='");
+            sb.Append(" id='");
             sb.Append(templateName);
             sb.Append("-start' name='");
             sb.Append(templateName);
@@ -69,12 +69,12 @@
             sb.Append(func(tvalue.Max));
             sb.Append("' data-min='");
             sb.Append(func(tvalue.Min));
+            sb.Append("' ");
             if (!string.IsNullOrEmpty(ex))
             {
-                sb.Append("' data-ex='");
                 sb.Append(ex);
             }
-            sb.Append("' name='");
+            sb.Append(" name='");
             sb.Append(templateName);
             sb.Append("' id='");
             sb.Append(templateName);
@@ -247,7 +247,7 @@ else
             @if (template.PropertyInfo.PropertyType == typeof(int) || template.PropertyInfo.PropertyType == typeof(int?))
             {
                 var mex = template.ModelEx as IMoneyEx;
-                @Html.Raw(BuildRange<int>(template, mex, m => m == null ? "" : (m.Value / 100.0).ToString("0.##"), ex: mex.DigitCnt.ToString()))
+                @Html.Raw(BuildRange<int>(template, mex, m => m == null ? "" : (m.Value / 100.0).ToString("0.##"), ex: ("data-ex='" + mex.DigitCnt.ToString() + "' step='" + (1 / Math.Pow(10, mex.DigitCnt)) + "'")))
             }
             break;
         case UWT.Templates.Attributes.Forms.FormItemType.Date:

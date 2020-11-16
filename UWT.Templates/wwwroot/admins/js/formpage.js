@@ -714,7 +714,7 @@ layui.use(arr, function () {
                     var change = function (r) {
                         var arr = r.split(':');
                         if (arr.length == 3) {
-                            return Number(arr[0] * 60 * 60 + arr[1] * 60 + arr[2]);
+                            return Number(arr[0]) * 60 * 60 + Number(arr[1]) * 60 + Number(arr[2]);
                         }
                         return -1;
                     }
