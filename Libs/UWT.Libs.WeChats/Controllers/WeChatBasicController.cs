@@ -116,7 +116,6 @@ namespace UWT.Libs.WeChats.Controllers
         public virtual object RefreshToken(string refreshToken)
         {
             this.ActionLog();
-            DateTimeOffset exp = DateTimeOffset.Now + (WxConfig.TokenExpiry ?? TimeSpan.FromDays(30));
             using (var db = this.GetDB())
             {
                 var wxUserTable = db.UwtGetTable<IDbWxUserModel>();
@@ -155,7 +154,7 @@ namespace UWT.Libs.WeChats.Controllers
                     {
                         return this.Success(new SignIntoModel()
                         {
-                            AccessToken = m.Token,
+                            AccessToken = this.SignInto(BuildSignIntoDic(account.Id, account.NickName), AuthWxAttribute.CurrentAuthType),
                             AccountId = account.Id,
                             RefreshToken = refreshToken,
                             TokenExpiry = m.Exp,
@@ -164,6 +163,7 @@ namespace UWT.Libs.WeChats.Controllers
                     }
                     else
                     {
+                        DateTimeOffset exp = DateTimeOffset.Now + (WxConfig.TokenExpiry ?? TimeSpan.FromDays(30));
                         wxUserTable.UwtUpdate(account.Id, new Dictionary<string, object>()
                         {
                             [nameof(IDbWxUserModel.Token)] = newRefreshToken,

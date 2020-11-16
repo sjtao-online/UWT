@@ -27,8 +27,7 @@ namespace UWT.Libs.WeChats.Models
         /// <summary>
         /// Id 内部使用
         /// </summary>
-        [JsonIgnore]
-        internal int Id { get; set; }
+        public int Id { get; set; }
         /// <summary>
         /// 头像
         /// </summary>
