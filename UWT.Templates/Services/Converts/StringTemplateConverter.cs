@@ -38,7 +38,7 @@ namespace UWT.Templates.Services.Converts
         {
             const string aBegin = "\\$BEGIN", aEnd = "\\$END";
             string newText = text.Replace("[[", aBegin).Replace("]]", aEnd);
-            string result = new string(text.ToCharArray());
+            string result = new string(newText.ToCharArray());
             const string r = @"\$\{[\u4E00-\u9FA5A-Za-z_\$][\u4E00-\u9FA5A-Za-z0-9_]*\}";
             Regex regex = new Regex(r);
             if (CheckValue == null)

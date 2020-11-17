@@ -34,12 +34,15 @@ namespace UWT.Templates.Services.Extends
             {
                 return string.Empty;
             }
+            Dictionary<string, string> TempleteMap = new Dictionary<string, string>(CommonConstRDictionary);
             if (!string.IsNullOrEmpty(assembly) && LibConstRDictionary.ContainsKey(assembly))
             {
-                var st = new StringTemplateConverter<string>(LibConstRDictionary[assembly]);
-                text = st.ReplacePlaceholder(text);
+                foreach (var item in LibConstRDictionary[assembly])
+                {
+                    TempleteMap[item.Key] = item.Value;
+                }
             }
-            var stcom = new StringTemplateConverter<string>(CommonConstRDictionary);
+            var stcom = new StringTemplateConverter<string>(TempleteMap);
             return stcom.ReplacePlaceholder(text);
         }
     }
