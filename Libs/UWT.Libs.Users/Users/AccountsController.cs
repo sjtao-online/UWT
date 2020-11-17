@@ -26,7 +26,7 @@ namespace UWT.Libs.Users.Users
         /// <summary>
         /// 账号配置
         /// </summary>
-        public static AccountConfig Config => new AccountConfig
+        public static AccountConfig Config { get; } = new AccountConfig
         {
             LoginAccountType = "mgr",
             ViewTheme = "default",

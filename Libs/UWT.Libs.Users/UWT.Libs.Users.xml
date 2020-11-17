@@ -332,7 +332,7 @@
         </member>
         <member name="P:UWT.Libs.Users.Users.AccountConfig.NoCheckAuthorizedRoleList">
             <summary>
-            不检测检测的列表
+            不检测权限的列表
             </summary>
         </member>
         <member name="P:UWT.Libs.Users.Users.AccountConfig.LoginAccountType">

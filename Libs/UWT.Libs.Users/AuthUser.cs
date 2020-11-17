@@ -7,6 +7,7 @@ using UWT.Libs.Users.Roles;
 using UWT.Templates.Attributes.Auths;
 using UWT.Templates.Services.Extends;
 using UWT.Libs.Users.Users;
+using System.Text.Json;
 
 namespace UWT.Libs.Users
 {
@@ -23,6 +24,10 @@ namespace UWT.Libs.Users
         public override async Task<bool> HasAuthorized()
 #pragma warning restore CS1998 // 异步方法缺少 "await" 运算符，将以同步方式运行
         {
+            return HandleAuth();
+        }
+        bool HandleAuth()
+        {
             //  特殊处理 退出不判断权限
             if (Context.HttpContext.Request.Path == "/Accounts/Logout")
             {
@@ -38,7 +43,7 @@ namespace UWT.Libs.Users
                 //  处理特殊角色 可以使用任何权限
                 //  如果有设置使用设置权限，如果没有设置0为特殊权限
                 if ((AccountsController.Config.NoCheckAuthorizedRoleList == null && roleIdInt == 0)
-                    || AccountsController.Config.NoCheckAuthorizedRoleList != null && AccountsController.Config.NoCheckAuthorizedRoleList.Contains(roleIdInt))
+                    || (AccountsController.Config.NoCheckAuthorizedRoleList != null && AccountsController.Config.NoCheckAuthorizedRoleList.Contains(roleIdInt)))
                 {
                     return true;
                 }

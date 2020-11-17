@@ -16,7 +16,7 @@ namespace UWT.Libs.Users.Users
         /// </summary>
         public bool DisabledController { get; set; }
         /// <summary>
-        /// 不检测检测的列表
+        /// 不检测权限的列表
         /// </summary>
         public List<int> NoCheckAuthorizedRoleList { get; set; }
         /// <summary>
