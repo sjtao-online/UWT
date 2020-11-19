@@ -263,6 +263,34 @@ namespace UWT.Templates.Services.Extends
             return @this.ListObjectResult<TTable, TListItem, object>(selector, where, null, null, paramMaps, callback);
         }
         /// <summary>
+        /// API分页列表返回<br/>
+        /// 用于已打开DB 使用linq获得方式
+        /// </summary>
+        /// <typeparam name="TTable"></typeparam>
+        /// <typeparam name="TListItem"></typeparam>
+        /// <param name="this"></param>
+        /// <param name="query"></param>
+        /// <param name="selector"></param>
+        /// <param name="where"></param>
+        /// <param name="paramMaps"></param>
+        /// <param name="callback">回调方法，可以修改其中的值</param>
+        /// <returns></returns>
+        public static object ListObjectResult<TTable, TListItem>(this IListToPage<TListItem> @this,
+            IQueryable<TTable> query,
+            System.Linq.Expressions.Expression<Func<TTable, TListItem>> selector,
+            System.Linq.Expressions.Expression<Func<TTable, bool>> where = null,
+            Dictionary<string, string> paramMaps = null,
+            Action<IToPageModel> callback = null)
+            where TTable : class
+            where TListItem : class
+        {
+            var controller = @this.GetController();
+            ToPageModel toPageModel = new ToPageModel();
+            ListImplEx.FillList(controller, ref toPageModel, selector, query, paramMaps);
+            callback?.Invoke(toPageModel);
+            return controller.Success(toPageModel);
+        }
+        /// <summary>
         /// API分页列表返回
         /// </summary>
         /// <typeparam name="TTable"></typeparam>

@@ -109,7 +109,7 @@ function uploadfile(url,data, success, fail, process) {
     });
 }
 
-
+var errorCodeMap = null;
 
 
 function ajaxSuccess(rx, success, fail) {
@@ -130,7 +130,42 @@ function ajaxSuccess(rx, success, fail) {
     }
     console.log(rx.code, rx.msg);
     if (fail == null || fail == undefined) {
+        if (errorCodeMap != null) {
+            for (var i = 0; i < errorCodeMap.length; i++) {
+                if (errorCodeMap[i].code == rx.code) {
+                    alert(errorCodeMap[i].desc);
+                    return;
+                }
+            }
+        }
         alert(rx.msg);
     }
     fail(rx);
+}
+
+const errorCodeMapKey = "errorCodeMap";
+const errorCodeTimeKey = "errorCodeTime";
+
+function refreshErrorCodeMap() {
+    console.log('refreshErrorCodeMap');
+    api("/Errors/ErrorCodeMap", null, function (rd) {
+        console.log(rd)
+        errorCodeMap = rd.data;
+        localStorage.setItem(errorCodeMapKey, JSON.stringify(rd.data));
+        localStorage.setItem(errorCodeTimeKey, new Date().getTime());
+    }, function () {
+
+    }, 'form', 'GET')
+}
+
+var lastdatetime = localStorage.getItem(errorCodeTimeKey);
+if (lastdatetime == '') {
+    refreshErrorCodeMap();
+} else {
+    var lastdate = new Date(lastdatetime);
+    if (new Date().getTime() > (Number(lastdate) + 1000 * 60 * 60 * 24)) {
+        refreshErrorCodeMap();
+    } else {
+        errorCodeMap = JSON.parse(localStorage.getItem(errorCodeMapKey))
+    }
 }

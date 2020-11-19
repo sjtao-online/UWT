@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using UWT.Templates.Models.Interfaces;
@@ -20,6 +21,12 @@ namespace UWT.Libs.Normals.Files
         , ITemplateController, IListToPage<TFileTableModel, FileModel>
         where TFileTableModel : class, IDbFileTable, new()
     {
+        const string DefaultUploadFolderName = "Uploads";
+        /// <summary>
+        /// 上传文件默认保存位置<br/>
+        /// 保存证文件名的有效性，如无效会默认使用Uploads
+        /// </summary>
+        public string UploadFolderName { get; protected set; }
 #pragma warning disable CS1591 // 缺少对公共可见类型或成员的 XML 注释
         [HttpPost]
         [Produces("application/json")]
@@ -77,7 +84,11 @@ namespace UWT.Libs.Normals.Files
         public virtual object Upload(IFormFile file, string desc)
         {
             this.ActionLog();
-            string path = FileStorage.SaveFile(file, "Uploads");
+            if (string.IsNullOrEmpty(UploadFolderName) || UploadFolderName.IndexOfAny(Path.GetInvalidFileNameChars()) != -1)
+            {
+                UploadFolderName = DefaultUploadFolderName;
+            }
+            string path = FileStorage.SaveFile(file, UploadFolderName);
             if (path == null)
             {
                 return this.Error(Templates.Models.Basics.ErrorCode.UploadNotFile);

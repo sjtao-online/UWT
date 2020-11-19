@@ -84,8 +84,11 @@
             shade: [0.1, '#000']
         });
         api(target, data, function () {
-            alert("操作成功");
-            window.location.reload();
+            layer.msg("操作成功", {
+                time: 1500
+            }, function () {
+                window.location.reload();
+            })
         }, null, "JSON", method);
     }
 

@@ -5030,6 +5030,21 @@
             <param name="callback">回调方法，可以修改其中的值</param>
             <returns></returns>
         </member>
+        <member name="M:UWT.Templates.Services.Extends.ListPageEx.ListObjectResult``2(UWT.Templates.Models.Interfaces.IListToPage{``1},System.Linq.IQueryable{``0},System.Linq.Expressions.Expression{System.Func{``0,``1}},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Collections.Generic.Dictionary{System.String,System.String},System.Action{UWT.Templates.Models.Interfaces.IToPageModel})">
+            <summary>
+            API分页列表返回<br/>
+            用于已打开DB 使用linq获得方式
+            </summary>
+            <typeparam name="TTable"></typeparam>
+            <typeparam name="TListItem"></typeparam>
+            <param name="this"></param>
+            <param name="query"></param>
+            <param name="selector"></param>
+            <param name="where"></param>
+            <param name="paramMaps"></param>
+            <param name="callback">回调方法，可以修改其中的值</param>
+            <returns></returns>
+        </member>
         <member name="M:UWT.Templates.Services.Extends.ListPageEx.ListObjectResult``3(UWT.Templates.Models.Interfaces.IListToPage{``0,``1},System.Linq.Expressions.Expression{System.Func{``0,``1}},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Linq.Expressions.Expression{System.Func{``0,``2}},System.Linq.Expressions.Expression{System.Func{``0,``2}},System.Collections.Generic.Dictionary{System.String,System.String},System.Action{UWT.Templates.Models.Interfaces.IToPageModel})">
             <summary>
             API分页列表返回
