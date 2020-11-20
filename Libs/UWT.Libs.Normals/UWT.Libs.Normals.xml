@@ -74,6 +74,12 @@
             </summary>
             <typeparam name="TFileTableModel"></typeparam>
         </member>
+        <member name="P:UWT.Libs.Normals.Files.FilesController`1.UploadFolderName">
+            <summary>
+            上传文件默认保存位置<br/>
+            保存证文件名的有效性，如无效会默认使用Uploads
+            </summary>
+        </member>
         <member name="T:UWT.Libs.Normals.Files.IDbFileTable">
             <summary>
             文件数据库模型

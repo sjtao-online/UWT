@@ -73,6 +73,10 @@ namespace UWT.Server
                 new RouteModel()
                 {
                     Controller = "Home"
+                },
+                new RouteModel()
+                {
+                    Controller = "Banners"
                 }
             });
             app.UseLibUser(m =>
@@ -91,6 +95,38 @@ namespace UWT.Server
                     {
                         Title = "首页",
                         Url = "/"
+                    },
+                    new Templates.Models.Templates.Layouts.MenuItemModel()
+                    {
+                        Title = "一级父",
+                        Children = new List<Templates.Models.Templates.Layouts.MenuItemModel>()
+                        {
+                            new Templates.Models.Templates.Layouts.MenuItemModel()
+                            {
+                                Title = "二级父",
+                                Url = "/Home/Index",
+                                Children = new List<Templates.Models.Templates.Layouts.MenuItemModel>()
+                                {
+                                    new Templates.Models.Templates.Layouts.MenuItemModel()
+                                    {
+                                        Url = "/Banners/Index",
+                                        Title = "Banner"
+                                    },
+                                }
+                            },
+                            new Templates.Models.Templates.Layouts.MenuItemModel()
+                            {
+                                Title = "管理1",
+                                Url = "/",
+                                Icon = "layui-icon-heart-fill"
+                            },
+                            new Templates.Models.Templates.Layouts.MenuItemModel()
+                            {
+                                Title = "管理1",
+                                Url = "/",
+                                Icon = "layui-icon-heart"
+                            }
+                        }
                     },
                     new Templates.Models.Templates.Layouts.MenuItemModel()
                     {

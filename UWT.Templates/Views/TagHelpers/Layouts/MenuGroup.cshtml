@@ -22,6 +22,30 @@
         "&#xe699;", "&#xe6a7;", "&#xe6a7;", "&#xe6fe;"
     };
     string RequestUrlPath = null;
+    private bool CheckChildrenOpend(List<UWT.Templates.Models.Templates.Layouts.MenuItemModel> menuItemList, List<UWT.Templates.Models.Basics.IconUrlTitleIdModel> bl)
+    {
+        foreach (var item in menuItemList)
+        {
+            if (item.Children != null && item.Children.Count > 0)
+            {
+                bool r = CheckChildrenOpend(menuItemList, bl);
+                if (r)
+                {
+                    return true;
+                }
+            }
+            if (item.Url == RequestUrlPath)
+            {
+                bl.Add(new UWT.Templates.Models.Basics.IconUrlTitleIdModel()
+                {
+                    Title = item.Title,
+                    Icon = item.Icon
+                });
+                return true;
+            }
+        }
+        return false;
+    }
     private System.Text.StringBuilder BuildMenuGroup(
         List<UWT.Templates.Models.Templates.Layouts.MenuItemModel> menuItemList,
         List<UWT.Templates.Models.Basics.IconUrlTitleIdModel> bl,
@@ -29,16 +53,17 @@
         int level)
     {
         isOpend = false;
-        bool newIsOpend = false;
         if (menuItemList == null || menuItemList.Count == 0)
         {
             return null;
         }
         const string openned = " class='open active'";
+        const string current = " class='active'";
         const string replaceOpendClassName = " class='menugroupisopend'";
         System.Text.StringBuilder sb = new System.Text.StringBuilder();
         foreach (var item in menuItemList)
         {
+            bool newIsOpend = false;
             string icon = null;
             if (!string.IsNullOrEmpty(item.Icon))
             {
@@ -74,20 +99,34 @@
             {
                 repoint = $"<span class='x-red-point'>{item.RedPoint}</span>";
             }
-            if (string.IsNullOrEmpty(item.Url) && item.Children != null && item.Children.Count != 0)
+            if (string.IsNullOrEmpty(item.Url))
             {
-                var newTmp = BuildMenuGroup(item.Children, bl, out newIsOpend, level + 1);
-                tmp.Append("<a href='javascript:;'>");
-                tmp.Append(icon);
-                tmp.Append($"<cite>{item.Title}</cite>{repoint}<i class='iconfont nav_right'>{(newIsOpend ? " &#xe6a6;" : "&#xe697;")}</i></a><ul class='sub-menu'{(newIsOpend ? " style='display:block;'" : "")}>");
-                tmp.Append(newTmp);
-                tmp.Append("</ul>");
+                if (item.Children != null && item.Children.Count > 0)
+                {
+                    //  子项可以展开
+                    tmp.Append("<a href='javascript:;'>");
+                    tmp.Append(icon);
+                    var newTmp = BuildMenuGroup(item.Children, bl, out newIsOpend, level + 1);
+                    tmp.Append($"<cite>{item.Title}</cite>{repoint}<i class='iconfont nav_right'>{(newIsOpend ? " &#xe6a6;" : "&#xe697;")}</i></a>");
+                    tmp.Append($"<ul class='sub-menu'{(newIsOpend ? " style='display:block;'" : "")}>");
+                    tmp.Append(newTmp);
+                    tmp.Append("</ul>");
+                }
             }
             else
             {
                 tmp.Append("<a href='");
                 tmp.Append(item.Url);
                 tmp.Append("'");
+                if (item.Children != null && item.Children.Count != 0)
+                {
+                    //  子项只用作父项显示当前处理
+                    newIsOpend = CheckChildrenOpend(item.Children, bl);
+                    if (newIsOpend)
+                    {
+                        tmp.Replace(replaceOpendClassName, current);
+                    }
+                }
                 if (item.Url == RequestUrlPath)
                 {
                     isOpend = true;

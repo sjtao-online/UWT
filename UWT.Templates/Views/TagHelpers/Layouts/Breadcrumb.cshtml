@@ -6,24 +6,26 @@
     var layoutModel = ViewData.Model.DataModel.Layout;
     var urlCrumbList = ViewData.Model.DataModel.List;
 }
-<span class="layui-breadcrumb">
-    @if (ViewContext.HttpContext.Request.Path != layoutModel.HomePageUrl && !string.IsNullOrEmpty(layoutModel.HomePageUrl))
-    {
-        <a href="@layoutModel.HomePageUrl">@layoutModel.HomePageTitle</a>
-    }
-    @foreach (var item in urlCrumbList)
-    {
-        if (string.IsNullOrEmpty(item.Url))
+@if ((ViewContext.HttpContext.Request.Path != layoutModel.HomePageUrl && !string.IsNullOrEmpty(layoutModel.HomePageUrl)) || urlCrumbList.Count != 0)
+{
+    <span class="layui-breadcrumb">
+        @if (ViewContext.HttpContext.Request.Path != layoutModel.HomePageUrl && !string.IsNullOrEmpty(layoutModel.HomePageUrl))
         {
-            <a><cite>@item.Title</cite></a>
+            <a href="@layoutModel.HomePageUrl">@layoutModel.HomePageTitle</a>
         }
-        else
+        @foreach (var item in urlCrumbList)
         {
-            <a href="@item.Url">@item.Title</a>
+            if (string.IsNullOrEmpty(item.Url))
+            {
+                <a><cite>@item.Title</cite></a>
+            }
+            else
+            {
+                <a href="@item.Url">@item.Title</a>
+            }
         }
-    }
-</span>
-
+    </span>
+}
 @if (Helper != null)
 {
     string url = $"{ViewContext.HttpContext.Request.RouteValues["controller"]}/{ViewContext.HttpContext.Request.RouteValues["action"]}";

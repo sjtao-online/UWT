@@ -130,7 +130,8 @@ function ajaxSuccess(rx, success, fail) {
     }
     console.log(rx.code, rx.msg);
     if (fail == null || fail == undefined) {
-        if (errorCodeMap != null) {
+        //  -1特殊处理
+        if (errorCodeMap != null && rx.code != -1) {
             for (var i = 0; i < errorCodeMap.length; i++) {
                 if (errorCodeMap[i].code == rx.code) {
                     alert(errorCodeMap[i].desc);

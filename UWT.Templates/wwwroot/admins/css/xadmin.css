@@ -122,15 +122,19 @@ body{
     position: fixed;
     z-index: 99;
     border-bottom: 1px solid #e5e5e5;
-    line-height: 39px;
-    height: 39px;
+    line-height: 0;
+    height: auto;
     overflow: hidden;
     background: #fff;
     width: 100vw;
 }
-.page{
+.layui-breadcrumb {
+    padding: 10px 0;
+    display: inline-block;
+    line-height: 1;
+}
+.page {
     text-align: center;
-
 }
 .page a{
     display: inline-block;
