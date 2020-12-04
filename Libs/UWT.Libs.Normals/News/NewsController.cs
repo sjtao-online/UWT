@@ -31,6 +31,7 @@ namespace UWT.Libs.Normals.News
         public virtual IActionResult Index()
         {
             this.ActionLog();
+            this.AddHandler("添加", "/${NewsCatesController}/Add");
             return this.ListResult(m=>new NewsListItemModel()
             {
                 Id = m.Id,

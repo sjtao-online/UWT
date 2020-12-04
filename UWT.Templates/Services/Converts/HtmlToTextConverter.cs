@@ -129,8 +129,11 @@ namespace UWT.Templates.Services.Converts
                 }
             }
             string text = HttpUtility.HtmlDecode(_text.ToString());
-            // Return result
-            return text.Substring(0, MaxLength);
+            if (MaxLength < text.Length)
+            {
+                return text.Substring(0, MaxLength);
+            }
+            return text;
         }
         // Eats all characters that are part of the current tag
         // and returns information about that tag

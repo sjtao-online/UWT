@@ -77,6 +77,10 @@ namespace UWT.Server
                 new RouteModel()
                 {
                     Controller = "Banners"
+                },
+                new RouteModel()
+                {
+                    Controller = "News"
                 }
             });
             app.UseLibUser(m =>
