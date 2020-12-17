@@ -83,12 +83,12 @@ namespace UWT.Templates.Services.Extends
             where TDbTreeTableModel : class
         {
             List<TFormTreeModel> result = null;
-            page.UsingDb(db =>
+            using (var db = page.GetDB())
             {
                 var table = db.UwtGetTable<TDbTreeTableModel>();
                 result = table.Where(topWhere).OrderBy(order).Select(selector).ToList();
                 FillResult(ref result, table, selector, otherWhereBuilder, order);
-            });
+            }
             return result;
         }
         /// <summary>
@@ -174,11 +174,11 @@ namespace UWT.Templates.Services.Extends
             where TTable : class, IDbTableBase
             where TTreeModel : FormTreeModelBasic<TTreeModel>
         {
-            page.UsingDb(db =>
+            using (var db = page.GetDB())
             {
                 var table = db.UwtGetTable<TTable>();
                 UpdateTreeDb2<TTable, TTreeModel>(page, update, insert, trees, templateId, 0, table);
-            });
+            }
         }
     }
 }

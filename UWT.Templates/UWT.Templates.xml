@@ -2172,6 +2172,11 @@
             HTML文件<br/>默认最大2MB
             </summary>
         </member>
+        <member name="T:UWT.Templates.Models.Consts.PageTitleConst">
+            <summary>
+            页面标题
+            </summary>
+        </member>
         <member name="T:UWT.Templates.Models.Consts.RegexConst">
             <summary>
             正则常量
@@ -5469,6 +5474,15 @@
             </summary>
             <param name="controller">控制器</param>
             <param name="title">标题</param>
+            <returns></returns>
+        </member>
+        <member name="M:UWT.Templates.Services.Extends.TemplateControllerEx.InitTitleFormat(UWT.Templates.Models.Interfaces.ITemplateController,System.String)">
+            <summary>
+            初始化标题格式化<br/>
+            本格式化不影响Layout中的标题格式化，属于下级格式化
+            </summary>
+            <param name="controller">控制器</param>
+            <param name="subTitleFormat">标题格式</param>
             <returns></returns>
         </member>
         <member name="M:UWT.Templates.Services.Extends.TemplateControllerEx.GetController(UWT.Templates.Models.Interfaces.ITemplateController)">

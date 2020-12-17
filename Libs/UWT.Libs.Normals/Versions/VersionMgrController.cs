@@ -59,7 +59,7 @@ namespace UWT.Libs.Normals.Versions
             {
                 return this.Error(Templates.Models.Basics.ErrorCode.FormCheckError, ret);
             }
-            this.UsingDb(db =>
+            using (var db = this.GetDB())
             {
                 var table = db.UwtGetTable<IDbVersionTable>();
                 table.UwtInsertWithInt32(new Dictionary<string, object>()
@@ -74,7 +74,7 @@ namespace UWT.Libs.Normals.Versions
                     [nameof(IDbVersionTable.Valid)] = handler == "publish",
                     [nameof(IDbVersionTable.PublishTime)] = DateTimeOffset.Now.LocalDateTime
                 });
-            });
+            }
             return this.Success();
         }
 
@@ -82,14 +82,14 @@ namespace UWT.Libs.Normals.Versions
         public virtual object Publish(int id)
         {
             this.ActionLog();
-            this.UsingDb(db =>
+            using (var db = this.GetDB())
             {
                 db.UwtGetTable<IDbVersionTable>().UwtUpdate(id, new Dictionary<string, object>()
                 {
                     [nameof(IDbVersionTable.Valid)] = true,
                     [nameof(IDbVersionTable.PublishTime)] = DateTimeOffset.Now.LocalDateTime
                 });
-            });
+            }
             return this.Success();
         }
 
@@ -97,13 +97,13 @@ namespace UWT.Libs.Normals.Versions
         public virtual object PublishRemove(int id)
         {
             this.ActionLog();
-            this.UsingDb(db =>
+            using (var db = this.GetDB())
             {
                 db.UwtGetTable<IDbVersionTable>().UwtUpdate(id, new Dictionary<string, object>()
                 {
                     [nameof(IDbVersionTable.Valid)] = false
                 });
-            });
+            }
             return this.Success();
         }
 #pragma warning restore CS1591 // 缺少对公共可见类型或成员的 XML 注释

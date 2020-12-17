@@ -13,6 +13,26 @@
             <typeparam name="TBannerCateSimpleSelectBuilder">Banner类型单项选项</typeparam>
             <typeparam name="TLinkTypeSimpleSelectBuilder">链接类型单项选择</typeparam>
         </member>
+        <member name="P:UWT.Libs.Normals.Banners.BannerBasicController`3.IndexPageTitle">
+            <summary>
+            列表页面标题
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.Banners.BannerBasicController`3.AddPageTitle">
+            <summary>
+            添加页面标题
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.Banners.BannerBasicController`3.ModifyPageTitle">
+            <summary>
+            编辑页面标题
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.Banners.BannerBasicController`3.DetailPageTitle">
+            <summary>
+            详情页面标题
+            </summary>
+        </member>
         <member name="T:UWT.Libs.Normals.Banners.IDbBannerTable">
             <summary>
             Banner数据库模型
@@ -121,6 +141,21 @@
             </summary>
             <typeparam name="TDbNewsCateTable"></typeparam>
         </member>
+        <member name="P:UWT.Libs.Normals.News.NewsCatesController`1.IndexPageTitle">
+            <summary>
+            列表页面标题
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.News.NewsCatesController`1.AddPageTitle">
+            <summary>
+            添加页面标题
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.News.NewsCatesController`1.ModifyPageTitle">
+            <summary>
+            编辑页面标题
+            </summary>
+        </member>
         <member name="T:UWT.Libs.Normals.News.IDbNewsCateTable">
             <summary>
             文章类型数据库模型
@@ -173,6 +208,21 @@
             </summary>
             <typeparam name="TDbNewsTable"></typeparam>
         </member>
+        <member name="P:UWT.Libs.Normals.News.NewsController`1.IndexPageTitle">
+            <summary>
+            列表页面标题
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.News.NewsController`1.AddPageTitle">
+            <summary>
+            添加页面标题
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.News.NewsController`1.ModifyPageTitle">
+            <summary>
+            编辑页面标题
+            </summary>
+        </member>
         <member name="M:UWT.Libs.Normals.News.NewsController`1.ModifyProperties(System.Int32)">
             <summary>
             编辑文章属性页面
@@ -208,6 +258,16 @@
         <member name="T:UWT.Libs.Normals.Versions.VersionMgrController">
             <summary>
             版本管理器
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.Versions.VersionMgrController.IndexPageTitle">
+            <summary>
+            列表页面标题
+            </summary>
+        </member>
+        <member name="P:UWT.Libs.Normals.Versions.VersionMgrController.AddPageTitle">
+            <summary>
+            添加页面标题
             </summary>
         </member>
         <member name="T:UWT.Libs.Normals.Versions.VersionListItemModel">

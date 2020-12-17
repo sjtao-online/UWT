@@ -11,6 +11,7 @@ using UWT.Templates.Attributes.Auths;
 using UWT.Templates.Attributes.Forms;
 using UWT.Templates.Attributes.Routes;
 using UWT.Templates.Models.Basics;
+using UWT.Templates.Models.Consts;
 using UWT.Templates.Models.Interfaces;
 using UWT.Templates.Models.Templates.Forms;
 using UWT.Templates.Models.Templates.FormTrees;
@@ -29,13 +30,20 @@ namespace UWT.Libs.Users.MenuGroups
         , IFormTreeToPage<MenuGroupModifyTreeModel>
     {
         /// <summary>
+        /// 构造
+        /// </summary>
+        public MenuGroupsController()
+        {
+            this.InitTitleFormat("{0} - 菜单组");
+        }
+        /// <summary>
         /// 主列表
         /// </summary>
         /// <returns></returns>
         public virtual IActionResult Index()
         {
             this.ActionLog();
-            this.SetTitle("列表 - 菜单组");
+            this.SetTitle(PageTitleConst.IndexPageTitle);
             this.AddHandler("添加", ".Add");
             return this.ListResult(m => new MenuGroupListItemModel()
             {
@@ -54,7 +62,7 @@ namespace UWT.Libs.Users.MenuGroups
         public virtual IActionResult Add()
         {
             this.ActionLog();
-            this.SetTitle("添加 - 菜单组");
+            this.SetTitle(PageTitleConst.AddPageTitle);
             return this.FormResult<MenuGroupAddModel>().View();
         }
 
@@ -94,7 +102,7 @@ namespace UWT.Libs.Users.MenuGroups
         public virtual IActionResult Modify(int id)
         {
             this.ActionLog();
-            this.SetTitle("修改 - 菜单组");
+            this.SetTitle(PageTitleConst.ModifyPageTitle);
             using (var db = this.GetDB())
             {
                 var table = db.UwtGetTable<IDbMenuGroupTable>();
@@ -149,7 +157,7 @@ namespace UWT.Libs.Users.MenuGroups
         public virtual IActionResult ModifyTree(int id)
         {
             this.ActionLog();
-            this.SetTitle("编辑树 - 菜单组");
+            this.SetTitle("编辑树");
             var list = this.GetTreeModelList<MenuGroupModifyTreeModel, IDbMenuGroupItemTable, int>(m => new MenuGroupModifyTreeModel()
             {
                 Id = m.Id,

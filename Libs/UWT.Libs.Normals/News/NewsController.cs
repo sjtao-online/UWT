@@ -114,7 +114,7 @@ namespace UWT.Libs.Normals.News
             {
                 return this.Error(Templates.Models.Basics.ErrorCode.FormCheckError, ret);
             }
-            this.UsingDb(db =>
+            using (var db = this.GetDB())
             {
                 var table = db.GetTable<TDbNewsTable>();
                 table.Update(m => m.Id == model.Id, m => new TDbNewsTable()
@@ -123,7 +123,7 @@ namespace UWT.Libs.Normals.News
                     Content = model.Content,
                     Summary = new HtmlToText(50).Convert(model.Content)
                 });
-            });
+            }
             return this.Success();
         }
 

@@ -94,7 +94,7 @@ namespace UWT.Libs.Normals.Files
                 return this.Error(Templates.Models.Basics.ErrorCode.UploadNotFile);
             }
             int id = 0;
-            this.UsingDb(db =>
+            using (var db = this.GetDB())
             {
                 id = db.GetTable<TFileTableModel>().InsertWithInt32Identity(() => new TFileTableModel()
                 {
@@ -105,7 +105,7 @@ namespace UWT.Libs.Normals.Files
                     Desc = desc,
                     Type = file.ContentType
                 });
-            });
+            }
             return this.Success(new FileModel(){ Src = path, Size = file.Length, Title = file.FileName, Id = id});
         }
 #pragma warning restore CS1591 // 缺少对公共可见类型或成员的 XML 注释

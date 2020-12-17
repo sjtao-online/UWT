@@ -11,6 +11,7 @@ using UWT.Templates.Services.Extends;
 using LinqToDB;
 using UWT.Templates.Attributes.Auths;
 using UWT.Templates.Attributes.Routes;
+using UWT.Templates.Models.Consts;
 
 namespace UWT.Libs.Users.Roles
 {
@@ -24,13 +25,20 @@ namespace UWT.Libs.Users.Roles
         , IFormToPage<RoleModifyModel>
     {
         /// <summary>
+        /// 构造
+        /// </summary>
+        public RolesController()
+        {
+            this.InitTitleFormat("{0} - 角色管理");
+        }
+        /// <summary>
         /// 列表
         /// </summary>
         /// <returns></returns>
         public virtual IActionResult Index()
         {
             this.ActionLog();
-            this.SetTitle("列表 - 角色管理");
+            this.SetTitle(PageTitleConst.IndexPageTitle);
             this.AddHandler("添加", ".Add");
             return this.ListResult(m=>new RoleListItemModel()
             {
@@ -46,7 +54,7 @@ namespace UWT.Libs.Users.Roles
         public virtual IActionResult Add()
         {
             this.ActionLog();
-            this.SetTitle("添加 - 角色管理");
+            this.SetTitle(PageTitleConst.AddPageTitle);
             return this.FormResult<RoleAddModel>().View();
         }
         /// <summary>
@@ -95,7 +103,7 @@ namespace UWT.Libs.Users.Roles
         public virtual IActionResult Modify(int id)
         {
             this.ActionLog();
-            this.SetTitle("编辑 - 角色管理");
+            this.SetTitle(PageTitleConst.ModifyPageTitle);
             using (var db = this.GetDB())
             {
                 var table = db.UwtGetTable<IDbRoleTable>();

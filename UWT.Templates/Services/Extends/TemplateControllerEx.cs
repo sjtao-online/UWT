@@ -33,7 +33,26 @@ namespace UWT.Templates.Services.Extends
             {
                 return controller;
             }
-            controller.GetController().ViewBag.Title = title;
+            if (controller.GetController().ViewData.ContainsKey("SubTitleFormat"))
+            {
+                controller.GetController().ViewBag.Title = string.Format(controller.GetController().ViewBag.SubTitleFormat, title);
+            }
+            else
+            {
+                controller.GetController().ViewBag.Title = title;
+            }
+            return controller;
+        }
+        /// <summary>
+        /// 初始化标题格式化<br/>
+        /// 本格式化不影响Layout中的标题格式化，属于下级格式化
+        /// </summary>
+        /// <param name="controller">控制器</param>
+        /// <param name="subTitleFormat">标题格式</param>
+        /// <returns></returns>
+        public static ITemplateController InitTitleFormat(this ITemplateController controller, string subTitleFormat)
+        {
+            controller.GetController().ViewBag.SubTitleFormat = subTitleFormat;
             return controller;
         }
         /// <summary>

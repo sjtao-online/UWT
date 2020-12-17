@@ -100,6 +100,11 @@
             菜单组控制器
             </summary>
         </member>
+        <member name="M:UWT.Libs.Users.MenuGroups.MenuGroupsController.#ctor">
+            <summary>
+            构造
+            </summary>
+        </member>
         <member name="M:UWT.Libs.Users.MenuGroups.MenuGroupsController.Index">
             <summary>
             主列表
@@ -263,6 +268,11 @@
         <member name="T:UWT.Libs.Users.Roles.RolesController">
             <summary>
             角色控制器
+            </summary>
+        </member>
+        <member name="M:UWT.Libs.Users.Roles.RolesController.#ctor">
+            <summary>
+            构造
             </summary>
         </member>
         <member name="M:UWT.Libs.Users.Roles.RolesController.Index">
