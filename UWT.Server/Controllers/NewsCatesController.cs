@@ -9,5 +9,10 @@ namespace UWT.Server.Controllers
 {
     public class NewsCatesController : NewsCatesController<DataModels.UwtNormalsNewsCate>
     {
+        public override string IndexPageTitle => "列表";
+
+        public override string AddPageTitle => "添加";
+
+        public override string ModifyPageTitle => "编辑";
     }
 }

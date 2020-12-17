@@ -20,10 +20,19 @@ namespace UWT.Libs.Normals.Versions
         , IListToPage<IDbVersionTable, VersionListItemModel>
         , IFormToPage<VersionAddModel>
     {
+        /// <summary>
+        /// 列表页面标题
+        /// </summary>
+        public abstract string IndexPageTitle { get; }
+        /// <summary>
+        /// 添加页面标题
+        /// </summary>
+        public abstract string AddPageTitle { get; }
 #pragma warning disable CS1591 // 缺少对公共可见类型或成员的 XML 注释
         public IActionResult Index()
         {
             this.ActionLog();
+            this.SetTitle(IndexPageTitle);
             return this.ListResult(it=>new VersionListItemModel()
             {
                 Id = it.Id,
@@ -37,6 +46,7 @@ namespace UWT.Libs.Normals.Versions
         public virtual IActionResult Add()
         {
             this.ActionLog();
+            this.SetTitle(AddPageTitle);
             return this.FormResult<VersionAddModel>().View();
         }
 

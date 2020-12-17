@@ -21,16 +21,30 @@ namespace UWT.Libs.Normals.News
     /// 文章类型管理
     /// </summary>
     /// <typeparam name="TDbNewsCateTable"></typeparam>
-    public class NewsCatesController<TDbNewsCateTable> : Controller
+    public abstract class NewsCatesController<TDbNewsCateTable> : Controller
         , IListToPage<TDbNewsCateTable, NewsCateListItemModel>
         , IFormToPage<NewsCateAddModel>
         , IFormToPage<NewsCateModifyModel>
         where TDbNewsCateTable: class, IDbNewsCateTable, new()
     {
+        /// <summary>
+        /// 列表页面标题
+        /// </summary>
+        public abstract string IndexPageTitle { get; }
+        /// <summary>
+        /// 添加页面标题
+        /// </summary>
+        public abstract string AddPageTitle { get; }
+        /// <summary>
+        /// 编辑页面标题
+        /// </summary>
+        public abstract string ModifyPageTitle { get; }
+
 #pragma warning disable CS1591 // 缺少对公共可见类型或成员的 XML 注释
         public IActionResult Index()
         {
             this.ActionLog();
+            this.SetTitle(IndexPageTitle);
             this.AddHandler("添加", "/${NewsCatesController}/Add", typeof(NewsCatesController<>));
             return this.ListResult(m => new NewsCateListItemModel()
             {
@@ -47,11 +61,11 @@ namespace UWT.Libs.Normals.News
         {
             this.ActionLog();
             List<HasChildrenNameKeyModel> all = new List<HasChildrenNameKeyModel>();
-            this.UsingDb(db =>
+            using var db = this.GetDB();
             {
                 var table = db.GetTable<TDbNewsCateTable>();
                 FillNewsCateTableToList(table, ref all, 0);
-            });
+            }
             return this.Success(all);
         }
 
@@ -87,6 +101,7 @@ namespace UWT.Libs.Normals.News
         public virtual IActionResult Add()
         {
             this.ActionLog();
+            this.SetTitle(AddPageTitle);
             return this.FormResult<NewsCateAddModel>().View();
         }
 
@@ -99,19 +114,17 @@ namespace UWT.Libs.Normals.News
             {
                 return this.Error(Templates.Models.Basics.ErrorCode.FormCheckError, ret);
             }
-            this.UsingDb(db =>
+            using var db = this.GetDB();
+            var table = db.GetTable<TDbNewsCateTable>();
+            table.Insert(() => new TDbNewsCateTable()
             {
-                var table = db.GetTable<TDbNewsCateTable>();
-                table.Insert(() => new TDbNewsCateTable()
-                {
-                    PId = model.PId,
-                    Desc = model.Desc,
-                    LargeIcon = model.Icon,
-                    MiniIcon = model.Icon,
-                    Icon = model.Icon,
-                    SubTitle = model.SubTitle,
-                    Title = model.Title
-                });
+                PId = model.PId,
+                Desc = model.Desc,
+                LargeIcon = model.Icon,
+                MiniIcon = model.Icon,
+                Icon = model.Icon,
+                SubTitle = model.SubTitle,
+                Title = model.Title
             });
             return this.Success();
         }
@@ -121,29 +134,25 @@ namespace UWT.Libs.Normals.News
         public virtual object Del(int id)
         {
             this.ActionLog();
-            bool notfound = false;
-            this.UsingDb(db =>
+            using var db = this.GetDB();
+            var table = db.GetTable<TDbNewsCateTable>();
+            var o = (from it in table where it.Id == id select 1).Take(1);
+            if (o.Count() == 0)
             {
-                var table = db.GetTable<TDbNewsCateTable>();
-                var o = (from it in table where it.Id == id select 1).Take(1);
-                if (o.Count() == 0)
-                {
-                    notfound = true;
-                    return;
-                }
-                table.Update(m => m.Id == id, m => new TDbNewsCateTable()
-                {
-                    Valid = false
-                });
+                return this.Error(Templates.Models.Basics.ErrorCode.Item_NotFound);
+            }
+            table.Update(m => m.Id == id, m => new TDbNewsCateTable()
+            {
+                Valid = false
             });
-            return notfound ? this.Error(Templates.Models.Basics.ErrorCode.Item_NotFound) : this.Success();
+            return this.Success();
         }
 
         public virtual IActionResult Modify(int id)
         {
             this.ActionLog();
-            NewsCateModifyModel modify = null;
-            this.UsingDb(db =>
+            this.SetTitle(ModifyPageTitle);
+            using (var db = this.GetDB())
             {
                 var table = db.GetTable<TDbNewsCateTable>();
                 var q = (from it in table
@@ -159,16 +168,12 @@ namespace UWT.Libs.Normals.News
                              MiniIcon = it.MiniIcon,
                              PId = it.PId
                          }).Take(1);
-                if (q.Count() != 0)
+                if (q.Count() == 0)
                 {
-                    modify = q.First();
+                    return this.ItemNotFound();
                 }
-            });
-            if (modify == null)
-            {
-                return this.ItemNotFound();
+                return this.FormResult<NewsCateModifyModel>(q.First()).View();
             }
-            return this.FormResult<NewsCateModifyModel>(modify).View();
         }
 
         [HttpPost]
@@ -180,7 +185,7 @@ namespace UWT.Libs.Normals.News
             {
                 return this.Error(Templates.Models.Basics.ErrorCode.FormCheckError, ret);
             }
-            this.UsingDb(db =>
+            using (var db = this.GetDB())
             {
                 var table = db.GetTable<TDbNewsCateTable>();
                 table.Update(m => m.Id == model.Id, m => new TDbNewsCateTable()
@@ -193,7 +198,7 @@ namespace UWT.Libs.Normals.News
                     LargeIcon = model.LargeIcon,
                     PId = model.PId
                 });
-            });
+            }
             return this.Success();
         }
 #pragma warning restore CS1591 // 缺少对公共可见类型或成员的 XML 注释

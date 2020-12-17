@@ -35,6 +35,7 @@ namespace UWT.Libs.Users.MenuGroups
         public virtual IActionResult Index()
         {
             this.ActionLog();
+            this.SetTitle("列表 - 菜单组");
             this.AddHandler("添加", ".Add");
             return this.ListResult(m => new MenuGroupListItemModel()
             {
@@ -53,6 +54,7 @@ namespace UWT.Libs.Users.MenuGroups
         public virtual IActionResult Add()
         {
             this.ActionLog();
+            this.SetTitle("添加 - 菜单组");
             return this.FormResult<MenuGroupAddModel>().View();
         }
 
@@ -70,7 +72,7 @@ namespace UWT.Libs.Users.MenuGroups
             {
                 return this.Error(Templates.Models.Basics.ErrorCode.FormCheckError, ret);
             }
-            this.UsingDb(db =>
+            using (var db = this.GetDB())
             {
                 var table = db.UwtGetTable<IDbMenuGroupTable>();
                 table.UwtInsertWithInt32(new Dictionary<string, object>()
@@ -80,7 +82,7 @@ namespace UWT.Libs.Users.MenuGroups
                     [nameof(IDbMenuGroupTable.PageCount)] = 0,
                     [nameof(IDbMenuGroupTable.AuthCount)] = 0
                 });
-            });
+            }
             return this.Success();
         }
 
@@ -92,8 +94,8 @@ namespace UWT.Libs.Users.MenuGroups
         public virtual IActionResult Modify(int id)
         {
             this.ActionLog();
-            MenuGroupModifyModel modify = null;
-            this.UsingDb(db =>
+            this.SetTitle("修改 - 菜单组");
+            using (var db = this.GetDB())
             {
                 var table = db.UwtGetTable<IDbMenuGroupTable>();
                 var q = (from it in table
@@ -104,16 +106,12 @@ namespace UWT.Libs.Users.MenuGroups
                              Name = it.Name,
                              Desc = it.Desc
                          }).Take(1);
-                if (q.Count() != 0)
+                if (q.Count() == 0)
                 {
-                    modify = q.First();
+                    return this.ItemNotFound();
                 }
-            });
-            if (modify == null)
-            {
-                return this.ItemNotFound();
+                return this.FormResult<MenuGroupModifyModel>(q.First()).View();
             }
-            return this.FormResult<MenuGroupModifyModel>(modify).View();
         }
 
         /// <summary>
@@ -130,7 +128,7 @@ namespace UWT.Libs.Users.MenuGroups
             {
                 return this.Error(Templates.Models.Basics.ErrorCode.FormCheckError, ret);
             }
-            this.UsingDb(db =>
+            using (var db = this.GetDB())
             {
                 var table = db.UwtGetTable<IDbMenuGroupTable>();
                 table.UwtUpdate(model.Id, new Dictionary<string, object>()
@@ -138,8 +136,8 @@ namespace UWT.Libs.Users.MenuGroups
                     [nameof(IDbMenuGroupTable.Name)] = model.Name,
                     [nameof(IDbMenuGroupTable.Desc)] = model.Desc
                 });
-            });
-            return this.Success();
+                return this.Success();
+            }
         }
 
         /// <summary>
@@ -151,6 +149,7 @@ namespace UWT.Libs.Users.MenuGroups
         public virtual IActionResult ModifyTree(int id)
         {
             this.ActionLog();
+            this.SetTitle("编辑树 - 菜单组");
             var list = this.GetTreeModelList<MenuGroupModifyTreeModel, IDbMenuGroupItemTable, int>(m => new MenuGroupModifyTreeModel()
             {
                 Id = m.Id,
@@ -173,7 +172,7 @@ namespace UWT.Libs.Users.MenuGroups
         public virtual object ModifyTreeModel([FromBody]ModifyTreeModelTemplate<MenuGroupModifyTreeModel> model)
         {
             this.ActionLog();
-            this.UsingDb(db =>
+            using (var db = this.GetDB())
             {
                 var table = db.UwtGetTable<IDbMenuGroupItemTable>();
                 this.UpdateTreeDb2<IDbMenuGroupItemTable, MenuGroupModifyTreeModel>((model, templateId, parentId, index) =>
@@ -212,7 +211,7 @@ namespace UWT.Libs.Users.MenuGroups
                        [nameof(IDbMenuGroupItemTable.Valid)] = false
                     });
                 }
-            });
+            }
             return this.Success();
         }
         /// <summary>
@@ -223,22 +222,20 @@ namespace UWT.Libs.Users.MenuGroups
         [HttpPost]
         public virtual object Del(int id)
         {
-            bool notfound = false;
-            this.UsingDb(db =>
+            using (var db = this.GetDB())
             {
                 var table = db.UwtGetTable<IDbMenuGroupTable>();
                 var o = (from it in table where it.Id == id select 1).Take(1);
                 if (o.Count() == 0)
                 {
-                    notfound = true;
-                    return;
+                    return this.Error(ErrorCode.Item_NotFound);
                 }
                 table.UwtUpdate(id, new Dictionary<string, object>()
                 {
                     [nameof(IDbMenuGroupTable.Valid)] = false
                 });
-            });
-            return notfound ? this.Error(ErrorCode.Item_NotFound) : this.Success();
+            }
+            return this.Success();
         }
     }
 

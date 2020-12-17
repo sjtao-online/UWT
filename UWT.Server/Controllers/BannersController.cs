@@ -12,6 +12,13 @@ namespace UWT.Server.Controllers
     [Templates.Attributes.Auths.Auth]
     public class BannersController : UWT.Libs.Normals.Banners.BannerBasicController<DataModels.UwtNormalsBanner, BannerCateSimpleSelectItemBuilder, LinkTypeSimpleSelectItemBuilder>
     {
+        public override string IndexPageTitle => "列表";
+
+        public override string AddPageTitle => "添加";
+
+        public override string ModifyPageTitle => "编辑";
+
+        public override string DetailPageTitle => "详情";
     }
     public class LinkTypeSimpleSelectItemBuilder : SelectItemBuilderBasic
     {

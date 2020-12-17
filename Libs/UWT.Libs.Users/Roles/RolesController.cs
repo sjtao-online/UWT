@@ -30,6 +30,7 @@ namespace UWT.Libs.Users.Roles
         public virtual IActionResult Index()
         {
             this.ActionLog();
+            this.SetTitle("列表 - 角色管理");
             this.AddHandler("添加", ".Add");
             return this.ListResult(m=>new RoleListItemModel()
             {
@@ -45,6 +46,7 @@ namespace UWT.Libs.Users.Roles
         public virtual IActionResult Add()
         {
             this.ActionLog();
+            this.SetTitle("添加 - 角色管理");
             return this.FormResult<RoleAddModel>().View();
         }
         /// <summary>
@@ -61,7 +63,7 @@ namespace UWT.Libs.Users.Roles
             {
                 return this.Error(Templates.Models.Basics.ErrorCode.FormCheckError, ret);
             }
-            this.UsingDb(db =>
+            using (var db = this.GetDB())
             {
                 var table = db.UwtGetTable<IDbRoleTable>();
                 var homePage = (from it in db.UwtGetTable<IDbModuleTable>() where it.Id == model.HomePageUrl select it.Url).First();
@@ -81,7 +83,7 @@ namespace UWT.Libs.Users.Roles
                         [nameof(IDbRoleModuleRefTable.MId)] = item
                     });
                 }
-            });
+            }
             return this.Success();
         }
 
@@ -93,8 +95,8 @@ namespace UWT.Libs.Users.Roles
         public virtual IActionResult Modify(int id)
         {
             this.ActionLog();
-            RoleModifyModel current = null;
-            this.UsingDb(db =>
+            this.SetTitle("编辑 - 角色管理");
+            using (var db = this.GetDB())
             {
                 var table = db.UwtGetTable<IDbRoleTable>();
                 var q = (from it in table
@@ -108,17 +110,14 @@ namespace UWT.Libs.Users.Roles
                              MenuGroupId = it.MenuGroupId,
                              HomePageUrl = url.Id
                          }).Take(1);
-                if (q.Count() != 0)
+                if (q.Count() == 0)
                 {
-                    current = q.First();
-                    current.Urls = (from it in db.UwtGetTable<IDbRoleModuleRefTable>() where it.RId == id select it.MId).ToList();
+                    return this.ItemNotFound();
                 }
-            });
-            if (current == null)
-            {
-                return this.ItemNotFound();
+                var current = q.First();
+                current.Urls = (from it in db.UwtGetTable<IDbRoleModuleRefTable>() where it.RId == id select it.MId).ToList();
+                return this.FormResult(current).View();
             }
-            return this.FormResult(current).View();
         }
         /// <summary>
         /// 修改接口
@@ -134,7 +133,7 @@ namespace UWT.Libs.Users.Roles
             {
                 return this.Error(Templates.Models.Basics.ErrorCode.FormCheckError, ret);
             }
-            this.UsingDb(db =>
+            using (var db = this.GetDB())
             {
                 System.Linq.Expressions.Expression<Func<IDbRoleTable, bool>> expression = m => m.Id == model.Id;
                 var table = db.UwtGetTable<IDbRoleTable>();
@@ -156,7 +155,7 @@ namespace UWT.Libs.Users.Roles
                         [nameof(IDbRoleModuleRefTable.MId)] = item
                     });
                 }
-            });
+            }
             return this.Success();
         }
         
@@ -169,14 +168,14 @@ namespace UWT.Libs.Users.Roles
         public virtual object Del(int id)
         {
             this.ActionLog();
-            this.UsingDb(db =>
+            using (var db = this.GetDB())
             {
                 var table = db.UwtGetTable<IDbRoleTable>();
                 table.UwtUpdate(id, new Dictionary<string, object>()
                 {
                     [nameof(IDbRoleTable.Valid)] = false
                 });
-            });
+            }
             return this.Success();
         }
     }

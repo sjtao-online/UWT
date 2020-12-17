@@ -29,6 +29,10 @@ namespace UWT.Templates.Services.Extends
         /// <returns></returns>
         public static ITemplateController SetTitle(this ITemplateController controller, string title)
         {
+            if (title == null)
+            {
+                return controller;
+            }
             controller.GetController().ViewBag.Title = title;
             return controller;
         }

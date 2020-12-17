@@ -27,10 +27,23 @@ namespace UWT.Libs.Normals.News
         , IFormToPage<NewsModifyModel>
         where TDbNewsTable: class, IDbNewsTable, new ()
     {
+        /// <summary>
+        /// 列表页面标题
+        /// </summary>
+        public abstract string IndexPageTitle { get; }
+        /// <summary>
+        /// 添加页面标题
+        /// </summary>
+        public abstract string AddPageTitle { get; }
+        /// <summary>
+        /// 编辑页面标题
+        /// </summary>
+        public abstract string ModifyPageTitle { get; }
 #pragma warning disable CS1591 // 缺少对公共可见类型或成员的 XML 注释
         public virtual IActionResult Index()
         {
             this.ActionLog();
+            this.SetTitle(IndexPageTitle);
             this.AddHandler("添加", "/${NewsCatesController}/Add");
             return this.ListResult(m=>new NewsListItemModel()
             {
@@ -43,6 +56,7 @@ namespace UWT.Libs.Normals.News
         public virtual IActionResult Add()
         {
             this.ActionLog();
+            this.SetTitle(AddPageTitle);
             return this.FormResult<NewsAddModel>().View();
         }
 
@@ -55,7 +69,7 @@ namespace UWT.Libs.Normals.News
             {
                 return this.Error(Templates.Models.Basics.ErrorCode.FormCheckError, ret);
             }
-            this.UsingDb(db =>
+            using (var db = this.GetDB())
             {
                 var table = db.GetTable<TDbNewsTable>();
                 table.Insert(() => new TDbNewsTable()
@@ -64,14 +78,14 @@ namespace UWT.Libs.Normals.News
                     Content = model.Content,
                     Summary = new HtmlToText(50).Convert(model.Content)
                 });
-            });
+            }
             return this.Success();
         }
         public virtual IActionResult Modify(int id)
         {
             this.ActionLog();
-            NewsModifyModel modify = null;
-            this.UsingDb(db =>
+            this.SetTitle(ModifyPageTitle);
+            using (var db = this.GetDB())
             {
                 var table = db.GetTable<TDbNewsTable>();
                 var q = (from it in table
@@ -82,16 +96,12 @@ namespace UWT.Libs.Normals.News
                              Title = it.Title,
                              Content = it.Content
                          }).Take(1);
-                if (q.Count() != 0)
+                if (q.Count() == 0)
                 {
-                    modify = q.First();
+                    return this.ItemNotFound();
                 }
-            });
-            if (modify == null)
-            {
-                return this.ItemNotFound();
+                return this.FormResult<NewsModifyModel>(q.First()).View();
             }
-            return this.FormResult<NewsModifyModel>(modify).View();
         }
 
 
@@ -121,22 +131,20 @@ namespace UWT.Libs.Normals.News
         public virtual object Del(int id)
         {
             this.ActionLog();
-            bool notfound = false;
-            this.UsingDb(db =>
+            using (var db = this.GetDB())
             {
                 var table = db.GetTable<TDbNewsTable>();
                 var o = (from it in table where it.Id == id select 1).Take(1);
                 if (o.Count() == 0)
                 {
-                    notfound = true;
-                    return;
+                    return this.Error(ErrorCode.Item_NotFound);
                 }
                 table.Update(m => m.Id == id, m => new TDbNewsTable()
                 {
                     Valid = false
                 });
-            });
-            return notfound ? this.Error(ErrorCode.Item_NotFound) : this.Success();
+                return this.Success();
+            }
         }
 #pragma warning restore CS1591 // 缺少对公共可见类型或成员的 XML 注释
         /// <summary>

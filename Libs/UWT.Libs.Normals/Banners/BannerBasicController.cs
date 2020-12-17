@@ -19,7 +19,7 @@ namespace UWT.Libs.Normals.Banners
     /// <typeparam name="TDbBannerModel">数据库模型</typeparam>
     /// <typeparam name="TBannerCateSimpleSelectBuilder">Banner类型单项选项</typeparam>
     /// <typeparam name="TLinkTypeSimpleSelectBuilder">链接类型单项选择</typeparam>
-    public class BannerBasicController<TDbBannerModel, TBannerCateSimpleSelectBuilder, TLinkTypeSimpleSelectBuilder> : Controller
+    public abstract class BannerBasicController<TDbBannerModel, TBannerCateSimpleSelectBuilder, TLinkTypeSimpleSelectBuilder> : Controller
         , IListToPage<TDbBannerModel, BannerListItemModel>
         , IListToPageConfig
         , IFormToPage<BannerAddModel<TBannerCateSimpleSelectBuilder, TLinkTypeSimpleSelectBuilder>>
@@ -28,12 +28,29 @@ namespace UWT.Libs.Normals.Banners
         where TDbBannerModel : class, IDbBannerTable, new()
         where TBannerCateSimpleSelectBuilder : ISelectItemBuilder
     {
+        /// <summary>
+        /// 列表页面标题
+        /// </summary>
+        public abstract string IndexPageTitle { get; }
+        /// <summary>
+        /// 添加页面标题
+        /// </summary>
+        public abstract string AddPageTitle { get; }
+        /// <summary>
+        /// 编辑页面标题
+        /// </summary>
+        public abstract string ModifyPageTitle { get; }
+        /// <summary>
+        /// 详情页面标题
+        /// </summary>
+        public abstract string DetailPageTitle { get; }
 #pragma warning disable CS1591 // 缺少对公共可见类型或成员的 XML 注释
         public int DefaultPageSize => 10;
 
         public virtual IActionResult Index()
         {
             this.ActionLog();
+            this.SetTitle(IndexPageTitle);
             this.AddHandler("添加", ".Add");
             return this.ListResult(m => new BannerListItemModel()
             {
@@ -47,6 +64,7 @@ namespace UWT.Libs.Normals.Banners
         public virtual IActionResult Add()
         {
             this.ActionLog();
+            this.SetTitle(AddPageTitle);
             return this.FormResult<BannerAddModel<TBannerCateSimpleSelectBuilder, TLinkTypeSimpleSelectBuilder>>().View();
         }
 
@@ -78,6 +96,7 @@ namespace UWT.Libs.Normals.Banners
         public virtual IActionResult Modify(int id)
         {
             this.ActionLog();
+            this.SetTitle(ModifyPageTitle);
             using (var db = this.GetDB())
             {
                 var table = db.GetTable<TDbBannerModel>();
@@ -110,19 +129,17 @@ namespace UWT.Libs.Normals.Banners
             {
                 return this.Error(Templates.Models.Basics.ErrorCode.FormCheckError, ret);
             }
-            this.UsingDb(db =>
+            using var db = this.GetDB();
+            var table = db.GetTable<TDbBannerModel>();
+            table.Update(m => m.Id == model.Id, m => new TDbBannerModel()
             {
-                var table = db.GetTable<TDbBannerModel>();
-                table.Update(m => m.Id == model.Id, m => new TDbBannerModel()
-                {
-                    Id = model.Id,
-                    Title = model.Title,
-                    Image = model.ImageUrl,
-                    SubTitle = model.SubTitle,
-                    Index = model.Index,
-                    TargetType = model.Type,
-                    Cate = model.Cate
-                });
+                Id = model.Id,
+                Title = model.Title,
+                Image = model.ImageUrl,
+                SubTitle = model.SubTitle,
+                Index = model.Index,
+                TargetType = model.Type,
+                Cate = model.Cate
             });
             return this.Success();
         }
@@ -149,6 +166,7 @@ namespace UWT.Libs.Normals.Banners
         public IActionResult Detail(int id)
         {
             this.ActionLog();
+            this.SetTitle(DetailPageTitle);
             using (var db = this.GetDB())
             {
                 var table = db.GetTable<TDbBannerModel>();
