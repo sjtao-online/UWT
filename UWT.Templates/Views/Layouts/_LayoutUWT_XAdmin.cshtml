@@ -89,11 +89,18 @@
             @RenderBody()
         </div>
     </div>
+    @if (!string.IsNullOrEmpty(layoutModel.PeriodOfValidity) || layoutModel.ShowBuildTime)
+    {
+<div class="layui-footer footer">
     @if (!string.IsNullOrEmpty(layoutModel.PeriodOfValidity))
     {
-        <div class="layui-footer footer">
-            <p style="line-height: 40px;margin-left: 40px;">© @layoutModel.PeriodOfValidity @layoutModel.CompanyName</p>
-        </div>
+        <p style="float: left">© @layoutModel.PeriodOfValidity @layoutModel.CompanyName</p>
+    }
+    @if (layoutModel.ShowBuildTime)
+    {
+        <p style="float: right">build: @layoutModel.BuildTime</p>
+    }
+</div>
     }
     @this.RenderAppendJS()
     @RenderSection("BodyAppend", false)

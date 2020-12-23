@@ -93,6 +93,7 @@ namespace UWT.Server
                 m.HomePageUrl = "/Home/Index";
                 m.MainTitle = "新管理平台";
                 m.PeriodOfValidity = "2020";
+                m.ShowBuildTime = true;
                 m.MenuGroup = new List<Templates.Models.Templates.Layouts.MenuItemModel>()
                 {
                     new Templates.Models.Templates.Layouts.MenuItemModel()

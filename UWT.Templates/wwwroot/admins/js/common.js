@@ -144,6 +144,21 @@ function ajaxSuccess(rx, success, fail) {
     fail(rx);
 }
 
+function getErrorCodeMsg(code, msg) {
+    if ((msg == null || msg == undefined) && code != -1) {
+        if (errorCodeMap != null) {
+            for (var i = 0; i < errorCodeMap.length; i++) {
+                if (errorCodeMap[i].code == code) {
+                    return errorCodeMap[i].desc;
+                }
+            }
+        }
+    } else {
+        return msg;
+    }
+    return "unkown error: " + code;
+}
+
 const errorCodeMapKey = "errorCodeMap";
 const errorCodeTimeKey = "errorCodeTime";
 
@@ -163,8 +178,8 @@ var lastdatetime = localStorage.getItem(errorCodeTimeKey);
 if (lastdatetime == '') {
     refreshErrorCodeMap();
 } else {
-    var lastdate = new Date(lastdatetime);
-    if (new Date().getTime() > (Number(lastdate) + 1000 * 60 * 60 * 24)) {
+    var lastdate = new Date(Number(lastdatetime));
+    if (new Date().getTime() > (lastdate.getTime() + 1000 * 60 * 60 * 24)) {
         refreshErrorCodeMap();
     } else {
         errorCodeMap = JSON.parse(localStorage.getItem(errorCodeMapKey))

@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
+using UWT.Templates.Services.Extends;
 
 namespace UWT.Templates.Models.Templates.Layouts
 {
@@ -82,6 +84,26 @@ namespace UWT.Templates.Models.Templates.Layouts
         /// 底部使用
         /// </summary>
         public string CompanyName { get; set; }
+        /// <summary>
+        /// 显示编辑时间<br/>
+        /// 底部--编译时间：时间
+        /// </summary>
+        public bool ShowBuildTime { get; set; }
+        private string _buildTime = null;
+        /// <summary>
+        /// 编辑时间
+        /// </summary>
+        public string BuildTime
+        {
+            get
+            {
+                if (_buildTime == null)
+                {
+                    _buildTime = new System.IO.FileInfo(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName).LastWriteTime.ToShowLatestText();
+                }
+                return _buildTime;
+            }
+        }
         internal static LayoutModel DefaultLayout = new LayoutModel();
         internal static Action<HttpContext, LayoutModel> LayoutCallback;
         /// <summary>
@@ -124,7 +146,8 @@ namespace UWT.Templates.Models.Templates.Layouts
                 HomePageUrl = DefaultLayout.HomePageUrl,
                 PeriodOfValidity = DefaultLayout.PeriodOfValidity,
                 MenuGroup = CloneMenuItemList(DefaultLayout.MenuGroup),
-                QuickLinks = CloneMenuItemList(DefaultLayout.QuickLinks)
+                QuickLinks = CloneMenuItemList(DefaultLayout.QuickLinks),
+                ShowBuildTime = DefaultLayout.ShowBuildTime
             };
         }
         /// <summary>

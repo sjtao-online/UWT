@@ -9,9 +9,9 @@
     background-color: transparent;
 }
 
-.layui-footer p{
-    text-align: right;
-    margin-right: 30px;
+.layui-footer p {
+    margin: 0 40px;
+    line-height: 40px;
 }
 
 .layui-footer {

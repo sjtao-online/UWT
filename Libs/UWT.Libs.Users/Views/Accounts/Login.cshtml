@@ -62,7 +62,7 @@
                             @: location.href = '@(ViewBag.Ref)';
                         }
                     }, function (rx) {
-                        layui.layer.msg(rx.msg)
+                        layui.layer.msg(getErrorCodeMsg(rx.code, rx.msg))
                         layui.layer.close(loadindex)
                     })
                 return false;

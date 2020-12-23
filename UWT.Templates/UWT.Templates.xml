@@ -3842,6 +3842,17 @@
             底部使用
             </summary>
         </member>
+        <member name="P:UWT.Templates.Models.Templates.Layouts.LayoutModel.ShowBuildTime">
+            <summary>
+            显示编辑时间<br/>
+            底部--编译时间：时间
+            </summary>
+        </member>
+        <member name="P:UWT.Templates.Models.Templates.Layouts.LayoutModel.BuildTime">
+            <summary>
+            编辑时间
+            </summary>
+        </member>
         <member name="M:UWT.Templates.Models.Templates.Layouts.LayoutModel.GetCloneLayout">
             <summary>
             获得一个默认布局的副本
