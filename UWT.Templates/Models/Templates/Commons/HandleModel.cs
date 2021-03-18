@@ -229,6 +229,27 @@ namespace UWT.Templates.Models.Templates.Commons
         }
 
         /// <summary>
+        /// 生成“详情”<br/>
+        /// </summary>
+        /// <param name="url">当前URL</param>
+        /// <returns></returns>
+        public static HandleModel BuildDetail(string url)
+        {
+            return BuildNavigate("详情", url);
+        }
+
+        /// <summary>
+        /// 生成“详情”<br/>
+        /// .Detail?id=id
+        /// </summary>
+        /// <param name="id">当前Id</param>
+        /// <returns></returns>
+        public static HandleModel BuildDetail(int id)
+        {
+            return BuildDetail(".Detail?id=" + id);
+        }
+
+        /// <summary>
         /// 构建执行JS
         /// </summary>
         /// <param name="title">标题</param>

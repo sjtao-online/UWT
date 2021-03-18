@@ -3496,6 +3496,21 @@
             <param name="id">当前Id</param>
             <returns></returns>
         </member>
+        <member name="M:UWT.Templates.Models.Templates.Commons.HandleModel.BuildDetail(System.String)">
+            <summary>
+            生成“详情”<br/>
+            </summary>
+            <param name="url">当前URL</param>
+            <returns></returns>
+        </member>
+        <member name="M:UWT.Templates.Models.Templates.Commons.HandleModel.BuildDetail(System.Int32)">
+            <summary>
+            生成“详情”<br/>
+            .Detail?id=id
+            </summary>
+            <param name="id">当前Id</param>
+            <returns></returns>
+        </member>
         <member name="M:UWT.Templates.Models.Templates.Commons.HandleModel.BuildEvalJS(System.String,System.String,System.String,System.String)">
             <summary>
             构建执行JS
