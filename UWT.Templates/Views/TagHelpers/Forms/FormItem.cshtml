@@ -149,7 +149,14 @@
     }
     object GetPropertyEditValue()
     {
-        return Model.DataModel.TargetTemplate.PropertyInfo.GetValue(Model.DataModel.TargetObject);
+        try
+        {
+            return Model.DataModel.TargetTemplate.PropertyInfo.GetValue(Model.DataModel.TargetObject);
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
     }
 }
 @if (template.ItemType == UWT.Templates.Attributes.Forms.FormItemType.Hidden)
@@ -377,8 +384,13 @@ else
                     var value = GetPropertyEditValue();
                     if (choose.MultiSelect)
                     {
-                        vShow = tables.ChangeIdsToText(choose.TableName, choose.IdColumnName, choose.NameColumnName, (List<int>)value);
-                        v = string.Join(",", (List<int>)value);
+                        var vlist = (List<int>)value;
+                        if (vlist == null)
+                        {
+                            vlist = new List<int>();
+                        }
+                        vShow = tables.ChangeIdsToText(choose.TableName, choose.IdColumnName, choose.NameColumnName, vlist);
+                        v = string.Join(",", vlist);
                     }
                     else
                     {
@@ -387,7 +399,7 @@ else
                     }
                 }
             }
-            <div class="className">
+            <div class="@className">
                 <input type="hidden" id="@templateName" value="@v" data-rkey="@vRKey" />
                 <div style="display: flex;">
                     <input class="layui-input choose" readonly data-mselect="@multiSelect" data-url="@sUrl"

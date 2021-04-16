@@ -42,7 +42,7 @@ namespace UWT.Templates.Services.StartupEx
         {
             mvc.AddJsonOptions(m =>
             {
-                m.JsonSerializerOptions.IgnoreNullValues = true;
+                m.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
                 m.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
                 m.JsonSerializerOptions.ReadCommentHandling = System.Text.Json.JsonCommentHandling.Skip;
                 m.JsonSerializerOptions.Converters.Add(new TimeSpanConverter());

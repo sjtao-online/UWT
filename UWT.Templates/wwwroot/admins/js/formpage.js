@@ -483,6 +483,7 @@ layui.use(arr, function () {
     $('#uwt-select-file-btn').click(function () {
         uploaddlg.find('#uwt-file-input').click()
     })
+    const newLine = "<br/>";
     LoadFormValues = function (tipindex) {
         var errorMsg = "";
         var data = {};
@@ -503,17 +504,25 @@ layui.use(arr, function () {
         $('.uwt-cshtml-callback').each(function () {
             var key = $(this).data('key');
             var funcname = $(this).data('func');
-            var retData = window[funcname].call();
-            if (retData.code == 0) {
-                data[key] = retData.data;
+            if (funcname in window) {
+                var retData = window[funcname].call();
+                if (retData.code == 0) {
+                    data[key] = retData.data;
+                } else {
+                    if ('msg' in retData) {
+                        errorMsg += $(this).data('title') + " " +  retData.msg + newLine;
+                    } else {
+                        errorMsg += $(this).data('title') + " " +  retData.code + newLine;
+                    }
+                    console.error("JS function '" + funcname + " error", retData);
+                    return;
+                }
             } else {
-                errorMsg = "1";
-                return;
+                var msg = "JS function '" + funcname + "' not founded" + newLine;
+                errorMsg += msg + newLine;
+                console.error(msg)
             }
         })
-        if (errorMsg.length > 0) {
-            return null;
-        }
         //  处理标准输入
         $('.layui-form-item.uwt-form-item,.layui-form-item .layui-inline.uwt-form-item').each(function () {
             var curData = null;
@@ -556,8 +565,7 @@ layui.use(arr, function () {
                 return true;
             }
             function appendError(e) {
-                isError = true;
-                errorMsg += $(that).data('title') + ' ' + e + "</br>";
+                errorMsg += $(that).data('title') + ' ' + e + newLine;
             }
             function checkRegex() {
                 var r = $(selector).data('regex');

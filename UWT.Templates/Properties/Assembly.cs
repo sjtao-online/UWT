@@ -1,7 +1,7 @@
 ﻿
 [assembly: System.Reflection.AssemblyCompany("UWT.Templates")]
-[assembly: System.Reflection.AssemblyFileVersion("1.0.5.0")]
-[assembly: System.Reflection.AssemblyInformationalVersion("1.0.5.0")]
+[assembly: System.Reflection.AssemblyFileVersion("1.0.6.0")]
+[assembly: System.Reflection.AssemblyInformationalVersion("1.0.6.0")]
 [assembly: System.Reflection.AssemblyProduct("UWT.Templates")]
 [assembly: System.Reflection.AssemblyTitle("UWT.Templates")]
-[assembly: System.Reflection.AssemblyVersion("1.0.5.0")]
+[assembly: System.Reflection.AssemblyVersion("1.0.6.0")]

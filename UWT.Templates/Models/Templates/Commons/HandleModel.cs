@@ -73,6 +73,11 @@ namespace UWT.Templates.Models.Templates.Commons
         public object Target { get; internal set; }
         #endregion
 
+        private static string HandleFormatFromId(string type, int id)
+        {
+            return string.Format(".{0}?id={1}", type, id);
+        }
+
         private static HandleModel Build(string title, object target, string askContent, string tooltip, HandleType type)
         {
             return new HandleModel()
@@ -162,7 +167,7 @@ namespace UWT.Templates.Models.Templates.Commons
         /// <returns></returns>
         public static HandleModel BuildDel(int id)
         {
-            return BuildDel(".Del?id=" + id);
+            return BuildDel(HandleFormatFromId("Del", id));
         }
 
         /// <summary>
@@ -183,7 +188,7 @@ namespace UWT.Templates.Models.Templates.Commons
         /// <returns></returns>
         public static HandleModel BuildPublish(int id)
         {
-            return BuildPublish(".Publish?id" + id);
+            return BuildPublish(HandleFormatFromId("Publish", id));
         }
 
         /// <summary>
@@ -204,7 +209,7 @@ namespace UWT.Templates.Models.Templates.Commons
         /// <returns></returns>
         public static HandleModel BuildPublishRemove(int id)
         {
-            return BuildPublishRemove(".PublishRemove?id=" + id);
+            return BuildPublishRemove(HandleFormatFromId("PublishRemove", id));
         }
 
         /// <summary>
@@ -225,7 +230,7 @@ namespace UWT.Templates.Models.Templates.Commons
         /// <returns></returns>
         public static HandleModel BuildModify(int id)
         {
-            return BuildModify(".Modify?id=" + id);
+            return BuildModify(HandleFormatFromId("Modify", id));
         }
 
         /// <summary>
@@ -246,7 +251,7 @@ namespace UWT.Templates.Models.Templates.Commons
         /// <returns></returns>
         public static HandleModel BuildDetail(int id)
         {
-            return BuildDetail(".Detail?id=" + id);
+            return BuildDetail(HandleFormatFromId("Detail", id));
         }
 
         /// <summary>
