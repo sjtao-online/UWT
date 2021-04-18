@@ -510,9 +510,9 @@ layui.use(arr, function () {
                     data[key] = retData.data;
                 } else {
                     if ('msg' in retData) {
-                        errorMsg += $(this).data('title') + " " +  retData.msg + newLine;
+                        errorMsg += $(this).parent().data('title') + " " +  retData.msg + newLine;
                     } else {
-                        errorMsg += $(this).data('title') + " " +  retData.code + newLine;
+                        errorMsg += $(this).parent().data('title') + " " +  retData.code + newLine;
                     }
                     console.error("JS function '" + funcname + " error", retData);
                     return;
@@ -825,6 +825,7 @@ layui.use(arr, function () {
                     }
                     break;
                 case 'SimpleSelect':
+                case 'DisplayGroup':
                     curData = $(selector).val();
                     if (curData == '') {
                         curData = null;

@@ -147,6 +147,12 @@
         }
         return sb.ToString();
     }
+
+    TValueType GetPropertyEditValue<TValueType>()
+    {
+        return (TValueType)GetPropertyEditValue();
+    }
+
     object GetPropertyEditValue()
     {
         try
@@ -195,7 +201,7 @@ else
             string textValue = "";
             if (isEdit)
             {
-                textValue = GetPropertyEditValue() as string;
+                textValue = GetPropertyEditValue<string>();
             }
             var textex = template.ModelEx as IFormTextEx;
             switch (textex.TextCate)
@@ -326,7 +332,7 @@ else
             var vfile = "";
             if (isEdit)
             {
-                vfile = GetPropertyEditValue() as string;
+                vfile = GetPropertyEditValue<string>();
             }
             var file = template.ModelEx as IFileEx;
             <div class="layui-input-inline">
@@ -449,7 +455,7 @@ else
                 <select id="@templateName" class="uwt-input">
                     @if (isEdit)
                     {
-                        var currentValue = GetPropertyEditValue();
+                        var currentValue = GetPropertyEditValue<string>();
                         foreach (var item in list)
                         {
                             <option value="@item.Key" @(currentValue == item.Key ? "selected" : "")>@item.Name</option>
@@ -472,7 +478,7 @@ else
             HashSet<string> msvalues = ms.DefaultSelected;
             if (isEdit)
             {
-                msvalues = ((List<string>)GetPropertyEditValue()).ToHashSet();
+                msvalues = (GetPropertyEditValue<List<string>>()).ToHashSet();
             }
             <div class="@className multi-select" id="@templateName" data-maxselect="@ms.MaxSelectCount">
                 @{
@@ -502,7 +508,7 @@ else
             bool swvalue = false;
             if (isEdit)
             {
-                swvalue = (bool)GetPropertyEditValue();
+                swvalue = GetPropertyEditValue<bool>();
             }
             else
             {
@@ -600,10 +606,11 @@ else
                 <select id="@templateName" class="uwt-input display-group-select" lay-filter="displaygroup" data-groupname="@(string.IsNullOrEmpty(display.GroupName)?"-default":display.GroupName)">
                     @if (isEdit)
                     {
-                        var selectcurrentValue = GetPropertyEditValue();
+                        var selectcurrentValue = GetPropertyEditValue<string>();
                         foreach (var item in displaylist)
                         {
-                            <option value="@item.Key" @(selectcurrentValue == item.Key ? "selected" : "")>@item.Name</option>
+                            var selected = selectcurrentValue == item.Key ? "selected" : "";
+                            <option value="@(item.Key)" @(selected)>@(item.Name)</option>
                         }
                     }
                     else
