@@ -20,5 +20,11 @@
     <ProjectReference Include="..\..\UWT.Templates\UWT.Templates.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="UWT.Libs.Normals.Readme.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 
 </Project>

@@ -44,7 +44,7 @@ namespace UWT.Libs.Normals.News
         {
             this.ActionLog();
             this.SetTitle(IndexPageTitle);
-            this.AddHandler("添加", "/${NewsCatesController}/Add");
+            this.AddHandler("添加", "/${NewsController}/Add", typeof(NewsController<>));
             return this.ListResult(m=>new NewsListItemModel()
             {
                 Id = m.Id,

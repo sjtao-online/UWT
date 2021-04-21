@@ -915,7 +915,7 @@ layui.use(arr, function () {
                     self.location = document.referrer;
                 }, 500);
             }, function (rx) {
-                layui.layer.msg(rx.msg);
+                layui.layer.msg(getErrorCodeMsg(rx.code, rx.msg));
                 layui.layer.close(loadindex);
             }, 'json'
         )

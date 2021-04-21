@@ -68,6 +68,9 @@ function api(url, data, success, fail, type, method) {
         ajaxdata.contentType = "application/json";
         ajaxdata.data = JSON.stringify(data);
     }
+    if ($ == undefined || $ == null) {
+        $ = layui.$;
+    }
     $.ajax(ajaxdata);
 }
 
@@ -128,7 +131,7 @@ function ajaxSuccess(rx, success, fail) {
         success(rx);
         return;
     }
-    console.log(rx.code, rx.msg);
+    console.log(rx.code, rx.msg, rx.data);
     if (fail == null || fail == undefined) {
         //  -1特殊处理
         if (errorCodeMap != null && rx.code != -1) {

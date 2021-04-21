@@ -51,7 +51,7 @@ namespace UWT.Libs.Normals.News
                 Id = m.Id,
                 Desc = m.Desc,
                 Title = m.Title,
-                Icon = m.MiniIcon,
+                Icon = m.Icon,
             }, m=> m.Valid).View();
         }
 
@@ -247,7 +247,7 @@ namespace UWT.Libs.Normals.News
     {
         [ListColumn("编号")]
         public int Id { get; set; }
-        [ListColumn("图标")]
+        [ListColumn("图标", ColumnType = ColumnType.Image)]
         public string Icon { get; set; }
         [ListColumn("标题")]
         public string Title { get; set; }
@@ -260,6 +260,7 @@ namespace UWT.Libs.Normals.News
             {
                 List<HandleModel> handles = new List<HandleModel>();
                 handles.Add(HandleModel.BuildModify("/${NewsCatesController}/Modify?Id=" + Id));
+                handles.Add(HandleModel.BuildDel("/${NewsCatesController}/Modify?Id=" + Id));
                 return handles;
             }
         }
