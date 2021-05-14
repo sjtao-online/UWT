@@ -363,7 +363,7 @@ layui.use(arr, function () {
             yes: function (index) {
                 var arrids = [];
                 var arrtexts = [];
-                $('input:checkbox:checked').each(function () {
+                $('#ChooseIdDialog input:checkbox:checked').each(function () {
                     arrids.push($(this).val());
                     arrtexts.push($(this).next().next().html());
                 });
