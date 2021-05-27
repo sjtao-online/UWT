@@ -407,14 +407,14 @@
             <param name="others">其它项</param>
             <returns></returns>
         </member>
-        <member name="M:UWT.Libs.Users.Users.AccountsController.DoLoginToContext(Microsoft.AspNetCore.Http.HttpContext,System.String,System.String,System.String,System.String)">
+        <member name="M:UWT.Libs.Users.Users.AccountsController.DoLoginToContext(Microsoft.AspNetCore.Http.HttpContext,System.String,System.String,System.Collections.Generic.List{System.String},System.String)">
             <summary>
             uwt账号表登录
             </summary>
             <param name="httpContext"></param>
             <param name="account">账号名</param>
             <param name="pwd">密码</param>
-            <param name="type">账号类型</param>
+            <param name="types">账号类型（多选一，任意一个都可以）</param>
             <param name="authType">授权类型</param>
             <returns>API标准回复</returns>
         </member>

@@ -13,10 +13,26 @@ namespace UWT.Libs.BBS.Areas.Forums.Services
 {
     public class TopicService : BBSService
     {
-        public object Create(CreateTopicModel topic)
+
+        private bool UserCan(int uid, string handle)
+        {
+            var auths = from it in DataConnection.TableUser()
+                       where it.Id == uid
+                       select it.Auths;
+            if (auths.Count() > 0)
+            {
+                return auths.First().Contains(handle);
+            }
+            return false;
+        }
+
+        public object Create(CreateTopicModel topic, int uid)
         {
             //  检测用户当前是否可以发
-
+            if (!UserCan(uid, "topic"))
+            {
+                return ControllerEx.Error(null, 5002);
+            }
             var bt = DataConnection.BeginTransaction();
             try
             {
@@ -24,7 +40,7 @@ namespace UWT.Libs.BBS.Areas.Forums.Services
                 int topicId = DataConnection.TableTopic().InsertWithInt32Identity(() => new UwtBbsTopic()
                 {
                     Title = topic.Title,
-                    Type = topic.Type
+                    Type = topic.Type,
                 });
                 //  添加一个内容主体
                 int topicHisId = DataConnection.TableTopicHis().InsertWithInt32Identity(() => new UwtBbsTopicHis()
@@ -134,15 +150,18 @@ namespace UWT.Libs.BBS.Areas.Forums.Services
             }
         }
 
-        public object Modify(ModifyTopicModel topic)
+        public object Modify(ModifyTopicModel topic, int uid)
         {
             throw new NotImplementedException();
         }
 
-        public object Comment(CommentModel comment)
+        public object Comment(CommentModel comment, int uid)
         {
             //  检测用户当前是否可以回复
-
+            if (!UserCan(uid, "comment"))
+            {
+                return ControllerEx.Error(null, 5003);
+            }
             using (var db = TemplateControllerEx.GetDB())
             {
                 var topic = from it in db.TableTopic()

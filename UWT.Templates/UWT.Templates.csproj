@@ -20,8 +20,8 @@
 
   <ItemGroup>
     <PackageReference Include="linq2db" Version="3.1.4" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="6.0.0-preview.3.21201.4" />
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="6.0.0-preview.3.21201.13" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="6.0.0-preview.4.21253.7" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="6.0.0-preview.4.21253.5" />
   </ItemGroup>
 
   <ItemGroup>

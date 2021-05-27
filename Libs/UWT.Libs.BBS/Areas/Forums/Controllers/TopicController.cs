@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using UWT.Libs.BBS.Areas.Forums.Models;
 using UWT.Libs.BBS.Areas.Forums.ServiceModels.Topic;
 using UWT.Libs.BBS.Areas.Forums.Services;
 
 namespace UWT.Libs.BBS.Areas.Forums.Controllers
 {
+    [ForumRoute, AuthForum]
     public class TopicController : Controller
     {
         /// <summary>
@@ -16,14 +18,14 @@ namespace UWT.Libs.BBS.Areas.Forums.Controllers
         /// <param name="topic"></param>
         /// <returns></returns>
         [HttpPost]
-        public virtual object CreateTopic([FromBody] CreateTopicModel topic)
+        public virtual object Create([FromBody] CreateTopicModel topic)
         {
-            return TopicService.Create(topic);
+            return TopicService.Create(topic, this.GetCurrentUserId());
         }
 
-        public object ModifyTopic([FromBody] ModifyTopicModel topic)
+        public object Modify([FromBody] ModifyTopicModel topic)
         {
-            return TopicService.Modify(topic);
+            return TopicService.Modify(topic, this.GetCurrentUserId());
         }
 
         /// <summary>
@@ -32,9 +34,9 @@ namespace UWT.Libs.BBS.Areas.Forums.Controllers
         /// <param name="comment"></param>
         /// <returns></returns>
         [HttpPost]
-        public virtual object CommentTopic([FromBody] CommentModel comment)
+        public virtual object Comment([FromBody] CommentModel comment)
         {
-            return TopicService.Comment(comment);
+            return TopicService.Comment(comment, this.GetCurrentUserId());
         }
 
         /// <summary>
@@ -44,7 +46,7 @@ namespace UWT.Libs.BBS.Areas.Forums.Controllers
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public object TopicList(int areaId, int pageIndex, int pageSize)
+        public object List(int areaId, int pageIndex, int pageSize)
         {
             return TopicService.List(areaId, false, pageIndex, pageSize);
         }

@@ -184,13 +184,19 @@ namespace UWT.Templates.Attributes.Auths
         /// <param name="context">上下文</param>
         /// <param name="authType">授权类型</param>
         /// <returns></returns>
-        public static async Task<bool> HasSignInUser(HttpContext context, string authType = null)
+        public static async Task<bool> HasSignInUser(HttpContext context, string authType)
         {
+            if (authType == null)
+            {
+                return false;
+            }
+            var auths = authType.Split(';', StringSplitOptions.RemoveEmptyEntries);
             var ticket = await context.AuthenticateAsync(CookieAuthHandler.CookieName);
             if (ticket.Succeeded)
             {
+
                 var claim = ticket.Principal.FindFirst(CookieAuthHandler.UwtAuthTypeKey);
-                if (claim!= null && claim.Value == authType)
+                if (claim!= null && auths.Contains(claim.Value))
                 {
                     return true;
                 }

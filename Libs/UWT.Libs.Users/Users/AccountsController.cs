@@ -45,7 +45,7 @@ namespace UWT.Libs.Users.Users
                 return NotFound();
             }
             this.ActionLog();
-            if (await AuthAttribute.HasSignInUser(HttpContext))
+            if (await AuthAttribute.HasSignInUser(HttpContext, Config.LoginAccountType))
             {
                 return this.Redirect(string.IsNullOrEmpty(@ref) ? this.GetClaimValue(AuthConst.DefaultHomeUrl) : @ref);
             }
@@ -66,7 +66,7 @@ namespace UWT.Libs.Users.Users
                 return NotFound();
             }
             this.ActionLog();
-            return DoLoginToContext(HttpContext, loginModel.Username, loginModel.Password, Config.LoginAccountType);
+            return DoLoginToContext(HttpContext, loginModel.Username, loginModel.Password, new List<string>() { Config.LoginAccountType });
         }
 
         /// <summary>
@@ -187,26 +187,28 @@ namespace UWT.Libs.Users.Users
         /// <param name="httpContext"></param>
         /// <param name="account">账号名</param>
         /// <param name="pwd">密码</param>
-        /// <param name="type">账号类型</param>
+        /// <param name="types">账号类型（多选一，任意一个都可以）</param>
         /// <param name="authType">授权类型</param>
         /// <returns>API标准回复</returns>
-        public static object DoLoginToContext(HttpContext httpContext, string account, string pwd, string type, string authType = null)
+        public static object DoLoginToContext(HttpContext httpContext, string account, string pwd, List<string> types, string authType = null)
         {
             object ret = null;
             using (var db = TemplateControllerEx.GetDB())
             {
                 var accounttable = db.UwtGetTable<IDbAccountTable>();
                 var q = (from it in accounttable
-                         where it.Account == account && it.Type == type
+                         where it.Account == account && types.Contains(it.Type)
                          select new
                          {
                              it.Id,
                              it.RoleId,
                              it.Account,
                              it.Password,
-                             it.Status
+                             it.Status,
+                             it.Type
                          }).Take(1);
                 int aid = 0;
+                string atype = "";
                 if (q.Count() != 0)
                 {
                     var a = q.First();
@@ -282,6 +284,7 @@ namespace UWT.Libs.Users.Users
                             ret = ControllerEx.Error(null, Templates.Models.Basics.ErrorCode.Login_UserPwdError);
                         }
                     }
+                    atype = a.Type;
                 }
                 else
                 {
@@ -291,7 +294,7 @@ namespace UWT.Libs.Users.Users
                 {
                     [nameof(IDbUserLoginHisTable.Username)] = account,
                     [nameof(IDbUserLoginHisTable.Pwd)] = pwd,
-                    [nameof(IDbUserLoginHisTable.Type)] = type,
+                    [nameof(IDbUserLoginHisTable.Type)] = atype,
                     [nameof(IDbUserLoginHisTable.Status)] = aid != 0,
                     [nameof(IDbUserLoginHisTable.AId)] = aid
                 });
