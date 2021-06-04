@@ -178,6 +178,25 @@ namespace UWT.Templates.Models.Basics
         [Description("内部异常")]
         API_Carsh = 500,
         #endregion
+        #region 服务器运维错误 900-1000
+        /// <summary>
+        /// 服务维护中
+        /// </summary>
+        [Description("服务正在维护")]
+        Server_Repairing = 900,
+        /// <summary>
+        /// 服务升级中
+        /// </summary>
+        [Description("服务正在升级")]
+        Server_Upgrading = 901,
+
+        /// <summary>
+        /// 已终止服务<br/>
+        /// 一般不干了才用这个
+        /// </summary>
+        [Description("已终止服务，请关注公告")]
+        Server_Stopped = 999,
+        #endregion
         #endregion
     }
     class UwtTemplateErrorCodeMap : IErrorCodeMap

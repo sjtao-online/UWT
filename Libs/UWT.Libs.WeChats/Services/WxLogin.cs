@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Threading;
@@ -21,22 +23,19 @@ namespace UWT.Libs.WeChats.Services
         public static string DoLogin(string code, WxConfig config)
         {
             string url = $"https://api.weixin.qq.com/sns/jscode2session?appid={config.AppId}&secret={config.Secret}&js_code={code}&grant_type=authorization_code";
-            RECHECK:
-            var requst = WebRequest.CreateHttp(url);
-            var response = requst.GetResponse();
-            using (System.IO.StreamReader sr = new System.IO.StreamReader(response.GetResponseStream()))
+        RECHECK:
+            HttpClient httpClient = new HttpClient();
+            var r = httpClient.GetFromJsonAsync<JsCode2SessionModel>(url);
+            r.Wait();
+            var result = r.Result;
+            if (result.errcode == 0)
             {
-                var resultText = sr.ReadToEnd();
-                var result = JsonSerializer.Deserialize<JsCode2SessionModel>(resultText);
-                if (result.errcode == 0)
-                {
-                    return result.openid;
-                }
-                else if (result.errcode == -1)
-                {
-                    Thread.Sleep(200);
-                    goto RECHECK;
-                }
+                return result.openid;
+            }
+            else if (result.errcode == -1)
+            {
+                Thread.Sleep(200);
+                goto RECHECK;
             }
             return null;
         }
